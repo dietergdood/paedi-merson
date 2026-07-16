@@ -1998,6 +1998,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 
 
 
+
 // ─── Supabase Config ─────────────────────────────────────────────────────────
 // Diese Werte werden von Vercel als Environment Variables gesetzt
 // Lokal: erstelle eine .env.local Datei (siehe .env.example)
@@ -3380,6 +3381,7 @@ function showTab(id,btn){
   setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
   if(id==='packliste') renderPackliste();
   if(id==='regie'){ renderRegie(); renderDidiRegie(); }
+  if(id==='didi'){ renderDidiRegie(); }
   if(id==='ablauf') renderAblauf();
   if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderMyTip('patrick');renderMySOMMWord('patrick');}
   if(['didi','dominik','berater','beni','koch','tobi'].indexOf(id)!==-1){
