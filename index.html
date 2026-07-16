@@ -1993,7 +1993,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
       <span class="ct-role">Was mitnehmen</span>
     </button>
     <button class="crew-tile" data-tab="timetable" onclick="selectCrewTab(this)">
-      <span class="ct-name">🕐 Timetable</span>
+      <span class="ct-name">📋 Programm</span>
       <span class="ct-role">Zeitplan</span>
     </button>
     <button class="crew-tile" data-tab="vertrag" onclick="selectCrewTab(this)">
@@ -3914,7 +3914,7 @@ function renderTabToggles(){
   if(existing) existing.remove();
   if(!editMode) return;
   var allTabs = [
-    {id:'timetable', label:'Timetable'},
+    {id:'timetable', label:'Programm'},
     {id:'story', label:'Die Pädi Merson Story'},
     {id:'regie', label:'Regie'},
   ];
