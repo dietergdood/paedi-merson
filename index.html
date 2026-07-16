@@ -199,6 +199,38 @@ table.sb tr:hover td{background:#fafaf8}
 
 input{border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;font-family:'Inter',sans-serif;background:#fafaf8;transition:border .15s;color:var(--black)}
 input:focus{outline:none;border-color:var(--accent);background:#fff}
+.pkachel{position:relative}
+.pkachel-locked{opacity:.4;pointer-events:none;filter:blur(2px)}
+.pkachel-lock-overlay{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.7);border-radius:14px;z-index:2;font-size:24px;cursor:default}
+.pkachel-toggle{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.pkachel-toggle.on{background:#dcfce7;color:#166534}
+.pkachel-toggle.off{background:#fee2e2;color:#991b1b}
+
+/* SCOREBOARD CARDS */
+.sb-card{border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.6rem;background:var(--card);box-shadow:var(--shadow)}
+.sb-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.sb-card-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sb-cell{display:flex;flex-direction:column;align-items:center;gap:4px}
+.sb-cell-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.sb-cell-ctrl{display:flex;align-items:center;gap:5px}
+
+/* MOBILE GLOBAL */
+@media(max-width:480px){
+  .app{padding:0 8px 60px}
+  .header h1{font-size:34px}
+  .nav-row{padding:4px 6px}
+  .tab-btn{font-size:11px;padding:5px 8px}
+  .nav-label{font-size:9px}
+  .section{padding:.9rem 1rem}
+  .medal-grid{grid-template-columns:repeat(2,1fr)}
+  .tt-table{font-size:12px}
+  .tt-table th,.tt-table td{padding:6px 6px}
+  .modal-box{padding:1.25rem}
+  .bs{font-size:11px;padding:3px 7px}
+  .acc-h{padding:.85rem 1rem}
+  .acc-b{padding:.85rem 1rem}
+  .ds{gap:10px}
+}
 [contenteditable]{border-radius:4px;outline:none;transition:background .15s}
 [contenteditable]:focus{background:rgba(232,196,74,.12);box-shadow:0 0 0 1.5px var(--accent)}
 .edit-mode [contenteditable]{background:rgba(232,196,74,.06);cursor:text}
@@ -470,56 +502,137 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 
 <!-- PATRICK -->
 <div id="tab-patrick" style="display:none">
-  <div class="section">
-    <div class="section-title">Tagesmission</div>
-    <div class="mb" id="missionBar"></div>
+
+  <!-- MODE SELECTOR shown on first open -->
+  <div id="patricModeWrap" style="display:none">
+    <div style="background:#0a0a0a;border-radius:16px;padding:1.5rem;text-align:center;margin-bottom:1rem">
+      <div style="font-size:28px;margin-bottom:.5rem">⚽</div>
+      <div style="font-size:16px;font-weight:700;color:#e8c44a;margin-bottom:.35rem">Wer bist du?</div>
+      <div style="font-size:13px;color:#666;margin-bottom:1.25rem">Wähle deinen Modus</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button onclick="showCrewPwModal()" style="padding:10px;border:none;border-radius:10px;background:#1a1a1a;color:#aaa;font-size:13px;font-weight:600;cursor:pointer">👥 Ich bin dabei — Crew</button>
+        <button onclick="showPatricPwModal()" style="padding:10px;border:none;border-radius:10px;background:#e8c44a;color:#0a0a0a;font-size:13px;font-weight:700;cursor:pointer">🌟 Ich bin Pädi A.</button>
+      </div>
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Transferdossier — Text (wird Patrick übergeben)</div>
-    <div class="qb"><b>CONFIDENTIEL — TRANSFERDOSSIER</b><br><br>
+
+  <!-- PAEDI PASSWORD MODAL -->
+  <div id="patricPwModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)">
+    <div style="background:#fff;border-radius:18px;padding:2rem;max-width:300px;width:90%;text-align:center">
+      <div style="font-size:28px;margin-bottom:.5rem">🔐</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:.35rem">Pädi-Modus</div>
+      <div style="font-size:12px;color:#888;margin-bottom:1rem">Gib dein persönliches Passwort ein</div>
+      <input id="patricPwInput" type="password" placeholder="Passwort" style="width:100%;text-align:center;font-size:20px;letter-spacing:.2em;margin-bottom:.5rem;border-radius:10px" onkeydown="if(event.key==='Enter')checkPatricPw()">
+      <div id="patricPwError" style="font-size:12px;color:#e03535;margin-bottom:.5rem;display:none">Falsches Passwort</div>
+      <div style="display:flex;gap:8px;margin-top:.5rem">
+        <button onclick="closePatricPwModal()" style="flex:1;padding:10px;border:1.5px solid #ddd;border-radius:10px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#666">Zurück</button>
+        <button onclick="checkPatricPw()" style="flex:1;padding:10px;border:none;border-radius:10px;background:#0a0a0a;font-size:13px;font-weight:700;cursor:pointer;color:#e8c44a">Weiter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- KACHELN — sichtbar für Crew immer, für Pädi nur wenn freigeschaltet -->
+  <div id="patricContent">
+
+    <!-- KACHEL: Tagesmission (immer sichtbar) -->
+    <div class="pkachel" data-kachel="mission" data-default="1">
+      <div class="section">
+        <div class="section-title">Tagesmission</div>
+        <div class="mb" id="missionBar"></div>
+      </div>
+    </div>
+
+    <!-- KACHEL: Transferdossier (immer sichtbar) -->
+    <div class="pkachel" data-kachel="dossier" data-default="1">
+      <div class="section">
+        <div class="section-title">Transferdossier</div>
+        <div class="qb"><b>CONFIDENTIEL — TRANSFERDOSSIER</b><br><br>
 Sehr geehrter Monsieur Merson,<br><br>
-Ihr Wechsel vom FC Junggeselle zum FC Mariage befindet sich in der entscheidenden Phase. Der FC Mariage hat dem Transfer grundsaetzlich zugestimmt. Vor der endgültigen Vertragsunterzeichnung müssen Sie jedoch Ihre finanzielle Selbstaendigkeit, koerperliche Eignung und oeffentliche Relevanz beweisen.<br><br>
-Leider wurde Ihr vereinbartes Handgeld noch nicht ueberwiesen. Sie müssen Ihre Reise nach Lutry deshalb selbst finanzieren. Ein Mindestertrag von CHF 30.– ist Pflicht — alles über CHF 50.– gilt als Bonus-Leistung und wird vermerkt.<br><br>
-Zudem verfuegt Ihr Instagram-Profil derzeit über zu wenig Reichweite für einen Spieler Ihrer internationalen Bedeutung.<br><br>
+Ihr Wechsel vom FC Junggeselle zum FC Mariage befindet sich in der entscheidenden Phase. Der FC Mariage hat dem Transfer grundsätzlich zugestimmt. Vor der endgültigen Vertragsunterzeichnung müssen Sie jedoch Ihre finanzielle Selbständigkeit, körperliche Eignung und öffentliche Relevanz beweisen.<br><br>
+Leider wurde Ihr vereinbartes Handgeld noch nicht überwiesen. Sie müssen Ihre Reise nach Lutry deshalb selbst finanzieren. Ein Mindestertrag von CHF 30.– ist Pflicht — alles über CHF 50.– gilt als Bonus-Leistung und wird vermerkt.<br><br>
+Zudem verfügt Ihr Instagram-Profil derzeit über zu wenig Reichweite für einen Spieler Ihrer internationalen Bedeutung.<br><br>
 Sie stehen ab sofort unter Beobachtung des Transferkomitees, des Schiedsrichters und des Instagram-Algorithmus.<br><br>
 <em>Bonne chance.</em></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Pflicht-Ansagen</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Mannschaftskontrolle (vor jedem Ortswechsel)</div>
-      <div class="qb">&#8222;Mannschaft vollständig. Der Transfer kann fortgesetzt werden.&#8220;</div></div>
-      <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Toilettengang</div>
-      <div class="qb">&#8222;Der Bier-Kapitan verlaesst das Spielfeld voruebergehend.&#8220;</div></div>
-      <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Captain-Ansprache #1 — Beispiel (vor Baguetteverkauf)</div>
-      <div class="qb">&#8222;Maenner, wir müssen die Raeume im Zug nutzen, kompakt auftreten und konsequent zum Abschluss kommen. Fünf Baguettes, 30 Franken Pflicht — jeder Pass muss sitzen.&#8220;</div></div>
-      <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Medizinisches Statement (Boot)</div>
-      <div class="qb">&#8222;Ich bin nicht hier, um gut auszusehen. Ich bin hier, um den medizinischen Test des FC Mariage zu bestehen.&#8220;</div></div>
+      </div>
     </div>
-  </div>
-  <div class="section">
-    <div class="section-title">Kleidung</div>
-    <div class="info-block"><ul>
-      <li>Gestreiftes französisches Shirt</li>
-      <li>Baskenmuetze</li>
-      <li>Optional: Halstuch und Schnurrbart</li>
-      <li>Bier-Kapitaensbinde (darueber)</li>
-      <li>Rettungsschwimmerinnen-Kostüm (Boot, darunter)</li>
-    </ul></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Bewertungskriterien — Abschluss</div>
-    <div class="cl" id="patrickCL"></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Titel bei Erfolg</div>
-    <div style="text-align:center;padding:1rem 0">
-      <div style="font-size:18px;font-weight:700;letter-spacing:.04em">Capitaine à vie du FC Mariage</div>
-      <div style="font-size:13px;color:#888;margin-top:4px">Bier-Kapitaensbinde darf als Erinnerung behalten werden</div>
-    </div>
-  </div>
-</div>
 
+    <!-- KACHEL: Pflicht-Ansagen (immer sichtbar) -->
+    <div class="pkachel" data-kachel="ansagen" data-default="1">
+      <div class="section">
+        <div class="section-title">Pflicht-Ansagen</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Mannschaftskontrolle</div>
+          <div class="qb">«Mannschaft vollständig. Der Transfer kann fortgesetzt werden.»</div></div>
+          <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Toilettengang</div>
+          <div class="qb">«Der Bier-Kapitän verlässt das Spielfeld vorübergehend.»</div></div>
+          <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Captain-Ansprache — Beispiel</div>
+          <div class="qb">«Männer, wir müssen die Räume im Zug nutzen, kompakt auftreten und konsequent zum Abschluss kommen. Fünf Baguettes, 30 Franken Pflicht — jeder Pass muss sitzen.»</div></div>
+          <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Medizinisches Statement (Boot)</div>
+          <div class="qb">«Ich bin nicht hier, um gut auszusehen. Ich bin hier, um den medizinischen Test des FC Mariage zu bestehen.»</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KACHEL: Kleidung (immer sichtbar) -->
+    <div class="pkachel" data-kachel="kleidung" data-default="1">
+      <div class="section">
+        <div class="section-title">Kleidung</div>
+        <div class="info-block"><ul>
+          <li>Gestreiftes französisches Shirt</li>
+          <li>Baskmütze</li>
+          <li>Bier-Kapitänsbinde</li>
+          <li>Rettungsschwimmerinnen-Kostüm (Boot)</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- KACHEL: Bewertungskriterien (immer sichtbar) -->
+    <div class="pkachel" data-kachel="kriterien" data-default="1">
+      <div class="section">
+        <div class="section-title">Bewertungskriterien</div>
+        <div class="cl" id="patrickCL"></div>
+      </div>
+    </div>
+
+    <!-- KACHEL: Médaillen (freischaltbar) -->
+    <div class="pkachel" data-kachel="medaillen" data-default="0">
+      <div class="section">
+        <div class="section-title">Deine Médaillen</div>
+        <div id="patricMedaillen"></div>
+      </div>
+    </div>
+
+    <!-- KACHEL: Persönliche Botschaft (freischaltbar) -->
+    <div class="pkachel" data-kachel="botschaft" data-default="0">
+      <div class="section">
+        <div class="section-title">Botschaft vom Team</div>
+        <div class="qb" style="font-style:normal">Pädi, wir sind stolz auf dich. Was heute passiert ist, bleibt für immer. Du bist einer von uns — und ab morgen Capitaine à vie du FC Mariage. Auf viele weitere Jahre.</div>
+      </div>
+    </div>
+
+    <!-- KACHEL: Vertrag (freischaltbar) -->
+    <div class="pkachel" data-kachel="vertrag" data-default="0">
+      <div class="section">
+        <div class="section-title">Dein Transfervertrag</div>
+        <div class="cbox">
+          <div style="font-size:16px;font-weight:700;margin-bottom:.5rem;color:#e8c44a">HERE WE GO. 💍</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.7">Pädi Merson wechselt mit sofortiger Wirkung vom FC Junggeselle zum FC Mariage. Der Transfer ist offiziell und endgültig.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KACHEL: Titel (freischaltbar) -->
+    <div class="pkachel" data-kachel="titel" data-default="0">
+      <div class="section">
+        <div style="text-align:center;padding:1rem 0">
+          <div style="font-size:20px;font-weight:700;letter-spacing:.04em">Capitaine à vie</div>
+          <div style="font-size:13px;color:#888;margin-top:4px">du FC Mariage</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /patricContent -->
+</div>
 <!-- DIDI -->
 <div id="tab-didi" style="display:none">
   <div class="section">
@@ -946,6 +1059,7 @@ async function loadFromDB(){
       if(r3.data.packliste) localStorage.setItem('pm5_pack', JSON.stringify(r3.data.packliste));
       if(r3.data.pch) localStorage.setItem('pm5_pch', JSON.stringify(r3.data.pch));
       if(r3.data.mat) localStorage.setItem('pm5_mat', JSON.stringify(r3.data.mat));
+      if(r3.data.kacheln) localStorage.setItem('pm5_kacheln', JSON.stringify(r3.data.kacheln));
     }
   } catch(e){ console.warn('loadFromDB error:', e); }
 }
@@ -977,10 +1091,12 @@ async function saveListsToDB(){
     var pack = localStorage.getItem('pm5_pack');
     var pch = localStorage.getItem('pm5_pch');
     var mat = localStorage.getItem('pm5_mat');
+    var kacheln = localStorage.getItem('pm5_kacheln');
     if(abl) payload.ablauf = JSON.parse(abl);
     if(pack) payload.packliste = JSON.parse(pack);
     if(pch) payload.pch = JSON.parse(pch);
     if(mat) payload.mat = JSON.parse(mat);
+    if(kacheln) payload.kacheln = JSON.parse(kacheln);
     await sb.from('app_lists').upsert(payload);
   } catch(e){ console.warn('saveListsToDB error:', e); }
 }
@@ -1012,7 +1128,8 @@ function subscribeRealtime(){
         if(d.packliste) localStorage.setItem('pm5_pack', JSON.stringify(d.packliste));
         if(d.pch) localStorage.setItem('pm5_pch', JSON.stringify(d.pch));
         if(d.mat) localStorage.setItem('pm5_mat', JSON.stringify(d.mat));
-        renderAblauf(); renderPackliste(); renderPC(); renderAllMat();
+        if(d.kacheln) localStorage.setItem('pm5_kacheln', JSON.stringify(d.kacheln));
+        renderAblauf(); renderPackliste(); renderPC(); renderAllMat(); renderPatricTab();
       })
     .subscribe();
 }
@@ -1519,6 +1636,83 @@ function renderSB(){
     var m=S.medals[p.id]||0;
     var y=S.yellow[p.id]||0;
     var r=S.red[p.id]||0;
+    var isPatric=p.id==='patrick';
+    var rc=!isPatric?(i===0?'r1':i===1?'r2':i===2?'r3':''):'';
+    var schnaps=Math.floor(y/2)+(y>=1&&r>=1?1:0)+(r>=1?2:0);
+    html+='<div class="sb-card">'
+      +'<div class="sb-card-top">'
+        +'<div>'
+          +'<div class="pname">'+p.name+'</div>'
+          +'<div class="prole">'+p.role+'</div>'
+        +'</div>'
+        +(!isPatric?'<div class="rb '+rc+'">'+(i+1)+'</div>':'<div style="width:26px"></div>')
+      +'</div>'
+      +'<div class="sb-card-row">'
+        // Médaillen
+        +'<div class="sb-cell">'
+          +'<div class="sb-cell-label">Médaillen</div>'
+          +'<div class="sb-cell-ctrl">'
+            +'<button class="bs bs-sm" data-fn="medal" data-id="'+p.id+'" data-d="-1">−</button>'
+            +'<div class="mc">'+m+'</div>'
+            +'<button class="bs bs-sm" data-fn="medal" data-id="'+p.id+'" data-d="1">+</button>'
+          +'</div>'
+        +'</div>'
+        // Gelb
+        +'<div class="sb-cell">'
+          +'<div class="sb-cell-label">Gelb</div>'
+          +'<div class="sb-cell-ctrl">'
+            +'<button class="bs bs-sm" data-fn="yellow" data-id="'+p.id+'" data-d="-1">−</button>'
+            +'<div class="mc" style="background:'+(y>0?'#fbbf24':'#f0f0ee')+';color:'+(y>0?'#0a0a0a':'#aaa')+'">'+y+'</div>'
+            +'<button class="bs bs-sm" data-fn="yellow" data-id="'+p.id+'" data-d="1">+</button>'
+          +'</div>'
+        +'</div>'
+        // Rot
+        +'<div class="sb-cell">'
+          +'<div class="sb-cell-label">Rot</div>'
+          +'<div class="sb-cell-ctrl">'
+            +'<button class="bs bs-sm" data-fn="red" data-id="'+p.id+'" data-d="-1">−</button>'
+            +'<div class="mc" style="background:'+(r>0?'var(--red)':'#f0f0ee')+';color:'+(r>0?'#fff':'#aaa')+'">'+r+'</div>'
+            +'<button class="bs bs-sm" data-fn="red" data-id="'+p.id+'" data-d="1">+</button>'
+          +'</div>'
+        +'</div>'
+        // Schnaps
+        +(!isPatric&&schnaps>0?'<div class="sb-cell"><div class="sb-cell-label">Schnaps</div><div style="font-size:13px;font-weight:700;color:var(--red);padding-top:4px">'+schnaps+'×🥃</div></div>':'')
+      +'</div>'
+    +'</div>';
+  });
+  var sbEl=document.getElementById('sbBody');
+  if(sbEl) sbEl.innerHTML=html;
+  document.querySelectorAll('[data-fn]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var fn=this.getAttribute('data-fn');
+      var id=this.getAttribute('data-id');
+      var d=parseInt(this.getAttribute('data-d'));
+      if(fn==='medal') S.medals[id]=Math.max(0,(S.medals[id]||0)+d);
+      if(fn==='yellow') S.yellow[id]=Math.max(0,(S.yellow[id]||0)+d);
+      if(fn==='red') S.red[id]=Math.max(0,(S.red[id]||0)+d);
+      save(); renderSB();
+    });
+  });
+  // schnaps section
+  var sc=document.getElementById('schnaps');
+  if(sc){
+    var lines=P.filter(function(p){return p.id!=='patrick';}).map(function(p){
+      var y=S.yellow[p.id]||0; var r=S.red[p.id]||0;
+      var s=Math.floor(y/2)+(y>=1&&r>=1?1:0)+(r>=1?2:0);
+      return s>0?'<span class="badge br" style="font-size:12px;padding:3px 10px">'+p.name+': '+s+'× Schnaps</span>':'';
+    }).filter(Boolean).join(' ');
+    sc.innerHTML=lines||'<span style="color:#bbb;font-size:13px">Noch keine Karten vergeben.</span>';
+  }
+}
+
+{
+  var ag=P.filter(function(p){return p.id!=='patrick';}).sort(function(a,b){return(S.medals[b.id]||0)-(S.medals[a.id]||0);});
+  var all=ag.concat([P[P.length-1]]);
+  var html='';
+  all.forEach(function(p,i){
+    var m=S.medals[p.id]||0;
+    var y=S.yellow[p.id]||0;
+    var r=S.red[p.id]||0;
     var rc=p.id!=='patrick'?(i===0?'r1':i===1?'r2':i===2?'r3':''):'';
     var yc=y>=2?'var(--red)':'var(--black)';
     var rc2=r>0?'var(--red)':'var(--black)';
@@ -1707,7 +1901,7 @@ function showTab(id,btn){
   // re-apply edits and re-enable edit mode on new content
   setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
   if(id==='packliste') renderPackliste();
-  if(id==='patrick'){renderMis();renderPC();}
+  if(id==='patrick'){renderMis();renderPC();renderPatricTab();}
   if(id==='beni') renderVAR();
   if(id==='maege') renderTips();
   if(id==='didi') renderDidiRegie();
@@ -1902,7 +2096,7 @@ function toggleEdit(){
 
 function checkPw(){
   var val=document.getElementById('pwInput').value;
-  if(val==='8704'){
+  if(val==='1975'){
     closePwModal();
     activateEdit();
   } else {
@@ -1933,6 +2127,7 @@ function activateEdit(){
   renderPackliste();
   renderPC();
   renderAllMat();
+  renderPatricTab();
 }
 
 function deactivateEdit(){
@@ -1950,6 +2145,7 @@ function deactivateEdit(){
   renderPackliste();
   renderPC();
   renderAllMat();
+  renderPatricTab();
 }
 
 function getStableId(el){
@@ -2108,6 +2304,148 @@ function applyAllEdits(){
     var saved=store[el.getAttribute('data-edit-id')];
     if(saved!==undefined && el.innerHTML!==saved) el.innerHTML=saved;
   });
+}
+
+
+var PATRIC_PW = '1987';
+var patricMode = localStorage.getItem('patricMode') || null; // 'crew' | 'paedi'
+
+// Kachel state: which are unlocked
+function getKachelState(){
+  var def={};
+  document.querySelectorAll('[data-kachel]').forEach(function(el){
+    var k=el.getAttribute('data-kachel');
+    def[k]=el.getAttribute('data-default')==='1';
+  });
+  var stored=JSON.parse(localStorage.getItem('pm5_kacheln')||'null');
+  if(!stored) return def;
+  // merge defaults with stored
+  Object.keys(def).forEach(function(k){ if(stored[k]===undefined) stored[k]=def[k]; });
+  return stored;
+}
+
+function saveKachelState(state){
+  localStorage.setItem('pm5_kacheln',JSON.stringify(state));
+  if(sb) sb.from('app_lists').upsert({id:'main',kacheln:state,updated_at:new Date().toISOString()});
+}
+
+function renderPatricTab(){
+  var state=getKachelState();
+  var isPatric=patricMode==='paedi';
+  var isCrew=patricMode==='crew';
+
+  // Show mode selector if no mode chosen
+  var modeWrap=document.getElementById('patricModeWrap');
+  var patricContent=document.getElementById('patricContent');
+  if(!patricMode){
+    if(modeWrap) modeWrap.style.display='block';
+    if(patricContent) patricContent.style.display='none';
+    return;
+  }
+  if(modeWrap) modeWrap.style.display='none';
+  if(patricContent) patricContent.style.display='block';
+
+  document.querySelectorAll('.pkachel').forEach(function(el){
+    var k=el.getAttribute('data-kachel');
+    var unlocked=!!state[k];
+
+    // Remove existing overlays/toggles
+    el.querySelectorAll('.pkachel-lock-overlay,.pkachel-toggle').forEach(function(x){x.remove();});
+    el.classList.remove('pkachel-locked');
+
+    if(isCrew && editMode){
+      // Show toggle button for crew in edit mode
+      var btn=document.createElement('button');
+      btn.className='pkachel-toggle '+(unlocked?'on':'off');
+      btn.innerHTML=(unlocked?'✓ Sichtbar für Pädi':'🔒 Versteckt');
+      btn.setAttribute('data-togglekachel',k);
+      el.insertBefore(btn,el.firstChild);
+      btn.addEventListener('click',function(){
+        var s=getKachelState();
+        s[k]=!s[k];
+        saveKachelState(s);
+        renderPatricTab();
+      });
+    }
+
+    if(isPatric){
+      if(!unlocked){
+        // Hide locked kacheln from Pädi
+        el.style.display='none';
+      } else {
+        el.style.display='block';
+      }
+    } else {
+      el.style.display='block';
+    }
+  });
+
+  // Render Pädi médaillen
+  renderPatricMedaillen();
+}
+
+function renderPatricMedaillen(){
+  var el=document.getElementById('patricMedaillen');
+  if(!el) return;
+  var m=S.medals&&S.medals['patrick']||0;
+  el.innerHTML=m>0
+    ? '<div style="font-size:28px;text-align:center;padding:.5rem">'+('🥇').repeat(m)+'</div>'
+      +'<div style="text-align:center;font-size:13px;color:#888">'+m+' Médaille'+(m===1?'':'n')+'</div>'
+    : '<div style="text-align:center;font-size:13px;color:#bbb;padding:.5rem">Noch keine Médaillen</div>';
+}
+
+function setPatricMode(mode){
+  patricMode=mode;
+  localStorage.setItem('patricMode',mode);
+  renderPatricTab();
+}
+
+function showPatricPwModal(){
+  var m=document.getElementById('patricPwModal');
+  if(m){ m.style.display='flex'; setTimeout(function(){ document.getElementById('patricPwInput').focus(); },100); }
+}
+
+function closePatricPwModal(){
+  var m=document.getElementById('patricPwModal');
+  if(m) m.style.display='none';
+  document.getElementById('patricPwInput').value='';
+  document.getElementById('patricPwError').style.display='none';
+}
+
+function checkPatricPw(){
+  var val=document.getElementById('patricPwInput').value;
+  if(val===PATRIC_PW){
+    closePatricPwModal();
+    setPatricMode('paedi');
+  } else {
+    document.getElementById('patricPwError').style.display='block';
+    document.getElementById('patricPwInput').value='';
+    setTimeout(function(){ document.getElementById('patricPwError').style.display='none'; },2000);
+  }
+}
+
+function showCrewPwModal(){
+  var m=document.getElementById('crewPwModal');
+  if(m){ m.style.display='flex'; setTimeout(function(){ document.getElementById('crewPwInput').focus(); },100); }
+}
+
+function closeCrewPwModal(){
+  var m=document.getElementById('crewPwModal');
+  if(m) m.style.display='none';
+  document.getElementById('crewPwInput').value='';
+  document.getElementById('crewPwError').style.display='none';
+}
+
+function checkCrewPw(){
+  var val=document.getElementById('crewPwInput').value;
+  if(val==='8704'){
+    closeCrewPwModal();
+    setPatricMode('crew');
+  } else {
+    document.getElementById('crewPwError').style.display='block';
+    document.getElementById('crewPwInput').value='';
+    setTimeout(function(){ document.getElementById('crewPwError').style.display='none'; },2000);
+  }
 }
 
 function init(){
