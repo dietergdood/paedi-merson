@@ -1199,7 +1199,23 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 <!-- DOMINIK -->
 <div id="tab-dominik" style="display:none">
 
-<div class="section-title">Ausgangsstand festhalten</div>
+  <div class="section">
+    <div class="section-title">Ausgangsstand festhalten</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px;min-width:130px;color:#666">Follower (Start):</span>
+        <input type="number" id="ig_f" placeholder="0" style="width:80px">
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px;min-width:130px;color:#666">Likes (Start):</span>
+        <input type="number" id="ig_l" placeholder="0" style="width:80px">
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px;min-width:130px;color:#666">Kommentare (Start):</span>
+        <input type="number" id="ig_k" placeholder="0" style="width:80px">
+      </div>
+    </div>
+  </div>
 
   <div class="acc-item">
     <div class="acc-h" onclick="toggleAcc('role_dominik')">
@@ -1293,7 +1309,20 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 <!-- BERATER -->
 <div id="tab-berater" style="display:none">
 
-<div class="section-title">Finanz-Checker</div>
+  <div class="section">
+    <div class="section-title">Finanz-Checker</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px;min-width:150px;color:#666">Einnahmen CHF:</span>
+        <input type="number" id="ein" placeholder="0" style="width:80px">
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px;min-width:150px;color:#666">Ziel CHF (Pflicht):</span>
+        <input type="number" id="einTarget" placeholder="30" style="width:80px">
+        <span style="font-size:12px;color:#aaa">→ wird in Tagesmission übernommen</span>
+      </div>
+    </div>
+  </div>
 
   <div class="acc-item">
     <div class="acc-h" onclick="toggleAcc('role_berater')">
