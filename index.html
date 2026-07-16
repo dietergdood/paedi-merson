@@ -2058,21 +2058,23 @@ var REGIE=[
 ];
 
 function renderRegie(){
+  var store=getEditStore();
   var html='';
   REGIE.forEach(function(s){
     html+='<div class="acc-item">'
       +'<div class="acc-h" data-acc="'+s.id+'">'
       +'<div class="adot '+s.dot+'"></div>'
-      +'<span class="acc-t">'+s.t+'</span>'
+      +'<span class="acc-t" data-edit-id="regie-'+s.id+'-title">'+(store['regie-'+s.id+'-title']||s.t)+'</span>'
       +'<span class="acc-s">'+s.steps.length+' Schritte</span>'
       +'<span class="acc-a" id="arr_'+s.id+'">&#9660;</span>'
       +'</div><div class="acc-b" id="acc_'+s.id+'">';
     s.steps.forEach(function(step,i){
+      var eid=s.id+'-'+i;
       html+='<div class="ds"><div class="dn">'+(i+1)+'</div><div class="dc">'
-        +'<div class="dw2">'+step.w+'</div>'
-        +'<div class="dt">'+step.t+'</div>';
-      if(step.q) html+='<div class="dq">'+step.q+'</div>';
-      if(step.ig) html+='<div class="igb"><b>Instagram</b>'+step.ig+'</div>';
+        +'<div class="dw2" data-edit-id="regie-'+eid+'-w">'+(store['regie-'+eid+'-w']||step.w)+'</div>'
+        +'<div class="dt" data-edit-id="regie-'+eid+'-t">'+(store['regie-'+eid+'-t']||step.t)+'</div>';
+      if(step.q) html+='<div class="dq" data-edit-id="regie-'+eid+'-q">'+(store['regie-'+eid+'-q']||step.q)+'</div>';
+      if(step.ig) html+='<div class="igb" data-edit-id="regie-'+eid+'-ig"><b>Instagram</b>'+(store['regie-'+eid+'-ig']||step.ig)+'</div>';
       if(step.m) html+='<div class="dm">Médaille: '+step.m+'</div>';
       if(step.n) html+='<div class="dno">— '+step.n+'</div>';
       html+='</div></div>';
@@ -3164,7 +3166,8 @@ function enableEdit(){
     document.querySelectorAll(sel).forEach(function(el){
       if(el.querySelector('input,button,select,table')) return;
       if(!el.hasAttribute('contenteditable')){
-        var stableId=getStableId(el);
+        // Use existing stable data-edit-id if already set, else generate from DOM position
+        var stableId=el.getAttribute('data-edit-id')||getStableId(el);
         el.setAttribute('contenteditable','true');
         el.setAttribute('data-edit-id', stableId);
         var saved=getEdit(el);
