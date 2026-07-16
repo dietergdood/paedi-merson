@@ -1,0 +1,2177 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pädi Merson — Der Transfer</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap');
+
+:root{
+  --black:#0a0a0a;
+  --off-white:#f7f6f2;
+  --card:#ffffff;
+  --border:#e4e2db;
+  --border-strong:#c8c4ba;
+  --muted:#8a8880;
+  --accent:#e8c44a;
+  --accent-dark:#b8940a;
+  --red:#e03535;
+  --green:#2d9e5f;
+  --blue:#2563eb;
+  --purple:#7c3aed;
+  --radius:8px;
+  --radius-lg:14px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05);
+  --shadow-lg:0 4px 24px rgba(0,0,0,.12);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--black);font-size:14px;-webkit-font-smoothing:antialiased}
+.app{max-width:680px;margin:0 auto;padding:0 12px 40px}
+
+/* HEADER */
+.header{text-align:center;padding:2rem 0 1.25rem;margin-bottom:1.25rem;position:relative}
+.header-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.header h1{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:.04em;color:var(--black);line-height:1;margin-bottom:.35rem}
+.header-sub{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.header-badge{display:inline-flex;align-items:center;gap:6px;background:var(--black);color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-top:.75rem;text-decoration:none}
+.header-badge:hover{background:#222}
+.header-badge svg{width:13px;height:13px;fill:var(--accent)}
+
+/* TAB GROUPS */
+.sub-btn{font-size:12px;font-weight:500;padding:5px 14px;border:1.5px solid var(--border-strong);border-radius:20px;background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.sub-btn:hover{border-color:var(--black);color:var(--black)}
+.sub-btn.active{background:var(--black);color:var(--accent);border-color:var(--black);font-weight:700}
+.nav-wrap{display:flex;flex-direction:column;gap:4px;margin-bottom:1.25rem}
+.nav-row{background:var(--black);border-radius:10px;padding:5px 7px;display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+.nav-label{font-size:10px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:.09em;padding:0 5px;white-space:nowrap}
+.nav-divider{width:1px;height:14px;background:#333;margin:0 4px;flex-shrink:0}
+.tab-btn{font-size:12px;font-weight:500;padding:6px 11px;border:none;border-radius:7px;background:transparent;color:#aaa;cursor:pointer;white-space:nowrap;transition:all .15s;letter-spacing:.01em;flex-shrink:0}
+.tab-btn:hover{background:#1a1a1a;color:#fff}
+.tab-btn.active{background:var(--accent);color:var(--black);font-weight:700}
+
+/* SECTIONS */
+.section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;margin-bottom:.75rem;box-shadow:var(--shadow)}
+.section-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:.85rem}
+.info-block{font-size:13px;line-height:1.7;color:#333}
+.info-block li{margin-left:1.2rem;margin-bottom:3px}
+.info-block ol li{margin-left:1.2rem;margin-bottom:3px}
+.info-block b,.info-block strong{color:var(--black)}
+
+/* QUOTE BLOCKS */
+.qb{background:#fafaf8;border-left:3px solid var(--accent);padding:.85rem 1rem;font-size:13px;line-height:1.7;color:#444;margin:.5rem 0;font-style:italic;border-radius:0 8px 8px 0}
+.qb b{font-style:normal;color:var(--black)}
+
+/* SCOREBOARD */
+table.sb{width:100%;border-collapse:collapse;font-size:13px}
+table.sb th{text-align:left;padding:7px 8px;color:var(--muted);font-weight:600;font-size:10px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.06em}
+table.sb td{padding:9px 8px;border-bottom:1px solid #f5f4f0;vertical-align:middle}
+table.sb tr:last-child td{border-bottom:none}
+table.sb tr:hover td{background:#fafaf8}
+.mc{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--black);font-weight:700;font-size:15px}
+.pname{font-size:13px;font-weight:600;color:var(--black)}
+.prole{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* BUTTONS */
+.bs{font-size:12px;padding:4px 8px;border:1px solid var(--border-strong);border-radius:6px;background:var(--card);color:var(--black);cursor:pointer;font-weight:500;transition:all .1s}
+.bs:hover{background:var(--black);color:#fff;border-color:var(--black)}
+.bs-sm{font-size:11px;padding:3px 7px}
+
+/* BADGES */
+.badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;letter-spacing:.02em}
+.bw{background:#fef3c7;color:#92400e}
+.br{background:#fee2e2;color:#991b1b}
+.bp{background:#ede9fe;color:#5b21b6}
+.bg{background:#dcfce7;color:#166534}
+
+/* RANK */
+.rb{width:26px;height:26px;border-radius:50%;background:#f0f0ee;border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--muted)}
+.rb.r1{background:var(--accent);color:var(--black);border-color:var(--accent)}
+.rb.r2{background:#e8e8e8;color:#555;border-color:#ccc}
+.rb.r3{background:#dcfce7;color:#166534;border-color:#bbf7d0}
+
+/* MISSION BAR */
+.mb{display:flex;flex-direction:column;gap:10px}
+.mr{display:flex;align-items:center;gap:10px}
+.ml{font-size:12px;min-width:160px;color:#555;font-weight:500}
+.mv{font-size:14px;font-weight:700;min-width:32px;text-align:center;color:var(--black)}
+.mt{font-size:11px;color:var(--muted)}
+.pb{flex:1;height:6px;background:#eee;border-radius:3px;overflow:hidden}
+.pf{height:100%;background:var(--blue);border-radius:3px;transition:width .4s}
+.pf.done{background:var(--green)}
+
+/* CHECKLISTS */
+.cl{display:flex;flex-direction:column;gap:1px}
+.ci{display:flex;align-items:center;gap:9px;font-size:13px;padding:8px 0;border-bottom:1px solid #f5f4f0;cursor:pointer;user-select:none;transition:background .1s}
+.ci:last-child{border-bottom:none}
+.ci.done{color:#bbb;text-decoration:line-through}
+.cb{width:18px;height:18px;border:1.5px solid var(--border-strong);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all .15s}
+.cb.chk{background:var(--green);border-color:var(--green);color:#fff}
+
+/* STATION TAGS */
+.st{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;margin-left:auto;flex-shrink:0;letter-spacing:.02em}
+.tb{background:#dbeafe;color:#1d4ed8}
+.tz{background:#fef3c7;color:#92400e}
+.to{background:#ede9fe;color:#5b21b6}
+.tw{background:#dcfce7;color:#166534}
+.th{background:#fee2e2;color:#991b1b}
+
+/* ACCORDION */
+.acc-item{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--card);margin-bottom:8px;box-shadow:var(--shadow)}
+.acc-h{display:flex;align-items:center;gap:10px;padding:1rem 1.1rem;cursor:pointer;user-select:none;transition:background .1s}
+.acc-h:hover{background:#fafaf8}
+.adot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.db{background:var(--blue)}.dz{background:#f59e0b}.do{background:var(--purple)}.dw{background:var(--green)}.dh{background:var(--red)}
+.acc-t{font-size:13px;font-weight:600;flex:1;color:var(--black)}
+.acc-s{font-size:11px;color:var(--muted);background:#f0f0ee;padding:2px 8px;border-radius:20px}
+.acc-a{font-size:14px;color:var(--muted);transition:transform .2s;line-height:1}
+.acc-a.open{transform:rotate(180deg)}
+.acc-b{display:none;padding:1rem 1.25rem;border-top:1px solid var(--border);background:#fcfcfb}
+.acc-b.open{display:block}
+
+/* DREHBUCH STEPS */
+.ds{display:flex;gap:12px;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #f0f0ee}
+.ds:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.dn{width:24px;height:24px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px}
+.dc{flex:1}
+.dw2{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.dt{font-size:13px;line-height:1.6;color:var(--black)}
+.dq{font-style:italic;color:#555;background:#fafaf8;padding:.65rem .9rem;border-radius:8px;margin-top:6px;font-size:13px;line-height:1.65;border-left:2px solid var(--accent)}
+.dno{font-size:11px;color:var(--muted);margin-top:5px;font-style:italic}
+.dm{font-size:10px;padding:3px 10px;border-radius:20px;background:var(--accent);color:var(--black);font-weight:700;margin-top:5px;display:inline-block;letter-spacing:.03em}
+.igb{background:#f5f3ff;border:1px solid #ddd6fe;border-radius:8px;padding:.75rem 1rem;margin-top:8px;font-size:13px;line-height:1.6;color:#4c1d95;font-style:italic}
+.igb b{font-style:normal;color:#5b21b6;display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+
+/* HIGHLIGHT BOX */
+.highlight{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.75rem 1rem;font-size:13px;line-height:1.6;margin:.5rem 0;color:#78350f}
+
+/* MEDAL GRID */
+.medal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.medal-item{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:.8rem .9rem;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
+.medal-item:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(232,196,74,.25);transform:translateY(-1px)}
+.medal-name{font-size:12px;font-weight:700;color:var(--black);margin-top:4px}
+.medal-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.medal-arrow{font-size:10px;color:var(--accent-dark);margin-top:6px;font-weight:700}
+
+/* MODAL */
+#mOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-box{background:var(--card);border-radius:18px;max-width:400px;width:100%;padding:1.5rem;max-height:82vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-icon{font-size:32px;margin-bottom:.5rem}
+.modal-title{font-size:18px;font-weight:700;color:var(--black);line-height:1.2}
+.modal-when{font-size:11px;color:var(--muted);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.modal-desc{font-size:13px;line-height:1.75;color:#444;margin:1rem 0}
+.modal-vergabe{padding:.75rem 1rem;background:#fffbeb;border-radius:8px;font-size:12px;color:#78350f;line-height:1.6}
+.modal-vergabe b{color:#92400e}
+.modal-close{border:none;background:var(--border);border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;color:var(--muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .1s}
+.modal-close:hover{background:var(--black);color:#fff}
+
+/* MATERIAL LIST */
+.mi{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px solid #f5f4f0}
+.mi:last-child{border-bottom:none}
+.mc2{width:18px;height:18px;border:1.5px solid var(--border-strong);border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all .15s}
+.mc2.done{background:var(--green);border-color:var(--green);color:#fff}
+.tr{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+
+/* CONTRACT */
+.cbox{background:linear-gradient(135deg,var(--black) 0%,#1a1a1a 100%);border-radius:16px;padding:1.5rem;text-align:center;color:#fff}
+.cf{font-size:13px;margin:5px 0;color:rgba(255,255,255,.7)}
+.cf span{color:var(--accent);font-weight:700}
+.sl{border-top:1px solid rgba(255,255,255,.15);margin-top:1.25rem;padding-top:.75rem;font-size:11px;color:rgba(255,255,255,.4)}
+
+/* TIMETABLE */
+.tt-table{width:100%;border-collapse:collapse;font-size:13px}
+.tt-table th{text-align:left;padding:7px 10px;color:var(--muted);font-weight:700;font-size:10px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.07em}
+.tt-table td{padding:9px 10px;border-bottom:1px solid #f5f4f0;vertical-align:top}
+.tt-table tr:last-child td{border-bottom:none}
+.tt-time{font-weight:700;color:var(--black);white-space:nowrap;font-size:13px;font-variant-numeric:tabular-nums}
+.tt-station{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;white-space:nowrap;display:inline-block;letter-spacing:.03em}
+.tt-desc{color:#555;font-size:13px}
+
+/* PACKLISTE */
+.pack-cat{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:1.1rem 0 .5rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.pack-cat:first-child{margin-top:0}
+.pack-row{display:flex;align-items:center;gap:9px;font-size:13px;padding:7px 0;border-bottom:1px solid #f5f4f0;cursor:pointer;user-select:none;transition:all .1s}
+.pack-row:last-child{border-bottom:none}
+.pack-row.done{color:#bbb;text-decoration:line-through}
+.pack-who{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;flex-shrink:0;background:var(--black);color:var(--accent);letter-spacing:.02em}
+
+input{border:1.5px solid var(--border);border-radius:8px;padding:6px 10px;font-size:13px;font-family:'Inter',sans-serif;background:#fafaf8;transition:border .15s;color:var(--black)}
+input:focus{outline:none;border-color:var(--accent);background:#fff}
+[contenteditable]{border-radius:4px;outline:none;transition:background .15s}
+[contenteditable]:focus{background:rgba(232,196,74,.12);box-shadow:0 0 0 1.5px var(--accent)}
+.edit-mode [contenteditable]{background:rgba(232,196,74,.06);cursor:text}
+.edit-mode [contenteditable]:empty:before{content:attr(data-placeholder);color:#bbb;font-style:italic}
+#editToggle.active{background:var(--accent)!important;color:var(--black)!important;box-shadow:0 4px 16px rgba(232,196,74,.5)!important}
+.edit-hint{display:none;font-size:11px;color:var(--accent-dark);text-align:center;margin-bottom:.5rem;font-weight:600}
+.edit-mode .edit-hint{display:block}
+</style>
+</head>
+<body>
+
+</head>
+<body>
+<!-- Fixed edit button -->
+<button id="editToggle" onclick="toggleEdit()" style="position:fixed;bottom:20px;right:16px;z-index:998;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;padding:8px 16px;border:none;border-radius:20px;background:#1a1a1a;color:#888;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;box-shadow:0 2px 12px rgba(0,0,0,.3);transition:all .2s">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+  Bearbeiten
+</button>
+
+<!-- Password modal -->
+<div id="pwOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)">
+  <div style="background:#fff;border-radius:18px;padding:2rem;max-width:300px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.2)">
+    <div style="font-size:28px;margin-bottom:.75rem">🔒</div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:.35rem;color:#0a0a0a">Bearbeitungsmodus</div>
+    <div style="font-size:13px;color:#888;margin-bottom:1.25rem">Passwort eingeben um Inhalte zu bearbeiten</div>
+    <input id="pwInput" type="password" placeholder="Passwort" style="width:100%;text-align:center;font-size:18px;letter-spacing:.2em;margin-bottom:.75rem;border-radius:10px" onkeydown="if(event.key==='Enter')checkPw()">
+    <div id="pwError" style="font-size:12px;color:#e03535;margin-bottom:.75rem;display:none">Falsches Passwort</div>
+    <div style="display:flex;gap:8px">
+      <button onclick="closePwModal()" style="flex:1;padding:10px;border:1.5px solid #ddd;border-radius:10px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#666">Abbrechen</button>
+      <button onclick="checkPw()" style="flex:1;padding:10px;border:none;border-radius:10px;background:#0a0a0a;font-size:13px;font-weight:700;cursor:pointer;color:#e8c44a">Entsperren</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+<div class="header">
+  <div class="header-eyebrow">JGA 2025</div>
+  <h1>Pädi Merson</h1>
+  <div class="header-sub">FC Junggeselle &rarr; FC Mariage &nbsp;·&nbsp; Der Transfer</div>
+  <div style="margin-top:.75rem">
+    <a href="https://www.instagram.com/paedimerson" target="_blank" class="header-badge">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    @paedimerson
+    </a>
+  </div>
+</div>
+<div class="nav-wrap">
+  <div class="nav-row">
+    <button class="tab-btn active" data-tab="story">Die Story</button>
+    <button class="tab-btn" data-tab="regie">Regie</button>
+    <button class="tab-btn" data-tab="packliste">Packliste</button>
+    <button class="tab-btn" data-tab="timetable">Timetable</button>
+    <span style="flex:1"></span>
+    <button class="tab-btn" data-tab="sb">Scoreboard</button>
+    <button class="tab-btn" data-tab="vertrag">Vertrag</button>
+  </div>
+  <div class="nav-row">
+    <span class="nav-label">Personen</span>
+    <span class="nav-divider"></span>
+    <button class="tab-btn" data-tab="patrick">Pädi</button>
+    <button class="tab-btn" data-tab="didi">Didi</button>
+    <button class="tab-btn" data-tab="dominik">Dominik</button>
+    <button class="tab-btn" data-tab="berater">Berater</button>
+    <button class="tab-btn" data-tab="beni">Beni</button>
+    <button class="tab-btn" data-tab="koch">Pädi K.</button>
+    <button class="tab-btn" data-tab="tobi">Tobi</button>
+    <button class="tab-btn" data-tab="maege">Mäge</button>
+  </div>
+</div>
+<div class="edit-hint">✏️ Bearbeitungsmodus aktiv — alle Felder sind editierbar</div>
+
+<!-- SCOREBOARD -->
+<div id="tab-sb" style="display:none">
+  <div class="section">
+    <div class="section-title">Médaillen & Karten — Live</div>
+    <table class="sb"><thead><tr><th>Person</th><th style="text-align:center">Médaillen</th><th style="text-align:center">Gelb</th><th style="text-align:center">Rot</th><th style="text-align:center">Rang</th></tr></thead><tbody id="sbBody"></tbody></table>
+  </div>
+  <div class="section">
+    <div class="section-title">Schnaps-Strafen (morgen früh)</div>
+    <div id="schnaps"></div>
+    <div style="margin-top:10px;font-size:12px;color:var(--muted)">2× Gelb = 1 Schnaps · 4× Gelb = 2 · Gelb/Rot = 3 · Rot = 5 Schnäpse</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Die 9 Goldmedaillen — antippen für Details</div>
+    <div class="medal-grid" id="medalGrid"></div>
+  </div>
+  <div style="text-align:center;margin:.5rem 0"><button class="bs" onclick="resetAll()" style="font-size:11px;color:var(--muted)">↺ Reset alles</button></div>
+</div>
+
+<!-- MODAL -->
+<div id="mOverlay" onclick="closeModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:1rem">
+      <div style="flex:1">
+        <div class="modal-icon" id="mIcon"></div>
+        <div class="modal-title" id="mTitle"></div>
+        <div class="modal-when" id="mWhen"></div>
+      </div>
+      <button onclick="closeModal(null)" class="modal-close">&#215;</button>
+    </div>
+    <div class="modal-desc" id="mDesc"></div>
+    <div class="modal-vergabe" id="mVergabe"></div>
+  </div>
+</div>
+
+
+<div id="tab-packliste" style="display:none">
+  <div class="section">
+    <div class="section-title">Packliste — für alle</div>
+    <div id="packContent"></div>
+  </div>
+</div>
+
+<!-- TIMETABLE -->
+<div id="tab-timetable" style="display:none">
+  <div class="section">
+    <div class="section-title">Timetable — Samstag</div>
+    <table class="tt-table">
+      <thead><tr><th>Zeit</th><th>Station</th><th>Was</th></tr></thead>
+      <tbody>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Bahnhof</span></td><td class="tt-desc">Treffpunkt. Pädi wird empfangen.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Bahnhof</span></td><td class="tt-desc">Offizielle Eröffnung: Outfit, Bier-Kapitän-Ernennung, Dossier-Übergabe.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station tz">Zug</span></td><td class="tt-desc">Abfahrt. Baguetteverkauf, Kindheits-VAR, Quiz.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station tz">Zug</span></td><td class="tt-desc">Ankunft.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station to">Boot</span></td><td class="tt-desc">Wakeboarden. Kostüm-Übergabe, Runs, Médaillen.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station tw">Wein</span></td><td class="tt-desc">Weindegustation. Bullshit-Sommelier.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Ankunft SAC-Hütte.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Raclette.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Task Team, Molotow- & Kings Cup Schlussstand.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Match-Tipp einsammeln, Frankreich vs. England.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Instagram-Auswertung, Schlussrangliste, persönlicher Abschluss.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <div class="section-title">Timetable — Sonntag</div>
+    <table class="tt-table">
+      <thead><tr><th>Zeit</th><th>Station</th><th>Was</th></tr></thead>
+      <tbody>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Morgen</span></td><td class="tt-desc">Patrick + Letztplatzierter bereiten Frühstück und Kaffee vor.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Morgen</span></td><td class="tt-desc">Offizielle Übergabe: Didi verliest Vertrag, alle unterschreiben.</td></tr>
+        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Morgen</span></td><td class="tt-desc">Abschliessender Instagram-Post. Abreise.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section" style="background:#fffbeb;border-color:#fde68a">
+    <div class="section-title" style="color:#92400e">Den ganzen Tag</div>
+    <div class="info-block"><ul>
+      <li><strong>Molotow-Jass</strong> — läuft den ganzen Tag, Mäge führt Tabelle</li>
+      <li><strong>Kings Cup</strong> — einmalig, wann es der Gruppe passt</li>
+      <li><strong>Instagram</strong> — Dominik postet laufend Updates</li>
+    </ul></div>
+  </div>
+</div>
+
+
+<!-- STORY -->
+<div id="tab-story" style="display:none">
+  <div class="section">
+    <div class="section-title">Was heute passiert — Die ganze Story</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:1rem">Patrick — bekannt als <strong>Pädi Merson</strong>, 38-jaehriger Edeltechniker, langjaehriger Fussball-Captain, Weinliebhaber und Digitalstratege — steht heute vor dem wichtigsten Wechsel seiner Karriere: vom <strong>FC Junggeselle</strong> zum <strong>FC Mariage</strong>. Die beiden Vereine haben sich grundsaetzlich auf den Transfer geeinigt. Bevor der Vertrag aber unterschrieben werden kann, muss Pädi beweisen, dass er den Anforderungen des FC Mariage gewachsen ist.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Die Rollen</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.6rem">Sieben Freunde begleiten den Transfer — jeder mit einer offiziellen Funktion.</p>
+      <p style="margin-bottom:.5rem"><strong>Didi Good</strong> ist Transferdirektor und Schiedsrichter. Er führt durch den Tag, kündigt alle Prüfungen an und verteilt gelbe und rote Karten. Seine Entscheidungen sind endgültig — nur der VAR kann eingreifen.</p>
+      <p style="margin-bottom:.5rem"><strong>Dominik Sieber</strong> ist Social-Media-Manager. Nur er bedient das Instagram-Profil «Pädi Merson» und veroeffentlicht den ganzen Tag Posts und Storys. Patrick darf das Profil nicht selbst benutzen.</p>
+      <p style="margin-bottom:.5rem"><strong>Spielerberater & Finanzchef</strong> organisiert die fünf Baguettes und begleitet den Verkauf im Zug. Er darf Patrick beraten, aber nicht selbst verkaufen.</p>
+      <p style="margin-bottom:.5rem"><strong>Beni Benz</strong> ist VAR- und Archivchef. Er hat echte und digital bearbeitete Fotos aus Patricks Vergangenheit vorbereitet und prüft, ob Patrick seine eigene Geschichte kennt. Er ist auch zweite Entscheidungsinstanz wenn der Schiedsrichter selbst in einen Streitfall verwickelt ist.</p>
+      <p style="margin-bottom:.5rem"><strong>Pädi Koch</strong> ist Mannschaftsarzt und Wassersportdirektor. Er leitet den Wakeboard-Block und vergibt die Sportmedaillen.</p>
+      <p style="margin-bottom:.5rem"><strong>Tobi Freitag</strong> ist Sponsoren- und Weinmanager. Er leitet die beiden Wettbewerbe bei der Weindegustation.</p>
+      <p style="margin-bottom:.75rem"><strong>Mäge Sauter</strong> ist Wettbewerbs- und Médaillenchef. Er führt die Rangliste, leitet den Molotow-Jass und das Quiz am Abend und bestimmt am Ende den Letztplatzierten.</p>
+      <p>Patrick selbst wird zum <strong>Bier-Kapitan</strong> ernannt. Er muss die Mannschaft bei jedem Ortswechsel zaehlen, drei kurze Captain-Ansprachen halten und darf unter keinen Umstaenden einen französischen Abgang machen. Wegen seiner bekannten Neigung dazu trägt er den ganzen Tag die offizielle französische Auswaertsuniform: gestreiftes Trikot und Baskenmuetze.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Transferprüfung & Agenten-Cup</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.75rem">Der Tag laeuft auf zwei Ebenen gleichzeitig.</p>
+      <p style="margin-bottom:.75rem"><strong>Patrick</strong> muss seine Transfereignung beweisen: Er finanziert seine Zugreise selbst durch den Verkauf von fünf Baguettes an Zugpassagiere (Ziel: mind. CHF 30.–, Bonus ab CHF 50.–). Parallel dazu sammelt er auf Instagram neue Follower, Likes und Kommentare. Schafft er die Ziele, erhält er am Abend den offiziellen blauen Haken. Schafft er es nicht, muss er gemeinsam mit dem Letztplatzierten ein oeffentliches Entschuldigungsvideo aufnehmen.</p>
+      <p>Die <strong>sieben Freunde</strong> treten im Agenten-Cup gegeneinander an. Über den Tag können acht Goldmedaillen gewonnen werden. Der Freund mit den wenigsten Médaillen am Ende teilt Patricks Strafe.</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Station 1 — Bahnhof</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.75rem">Der Tag beginnt mit einem offiziellen Empfang. Didi tritt als Transferdirektor auf und eröffnet den Prozess feierlich. Als Erstes erhält Patrick sein Pflicht-Outfit: das gestreifte französische Trikot und die Baskenmuetze. Didi verlieset die Begründung — Patricks bekannte Neigung zum französischen Abgang macht ihn zu einem Fluchtrisiko, das jederzeit erkennbar bleiben muss.</p>
+      <p style="margin-bottom:.75rem">Danach folgt die feierliche Ernennung zum <strong>Bier-Kapitan</strong>. Didi liest die offizielle Mitteilung des FC Mariage vor und legt Patrick die Kapitänsbinde an. Ab diesem Moment trägt Patrick die Verantwortung für die Mannschaft — er muss sie bei jedem Ortswechsel vollständig zaehlen und darf unter keinen Umstaenden verschwinden ohne Ankuendigung.</p>
+      <p>Der Spielerberater überreicht das Transferdossier: ein offizielles Dokument das erklaert, warum das Handgeld noch nicht überwiesen wurde und was Patrick heute leisten muss. Dominik setzt die ersten zwei Instagram-Posts ab. Mäge kündigt an: Molotow-Jass und Kings Cup laufen ab jetzt den ganzen Tag.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Station 2 — Zugfahrt</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.75rem">Im Zug wird es ernst. Patrick hält seine erste Captain-Ansprache — maximal 20 Sekunden, Inhalt frei. Danach startet die Finanzierungsaufgabe: Patrick muss fünf Baguettes an Zugpassagiere verkaufen und mindestens CHF 30.– einnehmen. CHF 50.– gilt als Bonus. Der Spielerberater steht beratend zur Seite, darf aber nicht selbst verkaufen. Jeder Freund darf Patrick einen Verkaufssatz oder eine Strategie flüstern.</p>
+      <p style="margin-bottom:.75rem">Nach dem Verkauf folgt der <strong>Kindheits-VAR</strong>. Beni hat 8 bis 10 Fotos aus Patricks Vergangenheit vorbereitet — einige echt, andere digital manipuliert. Patrick muss bei jedem Bild entscheiden ob es echt ist, was veraendert wurde, wann und wo es aufgenommen wurde und wer dabei war. Alle anderen tippen gleichzeitig: echt oder fake? Wer am meisten richtig liegt, gewinnt die <strong>Médaille L'Œil du VAR</strong>.</p>
+      <p>Zum Abschluss der Zugfahrt moderiert Mäge das Quiz <strong>«Wer kennt Pädi am besten?»</strong>. Fünf Fragen — alle haben vorher still ihre Antworten aufgeschrieben, Patrick gibt danach die echten Antworten. Wer am meisten getroffen hat, gewinnt die <strong>Médaille de l'Amitié</strong>.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Station 3 — Boot & Wakeboarden</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.75rem">Pädi Koch übernimmt das Kommando als Mannschaftsarzt und Wassersportdirektor. Zuerst wird das Rettungsschwimmerinnen-Kostüm feierlich an Patrick übergeben — er trägt es über der Kapitänsbinde. Pädi Koch verlieset die medizinische Beurteilung: exzellente Hand-Auge-Koordination am Weinglas, Wasser-Leistungen bislang undokumentiert.</p>
+      <p style="margin-bottom:.75rem">Patrick hält seine zweite Captain-Ansprache, dann spricht er sein medizinisches Statement direkt in die Kamera. Danach muss jeder mindestens einen Wakeboard-Run absolvieren. Bewertet werden <strong>Stil und Figur</strong> — Haltung, Gleichgewicht, Kontrolle, Unterhaltungswert. Patrick tritt zwingend im Rettungsschwimmerinnen-Kostüm an, kann die <strong>Médaille de la Performance</strong> aber trotzdem gewinnen.</p>
+      <p>Parallel beobachtet Pädi Koch alle Stürze. Nur unbeabsichtigte zaehlen — bewertet nach Dramatik, Gesichtsausdruck und Unterhaltungswert. Der spektakulärste gewinnt den <strong>Prix du Plongeon</strong>. Nach Patricks bestem Run folgt sein Torjubel und ein kurzes Abschlussinterview.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Station 4 — Weindegustation</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.75rem">Die Weindegustation steht im Vordergrund — Tobi hat den Ablauf mit dem Weingut abgestimmt und hält die Wettbewerbe kurz. Jede Person zieht eine Begriffskarte und muss den Wein damit in einem einzigen Satz beschreiben: der <strong>Bullshit-Sommelier</strong>. Die Begriffe sind sorgfältig ausgewaehlt — Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette. Die lustigste Beschreibung gewinnt die <strong>Médaille Bullshit Sommelier</strong>.</p>
+      <p>Dominik setzt den Sponsoren-Post ab. Der Transfer nähert sich seinem Höhepunkt.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Station 5 — SAC-Hütte (Abend)</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.75rem">Nach dem Raclette beginnt der letzte und intensivste Teil des Tages. Zuerst <strong>Task Team</strong>: Mäge bildet die Teams, zwei treten gegeneinander an, das dritte schiedsrichtert. <em>Task! Team! Los!</em> Wer zuerst 7 Aufgaben gewinnt, holt die <strong>Médaille d'Équipe</strong>. Danach werden die Schlussstände von Molotow-Jass und Kings Cup ausgewertet — wer den ganzen Tag die meisten Partien gewonnen hat, gewinnt die jeweilige Médaille.</p>
+      <p style="margin-bottom:.75rem">Vor dem Anpfiff gibt Patrick seine letzte Captain-Ansprache. Alle geben ihren Match-Tipp ab: Resultat, erster Torschuetze, Minute des ersten Tores. Dann schaut die Gruppe gemeinsam Frankreich gegen England. Bei einem französischen Tor macht Patrick seinen Torjubel vom Boot nach — bei einem englischen Tor spricht er Englisch mit französischem Akzent bis zur nächsten Unterbrechung. Wer den besten Tipp hatte, gewinnt die <strong>Médaille du Football</strong>.</p>
+      <p style="margin-bottom:.75rem">Dominik praesentiert den Instagram-Abschlussbericht. Hat Patrick die Ziele erreicht, erhält er feierlich den blauen Haken. Mäge erstellt die Schlussrangliste des Agenten-Cups — bei Gleichstand entscheidet das Korken-Elfmeterschiessen. Der Letztplatzierte steht fest.</p>
+      <p>Didi prüft die Captain-Mission. Mäge präsentiert die Schlussrangliste und nennt den Letztplatzierten. Dann der persönliche Moment — jeder Freund vervollständigt den Satz <em>«Der FC Mariage sollte Patrick verpflichten, weil …»</em>. Der Abend endet ruhig und persönlich.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Station 6 — Frühstück (Offizielle Übergabe)</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.75rem">Am nächsten Morgen beim Frühstück folgt der krönende Abschluss. Patrick und der Letztplatzierte haben ihre letzte Pflicht: Frühstück und Kaffee für alle vorbereiten und beim Aufräumen die Hauptarbeit übernehmen.</p>
+      <p style="margin-bottom:.75rem">Wenn alle am Tisch sitzen, verliest Didi den Transfervertrag feierlich. Ausgeschlafen, Kaffee in der Hand — der Moment hat Würde. Patrick unterschreibt zuerst, dann alle sieben Freunde. Die Kapitänsbinde darf er als Erinnerung behalten.</p>
+      <p>Dominik setzt den abschliessenden Instagram-Post ab: <em>OFFICIAL AND CONFIRMED.</em> Der Transfer ist vollzogen. <strong>HERE WE GO. 💍</strong></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Das Ergebnis</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.75rem">Patrick und der Freund mit den wenigsten Médaillen müssen am nächsten Morgen frühstück und Kaffee für alle machen, beim Aufräumen die Hauptarbeit übernehmen, gemeinsam ein Instagram-Entschuldigungsvideo aufnehmen und das Frankreich-Outfit bis zur Abreise abwechselnd tragen.</p>
+      <p>Hat Patrick alle seine Pflichten erfüllt, wird er feierlich zum <strong>Capitaine à vie du FC Mariage</strong> ernannt — und unterschreibt seinen Transfervertrag.</p>
+    </div>
+  </div>
+</div>
+
+<!-- REGIE -->
+<div id="tab-regie" style="display:none">
+  <div style="display:flex;gap:6px;margin-bottom:.75rem">
+    <button class="sub-btn active" data-sub="drehbuch">Drehbuch</button>
+    <button class="sub-btn" data-sub="checkliste">Checkliste</button>
+  </div>
+  <div id="sub-drehbuch">
+    <div class="section" style="padding:.75rem 1rem">
+      <div class="section-title">Vollständige Storyline — Schritt für Schritt</div>
+      <div id="regiAcc"></div>
+    </div>
+  </div>
+  <div id="sub-checkliste" style="display:none">
+    <div class="section">
+      <div class="section-title">Tagesablauf — Checkliste</div>
+      <div class="cl" id="ablaufList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PATRICK -->
+<div id="tab-patrick" style="display:none">
+  <div class="section">
+    <div class="section-title">Tagesmission</div>
+    <div class="mb" id="missionBar"></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Transferdossier — Text (wird Patrick übergeben)</div>
+    <div class="qb"><b>CONFIDENTIEL — TRANSFERDOSSIER</b><br><br>
+Sehr geehrter Monsieur Merson,<br><br>
+Ihr Wechsel vom FC Junggeselle zum FC Mariage befindet sich in der entscheidenden Phase. Der FC Mariage hat dem Transfer grundsaetzlich zugestimmt. Vor der endgültigen Vertragsunterzeichnung müssen Sie jedoch Ihre finanzielle Selbstaendigkeit, koerperliche Eignung und oeffentliche Relevanz beweisen.<br><br>
+Leider wurde Ihr vereinbartes Handgeld noch nicht ueberwiesen. Sie müssen Ihre Reise nach Lutry deshalb selbst finanzieren. Ein Mindestertrag von CHF 30.– ist Pflicht — alles über CHF 50.– gilt als Bonus-Leistung und wird vermerkt.<br><br>
+Zudem verfuegt Ihr Instagram-Profil derzeit über zu wenig Reichweite für einen Spieler Ihrer internationalen Bedeutung.<br><br>
+Sie stehen ab sofort unter Beobachtung des Transferkomitees, des Schiedsrichters und des Instagram-Algorithmus.<br><br>
+<em>Bonne chance.</em></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Pflicht-Ansagen</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Mannschaftskontrolle (vor jedem Ortswechsel)</div>
+      <div class="qb">&#8222;Mannschaft vollständig. Der Transfer kann fortgesetzt werden.&#8220;</div></div>
+      <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Toilettengang</div>
+      <div class="qb">&#8222;Der Bier-Kapitan verlaesst das Spielfeld voruebergehend.&#8220;</div></div>
+      <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Captain-Ansprache #1 — Beispiel (vor Baguetteverkauf)</div>
+      <div class="qb">&#8222;Maenner, wir müssen die Raeume im Zug nutzen, kompakt auftreten und konsequent zum Abschluss kommen. Fünf Baguettes, 30 Franken Pflicht — jeder Pass muss sitzen.&#8220;</div></div>
+      <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Medizinisches Statement (Boot)</div>
+      <div class="qb">&#8222;Ich bin nicht hier, um gut auszusehen. Ich bin hier, um den medizinischen Test des FC Mariage zu bestehen.&#8220;</div></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Kleidung</div>
+    <div class="info-block"><ul>
+      <li>Gestreiftes französisches Shirt</li>
+      <li>Baskenmuetze</li>
+      <li>Optional: Halstuch und Schnurrbart</li>
+      <li>Bier-Kapitaensbinde (darueber)</li>
+      <li>Rettungsschwimmerinnen-Kostüm (Boot, darunter)</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Bewertungskriterien — Abschluss</div>
+    <div class="cl" id="patrickCL"></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Titel bei Erfolg</div>
+    <div style="text-align:center;padding:1rem 0">
+      <div style="font-size:18px;font-weight:700;letter-spacing:.04em">Capitaine à vie du FC Mariage</div>
+      <div style="font-size:13px;color:#888;margin-top:4px">Bier-Kapitaensbinde darf als Erinnerung behalten werden</div>
+    </div>
+  </div>
+</div>
+
+<!-- DIDI -->
+<div id="tab-didi" style="display:none">
+  <div class="section">
+    <div class="section-title">Didi Good — Regie-Kurzansicht</div>
+    <div id="didiRegie"></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Text 1: Französisches Outfit (verlesen)</div>
+    <div class="qb">Sehr geehrter Monsieur Merson,<br><br>
+aufgrund Ihrer französischen Wurzeln und Ihrer bekannten Neigung zum sogenannten französischen Abgang besteht beim FC Mariage eine erhoehte Fluchtgefahr. Sie verlassen Veranstaltungen regelmässig, ohne sich ordnungsgemäss abzumelden.<br><br>
+Damit Sie jederzeit eindeutig erkennbar bleiben, tragen Sie die offizielle französische Auswaertsuniform: gestreiftes Trikot und Baskenmuetze.<br><br>
+Ein weiterer französischer Abgang vor der Vertragsunterzeichnung wird als grobe Verletzung Ihrer Vertragspflichten gewertet.</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Text 2: Ernennung zum Bier-Kapitan (verlesen)</div>
+    <div class="qb"><b>OFFIZIELLE MITTEILUNG DES FC MARIAGE</b><br><br>
+Sehr geehrter Monsieur Merson,<br><br>
+Sie waren waehrend vieler Jahre unser Spieler, Captain, Trainer, Taktgeber und gelegentlich auch lautstarker Schiedsrichter.<br><br>
+Aufgrund dieser aussergewöhnlichen Verdienste werden Sie zum offiziellen <b>BIER-KAPITAN</b> ernannt.<br><br>
+Ihre Aufgabe: die Mannschaft sicher durch den Spieltag führen, die Moral hochhalten, alle sieben Mitspieler vollständig zum nächsten Austragungsort bringen. Die Bezeichnung Bier-Kapitan verpflichtet nicht zum übermässigen Trinken (oder eben doch).</div>
+    <div style="font-size:12px;color:#aaa;margin-top:6px">Danach Binde feierlich anlegen.</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Ablauf Abend / Morgen</div>
+    <div class="info-block"><ul>
+      <li><strong>Abend:</strong> Captain-Mission auswerten, Schlussrangliste, persönlicher Abschluss</li>
+      <li><strong>Morgen:</strong> Transfervertrag feierlich vorlesen wenn alle am Frühstückstisch sitzen</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Text 3: Offizielle Ansage als Schiedsrichter</div>
+    <div class="qb">Der Transferdirektor übernimmt heute gleichzeitig die Funktion des Schiedsrichters. Seine Entscheidungen sind endgültig, willkürlich und können nur durch den VAR noch verschlimmert werden.</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Karten-Gruende</div>
+    <div class="info-block"><ul>
+      <li>Französischer Abgang</li>
+      <li>Vergessene Mannschaftskontrolle</li>
+      <li>Schummeln oder Aufgabenverweigerung</li>
+      <li>Unsportliches Verhalten</li>
+      <li>Übermassiges Reklamieren / Diskutieren</li>
+      <li>Unerlaubte Einflussnahme auf Instagram</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Sonderregel</div>
+    <div class="info-block">Ist der Schiedsrichter selbst an einer strittigen Situation beteiligt, entscheidet Beni (VAR-Chef) als zweite und letzte Instanz.</div>
+  </div>
+  <div class="section"><div class="section-title">Material</div><div id="matDidi"></div></div>
+</div>
+
+<!-- DOMINIK -->
+<div id="tab-dominik" style="display:none">
+  <div class="section">
+    <div class="section-title">Dominik Sieber — Social-Media-Manager</div>
+    <div class="info-block"><ul>
+      <li>Ausgangsstand festhalten (Follower, Likes, Kommentare)</li>
+      <li>Fotos und Videos aufnehmen und auf «Pädi Merson» posten</li>
+      <li>Patrick kurze Medienauftraege erteilen</li>
+      <li>Zwischenstaende bekannt geben</li>
+      <li>Am Abend Abschlussbericht praesentieren + blauen Haken ueberreichen bei Erfolg</li>
+    </ul>
+    <div style="margin-top:8px;padding:.6rem .75rem;background:#fff8e1;border-radius:6px;border-left:2px solid #f59e0b;font-size:13px"><b>Wichtig:</b> Fremde Personen nur mit ihrer Zustimmung fotografieren und veroeffentlichen.</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Ausgangsstand notieren</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:150px;color:#666">Follower start:</span><input type="number" id="ig_f" data-ig="f" placeholder="0"></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:150px;color:#666">Likes start:</span><input type="number" id="ig_l" data-ig="l" placeholder="0"></div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:150px;color:#666">Kommentare start:</span><input type="number" id="ig_k" data-ig="k" placeholder="0"></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Alle Posts (in Reihenfolge)</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div><div style="font-size:11px;font-weight:700;color:#5b21b6;text-transform:uppercase;margin-bottom:4px">Bahnhof — Post 1 (nach Ernennung)</div>
+      <div class="igb"><b>Instagram</b>BREAKING NEWS — Pädi Merson übernimmt bei seinem letzten Einsatz für den FC Junggeselle nochmals die Captainbinde. Er führt das Team heute erstmals als offizieller Bier-Kapitan aufs Feld.</div></div>
+      <div><div style="font-size:11px;font-weight:700;color:#5b21b6;text-transform:uppercase;margin-bottom:4px">Bahnhof — Post 2 (nach Dossier)</div>
+      <div class="igb"><b>Instagram</b>BREAKING NEWS — Pädi Merson wurde am Bahnhof gesichtet. Das Handgeld wurde noch nicht ueberwiesen. Der Transfer steht auf der Kippe. Follow to support the deal. Here we go?</div></div>
+      <div><div style="font-size:11px;font-weight:700;color:#5b21b6;text-transform:uppercase;margin-bottom:4px">Zug — Story (Baguetteverkauf)</div>
+      <div class="igb"><b>Instagram Story</b>FINANCIAL FAIR PLAY UPDATE — Pädi Merson finanziert seinen Transfer aktuell durch den Verkauf französischer Backwaren.</div></div>
+      <div><div style="font-size:11px;font-weight:700;color:#5b21b6;text-transform:uppercase;margin-bottom:4px">Zug — Story (VAR)</div>
+      <div class="igb"><b>Instagram Story</b>VAR CHECK — Neu aufgetauchtes Bildmaterial wirft Fragen zur Vergangenheit von Pädi Merson auf.</div></div>
+      <div><div style="font-size:11px;font-weight:700;color:#5b21b6;text-transform:uppercase;margin-bottom:4px">Boot — Post (nach Wakeboarden)</div>
+      <div class="igb"><b>Instagram</b>MEDICAL UPDATE — Selbstvertrauen: Weltklasse. Gleichgewicht auf dem Wakeboard: unter Beobachtung. Outfit: nicht verhandelbar. Der Transfer bleibt offen.</div></div>
+      <div><div style="font-size:11px;font-weight:700;color:#5b21b6;text-transform:uppercase;margin-bottom:4px">Weindegustation — Post</div>
+      <div class="igb"><b>Instagram</b>SPONSOR UPDATE — Pädi Merson befindet sich in fortgeschrittenen Verhandlungen mit regionalen Getränkepartnern. Erste Degustationen verliefen vielversprechend.</div></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Follower-Meilensteine</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div class="qb" style="margin:0">10 Follower: Erste Scouts beobachten den Spieler.</div>
+      <div class="qb" style="margin:0">20 Follower: Der FC Mariage nimmt die Vertragsverhandlungen wieder auf.</div>
+      <div class="qb" style="margin:0">30 Follower: Die medizinischen Zweifel treten in den Hintergrund.</div>
+      <div class="qb" style="margin:0">38 Follower: Mindestanforderung erfüllt. Prüfung des blauen Hakens laeuft.</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Abschlussbericht (Vorlage)</div>
+    <div class="qb"><b>SOCIAL-MEDIA-REPORT</b><br>Neue Follower: ___ von 38<br>Likes: ___ von 100<br>Kommentare: ___ von 10<br>Bester Beitrag: ___________________<br>Verantwortlicher Creator: ___________________<br>Empfehlung blauer Haken: genehmigt / abgelehnt</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Abschliessender Post (Morgen beim Frühstück)</div>
+    <div class="igb"><b>Instagram</b>OFFICIAL AND CONFIRMED — Pädi Merson wechselt zum FC Mariage. Der Transfer ist vollzogen. Willkommen, Capitaine à vie. HERE WE GO. 💍</div>
+  </div>
+  <div class="section"><div class="section-title">Material</div><div id="matDominik"></div></div>
+</div>
+
+<!-- BERATER -->
+<div id="tab-berater" style="display:none">
+  <div class="section">
+    <div class="section-title">Spielerberater & Finanzchef</div>
+    <div class="info-block"><ul>
+      <li>Fünf Baguettes organisieren und mitbringen</li>
+      <li>Patrick die Verkaufsmission erklaeren</li>
+      <li>Einnahmen dokumentieren</li>
+      <li>Darf Patrick beraten, aber nicht selbst verkaufen</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Baguette-Tracker</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px;min-width:150px;color:#666">Baguettes verkauft:</span>
+        <button class="bs" data-bq="-1">-</button>
+        <span id="bc" style="font-size:18px;font-weight:700;min-width:30px;text-align:center">0</span>
+        <span style="font-size:13px;color:#aaa">/ 5</span>
+        <button class="bs" data-bq="1">+</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px;min-width:150px;color:#666">Einnahmen CHF:</span>
+        <input type="number" id="ein" placeholder="0" style="width:80px">
+        <span style="font-size:13px;color:#aaa">Pflicht: 30.– / Bonus: 50.–</span>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Verkaufstext für Patrick</div>
+    <div class="qb">&#8222;Entschuldigung, ich stehe kurz vor dem wichtigsten Transfer meines Lebens. Leider hat der FC Mariage mein Handgeld noch nicht ueberwiesen. Moechten Sie meine Karriere mit dem Kauf eines limitierten Transfer-Baguettes unterstuetzen?&#8220;<br><br><em>Ein Nein wird sofort akzeptiert.</em></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Mögliche Produktbezeichnungen</div>
+    <div class="tr">
+      <span class="badge bw">Limitiertes Transfer-Baguette</span>
+      <span class="badge bw">Signiertes Sammlerstueck</span>
+      <span class="badge bw">Französisches Luxusprodukt</span>
+      <span class="badge bw">Offizielle Verpflegung FC Mariage</span>
+    </div>
+  </div>
+
+  <div class="section"><div class="section-title">Material</div><div id="matBerater"></div></div>
+</div>
+
+<!-- BENI -->
+<div id="tab-beni" style="display:none">
+  <div class="section">
+    <div class="section-title">Beni Benz — VAR- & Archivchef</div>
+    <div class="info-block"><ul>
+      <li>8-10 Fotos vorbereiten (Original + digital bearbeitet)</li>
+      <li>Spiel moderieren — Patrick beantwortet pro Bild 4 Fragen</li>
+      <li>Tipps der Freunde (echt/fake) und Punkte notieren</li>
+      <li>Manipulationen erst am Schluss aufloesen</li>
+      <li>Goldmedaille L'Œil du VAR vergeben</li>
+      <li>Zweite Entscheidungsinstanz wenn Schiedsrichter beteiligt</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Patricks 4 Fragen pro Foto</div>
+    <div class="info-block"><ol>
+      <li>Echt oder manipuliert?</li>
+      <li>Was wurde veraendert?</li>
+      <li>Wann und wo entstand das Original?</li>
+      <li>Wer aus der Gruppe war dabei?</li>
+    </ol></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Mögliche Manipulationen</div>
+    <div class="info-block"><ul>
+      <li>Patrick trägt ein England-Trikot</li>
+      <li>Er hält als Kind bereits ein Weinglas</li>
+      <li>Er steht neben einem bekannten Fussballer</li>
+      <li>Er sitzt in einer Vorstandssitzung bei Emil Frey</li>
+      <li>Einer seiner Freunde wurde aus dem Bild entfernt</li>
+      <li>Patrick hält einen Ballon d'Or</li>
+      <li>Er trägt bereits das Rettungsschwimmerinnen-Kostüm</li>
+      <li>Aus einem Kindergeburtstag wurde eine Pressekonferenz</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">VAR-Punkteblatt</div>
+    <div style="display:flex;flex-direction:column;gap:6px" id="varPunkte"></div>
+  </div>
+  <div class="section"><div class="section-title">Material</div><div id="matBeni"></div></div>
+</div>
+
+<!-- PAEDI KOCH -->
+<div id="tab-koch" style="display:none">
+  <div class="section">
+    <div class="section-title">Pädi Koch — Mannschaftsarzt & Wassersportdirektor</div>
+    <div class="info-block"><ul>
+      <li>Rettungsschwimmerinnen-Kostüm feierlich übergeben</li>
+      <li>Medizinische Beurteilung verlesen</li>
+      <li>Patricks Statement aufnehmen (Video)</li>
+      <li>Abschlussinterview führen</li>
+      <li>Wakeboard-Runs beobachten und bewerten</li>
+      <li>Gruppenabstimmung für 2 Médaillen</li>
+      <li>Sicherheit im Auge behalten — keine absichtlichen Sturz-Aktionen</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Medizinische Beurteilung (verlesen)</div>
+    <div class="qb">&#8222;Der Spieler verfuegt am Weinglas über eine ausgezeichnete Hand-Auge-Koordination. Seine Leistungen auf dem Wakeboard sind bislang jedoch nicht ausreichend dokumentiert. Das Transferkomitee beobachtet.&#8220;</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Wakeboarden — Médaille de la Performance</div>
+    <div class="info-block">
+      <p style="margin-bottom:.5rem">Jeder macht mindestens einen Run. Bewertet wird <strong>Stil und Figur</strong> — nicht Geschwindigkeit oder Dauer. Kriterien:</p>
+      <ul>
+        <li>Haltung und Körperspannung</li>
+        <li>Gleichgewicht und Kontrolle</li>
+        <li>Unterhaltungswert</li>
+        <li>Gesamteindruck (Gruppenabstimmung)</li>
+      </ul>
+    </div>
+    <div class="highlight" style="margin-top:8px">Patrick muss im Rettungsschwimmerinnen-Kostüm antreten und kann ebenfalls gewinnen.</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Prix du Plongeon — Spektakulaerster Sturz</div>
+    <div class="info-block">Nur für unbeabsichtigte Stürze! Bewertet: Dramatik, Körpersprache, Gesichtsausdruck, Unterhaltungswert. Absichtliche Stürze werden disqualifiziert.</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Abschlussinterview (nach Patricks bestem Run)</div>
+    <div class="qb">&#8222;Pädi, wie beurteilst du deine Leistung und ist der Transfer nach diesem Auftritt noch realistisch?&#8220;</div>
+  </div>
+  <div class="section"><div class="section-title">Material</div><div id="matKoch"></div></div>
+</div>
+
+<!-- TOBI -->
+<div id="tab-tobi" style="display:none">
+  <div class="section">
+    <div class="section-title">Tobi Freitag — Sponsoren- & Weinmanager</div>
+    <div class="info-block"><ul>
+      <li>Ablauf mit dem Weingut kurz abstimmen</li>
+      <li>Begriffskarten vorbereiten</li>
+      <li>Weinschaetzungen einsammeln und auswerten</li>
+      <li>Tatsaechliche Angaben beim Weingut erfragen</li>
+      <li>Beide Weinmedaillen vergeben</li>
+    </ul>
+    <div style="margin-top:8px;padding:.6rem .75rem;background:#dcfce7;border-radius:6px;border-left:2px solid #22c55e;font-size:13px">Die Weindegustation steht im Vordergrund. Die beiden Wettbewerbe sollen schnell und locker ablaufen.</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Bullshit-Sommelier — Ablauf</div>
+    <div class="info-block">Jede Person zieht einen Begriff und beschreibt damit den Wein in einem einzigen Satz. Patrick oder Gruppenabstimmung bestimmt den Gewinner.</div>
+    <div class="tr">
+      <span class="badge bp">Emil Frey</span><span class="badge bp">Digitalisierung</span><span class="badge bp">Gegenpressing</span><span class="badge bp">Grindr</span>
+      <span class="badge bp">Rettungsschwimmerin</span><span class="badge bp">England</span><span class="badge bp">Flitterwochen</span><span class="badge bp">Raclette</span>
+    </div>
+    <div class="qb" style="margin-top:10px">Beispiel: &#8222;Dieser Wein beginnt mit aggressivem Gegenpressing, entwickelt danach die Eleganz eines erfolgreichen Grindr-Dates und endet zuverlässiger als ein Fahrzeug von Emil Frey.&#8220;</div>
+  </div>
+
+  <div class="section"><div class="section-title">Material</div><div id="matTobi"></div></div>
+</div>
+
+<!-- MAEGE -->
+<div id="tab-maege" style="display:none">
+  <div class="section">
+    <div class="section-title">Mäge Sauter — Wettbewerbs- & Médaillenchef</div>
+    <div class="info-block"><ul>
+      <li>Alle Médaillen und Karten laufend dokumentieren</li>
+      <li>Molotow-Jass leiten und Sieger bestimmen</li>
+      <li>Quiz «Wer kennt Pädi am besten?» moderieren</li>
+      <li>Match-Tipps einsammeln und auswerten</li>
+      <li>Schlussrangliste erstellen und Letztplatzierten bestimmen</li>
+      <li>Bei Gleichstand: Korken-Elfmeterschiessen organisieren</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Molotow-Jass — Médaille du Molotow</div>
+    <div class="info-block">Molotow-Jass laeuft den ganzen Tag — wann immer Zeit und Lust da ist. Zu zweit gespielt, je zwei Karten pro Spieler, keine Trumpfansage, es zaehlen nur Stiche. Mäge führt laufend eine Siegtabelle. Am Abend in der Huette wird zusammengezaehlt.</div>
+    <div class="highlight" style="margin-top:8px">Tipp: Schon am Bahnhof ankuendigen damit alle wissen, dass Molotow den ganzen Tag laeuft.</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Kings Cup — Médaille du Kingscup</div>
+    <div class="info-block">Kings Cup laeuft ebenfalls den ganzen Tag — parallel zum Molotow, wann immer eine Runde passt. Klassisches Kartenspiel: Karten aufdecken, jede hat eine Regel. Mäge führt eine laufende Tabelle. Am Abend Schlussstand auswerten.</div>
+    <div class="highlight" style="margin-top:8px">Tipp: Regeln für die Karten vorher festlegen und allen erklaeren.</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Quiz: Wer kennt Pädi am besten? (5 Fragen) — Zug</div>
+    <div class="info-block">Im Zug, nach dem VAR. Patrick beantwortet 5 Fragen. Alle anderen haben ihre Antworten vorher still auf Zettel geschrieben. Wer am meisten richtig liegt, gewinnt die Médaille de l'Amitié. Mäge waehlt 5 Fragen aus:<ul>
+      <li>Welches Lied bringt Patrick sofort auf die Tanzfläche?</li>
+      <li>Was ist sein unnötigster Luxus?</li>
+      <li>Was bestellt er nach einer langen Partynacht?</li>
+      <li>Welchen Wein bestellt er am liebsten?</li>
+      <li>Was wuerde er niemals freiwillig digitalisieren?</li>
+      <li>Welche Fussballposition passt am besten zu ihm?</li>
+      <li>Was ist sein typischer Satz im Ausgang?</li>
+      <li>Womit kann man ihn am schnellsten nerven?</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Task Team — Médaille d'Équipe</div>
+    <div class="info-block">150 Minispiele, 3+ Personen. Zwei Teams treten gegeneinander an, das dritte schiedsrichtert und liest die Aufgabe vor. Startsignal: <b>Task! Team! Los!</b> Wer eine Aufgabe gewinnt, bekommt die Karte. Wer zuerst 7 Karten hat, gewinnt. Dauer ca. 20 Minuten.</div>
+    <div class="highlight" style="margin-top:8px">Teams bilden: z.B. 3x2 oder 2x3 Personen. Patrick spielt mit. Am besten vor dem Spiel starten.</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Match-Tipps Frankreich vs. England</div>
+    <div style="display:flex;flex-direction:column;gap:6px" id="matchTipps"></div>
+    <div style="margin-top:10px;font-size:12px;color:#888">Auswertung: Resultat &rarr; Tordifferenz &rarr; Torschuetze &rarr; Minute</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Optionale Match-Regeln</div>
+    <div class="info-block"><ul>
+      <li>Bei einem französischen Tor: Patrick macht seinen Torjubel vom Boot nach</li>
+      <li>Bei einem englischen Tor: Englisch mit französischem Akzent bis zur nächsten Unterbrechung</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Stechen bei Gleichstand</div>
+    <div class="info-block">Korken-Elfmeterschiessen: alle Betroffenen werfen aus derselben Distanz einen Weinkorken in einen Becher. Wer zuletzt trifft, verliert.</div>
+  </div>
+  <div class="section"><div class="section-title">Material</div><div id="matMäge"></div></div>
+</div>
+
+<!-- VERTRAG -->
+<div id="tab-vertrag" style="display:none">
+  <div class="section">
+    <div class="section-title">Abend in der Hütte — Abschluss</div>
+    <div class="info-block"><ul>
+      <li>Captain-Mission auswerten (5 Kriterien)</li>
+      <li>Schlussrangliste Agenten-Cup präsentieren</li>
+      <li>Letztplatzierten bekannt geben</li>
+      <li>Persönlicher Abschluss: jeder vervollständigt «Der FC Mariage sollte Patrick verpflichten, weil …»</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Morgen beim Frühstück — Offizielle Übergabe</div>
+    <div class="info-block"><ul>
+      <li>Patrick + Letztplatzierter: Frühstück und Kaffee vorbereiten, Aufräumen übernehmen</li>
+      <li>Didi verliest den Transfervertrag feierlich wenn alle am Tisch sitzen</li>
+      <li>Alle unterschreiben — Patrick zuerst, dann alle 7 Freunde</li>
+      <li>Dominik setzt den abschliessenden Instagram-Post ab</li>
+    </ul></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Der Transfervertrag (Didi verliest am Morgen)</div>
+    <div class="cbox">
+      <div style="font-size:16px;font-weight:700;margin-bottom:.75rem">OFFICIAL AND CONFIRMED</div>
+      <div style="font-size:13px;color:#666;margin-bottom:1.25rem;line-height:1.6">Pädi Merson hat die finanzielle Prüfung, den historischen VAR, den medizinischen Wakeboard-Test, die Sponsorenverhandlungen und die Social-Media-Anforderungen absolviert. Das Transferkomitee bestaetigt den Wechsel.</div>
+      <div class="cf"><span>Spieler:</span> Patrick «Pädi Merson»</div>
+      <div class="cf"><span>Vertragsdauer:</span> lebenslang</div>
+      <div class="cf"><span>Ausstiegsklausel:</span> keine</div>
+      <div class="cf"><span>Handgeld:</span> fünf Baguettes</div>
+      <div class="cf"><span>Grundgehalt:</span> Liebe, Wein und Raclette</div>
+      <div class="cf"><span>Position:</span> Chief Domestic Officer</div>
+      <div class="cf"><span>Nebenfunktion:</span> Bier-Kapitan</div>
+      <div class="cf"><span>Ruckennummer:</span> 38</div>
+      <div style="font-size:12px;color:#888;margin-top:1rem;font-style:italic;line-height:1.5">Der FC Mariage übernimmt den Spieler trotz bekannter Risiken in den Bereichen französische Abgaenge, spontane Feierfreude, uebertriebener Fussballsachverstand und gehobener Weinkonsum.</div>
+      <div style="margin-top:1.5rem;font-size:22px;font-weight:700;letter-spacing:.05em">HERE WE GO. &#128141;</div>
+      <div class="sl">Alle 7 Freunde unterschreiben als Berater &middot; Patrick als Spieler und lebenslanger Bier-Kapitan</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Persoenlicher Abschluss (jeder vervollständigt)</div>
+    <div class="qb">&#8222;Der FC Mariage sollte Patrick verpflichten, weil ...&#8220;</div>
+    <div style="font-size:12px;color:#aaa;margin-top:6px">Darf ernst und persönlich sein.</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Die Strafe (Patrick + Letztplatzierter)</div>
+    <div class="info-block"><ul>
+      <li>Frühstück und Kaffee für alle vorbereiten</li>
+      <li>Beim Aufräumen die Hauptarbeit uebernehmen</li>
+      <li>Gemeinsam Instagram-Entschuldigungsvideo aufnehmen</li>
+      <li>Frankreich-Outfit bis zur Abreise abwechselnd tragen</li>
+    </ul></div>
+    <div class="qb" style="margin-top:10px">&#8222;Wir uebernehmen die volle sportliche und organisatorische Verantwortung für unsere schwachen Leistungen. Wir entschuldigen uns beim FC Mariage, unseren Sponsoren und sämtlichen Baguettekäufern.&#8220;</div>
+  </div>
+</div>
+
+
+<script>
+// ─── Supabase Config ─────────────────────────────────────────────────────────
+// Diese Werte werden von Vercel als Environment Variables gesetzt
+// Lokal: erstelle eine .env.local Datei (siehe .env.example)
+var SUPABASE_URL = typeof __SUPABASE_URL__ !== 'undefined' ? __SUPABASE_URL__ : '';
+var SUPABASE_KEY = typeof __SUPABASE_KEY__ !== 'undefined' ? __SUPABASE_KEY__ : '';
+
+var sb = null;
+var realtimeChannel = null;
+var syncPending = false;
+var syncTimeout = null;
+
+function initSupabase(){
+  if(!SUPABASE_URL || !SUPABASE_KEY || SUPABASE_URL.indexOf('DEIN-PROJEKT') !== -1){
+    console.log('Supabase not configured — using localStorage fallback');
+    return false;
+  }
+  try {
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    return true;
+  } catch(e) {
+    console.warn('Supabase init failed:', e);
+    return false;
+  }
+}
+
+// ─── Sync functions ───────────────────────────────────────────────────────────
+async function loadFromDB(){
+  if(!sb) return;
+  try {
+    var r1 = await sb.from('app_state').select('state').eq('id','main').single();
+    if(r1.data && r1.data.state && Object.keys(r1.data.state).length){
+      S = Object.assign(S, r1.data.state);
+    }
+    var r2 = await sb.from('app_edits').select('edits').eq('id','main').single();
+    if(r2.data && r2.data.edits){
+      localStorage.setItem('pm5_edits', JSON.stringify(r2.data.edits));
+    }
+    var r3 = await sb.from('app_lists').select('*').eq('id','main').single();
+    if(r3.data){
+      if(r3.data.ablauf) localStorage.setItem('pm5_abl', JSON.stringify(r3.data.ablauf));
+      if(r3.data.packliste) localStorage.setItem('pm5_pack', JSON.stringify(r3.data.packliste));
+      if(r3.data.pch) localStorage.setItem('pm5_pch', JSON.stringify(r3.data.pch));
+      if(r3.data.mat) localStorage.setItem('pm5_mat', JSON.stringify(r3.data.mat));
+    }
+  } catch(e){ console.warn('loadFromDB error:', e); }
+}
+
+function scheduleSave(){
+  if(syncTimeout) clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(saveToDB, 800);
+}
+
+async function saveToDB(){
+  if(!sb) return;
+  try {
+    await sb.from('app_state').upsert({id:'main', state:S, updated_at: new Date().toISOString()});
+  } catch(e){ console.warn('saveToDB error:', e); }
+}
+
+async function saveEditsToDB(edits){
+  if(!sb) return;
+  try {
+    await sb.from('app_edits').upsert({id:'main', edits:edits, updated_at: new Date().toISOString()});
+  } catch(e){ console.warn('saveEditsToDB error:', e); }
+}
+
+async function saveListsToDB(){
+  if(!sb) return;
+  try {
+    var payload = {id:'main', updated_at: new Date().toISOString()};
+    var abl = localStorage.getItem('pm5_abl');
+    var pack = localStorage.getItem('pm5_pack');
+    var pch = localStorage.getItem('pm5_pch');
+    var mat = localStorage.getItem('pm5_mat');
+    if(abl) payload.ablauf = JSON.parse(abl);
+    if(pack) payload.packliste = JSON.parse(pack);
+    if(pch) payload.pch = JSON.parse(pch);
+    if(mat) payload.mat = JSON.parse(mat);
+    await sb.from('app_lists').upsert(payload);
+  } catch(e){ console.warn('saveListsToDB error:', e); }
+}
+
+function subscribeRealtime(){
+  if(!sb) return;
+  realtimeChannel = sb.channel('app-sync')
+    .on('postgres_changes', {event:'UPDATE', schema:'public', table:'app_state'},
+      function(payload){
+        if(payload.new && payload.new.state){
+          var remote = payload.new.state;
+          // merge remote state
+          Object.keys(remote).forEach(function(k){ S[k]=remote[k]; });
+          renderSB(); renderAblauf(); renderPC(); renderAllMat(); renderMedals();
+          showToast('Aktualisiert von einem anderen Gerät');
+        }
+      })
+    .on('postgres_changes', {event:'UPDATE', schema:'public', table:'app_edits'},
+      function(payload){
+        if(payload.new && payload.new.edits){
+          localStorage.setItem('pm5_edits', JSON.stringify(payload.new.edits));
+          applyAllEdits();
+        }
+      })
+    .on('postgres_changes', {event:'UPDATE', schema:'public', table:'app_lists'},
+      function(payload){
+        var d = payload.new;
+        if(d.ablauf) localStorage.setItem('pm5_abl', JSON.stringify(d.ablauf));
+        if(d.packliste) localStorage.setItem('pm5_pack', JSON.stringify(d.packliste));
+        if(d.pch) localStorage.setItem('pm5_pch', JSON.stringify(d.pch));
+        if(d.mat) localStorage.setItem('pm5_mat', JSON.stringify(d.mat));
+        renderAblauf(); renderPackliste(); renderPC(); renderAllMat();
+      })
+    .subscribe();
+}
+
+function showToast(msg){
+  var t = document.getElementById('syncToast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'syncToast';
+    t.style.cssText = 'position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#0a0a0a;color:#e8c44a;font-size:12px;font-weight:600;padding:8px 16px;border-radius:20px;z-index:997;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(function(){ t.style.opacity='0'; }, 2500);
+}
+
+
+// clear legacy data from old versions
+['pm3','pm4','paeditransfer','paeditransfer2','paeditransfer3'].forEach(function(k){ localStorage.removeItem(k); });
+var P=[
+  {id:'didi',name:'Didi Good',role:'Transferdirektor'},
+  {id:'dominik',name:'Dominik Sieber',role:'Social-Media-Manager'},
+  {id:'berater',name:'Spielerberater',role:'Finanzchef'},
+  {id:'beni',name:'Beni Benz',role:'VAR-Chef'},
+  {id:'koch',name:'Pädi Koch',role:'Mannschaftsarzt'},
+  {id:'tobi',name:'Tobi Freitag',role:'Weinmanager'},
+  {id:'maege',name:'Mäge Sauter',role:'Médaillenchef'},
+  {id:'patrick',name:'Patrick',role:'Bier-Kapitan'},
+];
+var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,ig_f:'',ig_l:'',ig_k:'',mis:{f:0,l:0,k:0},abl:{},pc:{},mat:{},tips:{},varp:{}};
+function save(){localStorage.setItem('pm5',JSON.stringify(S));}
+
+var MEDALS=[
+  {icon:'🔍',name:"L'Œil du VAR",when:'Zug',
+   desc:'Beni zeigt 8-10 Fotos aus Patricks Vergangenheit — einige sind echt, andere digital manipuliert. Alle tippen bei jedem Bild echt oder fake. Patrick beantwortet zusaetzlich 4 Fragen pro Bild: Echt oder manipuliert? Was wurde veraendert? Wann und wo entstand das Original? Wer war dabei?',
+   vergabe:'Wer am meisten Bilder korrekt identifiziert, gewinnt. Bei Gleichstand entscheidet Patrick.'},
+  {icon:'❤️',name:"Médaille de l'Amitié",when:'Zug',
+   desc:'Quiz: Wer kennt Pädi am besten? Mäge stellt 5 Fragen, die alle vorher still auf Zettel beantwortet haben. Patrick gibt danach seine echten Antworten. Mögliche Fragen: Welches Lied bringt ihn auf die Tanzfläche? Was ist sein unnötigster Luxus? Was bestellt er nach einer langen Partynacht? Welchen Wein trinkt er am liebsten? Womit nervt man ihn am schnellsten?',
+   vergabe:'Wer die meisten Antworten richtig eingeschaetzt hat, gewinnt.'},
+  {icon:'🏄',name:'Médaille de la Performance',when:'Boot',
+   desc:'Jeder macht mindestens einen Wakeboard-Run. Bewertet werden Stil und Figur — nicht Geschwindigkeit oder Dauer. Kriterien: Haltung und Körperspannung, Gleichgewicht, Kontrolle, Unterhaltungswert. Patrick tritt im Rettungsschwimmerinnen-Kostüm an und kann die Médaille trotzdem gewinnen.',
+   vergabe:'Gruppenabstimmung. Pädi Koch leitet und entscheidet bei Gleichstand.'},
+  {icon:'💥',name:'Prix du Plongeon',when:'Boot',
+   desc:'Fuer den spektakulärsten unbeabsichtigten Sturz beim Wakeboarden. Bewertet: Dramatik, Körpersprache, Gesichtsausdruck, Unterhaltungswert, vorhandenes Videomaterial. Absichtliche oder riskante Stürze werden disqualifiziert.',
+   vergabe:'Gruppenabstimmung. Pädi Koch entscheidet bei Uneinigkeit.'},
+  {icon:'🍷',name:'Bullshit Sommelier',when:'Weindegustation',
+   desc:'Jede Person zieht eine Begriffskarte und beschreibt den Wein in einem einzigen Satz. Begriffe: Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette. Beispiel: Dieser Wein beginnt mit aggressivem Gegenpressing und endet zuverlässiger als ein Fahrzeug von Emil Frey.',
+   vergabe:'Patrick oder Gruppenabstimmung bestimmt die lustigste Beschreibung. Tobi leitet.'},
+  {icon:'👑',name:'Médaille du Kingscup',when:'Einmalig — wann die Gruppe will',
+   desc:'Kings Cup wird einmal gespielt, wann immer es passt. Klassisches Trinkkartenspiel: Karten aufdecken, jede hat eine Regel. Wer gewinnt, gewinnt die Médaille. Keine laufende Tabelle noetig.',
+   vergabe:'Gewinner der Runde bekommt die Médaille direkt. Mäge vergibt sie sofort.'},
+  {icon:'🃏',name:'Médaille du Molotow',when:'Den ganzen Tag',
+   desc:'Molotow-Jass laeuft den ganzen Tag — wann immer Zeit und Lust da ist. Zu zweit gespielt, je zwei Karten pro Spieler, keine Trumpfansage, es zaehlen nur Stiche. Mäge führt laufend eine Siegtabelle. Am Abend in der Huette wird zusammengezaehlt.',
+   vergabe:'Wer am Abend die meisten Molotow-Siege hat, gewinnt. Mäge zaehlt zusammen.'},
+  {icon:'🏆',name:"Médaille d'Équipe",when:'SAC-Huette — Abend',
+   desc:'Task Team: 150 spassige Minispiele für 3+ Personen. Zwei Teams treten gegeneinander an, das dritte schiedsrichtert. Das Task-Team zieht eine Karte und liest die Aufgabe vor. Startsignal: Task! Team! Los! Wer die Aufgabe gewinnt, bekommt die Karte. Gespielt wird bis ein Team 7 Aufgaben gewonnen hat. Aufgaben erfordern Geschicklichkeit, Teamgeist und Schnelligkeit. Dauer ca. 20 Minuten.',
+   vergabe:"Das Sieger-Team gewinnt gemeinsam die Médaille. Bei 8 Personen: 3 Teams a 2-3 Personen bilden, Patrick spielt mit."},
+  {icon:'⚽',name:'Médaille du Football',when:'SAC-Huette — Abend',
+   desc:'Alle tippen vor dem Spiel: Endresultat, erster Torschuetze, Minute des ersten Tores. Optionale Regeln: bei einem franzoesischen Tor macht Patrick seinen Torjubel vom Boot nach; bei einem englischen Tor spricht er bis zur nächsten Unterbrechung Englisch mit franzoesischem Akzent.',
+   vergabe:'Auswertung nach Prioritaet: korrektes Resultat, korrekte Tordifferenz, erster Torschuetze, Minute. Mäge wertet aus.'},
+];
+
+function renderMedals(){
+  var g=document.getElementById('medalGrid');
+  if(!g) return;
+  var html='';
+  for(var i=0;i<MEDALS.length;i++){
+    var m=MEDALS[i];
+    html+='<div class="medal-item" data-mi="'+i+'" style="cursor:pointer;">'
+      +'<div style="font-size:22px;margin-bottom:4px">'+m.icon+'</div>'
+      +'<div class="medal-name">'+m.name+'</div>'
+      +'<div class="medal-desc">'+m.when+'</div>'
+      +'<div style="font-size:10px;color:#b5a96e;margin-top:5px;font-weight:600">Details &#8594;</div>'
+      +'</div>';
+  }
+  g.innerHTML=html;
+  var items=g.querySelectorAll('[data-mi]');
+  for(var j=0;j<items.length;j++){
+    (function(idx){
+      items[idx].addEventListener('click',function(){ openModal(idx); });
+    })(j);
+  }
+}
+
+function openModal(i){
+  var m=MEDALS[i];
+  document.getElementById('mIcon').textContent=m.icon;
+  document.getElementById('mTitle').textContent=m.name;
+  document.getElementById('mWhen').textContent=m.when;
+  document.getElementById('mDesc').textContent=m.desc;
+  document.getElementById('mVergabe').innerHTML='<b style="color:#92400e">Vergabe:</b> '+m.vergabe;
+  var o=document.getElementById('mOverlay');
+  o.style.display='flex';
+}
+
+function closeModal(e){
+  if(!e||e.target===document.getElementById('mOverlay')){
+    document.getElementById('mOverlay').style.display='none';
+  }
+}
+
+var REGIE=[
+  {id:'bh',st:'Bahnhof',t:'Bahnhof — Offizielle Eröffnung',dot:'db',steps:[
+    {w:'Didi (Transferdirektor)',t:'Patrick empfangen. Alle Freunde versammeln sich.',n:'Feierlich — Pfeife bereithalten'},
+    {w:'Didi',t:'Frankreich-Outfit übergeben und Begründung vorlesen.',q:'Sehr geehrter Monsieur Merson, aufgrund Ihrer franzoesischen Wurzeln und Ihrer bekannten Neigung zum franzoesischen Abgang besteht eine erhoehte Fluchtgefahr. Damit Sie jederzeit erkennbar bleiben, tragen Sie die offizielle franzoesische Auswaertsuniform. Ein weiterer franzoesischer Abgang wird als Vertragspflicht-Verletzung gewertet.',n:'Patrick zieht das Outfit an'},
+    {w:'Didi',t:'Als Schiedsrichter vorstellen.',q:'Der Transferdirektor übernimmt heute gleichzeitig die Funktion des Schiedsrichters. Seine Entscheidungen sind endgültig, willkürlich und können nur durch den VAR noch verschlimmert werden.'},
+    {w:'Didi',t:'Ernennung zum Bier-Kapitan vorlesen.',q:'OFFIZIELLE MITTEILUNG DES FC MARIAGE — Sehr geehrter Monsieur Merson, Sie waren waehrend vieler Jahre Spieler, Captain, Trainer und Taktgeber. Aufgrund dieser Verdienste werden Sie zum offiziellen BIER-KAPITAN ernannt. Ihre Aufgabe: die Mannschaft sicher führen, Moral hochhalten, alle sieben vollständig zum nächsten Ort bringen.',n:'Danach Binde feierlich anlegen'},
+    {w:'Dominik',t:'Instagram-Post 1 absetzen.',ig:'BREAKING NEWS — Pädi Merson übernimmt nochmals die Captainbinde. Er führt das Team heute erstmals als offizieller Bier-Kapitan aufs Feld.',n:'Foto von der Binden-Zeremonie'},
+    {w:'Spielerberater',t:'Transferdossier übergeben, Tagesmission erklaeren, 5 Baguettes bereitstellen.',q:'CONFIDENTIEL — TRANSFERDOSSIER: Vor der Vertragsunterzeichnung müssen Sie finanzielle Selbstaendigkeit, koerperliche Eignung und oeffentliche Relevanz beweisen. Pflicht: mind. CHF 30.—, Bonus ab CHF 50.—.'},
+    {w:'Dominik',t:'Instagram-Post 2 absetzen.',ig:'BREAKING NEWS — Pädi Merson wurde am Bahnhof gesichtet. Handgeld noch nicht ueberwiesen. Transfer steht auf der Kippe. Follow to support the deal. Here we go?'},
+    {w:'Mäge',t:'Molotow-Jass ankuendigen: laeuft den ganzen Tag, wann immer Zeit ist. Mäge führt laufende Siegtabelle.',n:'Jass-Karten bereithalten. Kings Cup Karten auch einpacken — wird einmalig gespielt wann es passt.'},
+  ]},
+  {id:'zg',st:'Zug',t:'Zugfahrt — Finanzierung & VAR',dot:'dz',steps:[
+    {w:'Patrick',t:'Erste Mannschaftskontrolle vor dem Einsteigen.',q:'Mannschaft vollständig. Der Transfer kann fortgesetzt werden.',n:'Didi beobachtet — gelbe Karte wenn vergessen'},
+    {w:'Patrick',t:'Captain-Ansprache #1 (max. 20 Sek.) vor dem Baguetteverkauf.',q:'Maenner, wir müssen die Raeume im Zug nutzen, kompakt auftreten und konsequent zum Abschluss kommen. Fünf Baguettes, 30 Franken Pflicht — jeder Pass muss sitzen.',n:'Freier Text, das ist nur Beispiel'},
+    {w:'Spielerberater',t:'Baguettes herausgeben. Verkaufstext erklaeren.',q:'Entschuldigung, ich stehe kurz vor dem wichtigsten Transfer meines Lebens. Moechten Sie meine Karriere mit dem Kauf eines Transfer-Baguettes unterstuetzen?',n:'Spielerberater darf nur beraten, nicht selbst verkaufen'},
+    {w:'alle',t:'Baguetteverkauf im Zug. Freunde schlagen Strategien vor (für Le Grand Agent).',n:'Ziel: CHF 30.— Pflicht / CHF 50.— Bonus'},
+    {w:'Dominik',t:'Instagram Story absetzen.',ig:'FINANCIAL FAIR PLAY UPDATE — Pädi Merson finanziert seinen Transfer aktuell durch den Verkauf franzoesischer Backwaren.'},
+
+    {w:'Beni',t:'Kindheits-VAR: 8-10 Fotos zeigen. Patrick 4 Fragen pro Bild, Freunde tippen echt/fake.',n:'Punkte notieren, Manipulationen erst am Schluss aufloesen'},
+    {w:'Dominik',t:'Instagram Story: VAR Check.',ig:'VAR CHECK — Neu aufgetauchtes Bildmaterial wirft Fragen zur Vergangenheit von Pädi Merson auf.'},
+    {w:'Beni',t:"VAR auswerten, L'Œil du VAR vergeben.",m:"L'Œil du VAR",n:'Bei Gleichstand entscheidet Patrick'},
+    {w:'Mäge',t:"Quiz: Wer kennt Pädi am besten? (5 Fragen). Alle tippen still, Patrick gibt Antworten.",m:"Médaille de l'Amitié",n:'Zettel und Stifte bereithalten'},
+  ]},
+  {id:'bt',st:'Boot',t:'Boot — Wakeboarden & Medizinischer Test',dot:'do',steps:[
+    {w:'Patrick',t:'Mannschaftskontrolle vor dem Einsteigen.',q:'Mannschaft vollständig. Der Transfer kann fortgesetzt werden.'},
+    {w:'Pädi Koch',t:'Rettungsschwimmerinnen-Kostüm feierlich übergeben. Binde trägt er darüber.',n:'Vor der ganzen Gruppe'},
+    {w:'Pädi Koch',t:'Medizinische Beurteilung verlesen.',q:'Der Spieler verfuegt am Weinglas über eine ausgezeichnete Hand-Auge-Koordination. Seine Leistungen auf dem Wakeboard sind bislang jedoch nicht ausreichend dokumentiert.'},
+    {w:'Patrick',t:'Captain-Ansprache #2 vor dem Wakeboarden (max. 20 Sek.).',n:'Freies Thema'},
+    {w:'Patrick',t:'Medizinisches Statement sprechen (Video).',q:'Ich bin nicht hier, um gut auszusehen. Ich bin hier, um den medizinischen Test des FC Mariage zu bestehen.',n:'Video aufnehmen'},
+    {w:'alle',t:'Jeder macht mindestens einen Wakeboard-Run. Pädi Koch bewertet Stil und Figur.',n:'Patrick muss im Rettungsschwimmerinnen-Kostüm antreten'},
+    {w:'Patrick',t:'Nach bestem Run: Torjubel. Danach Abschlussinterview.',q:'Pädi, wie beurteilst du deine Leistung und ist der Transfer noch realistisch?',n:'Pädi Koch führt das Interview'},
+    {w:'Pädi Koch',t:'Gruppenabstimmung: Médaille de la Performance + Prix du Plongeon.',m:'Performance + Prix du Plongeon',n:'Nur unbeabsichtigte Stürze zaehlen'},
+    {w:'Dominik',t:'Post: Medical Update + Zwischenstand.',ig:'MEDICAL UPDATE — Selbstvertrauen: Weltklasse. Gleichgewicht auf dem Wakeboard: unter Beobachtung. Outfit: nicht verhandelbar.'},
+  ]},
+  {id:'wn',st:'Wein',t:'Weindegustation — Sponsorenverhandlungen',dot:'dw',steps:[
+    {w:'Tobi',t:'Ablauf mit Weingut abstimmen. Begriffskarten bereithalten.',n:'Degustation hat Vorrang — max. 20 Min. für beide Wettbewerbe'},
+    {w:'Tobi',t:'Bullshit-Sommelier: jeder beschreibt den Wein mit einem Begriff in einem Satz.',m:'Bullshit Sommelier',n:'Begriffe: Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette'},
+
+    {w:'Dominik',t:'Sponsoren-Post absetzen.',ig:'SPONSOR UPDATE — Pädi Merson in fortgeschrittenen Verhandlungen mit regionalen Getränkepartnern. Erste Degustationen verliefen vielversprechend.'},
+  ]},
+  {id:'ht',st:'SAC-Hütte',t:'SAC-Hütte — Abend & Finale',dot:'dh',steps:[
+    {w:'alle',t:'Raclette geniessen. Keine Aufgaben.',n:'Material für Jass und Quiz bereitstellen'},
+    {w:'Mäge',t:'Molotow-Jass Schlussstand auswerten. Wer hat den ganzen Tag am meisten Partien gewonnen?',m:'Médaille du Molotow',n:'Tabelle wurde den ganzen Tag geführt'},
+    {w:'Mäge',t:'Falls Kings Cup noch nicht gespielt wurde: jetzt spielen. Médaille sofort an Gewinner vergeben.',m:'Médaille du Kingscup',n:'Kann zu jedem Zeitpunkt des Tages gespielt werden'},
+    {w:'Mäge',t:'Quiz: Wer kennt Pädi am besten? (5 Fragen).',m:"Médaille de l'Amitié"},
+    {w:'Mäge',t:'Match-Tipps einsammeln: Resultat, Torschuetze, Minute.',n:'Alle inkl. Patrick'},
+    {w:'Patrick',t:'Captain-Ansprache #3 vor dem Spiel.',n:'Freies Thema'},
+    {w:'alle',t:'Frankreich vs. England schauen.'},
+    {w:'Mäge',t:'Match-Tipps auswerten.',m:'Médaille du Football'},
+    {w:'Dominik',t:'Instagram-Mission auswerten. Bericht praesentieren.',n:'38 Follower / 100 Likes / 10 Kommentare — bei Erfolg blauen Haken übergeben'},
+    {w:'Mäge',t:'Schlussrangliste erstellen. Letztplatzierten bestimmen.',n:'Bei Gleichstand: Korken-Elfmeterschiessen'},
+    {w:'Didi',t:'Captain-Mission auswerten (5 Kriterien).',n:'Kein franz. Abgang / Zählungen / 2+ Ansprachen / Mannschaft vollständig / Medienpflichten'},
+    {w:'alle',t:'Persönlicher Abschluss: jeder vervollständigt den Satz Der FC Mariage sollte Patrick verpflichten, weil ...'},
+  ]},
+  {id:'morgen',st:'Morgen',t:'Frühstück — Offizielle Übergabe',dot:'db',steps:[
+    {w:'Patrick + Letztplatzierter',t:'Frühstück und Kaffee für alle vorbereiten. Beim Aufräumen die Hauptarbeit übernehmen.',n:'Die Strafe wird jetzt eingelöst'},
+    {w:'Didi',t:'Transfervertrag feierlich vorlesen wenn alle am Tisch sitzen.',q:'Pädi Merson hat alle Prüfungen absolviert. Das Transferkomitee bestätigt den Wechsel. HERE WE GO. 💍',n:'Ruhig und bewusst — der Moment verdient Würde'},
+    {w:'alle',t:'Alle unterschreiben den Vertrag. Patrick zuerst, dann alle 7 Freunde.',n:'Binde darf Patrick als Erinnerung behalten'},
+    {w:'Dominik',t:'Abschliessenden Instagram-Post absetzen.',ig:'OFFICIAL AND CONFIRMED — Pädi Merson wechselt zum FC Mariage. Der Transfer ist vollzogen. Willkommen, Capitaine à vie. HERE WE GO. 💍'},
+  ]},
+];
+
+function renderRegie(){
+  var html='';
+  REGIE.forEach(function(s){
+    html+='<div class="acc-item">'
+      +'<div class="acc-h" data-acc="'+s.id+'">'
+      +'<div class="adot '+s.dot+'"></div>'
+      +'<span class="acc-t">'+s.t+'</span>'
+      +'<span class="acc-s">'+s.steps.length+' Schritte</span>'
+      +'<span class="acc-a" id="arr_'+s.id+'">&#9660;</span>'
+      +'</div><div class="acc-b" id="acc_'+s.id+'">';
+    s.steps.forEach(function(step,i){
+      html+='<div class="ds"><div class="dn">'+(i+1)+'</div><div class="dc">'
+        +'<div class="dw2">'+step.w+'</div>'
+        +'<div class="dt">'+step.t+'</div>';
+      if(step.q) html+='<div class="dq">'+step.q+'</div>';
+      if(step.ig) html+='<div class="igb"><b>Instagram</b>'+step.ig+'</div>';
+      if(step.m) html+='<div class="dm">Médaille: '+step.m+'</div>';
+      if(step.n) html+='<div class="dno">— '+step.n+'</div>';
+      html+='</div></div>';
+    });
+    html+='</div></div>';
+  });
+  document.getElementById('regiAcc').innerHTML=html;
+  document.querySelectorAll('[data-acc]').forEach(function(el){
+    el.addEventListener('click',function(){ toggleAcc(this.getAttribute('data-acc')); });
+  });
+}
+
+function renderDidiRegie(){
+  var el=document.getElementById('didiRegie');
+  if(!el) return;
+  var html='';
+  REGIE.forEach(function(s){
+    var mine=s.steps.filter(function(x){ return x.w.indexOf('Didi')===0; });
+    if(!mine.length) return;
+    html+='<div style="margin-bottom:14px">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
+      +'<div class="adot '+s.dot+'" style="width:8px;height:8px"></div>'
+      +'<span style="font-size:13px;font-weight:700">'+s.t+'</span></div>';
+    mine.forEach(function(step){
+      html+='<div style="display:flex;gap:8px;margin-bottom:8px;padding-left:16px">'
+        +'<div style="font-size:12px;color:#3b82f6;min-width:12px;margin-top:2px">&#8594;</div><div>'
+        +'<div style="font-size:13px">'+step.t+'</div>';
+      if(step.q){
+        var preview=step.q.length>160?step.q.substring(0,160)+'...':step.q;
+        html+='<div class="qb" style="margin-top:5px;font-size:12px">'+preview+'</div>';
+      }
+      if(step.n) html+='<div style="font-size:11px;color:#aaa;margin-top:3px;font-style:italic">— '+step.n+'</div>';
+      html+='</div></div>';
+    });
+    html+='</div>';
+  });
+  el.innerHTML=html;
+}
+
+function toggleAcc(id){
+  var b=document.getElementById('acc_'+id);
+  var a=document.getElementById('arr_'+id);
+  var open=b.classList.contains('open');
+  b.classList.toggle('open',!open);
+  a.classList.toggle('open',!open);
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },50);
+}
+
+var ABL=[
+  {id:'a1',t:'Frankreich-Outfit + Begründung',st:'Bahnhof'},
+  {id:'a2',t:'Schiedsrichter vorstellen',st:'Bahnhof'},
+  {id:'a3',t:'Bier-Kapitan ernennen + Binde',st:'Bahnhof'},
+  {id:'a4',t:'Post 1: Binden-Zeremonie',st:'Bahnhof'},
+  {id:'a5',t:'Transferdossier + Mission übergeben',st:'Bahnhof'},
+  {id:'a6',t:'Post 2: Transfer auf der Kippe',st:'Bahnhof'},
+  {id:'a6b',t:'Molotow-Jass ankuendigen — laeuft den ganzen Tag',st:'Bahnhof'},
+  {id:'a7',t:'Mannschaftskontrolle #1',st:'Zug'},
+  {id:'a8',t:'Captain-Ansprache #1',st:'Zug'},
+  {id:'a9',t:'Baguetteverkauf (CHF 30.— Pflicht)',st:'Zug'},
+  {id:'a10',t:'Story: Financial Fair Play Update',st:'Zug'},
+
+  {id:'a12',t:'Kindheits-VAR (8-10 Fotos)',st:'Zug'},
+  {id:'a13',t:"Story: VAR Check",st:'Zug'},
+  {id:'a14',t:"L'Œil du VAR vergeben",st:'Zug'},
+  {id:'a15b',t:"Quiz: Wer kennt Pädi? + Médaille de l'Amitié",st:'Zug'},
+  {id:'a15',t:'Mannschaftskontrolle #2',st:'Boot'},
+  {id:'a16',t:'Rettungsschwimmerinnen-Kostüm übergeben',st:'Boot'},
+  {id:'a17',t:'Medizinische Beurteilung verlesen',st:'Boot'},
+  {id:'a18',t:'Captain-Ansprache #2',st:'Boot'},
+  {id:'a19',t:'Medizinisches Statement (Video)',st:'Boot'},
+  {id:'a20',t:'Wakeboard-Runs — alle dran',st:'Boot'},
+  {id:'a21',t:'Torjubel + Abschlussinterview Patrick',st:'Boot'},
+  {id:'a22',t:'Performance + Prix du Plongeon vergeben',st:'Boot'},
+  {id:'a23',t:'Post: Medical Update + IG-Zwischenstand',st:'Boot'},
+  {id:'a24',t:'Bullshit-Sommelier',st:'Wein'},
+
+  {id:'a26',t:'Post: Sponsor Update',st:'Wein'},
+  {id:'a27',t:'Raclette',st:'SAC-Hütte'},
+  {id:'a28',t:'Molotow Schlussstand + Médaille du Molotow',st:'SAC-Hütte'},
+  {id:'a28b',t:'Kings Cup spielen + Médaille du Kingscup (falls noch nicht gespielt)',st:'SAC-Hütte'},
+
+  {id:'a29b',t:"Task Team + Médaille d'Équipe",st:'SAC-Hütte'},
+  {id:'a30',t:'Match-Tipps einsammeln',st:'SAC-Hütte'},
+  {id:'a31',t:'Captain-Ansprache #3',st:'SAC-Hütte'},
+  {id:'a32',t:'Frankreich vs. England',st:'SAC-Hütte'},
+  {id:'a33',t:'Match-Tipp auswerten + Médaille du Football',st:'SAC-Hütte'},
+  {id:'a34',t:'Instagram-Mission auswerten',st:'SAC-Hütte'},
+  {id:'a35',t:'Schlussrangliste + Letztplatzierten',st:'SAC-Hütte'},
+  {id:'a36',t:'Captain-Mission auswerten (5 Kriterien)',st:'SAC-Hütte'},
+  {id:'a37',t:'Persoenlicher Abschluss',st:'SAC-Hütte'},
+  {id:'a36',t:'Captain-Mission auswerten (5 Kriterien)',st:'SAC-Hütte'},
+  {id:'a37',t:'Schlussrangliste + Letztplatzierten bekannt geben',st:'SAC-Hütte'},
+  {id:'a38',t:'Persönlicher Abschluss',st:'SAC-Hütte'},
+  {id:'a39',t:'Frühstück + Kaffee vorbereiten (Patrick + Letztplatzierter)',st:'Morgen'},
+  {id:'a40',t:'Transfervertrag vorlesen + unterschreiben — HERE WE GO! 💍',st:'Morgen'},
+  {id:'a41',t:'Abschliessender Instagram-Post',st:'Morgen'},
+];
+var stC={Bahnhof:'tb',Zug:'tz',Boot:'to',Wein:'tw','SAC-Hütte':'th',Morgen:'tb'};
+function renderAblauf(){
+  // Load custom items from storage
+  var customAbl=JSON.parse(localStorage.getItem('pm5_abl')||'null');
+  var items=customAbl||ABL;
+  var el=document.getElementById('ablaufList');
+  if(!el) return;
+  var html=items.map(function(item){
+    var done=!!S.abl[item.id];
+    var stClass=stC[item.st]||'tb';
+    return '<div class="ci '+(done?'done':'')+'" data-abl="'+item.id+'">'
+      +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
+      +'<span class="ci-text" style="flex:1">'+item.t+'</span>'
+      +'<span class="ci-st st '+stClass+'">'+item.st+'</span>'
+      +(editMode?'<span class="ci-del" data-delid="'+item.id+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;line-height:1;flex-shrink:0" title="Löschen">&#215;</span>':'')
+      +'</div>';
+  }).join('');
+  // Add new item button in edit mode
+  if(editMode){
+    html+='<div id="addAblaufBtn" style="display:flex;align-items:center;gap:8px;padding:8px 0;cursor:pointer;color:var(--accent-dark);font-size:13px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:4px" onclick="addAblaufItem()">'
+      +'<span style="width:18px;height:18px;border:1.5px dashed #e8c44a;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">+</span>'
+      +'<span>Neuer Eintrag</span>'
+      +'</div>';
+  }
+  el.innerHTML=html;
+  // Wire checkboxes
+  document.querySelectorAll('[data-abl]').forEach(function(row){
+    row.addEventListener('click',function(e){
+      if(e.target.classList.contains('ci-del')) return;
+      if(e.target.classList.contains('ci-text') && editMode) return;
+      if(e.target.classList.contains('ci-st') && editMode) return;
+      togAbl(this.getAttribute('data-abl'));
+    });
+  });
+  // Wire delete buttons
+  document.querySelectorAll('[data-delid]').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      deleteAblaufItem(this.getAttribute('data-delid'));
+    });
+  });
+  // Wire text editing
+  if(editMode){
+    document.querySelectorAll('.ci-text,.ci-st').forEach(function(el){
+      el.setAttribute('contenteditable','true');
+      el.addEventListener('click',function(e){ e.stopPropagation(); });
+      el.addEventListener('blur',function(){ saveAblaufEdits(); });
+    });
+  }
+}
+
+function getAblItems(){
+  return JSON.parse(localStorage.getItem('pm5_abl')||'null')||ABL.slice();
+}
+
+function saveAblItems(items){
+  localStorage.setItem('pm5_abl',JSON.stringify(items));
+}
+
+function saveAblaufEdits(){
+  var items=[];
+  document.querySelectorAll('[data-abl]').forEach(function(row){
+    var id=row.getAttribute('data-abl');
+    var textEl=row.querySelector('.ci-text');
+    var stEl=row.querySelector('.ci-st');
+    if(textEl) items.push({id:id, t:textEl.textContent, st:stEl?stEl.textContent:''});
+  });
+  if(items.length) saveAblItems(items);
+}
+
+function addAblaufItem(){
+  var items=getAblItems();
+  var newId='custom_'+Date.now();
+  items.push({id:newId, t:'Neuer Eintrag', st:'Bahnhof'});
+  saveAblItems(items);
+  renderAblauf();
+  // focus new item
+  setTimeout(function(){
+    var rows=document.querySelectorAll('[data-abl]');
+    var last=rows[rows.length-1];
+    if(last){
+      var txt=last.querySelector('.ci-text');
+      if(txt){ txt.focus(); selectAll(txt); }
+    }
+  },50);
+}
+
+function deleteAblaufItem(id){
+  var items=getAblItems().filter(function(i){ return i.id!==id; });
+  saveAblItems(items);
+  delete S.abl[id];
+  save();
+  renderAblauf();
+}
+
+function selectAll(el){
+  var range=document.createRange();
+  range.selectNodeContents(el);
+  var sel=window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function togAbl(id){S.abl[id]=!S.abl[id];save();renderAblauf();
+  setTimeout(function(){ if(editMode) enableEdit(); },30);
+}
+
+var PCH=[
+  {id:'p1',t:'Kein franzoesischer Abgang'},
+  {id:'p2',t:'Mannschaft vor Ortswechseln gezaehlt'},
+  {id:'p3',t:'Mind. 2 Captain-Ansprachen gehalten'},
+  {id:'p4',t:'Mannschaft vollständig bis zur Huette'},
+  {id:'p5',t:'Medienpflichten erfüllt'},
+];
+function getPCH(){
+  return JSON.parse(localStorage.getItem('pm5_pch')||'null')||PCH.slice();
+}
+function savePCH(items){ localStorage.setItem('pm5_pch',JSON.stringify(items)); }
+
+function renderPC(){
+  var el=document.getElementById('patrickCL');
+  if(!el) return;
+  var items=getPCH();
+  var html=items.map(function(item){
+    var done=!!S.pc[item.id];
+    return '<div class="ci '+(done?'done':'')+'" data-pc="'+item.id+'">'
+      +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
+      +'<span class="pc-text" style="flex:1"'+(editMode?' contenteditable="true"':'')+'>'+(item.t||'')+'</span>'
+      +(editMode?'<span class="pc-del" data-pcid="'+item.id+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;flex-shrink:0">&#215;</span>':'')
+      +'</div>';
+  }).join('');
+  if(editMode){
+    html+='<div class="pc-add" style="display:flex;align-items:center;gap:8px;padding:7px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+      +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+      +'Kriterium hinzufügen</div>';
+  }
+  el.innerHTML=html;
+  document.querySelectorAll('[data-pc]').forEach(function(row){
+    row.addEventListener('click',function(e){
+      if(e.target.classList.contains('pc-del')) return;
+      if(e.target.classList.contains('pc-text') && editMode) return;
+      togPC(this.getAttribute('data-pc'));
+    });
+  });
+  document.querySelectorAll('.pc-del').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var items=getPCH().filter(function(i){ return i.id!==this.getAttribute('data-pcid'); }.bind(this));
+      savePCH(items); renderPC();
+    });
+  });
+  var addBtn=el.querySelector('.pc-add');
+  if(addBtn) addBtn.addEventListener('click',function(){
+    var items=getPCH();
+    var newId='pc_'+Date.now();
+    items.push({id:newId,t:'Neues Kriterium'});
+    savePCH(items); renderPC();
+    setTimeout(function(){
+      var rows=el.querySelectorAll('.pc-text');
+      var last=rows[rows.length-1];
+      if(last){ last.setAttribute('contenteditable','true'); last.focus(); selectAll(last); }
+    },50);
+  });
+  if(editMode){
+    el.querySelectorAll('.pc-text').forEach(function(t){
+      t.addEventListener('click',function(e){ e.stopPropagation(); });
+      t.addEventListener('blur',function(){ savePCHEdits(); });
+    });
+  }
+}
+function savePCHEdits(){
+  var items=[];
+  document.querySelectorAll('[data-pc]').forEach(function(row){
+    var txt=row.querySelector('.pc-text');
+    if(txt) items.push({id:row.getAttribute('data-pc'),t:txt.textContent});
+  });
+  if(items.length) savePCH(items);
+}
+function togPC(id){S.pc[id]=!S.pc[id];save();renderPC();}
+
+var MIS=[
+  {l:'Baguettes (5)',target:5,sp:'b'},
+  {l:'Einnahmen Pflicht CHF (30)',target:30,sp:'e'},
+  {l:'Neue Follower (38)',k:'f',target:38},
+  {l:'Likes (100)',k:'l',target:100},
+  {l:'Kommentare (10)',k:'k',target:10},
+];
+function renderMis(){
+  document.getElementById('missionBar').innerHTML=MIS.map(function(m){
+    var val=m.sp==='b'?(S.baguette||0):m.sp==='e'?(S.ein||0):(S.mis[m.k]||0);
+    var pct=Math.min(100,Math.round(val/m.target*100));
+    var done=val>=m.target;
+    var html='<div class="mr"><span class="ml">'+m.l+'</span>'
+      +'<div class="pb"><div class="pf '+(done?'done':'')+'" style="width:'+pct+'%"></div></div>';
+    if(!m.sp&&m.k){
+      html+='<button class="bs" style="padding:3px 7px" data-mik="'+m.k+'" data-mid="-1">-</button>';
+    }
+    html+='<span class="mv">'+val+'</span>';
+    if(!m.sp&&m.k){
+      html+='<button class="bs" style="padding:3px 7px" data-mik="'+m.k+'" data-mid="1">+</button>';
+    }
+    html+='<span class="mt">/'+m.target+'</span></div>';
+    return html;
+  }).join('');
+  document.querySelectorAll('[data-mik]').forEach(function(el){
+    el.addEventListener('click',function(){
+      adjMi(this.getAttribute('data-mik'),parseInt(this.getAttribute('data-mid')));
+    });
+  });
+}
+function adjMi(k,d){S.mis[k]=Math.max(0,(S.mis[k]||0)+d);save();renderMis();}
+function adjBaguette(d){S.baguette=Math.max(0,Math.min(5,(S.baguette||0)+d));var e=document.getElementById('bc');if(e)e.textContent=S.baguette;renderMis();save();}
+function saveEin(){S.ein=parseFloat(document.getElementById('ein').value)||0;renderMis();save();}
+function saveIG(){['ig_f','ig_l','ig_k'].forEach(function(id){var e=document.getElementById(id);if(e)S[id]=e.value});save();}
+function resetAll(){if(!confirm('Wirklich alles zurücksetzen?'))return;localStorage.removeItem('pm5');location.reload();}
+
+function schnaps(y,r){var s=0;if(y>=2)s++;if(y>=4)s++;if(r>0)s+=5;return s;}
+function adjMedal(id,d){S.medals[id]=Math.max(0,(S.medals[id]||0)+d);save();renderSB();}
+function adjCard(id,type,d){S[type][id]=Math.max(0,(S[type][id]||0)+d);save();renderSB();}
+
+function renderSB(){
+  var ag=P.filter(function(p){return p.id!=='patrick';}).sort(function(a,b){return(S.medals[b.id]||0)-(S.medals[a.id]||0);});
+  var all=ag.concat([P[P.length-1]]);
+  var html='';
+  all.forEach(function(p,i){
+    var m=S.medals[p.id]||0;
+    var y=S.yellow[p.id]||0;
+    var r=S.red[p.id]||0;
+    var rc=p.id!=='patrick'?(i===0?'r1':i===1?'r2':i===2?'r3':''):'';
+    var yc=y>=2?'var(--red)':'var(--black)';
+    var rc2=r>0?'var(--red)':'var(--black)';
+    html+='<tr>'
+      +'<td><div class="pname">'+p.name+'</div><div class="prole">'+p.role+'</div></td>'
+      +'<td style="text-align:center"><div style="display:flex;align-items:center;gap:4px;justify-content:center">'
+      +'<button class="bs" style="padding:2px 6px" data-fn="medal" data-id="'+p.id+'" data-d="-1">-</button>'
+      +'<span class="mc">'+m+'</span>'
+      +'<button class="bs" style="padding:2px 6px" data-fn="medal" data-id="'+p.id+'" data-d="1">+</button>'
+      +'</div></td>'
+      +'<td style="text-align:center"><div style="display:flex;align-items:center;gap:3px;justify-content:center">'
+      +'<button class="bs" style="padding:2px 5px;font-size:11px" data-fn="yellow" data-id="'+p.id+'" data-d="-1">-</button>'
+      +'<span style="font-size:13px;font-weight:600;min-width:16px;text-align:center;color:'+yc+'">'+y+'</span>'
+      +'<button class="bs" style="padding:2px 5px;font-size:11px" data-fn="yellow" data-id="'+p.id+'" data-d="1">+</button>'
+      +'</div></td>'
+      +'<td style="text-align:center"><div style="display:flex;align-items:center;gap:3px;justify-content:center">'
+      +'<button class="bs" style="padding:2px 5px;font-size:11px" data-fn="red" data-id="'+p.id+'" data-d="-1">-</button>'
+      +'<span style="font-size:13px;font-weight:600;min-width:16px;text-align:center;color:'+rc2+'">'+r+'</span>'
+      +'<button class="bs" style="padding:2px 5px;font-size:11px" data-fn="red" data-id="'+p.id+'" data-d="1">+</button>'
+      +'</div></td>'
+      +'<td style="text-align:center">'+(p.id!=='patrick'?'<span class="rb '+rc+'">'+(i+1)+'</span>':'<span style="font-size:11px;color:#ccc">—</span>')+'</td>'
+      +'</tr>';
+  });
+  document.getElementById('sbBody').innerHTML=html;
+  document.querySelectorAll('[data-fn]').forEach(function(el){
+    el.addEventListener('click',function(){
+      var fn=this.getAttribute('data-fn');
+      var id=this.getAttribute('data-id');
+      var d=parseInt(this.getAttribute('data-d'));
+      if(fn==='medal') adjMedal(id,d);
+      else adjCard(id,fn,d);
+    });
+  });
+  var sh=P.map(function(p){
+    var y=S.yellow[p.id]||0,r=S.red[p.id]||0,s=schnaps(y,r);
+    return s>0?'<div style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:4px"><span style="font-weight:600;min-width:100px">'+p.name+'</span><span class="badge br">'+s+' Schnaps'+(s===1?'':'s')+'</span></div>':'';
+  }).join('');
+  document.getElementById('schnaps').innerHTML=sh||'<span style="font-size:13px;color:#aaa">Noch keine Karten vergeben.</span>';
+}
+
+var MAT={
+  didi:['Transferdossier (ausgedruckt)','Captain-Ernennung (ausgedruckt)','Transfervertrag (ausgedruckt)','Klemmbrett','Pfeife','Gelbe Karten','Rote Karten','Stifte'],
+  dominik:['Smartphone','Instagram-Zugang Pädi Merson','Powerbank','Gebastelter blauer Haken'],
+  berater:['Fünf Baguettes','Tasche oder Bauchladen','Einnahmenliste','Optional: TWINT-QR-Code','Goldmedaille'],
+  beni:['8-10 bearbeitete Fotos','Originalbilder','Handy/Tablet oder Ausdrucke','Antwortblaetter','Stifte','Goldmedaille'],
+  koch:['Rettungsschwimmerinnen-Kostüm','Bier-Kapitaensbinde (Ersatz)','Smartphone/Kamera','Zwei Goldmedaillen'],
+  tobi:['Begriffskarten (8 Stueck)','Papier','Stifte','Eine Goldmedaille'],
+  maege:['Médaillenrangliste + Molotow-Tabelle','Jass-Karten (von Anfang an dabei)','Kings Cup Karten','Task Team Spiel','Quizfragen (5 auswaehlen, für den Zug)','Match-Tippscheine','Zettel','Stifte','Weinkorken + Becher','Fünf Goldmedaillen'],
+};
+function getMatData(){
+  return JSON.parse(localStorage.getItem('pm5_mat')||'null')||
+    Object.keys(MAT).reduce(function(o,k){ o[k]=MAT[k].slice(); return o; },{});
+}
+function saveMatData(d){ localStorage.setItem('pm5_mat',JSON.stringify(d)); }
+
+function matHtml(key,data){
+  var items=(data||getMatData())[key]||[];
+  return items.map(function(item,i){
+    var mid=key+'_'+i;
+    var done=!!S.mat[mid];
+    return '<div class="mi" data-matkey="'+key+'" data-mati="'+i+'" data-matid="'+mid+'">'
+      +'<div class="mc2 '+(done?'done':'')+'" data-mat="'+mid+'">'+(!done?'':'V')+'</div>'
+      +'<span class="mat-text" style="'+(done?'text-decoration:line-through;color:#ccc':'')+';font-size:13px;flex:1"'+(editMode?' contenteditable="true"':'')+'>'+item+'</span>'
+      +(editMode?'<span class="mat-del" data-matkey="'+key+'" data-mati="'+i+'" style="margin-left:6px;cursor:pointer;font-size:15px;color:#e03535;flex-shrink:0">&#215;</span>':'')
+      +'</div>';
+  }).join('')
+  +(editMode?'<div class="mat-add" data-addkey="'+key+'" style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+    +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+    +'Hinzufügen</div>':'');
+}
+
+function renderAllMat(){
+  var data=getMatData();
+  ['didi','dominik','berater','beni','koch','tobi','maege'].forEach(function(k){
+    var el=document.getElementById('mat'+k.charAt(0).toUpperCase()+k.slice(1));
+    if(el) el.innerHTML=matHtml(k,data);
+  });
+  document.querySelectorAll('[data-mat]').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      var id=this.getAttribute('data-mat');
+      S.mat[id]=!S.mat[id]; save(); renderAllMat();
+    });
+  });
+  document.querySelectorAll('.mat-del').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var d=getMatData();
+      var k=this.getAttribute('data-matkey');
+      var i=parseInt(this.getAttribute('data-mati'));
+      d[k].splice(i,1); saveMatData(d); renderAllMat();
+    });
+  });
+  document.querySelectorAll('.mat-add').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var d=getMatData();
+      var k=this.getAttribute('data-addkey');
+      if(!d[k]) d[k]=[];
+      d[k].push('Neuer Eintrag'); saveMatData(d); renderAllMat();
+      setTimeout(function(){
+        var el=document.getElementById('mat'+k.charAt(0).toUpperCase()+k.slice(1));
+        if(el){
+          var txts=el.querySelectorAll('.mat-text');
+          var last=txts[txts.length-1];
+          if(last){ last.setAttribute('contenteditable','true'); last.focus(); selectAll(last); }
+        }
+      },50);
+    });
+  });
+  if(editMode){
+    document.querySelectorAll('.mat-text').forEach(function(el){
+      el.addEventListener('click',function(e){ e.stopPropagation(); });
+      el.addEventListener('blur',function(){ saveMatEdits(); });
+    });
+  }
+}
+
+function saveMatEdits(){
+  var d=getMatData();
+  document.querySelectorAll('.mi[data-matkey]').forEach(function(row){
+    var k=row.getAttribute('data-matkey');
+    var i=parseInt(row.getAttribute('data-mati'));
+    var txt=row.querySelector('.mat-text');
+    if(txt&&d[k]&&d[k][i]!==undefined) d[k][i]=txt.textContent;
+  });
+  saveMatData(d);
+}
+
+function togMat(id){S.mat[id]=!S.mat[id];save();renderAllMat();
+}
+
+var VP=P.filter(function(p){return p.id!=='maege'&&p.id!=='patrick';});
+function renderVAR(){
+  document.getElementById('varPunkte').innerHTML=VP.map(function(p){
+    var pts=(S.varp&&S.varp[p.id])||0;
+    return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'
+      +'<span style="font-size:13px;min-width:120px">'+p.name+'</span>'
+      +'<button class="bs" data-vp="'+p.id+'" data-vd="-1">-</button>'
+      +'<span style="font-size:15px;font-weight:700;min-width:24px;text-align:center">'+pts+'</span>'
+      +'<button class="bs" data-vp="'+p.id+'" data-vd="1">+</button>'
+      +'<span style="font-size:12px;color:#aaa">Pkt.</span></div>';
+  }).join('');
+  document.querySelectorAll('[data-vp]').forEach(function(el){
+    el.addEventListener('click',function(){
+      adjVAR(this.getAttribute('data-vp'),parseInt(this.getAttribute('data-vd')));
+    });
+  });
+}
+function adjVAR(id,d){if(!S.varp)S.varp={};S.varp[id]=Math.max(0,(S.varp[id]||0)+d);save();renderVAR();}
+
+function renderTips(){
+  document.getElementById('matchTipps').innerHTML=P.filter(function(p){return p.id!=='maege';}).map(function(p){
+    var t=(S.tips&&S.tips[p.id])||{};
+    return '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:5px">'
+      +'<span style="font-size:12px;min-width:75px;color:#888">'+p.name.split(' ')[0]+':</span>'
+      +'<input placeholder="2:1" style="width:75px" data-tp="'+p.id+'" data-tf="r" value="'+(t.r||'')+'">'
+      +'<input placeholder="Torschuetze" style="width:100px" data-tp="'+p.id+'" data-tf="s" value="'+(t.s||'')+'">'
+      +'<input placeholder="Min." type="number" style="width:60px" data-tp="'+p.id+'" data-tf="m" value="'+(t.m||'')+'">'
+      +'</div>';
+  }).join('');
+  document.querySelectorAll('[data-tp]').forEach(function(el){
+    el.addEventListener('input',function(){
+      saveTip(this.getAttribute('data-tp'),this.getAttribute('data-tf'),this.value);
+    });
+  });
+}
+function saveTip(pid,f,val){if(!S.tips)S.tips={};if(!S.tips[pid])S.tips[pid]={};S.tips[pid][f]=val;save();}
+
+function showSub(id,btn){
+  document.querySelectorAll('[id^="sub-"]').forEach(function(el){el.style.display='none';});
+  var target=document.getElementById('sub-'+id);
+  if(target) target.style.display='block';
+  document.querySelectorAll('.sub-btn').forEach(function(b){b.classList.remove('active');});
+  var activeBtn=btn||document.querySelector('[data-sub="'+id+'"]');
+  if(activeBtn) activeBtn.classList.add('active');
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },50);
+}
+
+function showTab(id,btn){
+  document.querySelectorAll('[id^="tab-"]').forEach(function(el){el.style.display='none';});
+  var target=document.getElementById('tab-'+id);
+  if(target) target.style.display='block';
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  var activeBtn=btn||document.querySelector('[data-tab="'+id+'"]');
+  if(activeBtn) activeBtn.classList.add('active');
+  // re-apply edits and re-enable edit mode on new content
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },50);
+  if(id==='packliste') renderPackliste();
+  if(id==='patrick'){renderMis();renderPC();}
+  if(id==='beni') renderVAR();
+  if(id==='maege') renderTips();
+  if(id==='didi') renderDidiRegie();
+  renderAllMat();
+}
+
+var PACKLISTE=[
+  {cat:'Allgemein — alle mitbringen',items:[
+    {t:'Gute Laune',who:'alle'},
+    {t:'Reisedokumente / Zugticket',who:'alle'},
+    {t:'Bargeld + Karte',who:'alle'},
+    {t:'Handy + Ladekabel',who:'alle'},
+    {t:'Powerbank',who:'alle'},
+    {t:'Wetterfeste Kleidung',who:'alle'},
+    {t:'Badesachen (Wakeboarden)',who:'alle'},
+    {t:'Handtuch',who:'alle'},
+    {t:'Sonnenschutz',who:'alle'},
+    {t:'Übernachtungssachen',who:'alle'},
+  ]},
+  {cat:'Outfit & Kostüme',items:[
+    {t:'Gestreiftes französisches Shirt',who:'Didi'},
+    {t:'Baskmütze',who:'Didi'},
+    {t:'Rettungsschwimmerinnen-Kostüm',who:'Pädi K.'},
+    {t:'Bier-Kapitänsbinde',who:'Didi'},
+  ]},
+  {cat:'Spiele & Material',items:[
+    {t:'Jass-Karten (Molotow)',who:'Mäge'},
+    {t:'Kings Cup Karten',who:'Mäge'},
+    {t:'Task Team Spiel',who:'Mäge'},
+    {t:'5 Baguettes',who:'Berater'},
+    {t:'Tasche / Bauchladen (Baguettes)',who:'Berater'},
+    {t:'8–10 bearbeitete Fotos (VAR)',who:'Beni'},
+  ]},
+  {cat:'Dokumente & Druck',items:[
+    {t:'Transferdossier (ausgedruckt)',who:'Didi'},
+    {t:'Bier-Kapitän-Ernennung (ausgedruckt)',who:'Didi'},
+    {t:'Transfervertrag (ausgedruckt)',who:'Didi'},
+    {t:'Quizfragen (5 ausgewählt)',who:'Mäge'},
+    {t:'Match-Tippzettel',who:'Mäge'},
+    {t:'Begriffskarten Bullshit-Sommelier',who:'Tobi'},
+  ]},
+  {cat:'Sonstiges',items:[
+    {t:'Klemmbrett',who:'Didi'},
+    {t:'Pfeife',who:'Didi'},
+    {t:'Gelbe Karten',who:'Didi'},
+    {t:'Rote Karten',who:'Didi'},
+    {t:'Stifte',who:'Mäge'},
+    {t:'Zettel (Quiz, Weinschätzung)',who:'Mäge'},
+    {t:'Blauer Haken (gebastelt)',who:'Dominik'},
+    {t:'2 Goldmedaillen (Wakeboarden)',who:'Pädi K.'},
+    {t:'2 Goldmedaillen (Wein)',who:'Tobi'},
+    {t:'3 Goldmedaillen (Hütte + Quiz)',who:'Mäge'},
+    {t:'Goldmedaille (VAR)',who:'Beni'},
+    {t:'Goldmedaille (Baguette/Berater)',who:'Berater'},
+    {t:'Weinkorken + Becher (Stechen)',who:'Mäge'},
+  ]},
+];
+
+function getPackData(){
+  return JSON.parse(localStorage.getItem('pm5_pack')||'null')||PACKLISTE.map(function(c){
+    return {cat:c.cat, items:c.items.map(function(i){ return {t:i.t,who:i.who}; })};
+  });
+}
+
+function savePackData(data){
+  localStorage.setItem('pm5_pack',JSON.stringify(data));
+}
+
+function renderPackliste(){
+  var el=document.getElementById('packContent');
+  if(!el) return;
+  var data=getPackData();
+  var html='';
+  data.forEach(function(cat,ci){
+    html+='<div class="pack-cat" data-pcat="'+ci+'"'+(editMode?' contenteditable="true"':'')+'>'
+      +cat.cat+'</div>';
+    cat.items.forEach(function(item,ii){
+      var mid='pk_'+ci+'_'+ii;
+      var done=!!(S.mat&&S.mat[mid]);
+      html+='<div class="pack-row '+(done?'done':'')+'" data-pkid="'+mid+'" data-pci="'+ci+'" data-pii="'+ii+'">'
+        +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
+        +'<span class="pk-text" style="flex:1"'+(editMode?' contenteditable="true"':'')+'>'+(item.t||'')+'</span>'
+        +'<span class="pack-who"'+(editMode?' contenteditable="true"':'')+'>'+(item.who||'')+'</span>'
+        +(editMode?'<span class="pk-del" data-pci="'+ci+'" data-pii="'+ii+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;flex-shrink:0">&#215;</span>':'')
+        +'</div>';
+    });
+    if(editMode){
+      html+='<div class="pk-add" data-addcat="'+ci+'" style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+        +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+        +'Eintrag hinzufügen</div>';
+    }
+  });
+  if(editMode){
+    html+='<div id="addPackCat" style="display:flex;align-items:center;gap:8px;padding:8px 0;cursor:pointer;color:var(--accent-dark);font-size:13px;font-weight:600;border-top:2px dashed #e8c44a;margin-top:8px">'
+      +'<span style="width:18px;height:18px;border:1.5px dashed #e8c44a;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">+</span>'
+      +'Neue Kategorie</div>';
+  }
+  el.innerHTML=html;
+
+  // Wire checkboxes
+  document.querySelectorAll('[data-pkid]').forEach(function(row){
+    row.addEventListener('click',function(e){
+      if(e.target.classList.contains('pk-del')) return;
+      if(e.target.classList.contains('pk-text') && editMode) return;
+      if(e.target.classList.contains('pack-who') && editMode) return;
+      var id=this.getAttribute('data-pkid');
+      S.mat[id]=!S.mat[id]; save(); renderPackliste();
+    });
+  });
+
+  // Wire delete item
+  document.querySelectorAll('.pk-del').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-pci'));
+      var ii=parseInt(this.getAttribute('data-pii'));
+      d[ci].items.splice(ii,1);
+      savePackData(d); renderPackliste();
+    });
+  });
+
+  // Wire add item
+  document.querySelectorAll('.pk-add').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-addcat'));
+      d[ci].items.push({t:'Neuer Eintrag',who:'alle'});
+      savePackData(d); renderPackliste();
+      // focus new item
+      setTimeout(function(){
+        var rows=document.querySelectorAll('[data-pci="'+ci+'"] .pk-text');
+        var last=rows[rows.length-1];
+        if(last){ last.focus(); selectAll(last); }
+      },50);
+    });
+  });
+
+  // Wire add category
+  var addCat=document.getElementById('addPackCat');
+  if(addCat) addCat.addEventListener('click',function(){
+    var d=getPackData();
+    d.push({cat:'Neue Kategorie',items:[]});
+    savePackData(d); renderPackliste();
+  });
+
+  // Save edits on blur
+  if(editMode){
+    document.querySelectorAll('.pk-text,.pack-who').forEach(function(el){
+      el.addEventListener('click',function(e){ e.stopPropagation(); });
+      el.addEventListener('blur',function(){ savePackEdits(); });
+    });
+    document.querySelectorAll('[data-pcat]').forEach(function(el){
+      el.addEventListener('blur',function(){ savePackEdits(); });
+    });
+  }
+}
+
+function savePackEdits(){
+  var d=getPackData();
+  document.querySelectorAll('[data-pcat]').forEach(function(el){
+    var ci=parseInt(el.getAttribute('data-pcat'));
+    if(d[ci]) d[ci].cat=el.textContent;
+  });
+  document.querySelectorAll('[data-pkid]').forEach(function(row){
+    var ci=parseInt(row.getAttribute('data-pci'));
+    var ii=parseInt(row.getAttribute('data-pii'));
+    if(d[ci]&&d[ci].items[ii]){
+      var txt=row.querySelector('.pk-text');
+      var who=row.querySelector('.pack-who');
+      if(txt) d[ci].items[ii].t=txt.textContent;
+      if(who) d[ci].items[ii].who=who.textContent;
+    }
+  });
+  savePackData(d);
+}
+
+
+var EDIT_KEY='pm5_edits';
+var editMode=false;
+
+function toggleEdit(){
+  if(!editMode){
+    // show password modal
+    var ov=document.getElementById('pwOverlay');
+    ov.style.display='flex';
+    setTimeout(function(){ document.getElementById('pwInput').focus(); },100);
+  } else {
+    deactivateEdit();
+  }
+}
+
+function checkPw(){
+  var val=document.getElementById('pwInput').value;
+  if(val==='8704'){
+    closePwModal();
+    activateEdit();
+  } else {
+    var err=document.getElementById('pwError');
+    err.style.display='block';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+    setTimeout(function(){ err.style.display='none'; },2000);
+  }
+}
+
+function closePwModal(){
+  var ov=document.getElementById('pwOverlay');
+  ov.style.display='none';
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwError').style.display='none';
+}
+
+function activateEdit(){
+  editMode=true;
+  var btn=document.getElementById('editToggle');
+  var app=document.querySelector('.app');
+  btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Fertig';
+  btn.classList.add('active');
+  app.classList.add('edit-mode');
+  enableEdit();
+  renderAblauf();
+  renderPackliste();
+  renderPC();
+  renderAllMat();
+}
+
+function deactivateEdit(){
+  editMode=false;
+  var btn=document.getElementById('editToggle');
+  var app=document.querySelector('.app');
+  btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Bearbeiten';
+  btn.classList.remove('active');
+  app.classList.remove('edit-mode');
+  saveAblaufEdits();
+  savePackEdits();
+  savePCHEdits();
+  saveMatEdits();
+  renderAblauf();
+  renderPackliste();
+  renderPC();
+  renderAllMat();
+}
+
+function enableEdit(){
+  // Make all p, li, td, th, div content editable where it makes sense
+  var selectors=[
+    '.section-title',
+    '.info-block li',
+    '.info-block p',
+    '.qb',
+    '.dt',
+    '.dq',
+    '.dno',
+    '.dw2',
+    '.igb',
+    '.tt-time',
+    '.tt-desc',
+    '.tt-station',
+    '.pack-cat',
+    '.highlight',
+    '.cbox .cf',
+    '#tab-story .section > div > p',
+    '#tab-story .section > div > p > strong',
+    '.acc-t',
+    '.acc-s',
+    '.modal-desc',
+    '.pname',
+    '.prole',
+    'h1.header-title',
+    '.header-eyebrow',
+    '.header-sub',
+  ];
+  selectors.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      if(el.querySelector('input,button,select,table')) return;
+      if(!el.hasAttribute('contenteditable')){
+        el.setAttribute('contenteditable','true');
+        el.setAttribute('data-edit-id', el.tagName+'-'+Math.random().toString(36).substr(2,6));
+        // restore saved content
+        var saved=getEdit(el);
+        if(saved!==null) el.innerHTML=saved;
+        // save on input
+        el.addEventListener('input',function(){saveEdit(this);});
+      }
+    });
+  });
+  // Also make timetable cells editable
+  document.querySelectorAll('.tt-table td').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','ttd-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('input',function(){saveEdit(this);});
+    }
+  });
+  // Make checklist item texts editable
+  document.querySelectorAll('.ci span[style*="flex"]').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','ci-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('input',function(){saveEdit(this);});
+      // prevent click-to-check when editing
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+  // Make packliste item texts editable
+  document.querySelectorAll('.pack-row span[style*="flex"]').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','pk-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('input',function(){saveEdit(this);});
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+  // Make pack-who badges editable
+  document.querySelectorAll('.pack-who').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','pkw-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('input',function(){saveEdit(this);});
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+  // Make station tags in checklist editable
+  document.querySelectorAll('.ci .st').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','st-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('input',function(){saveEdit(this);});
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+}
+
+function getEditStore(){
+  try{ return JSON.parse(localStorage.getItem(EDIT_KEY)||'{}'); }
+  catch(e){ return {}; }
+}
+
+function getEdit(el){
+  var id=el.getAttribute('data-edit-id');
+  if(!id) return null;
+  var store=getEditStore();
+  return store[id]!==undefined?store[id]:null;
+}
+
+function saveEdit(el){
+  var id=el.getAttribute('data-edit-id');
+  if(!id) return;
+  var store=getEditStore();
+  store[id]=el.innerHTML;
+  localStorage.setItem(EDIT_KEY,JSON.stringify(store));
+}
+
+function applyAllEdits(){
+  var store=getEditStore();
+  if(!Object.keys(store).length) return;
+  // We need to apply edits after render — use MutationObserver or just retry
+  setTimeout(function(){
+    document.querySelectorAll('[data-edit-id]').forEach(function(el){
+      var saved=store[el.getAttribute('data-edit-id')];
+      if(saved!==undefined) el.innerHTML=saved;
+    });
+  },100);
+}
+
+function init(){
+  renderSB();
+  renderAblauf();
+  setTimeout(applyAllEdits, 200);
+  renderPackliste();
+  renderPC();
+  renderMis();
+  renderRegie();
+  renderAllMat();
+  renderMedals();
+  var bc=document.getElementById('bc');if(bc)bc.textContent=S.baguette||0;
+  var ei=document.getElementById('ein');if(ei)ei.value=S.ein||'';
+  ['ig_f','ig_l','ig_k'].forEach(function(id){var e=document.getElementById(id);if(e)e.value=S[id]||'';});
+  // wire up baguette +/- buttons
+  var bm=document.getElementById('bc');
+  document.querySelectorAll('[data-bq]').forEach(function(el){
+    el.addEventListener('click',function(){ adjBaguette(parseInt(this.getAttribute('data-bq'))); });
+  });
+  document.querySelectorAll('[data-ig]').forEach(function(el){
+    el.addEventListener('input', saveIG);
+  });
+  var einEl=document.getElementById('ein');
+  if(einEl) einEl.addEventListener('input', saveEin);
+  // wire sub-tab buttons
+  document.querySelectorAll('[data-sub]').forEach(function(btn){
+    btn.addEventListener('click',function(){ showSub(this.getAttribute('data-sub'),this); });
+  });
+  // wire tab buttons
+  document.querySelectorAll('[data-tab]').forEach(function(btn){
+    btn.addEventListener('click',function(){ showTab(this.getAttribute('data-tab'),this); });
+  });
+  // show default tab
+  showTab('story', document.querySelector('[data-tab="story"]'));
+  // wire close modal on overlay
+  var ov=document.getElementById('mOverlay');
+  if(ov) ov.addEventListener('click',function(e){ if(e.target===ov) closeModal(e); });
+}
+init();
+
+
+// ─── Override save() to also sync to DB ──────────────────────────────────────
+var _origSave = save;
+save = function(){
+  _origSave();
+  scheduleSave();
+};
+
+// Override edit saves
+var _origSaveEdit = saveEdit;
+saveEdit = function(el){
+  _origSaveEdit(el);
+  var store = getEditStore();
+  saveEditsToDB(store);
+};
+
+// Override list saves
+var _origSaveAblItems = saveAblItems;
+saveAblItems = function(items){
+  _origSaveAblItems(items);
+  saveListsToDB();
+};
+var _origSavePackData = savePackData;
+savePackData = function(d){
+  _origSavePackData(d);
+  saveListsToDB();
+};
+var _origSavePCH = savePCH;
+savePCH = function(items){
+  _origSavePCH(items);
+  saveListsToDB();
+};
+var _origSaveMatData = saveMatData;
+saveMatData = function(d){
+  _origSaveMatData(d);
+  saveListsToDB();
+};
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+var supabaseReady = initSupabase();
+if(supabaseReady){
+  loadFromDB().then(function(){
+    init();
+    subscribeRealtime();
+    showToast('Verbunden ✓');
+  });
+} else {
+  init();
+}
+</script>
+</body>
+</html>
