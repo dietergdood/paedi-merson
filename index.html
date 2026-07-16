@@ -238,9 +238,12 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 .edit-hint{display:none;font-size:11px;color:var(--accent-dark);text-align:center;margin-bottom:.5rem;font-weight:600}
 .edit-mode .edit-hint{display:block}
 </style>
-</head>
-<body>
-
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pädi Merson">
+<link rel="apple-touch-icon" href="/icon-192.png">
 </head>
 <body>
 <!-- RICH TEXT TOOLBAR -->
@@ -253,6 +256,10 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 </div>
 
 <!-- LOGIN OVERLAY -->
+
+<div id="installBanner" style="display:none;position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#0a0a0a;color:#e8c44a;font-size:12px;font-weight:600;padding:10px 18px;border-radius:20px;z-index:998;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.4);cursor:pointer;border:1px solid rgba(232,196,74,.3)" onclick="installPWA()">
+  ⚽ App installieren
+</div>
 <div id="loginOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0a0a0a;z-index:2000;align-items:center;justify-content:center;padding:20px">
   <div style="text-align:center;max-width:320px;width:100%">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:.04em;color:#fff;line-height:1;margin-bottom:.25rem">PÄDI MERSON</div>
@@ -3570,6 +3577,30 @@ function init(){
 // clear legacy data
 ['pm3','pm4','paeditransfer','paeditransfer2','paeditransfer3'].forEach(function(k){ localStorage.removeItem(k); });
 
+
+// ─── PWA Install Prompt ───────────────────────────────────────────────────────
+var deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  var banner = document.getElementById('installBanner');
+  if(banner && !localStorage.getItem('pwa_installed')) banner.style.display = 'block';
+});
+window.addEventListener('appinstalled', function(){
+  localStorage.setItem('pwa_installed', '1');
+  var banner = document.getElementById('installBanner');
+  if(banner) banner.style.display = 'none';
+  deferredInstallPrompt = null;
+});
+function installPWA(){
+  var banner = document.getElementById('installBanner');
+  if(banner) banner.style.display = 'none';
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(function(){ deferredInstallPrompt = null; });
+  }
+}
+
 var supabaseReady = initSupabase();
 if(supabaseReady){
   loadFromDB().then(function(){
@@ -3581,6 +3612,16 @@ if(supabaseReady){
 } else {
   init();
   initAppMode();
+}
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(reg){ console.log('SW registered:', reg.scope); })
+      .catch(function(err){ console.log('SW registration failed:', err); });
+  });
 }
 </script>
 </body>
