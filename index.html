@@ -1852,6 +1852,7 @@ Deine Pflichten ab sofort:<br>
 
 
 
+
 // ─── Supabase Config ─────────────────────────────────────────────────────────
 // Diese Werte werden von Vercel als Environment Variables gesetzt
 // Lokal: erstelle eine .env.local Datei (siehe .env.example)
@@ -2600,6 +2601,7 @@ function adjMedal(id,d){S.medals[id]=Math.max(0,(S.medals[id]||0)+d);save();rend
 function adjCard(id,type,d){S[type][id]=Math.max(0,(S[type][id]||0)+d);save();renderSB();}
 
 function renderSB(){
+  if(!S.schnapsGt) S.schnapsGt={};
   var ag=P.filter(function(p){return p.id!=='patrick';}).sort(function(a,b){return(S.medals[b.id]||0)-(S.medals[a.id]||0);});
   var all=ag.concat([P[P.length-1]]);
   var html='';
