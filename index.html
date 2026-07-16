@@ -65,11 +65,7 @@ body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--blac
 .qb b{font-style:normal;color:var(--black)}
 
 /* SCOREBOARD */
-table.sb{width:100%;border-collapse:collapse;font-size:13px}
-table.sb th{text-align:left;padding:7px 8px;color:var(--muted);font-weight:600;font-size:10px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.06em}
-table.sb td{padding:9px 8px;border-bottom:1px solid #f5f4f0;vertical-align:middle}
-table.sb tr:last-child td{border-bottom:none}
-table.sb tr:hover td{background:#fafaf8}
+/* table.sb removed — using sb-card layout */
 .mc{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--black);font-weight:700;font-size:15px}
 .pname{font-size:13px;font-weight:600;color:var(--black)}
 .prole{font-size:11px;color:var(--muted);margin-top:1px}
@@ -205,6 +201,9 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 .pkachel-toggle{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 .pkachel-toggle.on{background:#dcfce7;color:#166534}
 .pkachel-toggle.off{background:#fee2e2;color:#991b1b}
+.rt-btn{background:transparent;border:none;color:#aaa;font-size:14px;padding:4px 8px;border-radius:6px;cursor:pointer;min-width:28px;line-height:1;font-family:'Inter',sans-serif}
+.rt-btn:hover{background:#222;color:#fff}
+.rt-btn.active{background:var(--accent);color:#0a0a0a}
 
 /* SCOREBOARD CARDS */
 .sb-card{border:1px solid var(--border);border-radius:12px;padding:.9rem 1rem;margin-bottom:.6rem;background:var(--card);box-shadow:var(--shadow)}
@@ -244,6 +243,15 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 
 </head>
 <body>
+<!-- RICH TEXT TOOLBAR -->
+<div id="rtToolbar" style="display:none;position:fixed;z-index:990;background:#0a0a0a;border-radius:10px;padding:5px 6px;display:none;gap:4px;align-items:center;box-shadow:0 4px 16px rgba(0,0,0,.4)">
+  <button class="rt-btn" data-cmd="bold" title="Fett" style="font-weight:700">B</button>
+  <button class="rt-btn" data-cmd="italic" title="Kursiv" style="font-style:italic">I</button>
+  <button class="rt-btn" data-cmd="underline" title="Unterstrichen" style="text-decoration:underline">U</button>
+  <div style="width:1px;height:16px;background:#333;margin:0 2px"></div>
+  <button class="rt-btn" data-cmd="removeFormat" title="Formatierung entfernen" style="font-size:11px;color:#888">✕</button>
+</div>
+
 <!-- LOGIN OVERLAY -->
 <div id="loginOverlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0a0a0a;z-index:2000;align-items:center;justify-content:center;padding:20px">
   <div style="text-align:center;max-width:320px;width:100%">
@@ -319,12 +327,16 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 <div id="tab-sb" style="display:none">
   <div class="section">
     <div class="section-title">Médaillen & Karten — Live</div>
-    <table class="sb"><thead><tr><th>Person</th><th style="text-align:center">Médaillen</th><th style="text-align:center">Gelb</th><th style="text-align:center">Rot</th><th style="text-align:center">Rang</th></tr></thead><tbody id="sbBody"></tbody></table>
+    <div id="sbBody"></div>
   </div>
   <div class="section">
     <div class="section-title">Schnaps-Strafen (morgen früh)</div>
     <div id="schnaps"></div>
-    <div style="margin-top:10px;font-size:12px;color:var(--muted)">2× Gelb = 1 Schnaps · 4× Gelb = 2 · Gelb/Rot = 3 · Rot = 5 Schnäpse</div>
+    <div style="margin-top:10px;font-size:12px;color:var(--muted);line-height:1.8">
+      <strong style="color:var(--black);font-size:11px;text-transform:uppercase;letter-spacing:.05em">Sofort einzunehmen:</strong><br>
+      2× Gelb = +1 Schnaps &nbsp;·&nbsp; Rot = +3 Schnäpse (je Karte)<br>
+      Jede weitere Karte nach 4× Gelb = +1 Schnaps zusätzlich
+    </div>
   </div>
   <div class="section">
     <div class="section-title">Die 9 Goldmedaillen — antippen für Details</div>
@@ -485,6 +497,89 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
   </div>
 
   <div class="section">
+    <div class="section-title">Die 9 Goldmedaillen — der Agenten-Cup</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a;margin-bottom:.75rem">Über den ganzen Tag können 9 Goldmedaillen gewonnen werden. Wer am Abend am meisten hat, gewinnt den Agenten-Cup. Der Letztplatzierte teilt Patricks Strafe.</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+
+      <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:.75rem 1rem">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">🚂 Zug</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">🔍 L'Œil du VAR</div>
+        <div style="font-size:12px;color:#555">Beni zeigt echte und manipulierte Fotos aus Patricks Vergangenheit. Wer am meisten richtig liegt, gewinnt.</div>
+      </div>
+
+      <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:.75rem 1rem">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">🚂 Zug</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">❤️ Médaille de l'Amitié</div>
+        <div style="font-size:12px;color:#555">Quiz: Wer kennt Pädi A. am besten? Mäge stellt 5 Fragen — wer die meisten echten Antworten trifft, gewinnt.</div>
+      </div>
+
+      <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:.75rem 1rem">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">🚤 Boot</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">🏄 Médaille de la Performance</div>
+        <div style="font-size:12px;color:#555">Bester Wakeboard-Run. Bewertet: Stil, Haltung, Kontrolle, Unterhaltungswert. Gruppenabstimmung.</div>
+      </div>
+
+      <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:.75rem 1rem">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">🚤 Boot</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">💥 Prix du Plongeon</div>
+        <div style="font-size:12px;color:#555">Spektakulärster unbeabsichtigter Sturz beim Wakeboarden. Nur echte Stürze zählen.</div>
+      </div>
+
+      <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:.75rem 1rem">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">🍷 Weindegustation</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">🍷 Bullshit Sommelier</div>
+        <div style="font-size:12px;color:#555">Jeder beschreibt den Wein mit einem absurden Begriffskärtchen in einem Satz. Lustigste Beschreibung gewinnt.</div>
+      </div>
+
+      <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:.75rem 1rem">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">🃏 Ganzer Tag</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">👑 Médaille du Kingscup</div>
+        <div style="font-size:12px;color:#555">Kings Cup — einmalig, wann die Gruppe will. Wer die Runde gewinnt, bekommt die Médaille sofort.</div>
+      </div>
+
+      <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:.75rem 1rem">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">🃏 Ganzer Tag</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">🃏 Médaille du Molotow</div>
+        <div style="font-size:12px;color:#555">Molotow-Jass läuft den ganzen Tag. Mäge führt Tabelle. Wer abends die meisten Siege hat, gewinnt.</div>
+      </div>
+
+      <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:.75rem 1rem">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">🏔️ SAC-Hütte Abend</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">🏆 Médaille d'Équipe</div>
+        <div style="font-size:12px;color:#555">Task Team: zwei Teams treten gegeneinander an, das dritte schiedsrichtert. Wer zuerst 7 Aufgaben gewinnt, holt die Médaille.</div>
+      </div>
+
+      <div style="background:#fafaf8;border:1px solid #eee;border-radius:10px;padding:.75rem 1rem">
+        <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">🏔️ SAC-Hütte Abend</div>
+        <div style="font-size:13px;font-weight:700;margin-bottom:3px">⚽ Médaille du Football</div>
+        <div style="font-size:12px;color:#555">Bester Match-Tipp für Frankreich vs. England. Kriterien: Resultat, Torschütze, Minute des ersten Tores.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Karten &amp; Schnaps-Strafen</div>
+    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
+      <p style="margin-bottom:.75rem">Didi ist Transferdirektor <em>und</em> Schiedsrichter — er verteilt gelbe und rote Karten nach eigenem Ermessen. Wie im Fussball üblich gilt: die Entscheidungen sind <strong>endgültig, nicht diskutierbar und vollkommen willkürlich</strong>. Wer reklamiert, riskiert die nächste Karte.</p>
+      <p style="margin-bottom:.75rem">Typische Vergehen die zu einer Karte führen können — müssen aber nicht:</p>
+      <div class="info-block"><ul>
+        <li>Französischer Abgang ohne Ankündigung</li>
+        <li>Vergessen die Mannschaft zu zählen</li>
+        <li>Reklamieren gegen eine Schiedsrichterentscheidung</li>
+        <li>Baguette nicht verkauft</li>
+        <li>Zu lange auf dem WC</li>
+        <li>Schlechter Witz</li>
+        <li>Handygebrauch während Captain-Ansprache</li>
+        <li>Falsches Outfit</li>
+        <li>Alles andere was Didi gerade stört</li>
+      </ul></div>
+      <p style="margin-top:.75rem">Strafen werden am nächsten Morgen beglichen — sofort beim Frühstück, nüchtern, vor dem Kaffee.</p>
+      <div class="highlight" style="margin-top:.75rem">2× Gelb = 1 Schnaps &nbsp;·&nbsp; Rot = 3 Schnäpse (je Karte) &nbsp;·&nbsp; Jede weitere Karte nach 4× Gelb = +1 Schnaps</div>
+    </div>
+  </div>
+
+  <div class="section">
     <div class="section-title">Das Ergebnis</div>
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
       <p style="margin-bottom:.75rem">Patrick und der Freund mit den wenigsten Médaillen müssen am nächsten Morgen frühstück und Kaffee für alle machen, beim Aufräumen die Hauptarbeit übernehmen, gemeinsam ein Instagram-Entschuldigungsvideo aufnehmen und das Frankreich-Outfit bis zur Abreise abwechselnd tragen.</p>
@@ -611,16 +706,7 @@ Sie stehen ab sofort unter Beobachtung des Transferkomitees, des Schiedsrichters
     <div class="pkachel" data-kachel="packliste" data-default="1">
       <div class="section">
         <div class="section-title">Meine Packliste</div>
-        <div class="info-block"><ul>
-          <li>Reisedokumente / Zugticket</li>
-          <li>Bargeld + Karte</li>
-          <li>Handy + Ladekabel</li>
-          <li>Badesachen (Wakeboarden)</li>
-          <li>Handtuch</li>
-          <li>Sonnenschutz</li>
-          <li>Übernachtungssachen</li>
-          <li>Gute Laune 🎉</li>
-        </ul></div>
+        <div id="patricPackliste"></div>
       </div>
     </div>
 
@@ -642,22 +728,145 @@ Sie stehen ab sofort unter Beobachtung des Transferkomitees, des Schiedsrichters
 
     <!-- KACHEL: Vertrag (freischaltbar) -->
     <div class="pkachel" data-kachel="vertrag" data-default="0">
-      <div class="section">
-        <div class="section-title">Dein Transfervertrag</div>
-        <div class="cbox">
-          <div style="font-size:16px;font-weight:700;margin-bottom:.5rem;color:#e8c44a">HERE WE GO. 💍</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.7">Pädi Merson wechselt mit sofortiger Wirkung vom FC Junggeselle zum FC Mariage. Der Transfer ist offiziell und endgültig.</div>
+      <div style="margin-bottom:.75rem;background:#fff;border:1px solid #ddd;border-radius:16px;padding:1.75rem 1.5rem;position:relative;font-family:'Inter',sans-serif">
+        <!-- Wasserzeichen -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:52px;opacity:.04;font-family:'Bebas Neue',sans-serif;letter-spacing:.1em;white-space:nowrap;pointer-events:none">FC MARIAGE</div>
+
+        <!-- Header -->
+        <div style="text-align:center;border-bottom:2px solid #0a0a0a;padding-bottom:1rem;margin-bottom:1rem">
+          <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.15em;margin-bottom:.35rem">Offizieller Transfervertrag</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.06em;color:#0a0a0a;line-height:1">FC MARIAGE</div>
+          <div style="font-size:10px;color:#aaa;letter-spacing:.08em;margin-top:2px">Gegründet 2026 · Schweiz</div>
         </div>
+
+        <!-- Vertragstext -->
+        <div style="font-size:12px;color:#555;line-height:1.9;margin-bottom:1rem">
+          <p style="margin-bottom:.6rem">Zwischen dem <strong style="color:#0a0a0a">FC Mariage</strong> (nachfolgend «Verein») und</p>
+          <div style="background:#f9f8f5;border:1px solid #eee;border-radius:8px;padding:.6rem 1rem;margin:.5rem 0 .75rem;text-align:center">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:#0a0a0a">PATRICK AVOLIO</div>
+            <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.08em">nachfolgend «Spieler»</div>
+          </div>
+          <p style="margin-bottom:.5rem">wird folgender Transfervertrag geschlossen:</p>
+          <ol style="padding-left:1.2rem;display:flex;flex-direction:column;gap:.4rem">
+            <li>Der Spieler wechselt mit sofortiger Wirkung vom <strong style="color:#0a0a0a">FC Junggeselle</strong> zum <strong style="color:#0a0a0a">FC Mariage</strong>.</li>
+            <li>Der Spieler übernimmt ab sofort den Titel <strong style="color:#0a0a0a">Capitaine à vie</strong> — auf Lebzeiten, unwiderruflich.</li>
+            <li>Der Spieler verpflichtet sich zur bedingungslosen Treue gegenüber dem FC Mariage und seiner Capitaine.</li>
+            <li>Handgeld: die Kapitänsbinde verbleibt beim Spieler als Erinnerung an seinen ersten und letzten Transfer.</li>
+            <li>Der Transfer ist offiziell, endgültig und durch sämtliche anwesende Zeugen beglaubigt.</li>
+          </ol>
+        </div>
+
+        <!-- Unterschriften -->
+        <div style="border-top:1px solid #eee;padding-top:1rem;margin-top:.5rem">
+          <div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.1em;margin-bottom:1rem;text-align:center">Unterzeichnet am Morgen nach dem Transfer</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem 1rem">
+            <div style="text-align:center">
+              <div style="border-bottom:1px solid #ccc;padding-bottom:.5rem;margin-bottom:.4rem;min-height:50px;display:flex;align-items:flex-end;justify-content:center">
+                <svg viewBox="0 0 120 50" style="width:100%;height:50px">
+                  <path d="M15,32 C12,18 20,8 28,14 C34,18 30,28 26,24 C22,20 28,12 36,20 C40,24 38,30 44,26 C50,22 56,32 64,24 C70,18 74,26 80,22 C86,18 92,28 100,26 C105,24 108,30 112,28" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M22,32 L38,32" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:#0a0a0a">Patrick Avolio</div>
+              <div style="font-size:10px;color:#888">Capitaine à vie</div>
+            </div>
+            <div style="text-align:center">
+              <div style="border-bottom:1px solid #ccc;padding-bottom:.5rem;margin-bottom:.4rem;min-height:50px;display:flex;align-items:flex-end;justify-content:center">
+                <svg viewBox="0 0 120 50" style="width:100%;height:50px">
+                  <path d="M12,28 C12,14 20,8 28,10 C38,12 40,24 36,28 C32,32 20,32 12,28 M42,18 L70,18 C78,18 82,22 80,26 C78,30 70,30 62,28 C56,26 58,18 66,16" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M42,22 L68,22" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:#0a0a0a">Didi Good</div>
+              <div style="font-size:10px;color:#888">Transferdirektor</div>
+            </div>
+            <div style="text-align:center">
+              <div style="border-bottom:1px solid #ccc;padding-bottom:.5rem;margin-bottom:.4rem;min-height:50px;display:flex;align-items:flex-end;justify-content:center">
+                <svg viewBox="0 0 120 50" style="width:100%;height:50px">
+                  <path d="M10,30 C14,16 22,12 28,18 C34,24 30,30 26,26 C20,20 28,10 38,18 C44,24 42,32 50,26 C56,22 62,30 72,24 C78,20 84,28 96,26 C102,24 108,28 114,26" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M50,26 L52,36" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:#0a0a0a">Dominik Sieber</div>
+              <div style="font-size:10px;color:#888">Social-Media-Manager</div>
+            </div>
+            <div style="text-align:center">
+              <div style="border-bottom:1px solid #ccc;padding-bottom:.5rem;margin-bottom:.4rem;min-height:50px;display:flex;align-items:flex-end;justify-content:center">
+                <svg viewBox="0 0 120 50" style="width:100%;height:50px">
+                  <path d="M8,26 C10,14 18,10 22,18 C26,26 20,32 16,28 L28,16 C34,10 40,20 48,16 C54,12 60,24 68,18 C74,14 80,22 90,18 C96,14 104,20 112,22" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M38,16 C40,10 46,10 48,16 M62,18 L64,30" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:#0a0a0a">Domenik Ledergerber</div>
+              <div style="font-size:10px;color:#888">Finanzchef</div>
+            </div>
+            <div style="text-align:center">
+              <div style="border-bottom:1px solid #ccc;padding-bottom:.5rem;margin-bottom:.4rem;min-height:50px;display:flex;align-items:flex-end;justify-content:center">
+                <svg viewBox="0 0 120 50" style="width:100%;height:50px">
+                  <path d="M20,24 C16,12 24,6 32,12 C38,16 36,24 30,22 C24,20 28,12 36,14 C44,16 46,26 54,20 C60,16 68,24 80,20 C88,16 96,22 106,20" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M32,22 C28,28 36,32 40,26" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:#0a0a0a">Beni Benz</div>
+              <div style="font-size:10px;color:#888">VAR-Chef</div>
+            </div>
+            <div style="text-align:center">
+              <div style="border-bottom:1px solid #ccc;padding-bottom:.5rem;margin-bottom:.4rem;min-height:50px;display:flex;align-items:flex-end;justify-content:center">
+                <svg viewBox="0 0 120 50" style="width:100%;height:50px">
+                  <path d="M14,20 L14,34 M14,24 C20,16 30,14 34,20 C38,26 34,30 28,28 C22,26 22,20 28,16 M46,14 L46,34 M38,22 L54,22" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M56,22 C60,14 68,12 74,18 C80,24 78,30 70,28 C64,26 66,18 74,14" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:#0a0a0a">Pädi Koch</div>
+              <div style="font-size:10px;color:#888">Mannschaftsarzt</div>
+            </div>
+            <div style="text-align:center">
+              <div style="border-bottom:1px solid #ccc;padding-bottom:.5rem;margin-bottom:.4rem;min-height:50px;display:flex;align-items:flex-end;justify-content:center">
+                <svg viewBox="0 0 120 50" style="width:100%;height:50px">
+                  <path d="M10,16 L36,16 M22,16 L22,34 M42,18 C46,10 54,8 60,14 C66,20 62,28 56,26 C50,24 52,16 60,12 C68,8 76,16 80,22 C84,28 82,34 76,32" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M84,16 C88,8 96,8 100,16 C104,24 100,32 96,30 L108,34" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:#0a0a0a">Tobi Freitag</div>
+              <div style="font-size:10px;color:#888">Weinmanager</div>
+            </div>
+            <div style="text-align:center">
+              <div style="border-bottom:1px solid #ccc;padding-bottom:.5rem;margin-bottom:.4rem;min-height:50px;display:flex;align-items:flex-end;justify-content:center">
+                <svg viewBox="0 0 120 50" style="width:100%;height:50px">
+                  <path d="M10,22 C14,10 22,8 28,14 C34,20 30,28 22,26 C16,24 18,16 26,12 C34,8 44,16 50,22 C56,28 58,20 66,16 C72,12 80,20 88,18 C94,16 102,22 112,20" fill="none" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8,36 C30,32 60,34 114,32" fill="none" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:#0a0a0a">Mäge Sauter</div>
+              <div style="font-size:10px;color:#888">Médaillenchef</div>
+            </div>
+          </div>
+        </div>
+
+                <!-- Footer -->
+        <div style="text-align:center;margin-top:1rem;font-size:11px;color:#e8c44a;font-weight:700;letter-spacing:.1em">⚽ HERE WE GO. 💍 ⚽</div>
       </div>
     </div>
 
     <!-- KACHEL: Titel (freischaltbar) -->
     <div class="pkachel" data-kachel="titel" data-default="0">
-      <div class="section">
-        <div style="text-align:center;padding:1rem 0">
-          <div style="font-size:20px;font-weight:700;letter-spacing:.04em">Capitaine à vie</div>
-          <div style="font-size:13px;color:#888;margin-top:4px">du FC Mariage</div>
-        </div>
+      <div style="background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%);border-radius:16px;padding:2rem 1.5rem;text-align:center;position:relative;overflow:hidden;margin-bottom:.75rem">
+        <!-- Decorative corners -->
+        <div style="position:absolute;top:12px;left:12px;width:20px;height:20px;border-top:2px solid #e8c44a;border-left:2px solid #e8c44a;border-radius:2px 0 0 0"></div>
+        <div style="position:absolute;top:12px;right:12px;width:20px;height:20px;border-top:2px solid #e8c44a;border-right:2px solid #e8c44a;border-radius:0 2px 0 0"></div>
+        <div style="position:absolute;bottom:12px;left:12px;width:20px;height:20px;border-bottom:2px solid #e8c44a;border-left:2px solid #e8c44a;border-radius:0 0 0 2px"></div>
+        <div style="position:absolute;bottom:12px;right:12px;width:20px;height:20px;border-bottom:2px solid #e8c44a;border-right:2px solid #e8c44a;border-radius:0 0 2px 0"></div>
+        <!-- Content -->
+        <div style="font-size:11px;font-weight:700;color:#e8c44a;text-transform:uppercase;letter-spacing:.2em;margin-bottom:1rem">FC Mariage — Offizielles Zertifikat</div>
+        <div style="width:40px;height:1px;background:#e8c44a;margin:0 auto .75rem"></div>
+        <div style="font-size:13px;color:#888;margin-bottom:.35rem;letter-spacing:.06em;text-transform:uppercase">Dies bestätigt, dass</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:#fff;letter-spacing:.08em;line-height:1;margin:.4rem 0">PATRICK AVOLIO</div>
+        <div style="width:40px;height:1px;background:#e8c44a;margin:.75rem auto"></div>
+        <div style="font-size:13px;color:#aaa;margin-bottom:.25rem">ab sofort den Titel trägt</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:#e8c44a;letter-spacing:.06em;line-height:1.1">Capitaine à vie</div>
+        <div style="font-size:14px;color:#888;margin-top:.2rem;letter-spacing:.04em">du FC Mariage</div>
+        <div style="width:40px;height:1px;background:#333;margin:1.25rem auto .75rem"></div>
+        <div style="font-size:11px;color:#555;letter-spacing:.06em">⚽ HERE WE GO. 💍 ⚽</div>
       </div>
     </div>
 
@@ -1148,7 +1357,7 @@ function subscribeRealtime(){
           var remote = payload.new.state;
           // merge remote state
           Object.keys(remote).forEach(function(k){ S[k]=remote[k]; });
-          renderSB(); renderAblauf(); renderPC(); renderAllMat(); renderMedals();
+          renderSB(); renderAblauf(); renderPC(); renderAllMat(); renderMedals(); renderMis();
           showToast('Aktualisiert von einem anderen Gerät');
         }
       })
@@ -1192,13 +1401,13 @@ function showToast(msg){
 ['pm3','pm4','paeditransfer','paeditransfer2','paeditransfer3'].forEach(function(k){ localStorage.removeItem(k); });
 var P=[
   {id:'didi',name:'Didi Good',role:'Transferdirektor'},
-  {id:'dominik',name:'Sieber Sieber',role:'Social-Media-Manager'},
-  {id:'berater',name:'Spielerberater',role:'Finanzchef'},
+  {id:'dominik',name:'Dominik Sieber',role:'Social-Media-Manager'},
+  {id:'berater',name:'Domenik Ledergerber',role:'Finanzchef'},
   {id:'beni',name:'Beni Benz',role:'VAR-Chef'},
   {id:'koch',name:'Pädi Koch',role:'Mannschaftsarzt'},
   {id:'tobi',name:'Tobi Freitag',role:'Weinmanager'},
   {id:'maege',name:'Mäge Sauter',role:'Médaillenchef'},
-  {id:'patrick',name:'Patrick',role:'Bier-Kapitan'},
+  {id:'patrick',name:'Patrick Avolio',role:'Bier-Kapitan'},
 ];
 var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,ig_f:'',ig_l:'',ig_k:'',mis:{f:0,l:0,k:0},abl:{},pc:{},mat:{},tips:{},varp:{}};
 function save(){localStorage.setItem('pm5',JSON.stringify(S));}
@@ -1274,63 +1483,61 @@ function closeModal(e){
 
 var REGIE=[
   {id:'bh',st:'Bahnhof',t:'Bahnhof — Offizielle Eröffnung',dot:'db',steps:[
-    {w:'Didi (Transferdirektor)',t:'Patrick empfangen. Alle Freunde versammeln sich.',n:'Feierlich — Pfeife bereithalten'},
-    {w:'Didi',t:'Frankreich-Outfit übergeben und Begründung vorlesen.',q:'Sehr geehrter Monsieur Merson, aufgrund Ihrer franzoesischen Wurzeln und Ihrer bekannten Neigung zum franzoesischen Abgang besteht eine erhoehte Fluchtgefahr. Damit Sie jederzeit erkennbar bleiben, tragen Sie die offizielle franzoesische Auswaertsuniform. Ein weiterer franzoesischer Abgang wird als Vertragspflicht-Verletzung gewertet.',n:'Patrick zieht das Outfit an'},
-    {w:'Didi',t:'Als Schiedsrichter vorstellen.',q:'Der Transferdirektor übernimmt heute gleichzeitig die Funktion des Schiedsrichters. Seine Entscheidungen sind endgültig, willkürlich und können nur durch den VAR noch verschlimmert werden.'},
-    {w:'Didi',t:'Ernennung zum Bier-Kapitan vorlesen.',q:'OFFIZIELLE MITTEILUNG DES FC MARIAGE — Sehr geehrter Monsieur Merson, Sie waren waehrend vieler Jahre Spieler, Captain, Trainer und Taktgeber. Aufgrund dieser Verdienste werden Sie zum offiziellen BIER-KAPITAN ernannt. Ihre Aufgabe: die Mannschaft sicher führen, Moral hochhalten, alle sieben vollständig zum nächsten Ort bringen.',n:'Danach Binde feierlich anlegen'},
-    {w:'Sieber',t:'Instagram-Post 1 absetzen.',ig:'BREAKING NEWS — Pädi Merson übernimmt nochmals die Captainbinde. Er führt das Team heute erstmals als offizieller Bier-Kapitan aufs Feld.',n:'Foto von der Binden-Zeremonie'},
-    {w:'Spielerberater',t:'Transferdossier übergeben, Tagesmission erklaeren, 5 Baguettes bereitstellen.',q:'CONFIDENTIEL — TRANSFERDOSSIER: Vor der Vertragsunterzeichnung müssen Sie finanzielle Selbstaendigkeit, koerperliche Eignung und oeffentliche Relevanz beweisen. Pflicht: mind. CHF 30.—, Bonus ab CHF 50.—.'},
-    {w:'Sieber',t:'Instagram-Post 2 absetzen.',ig:'BREAKING NEWS — Pädi Merson wurde am Bahnhof gesichtet. Handgeld noch nicht ueberwiesen. Transfer steht auf der Kippe. Follow to support the deal. Here we go?'},
-    {w:'Mäge',t:'Molotow-Jass ankuendigen: laeuft den ganzen Tag, wann immer Zeit ist. Mäge führt laufende Siegtabelle.',n:'Jass-Karten bereithalten. Kings Cup Karten auch einpacken — wird einmalig gespielt wann es passt.'},
+    {w:'alle',t:'Patrick empfangen. Alle Freunde versammeln sich am Bahnhof.'},
+    {w:'Didi',t:'Frankreich-Outfit (Shirt + Baskmütze) übergeben und Begründung vorlesen.',q:'Aufgrund Ihrer bekannten Neigung zum französischen Abgang stuft das Transferkomitee Sie als Fluchtrisiko ein. Das Outfit ist Pflicht — den ganzen Tag.'},
+    {w:'Didi',t:'Sich als Transferdirektor und Schiedsrichter vorstellen. Regeln erklären: Karten, Schnaps, Captain-Pflichten.'},
+    {w:'Didi',t:'Bier-Kapitän-Ernennung feierlich vorlesen und Kapitänsbinde anlegen.'},
+    {w:'Dominik',t:'Instagram-Post 1 absetzen.',ig:'BREAKING NEWS — Pädi Merson wurde am Bahnhof gesichtet. Der Transfer ist offiziell eingeleitet. #PädiMerson #DerTransfer'},
+    {w:'Lädi',t:'Transferdossier übergeben. Tagesmission erklären: 5 Baguettes, CHF 30 Pflicht, CHF 50 Bonus. 5 Baguettes bereitstellen.',n:'Bauchladen / Tasche für Patrick bereithalten'},
+    {w:'Dominik',t:'Instagram-Post 2 absetzen.',ig:'OFFICIAL — Pädi Merson erhält sein Transferdossier. Die Mission beginnt. #BierKapitän'},
+    {w:'Mäge',t:'Molotow-Jass ankündigen: läuft den ganzen Tag, wann immer Zeit ist. Mäge führt Tabelle.'},
+    {w:'Mäge',t:'Kings Cup ankündigen: wird einmal gespielt wann es der Gruppe passt.'},
   ]},
-  {id:'zg',st:'Zug',t:'Zugfahrt — Finanzierung & VAR',dot:'dz',steps:[
-    {w:'Patrick',t:'Erste Mannschaftskontrolle vor dem Einsteigen.',q:'Mannschaft vollständig. Der Transfer kann fortgesetzt werden.',n:'Didi beobachtet — gelbe Karte wenn vergessen'},
-    {w:'Patrick',t:'Captain-Ansprache #1 (max. 20 Sek.) vor dem Baguetteverkauf.',q:'Maenner, wir müssen die Raeume im Zug nutzen, kompakt auftreten und konsequent zum Abschluss kommen. Fünf Baguettes, 30 Franken Pflicht — jeder Pass muss sitzen.',n:'Freier Text, das ist nur Beispiel'},
-    {w:'Spielerberater',t:'Baguettes herausgeben. Verkaufstext erklaeren.',q:'Entschuldigung, ich stehe kurz vor dem wichtigsten Transfer meines Lebens. Moechten Sie meine Karriere mit dem Kauf eines Transfer-Baguettes unterstuetzen?',n:'Spielerberater darf nur beraten, nicht selbst verkaufen'},
-    {w:'alle',t:'Baguetteverkauf im Zug. Freunde schlagen Strategien vor (für Le Grand Agent).',n:'Ziel: CHF 30.— Pflicht / CHF 50.— Bonus'},
-    {w:'Sieber',t:'Instagram Story absetzen.',ig:'FINANCIAL FAIR PLAY UPDATE — Pädi Merson finanziert seinen Transfer aktuell durch den Verkauf franzoesischer Backwaren.'},
-
-    {w:'Beni',t:'Kindheits-VAR: 8-10 Fotos zeigen. Patrick 4 Fragen pro Bild, Freunde tippen echt/fake.',n:'Punkte notieren, Manipulationen erst am Schluss aufloesen'},
-    {w:'Sieber',t:'Instagram Story: VAR Check.',ig:'VAR CHECK — Neu aufgetauchtes Bildmaterial wirft Fragen zur Vergangenheit von Pädi Merson auf.'},
-    {w:'Beni',t:"VAR auswerten, L'Œil du VAR vergeben.",m:"L'Œil du VAR",n:'Bei Gleichstand entscheidet Patrick'},
-    {w:'Mäge',t:"Quiz: Wer kennt Pädi A. am besten? (5 Fragen). Alle tippen still, Patrick gibt Antworten.",m:"Médaille de l'Amitié",n:'Zettel und Stifte bereithalten'},
+  {id:'zg',st:'Zug',t:'Zugfahrt — Baguettes, VAR & Quiz',dot:'dz',steps:[
+    {w:'Patrick',t:'Erste Mannschaftskontrolle vor dem Einsteigen.',q:'Mannschaft vollständig. Der Transfer kann fortgesetzt werden.'},
+    {w:'Patrick',t:'Captain-Ansprache #1 — max. 20 Sekunden, Inhalt frei.',n:'Beispiel: Männer, wir müssen die Räume im Zug nutzen, kompakt auftreten und konsequent zum Abschluss kommen.'},
+    {w:'Lädi',t:'Baguettes übergeben. Verkaufstext erklären. Ziel: CHF 30 Pflicht, CHF 50 Bonus.',n:'Alle dürfen Patrick Strategien flüstern, aber nicht selbst verkaufen'},
+    {w:'Patrick',t:'Baguetteverkauf im Zug — so viele Passagiere wie möglich ansprechen.'},
+    {w:'Dominik',t:'Instagram Story: Baguetteverkauf dokumentieren.',ig:'FAIR PLAY UPDATE — Pädi Merson finanziert seinen eigenen Transfer. Respekt. #Baguette'},
+    {w:'Beni',t:'Kindheits-VAR: 8–10 Fotos zeigen. Alle tippen echt oder fake. Patrick beantwortet 4 Fragen pro Bild.',m:"L'Œil du VAR",n:'Beni wertet aus und vergibt Médaille'},
+    {w:'Dominik',t:'Instagram Story: VAR Check absetzen.',ig:'VAR CHECK — Die Vergangenheit von Pädi Merson wird gründlich geprüft.'},
+    {w:'Mäge',t:'Quiz «Wer kennt Pädi A. am besten?» — 5 Fragen, alle haben vorher still geschrieben, Patrick gibt echte Antworten.',m:"Médaille de l'Amitié",n:'Mäge moderiert, wertet aus und vergibt Médaille'},
   ]},
-  {id:'bt',st:'Boot',t:'Boot — Wakeboarden & Medizinischer Test',dot:'do',steps:[
+  {id:'bt',st:'Boot',t:'Boot — Wakeboarden & Médaillen',dot:'do',steps:[
     {w:'Patrick',t:'Mannschaftskontrolle vor dem Einsteigen.',q:'Mannschaft vollständig. Der Transfer kann fortgesetzt werden.'},
-    {w:'Pädi Koch',t:'Rettungsschwimmerinnen-Kostüm feierlich übergeben. Binde trägt er darüber.',n:'Vor der ganzen Gruppe'},
-    {w:'Pädi Koch',t:'Medizinische Beurteilung verlesen.',q:'Der Spieler verfuegt am Weinglas über eine ausgezeichnete Hand-Auge-Koordination. Seine Leistungen auf dem Wakeboard sind bislang jedoch nicht ausreichend dokumentiert.'},
-    {w:'Patrick',t:'Captain-Ansprache #2 vor dem Wakeboarden (max. 20 Sek.).',n:'Freies Thema'},
-    {w:'Patrick',t:'Medizinisches Statement sprechen (Video).',q:'Ich bin nicht hier, um gut auszusehen. Ich bin hier, um den medizinischen Test des FC Mariage zu bestehen.',n:'Video aufnehmen'},
-    {w:'alle',t:'Jeder macht mindestens einen Wakeboard-Run. Pädi Koch bewertet Stil und Figur.',n:'Patrick muss im Rettungsschwimmerinnen-Kostüm antreten'},
-    {w:'Patrick',t:'Nach bestem Run: Torjubel. Danach Abschlussinterview.',q:'Pädi A., wie beurteilst du deine Leistung und ist der Transfer noch realistisch?',n:'Pädi Koch führt das Interview'},
-    {w:'Pädi Koch',t:'Gruppenabstimmung: Médaille de la Performance + Prix du Plongeon.',m:'Performance + Prix du Plongeon',n:'Nur unbeabsichtigte Stürze zaehlen'},
-    {w:'Sieber',t:'Post: Medical Update + Zwischenstand.',ig:'MEDICAL UPDATE — Selbstvertrauen: Weltklasse. Gleichgewicht auf dem Wakeboard: unter Beobachtung. Outfit: nicht verhandelbar.'},
+    {w:'Pädi Koch',t:'Rettungsschwimmerinnen-Kostüm feierlich übergeben. Patrick trägt es über der Kapitänsbinde.',n:'Pädi Koch verliest die medizinische Beurteilung'},
+    {w:'Patrick',t:'Captain-Ansprache #2 — max. 20 Sekunden.',q:'Ich bin nicht hier, um gut auszusehen. Ich bin hier, um den medizinischen Test des FC Mariage zu bestehen.'},
+    {w:'Patrick',t:'Medizinisches Statement direkt in die Kamera sprechen — Pädi Koch filmt.',n:'Für Instagram'},
+    {w:'alle',t:'Jeder macht mindestens einen Wakeboard-Run. Pädi Koch bewertet Stil, Haltung, Gleichgewicht, Unterhaltungswert.'},
+    {w:'Patrick',t:'Nach bestem Run: Torjubel nachmachen. Danach kurzes Abschlussinterview.'},
+    {w:'Pädi Koch',t:'Gruppenabstimmung: bester Run = Médaille de la Performance, spektakulärster Sturz = Prix du Plongeon.',m:'Médaille de la Performance + Prix du Plongeon',n:'Pädi Koch entscheidet bei Gleichstand'},
+    {w:'Dominik',t:'Post absetzen.',ig:'MEDICAL UPDATE — Pädi Merson hat den Wakeboard-Test des FC Mariage bestanden. Ergebnis: ausbaufähig. #Kostüm'},
   ]},
-  {id:'wn',st:'Wein',t:'Weindegustation — Sponsorenverhandlungen',dot:'dw',steps:[
-    {w:'Tobi',t:'Ablauf mit Weingut abstimmen. Begriffskarten bereithalten.',n:'Degustation hat Vorrang — max. 20 Min. für beide Wettbewerbe'},
-    {w:'Tobi',t:'Bullshit-Sommelier: jeder beschreibt den Wein mit einem Begriff in einem Satz.',m:'Bullshit Sommelier',n:'Begriffe: Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette'},
-
-    {w:'Sieber',t:'Sponsoren-Post absetzen.',ig:'SPONSOR UPDATE — Pädi Merson in fortgeschrittenen Verhandlungen mit regionalen Getränkepartnern. Erste Degustationen verliefen vielversprechend.'},
+  {id:'wn',st:'Wein',t:'Weindegustation — Bullshit Sommelier',dot:'dw',steps:[
+    {w:'Tobi',t:'Ablauf mit Weingut abgestimmt. Begriffskarten bereithalten: Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette.'},
+    {w:'alle',t:'Bullshit-Sommelier: jeder zieht eine Begriffskarte und beschreibt den Wein in einem einzigen Satz.',m:'Bullshit Sommelier',n:'Tobi moderiert. Patrick oder Gruppenabstimmung bestimmt die lustigste Beschreibung'},
+    {w:'Dominik',t:'Sponsoren-Post absetzen.',ig:'SPONSOR UPDATE — Pädi Merson befindet sich in finalen Transferverhandlungen. Bei Wein. In der Westschweiz.'},
+    {w:'Mäge',t:'Falls Kings Cup noch nicht gespielt: jetzt wäre ein guter Moment.',m:'Médaille du Kingscup',n:'Wer die Runde gewinnt, bekommt die Médaille sofort'},
   ]},
   {id:'ht',st:'SAC-Hütte',t:'SAC-Hütte — Abend & Finale',dot:'dh',steps:[
-    {w:'alle',t:'Raclette geniessen. Keine Aufgaben.',n:'Material für Jass und Quiz bereitstellen'},
-    {w:'Mäge',t:'Molotow-Jass Schlussstand auswerten. Wer hat den ganzen Tag am meisten Partien gewonnen?',m:'Médaille du Molotow',n:'Tabelle wurde den ganzen Tag geführt'},
-    {w:'Mäge',t:'Falls Kings Cup noch nicht gespielt wurde: jetzt spielen. Médaille sofort an Gewinner vergeben.',m:'Médaille du Kingscup',n:'Kann zu jedem Zeitpunkt des Tages gespielt werden'},
-    {w:'Mäge',t:'Quiz: Wer kennt Pädi A. am besten? (5 Fragen).',m:"Médaille de l'Amitié"},
-    {w:'Mäge',t:'Match-Tipps einsammeln: Resultat, Torschuetze, Minute.',n:'Alle inkl. Patrick'},
-    {w:'Patrick',t:'Captain-Ansprache #3 vor dem Spiel.',n:'Freies Thema'},
-    {w:'alle',t:'Frankreich vs. England schauen.'},
-    {w:'Mäge',t:'Match-Tipps auswerten.',m:'Médaille du Football'},
-    {w:'Sieber',t:'Instagram-Mission auswerten. Bericht praesentieren.',n:'38 Follower / 100 Likes / 10 Kommentare — bei Erfolg blauen Haken übergeben'},
-    {w:'Mäge',t:'Schlussrangliste erstellen. Letztplatzierten bestimmen.',n:'Bei Gleichstand: Korken-Elfmeterschiessen'},
-    {w:'Didi',t:'Captain-Mission auswerten (5 Kriterien).',n:'Kein franz. Abgang / Zählungen / 2+ Ansprachen / Mannschaft vollständig / Medienpflichten'},
-    {w:'alle',t:'Persönlicher Abschluss: jeder vervollständigt den Satz Der FC Mariage sollte Patrick verpflichten, weil ...'},
+    {w:'alle',t:'Raclette geniessen. Keine Aufgaben — einfach zusammensitzen.',n:'Molotow läuft weiter wenn Lust'},
+    {w:'Mäge',t:'Task Team spielen. Teams bilden (2–3 Personen), drittes Team schiedsrichtert. Task! Team! Los! Wer zuerst 7 Aufgaben gewinnt.',m:"Médaille d'Équipe",n:'Ca. 20 Min. — Patrick spielt mit'},
+    {w:'Mäge',t:'Molotow-Jass Schlussstand auswerten. Wer hat den ganzen Tag die meisten Partien gewonnen?',m:'Médaille du Molotow'},
+    {w:'Mäge',t:'Falls Kings Cup noch nicht gespielt: jetzt spielen.',m:'Médaille du Kingscup',n:'Wer die Runde gewinnt, bekommt die Médaille sofort'},
+    {w:'alle',t:'Match-Tipps einsammeln: Resultat, Torschütze, Minute des ersten Tores.',n:'Alle inkl. Patrick'},
+    {w:'Patrick',t:'Captain-Ansprache #3 vor dem Spiel — letzte Ansprache als Junggeselle.',q:'Männer, das hier ist mein letztes Spiel als Freier. Ich erwarte Einsatz, Leidenschaft und mindestens ein Tor von Frankreich.'},
+    {w:'alle',t:'Frankreich vs. England schauen. Bei französischem Tor: Patrick macht Torjubel vom Boot nach. Bei englischem Tor: Patrick spricht Englisch mit französischem Akzent.'},
+    {w:'Mäge',t:'Match-Tipps auswerten. Bestes Resultat, Torschütze, Minute.',m:'Médaille du Football'},
+    {w:'Dominik',t:'Instagram-Mission auswerten: Follower, Likes, Kommentare. Hat Patrick die Ziele erreicht?',n:'Blauer Haken wenn Ziele erreicht'},
+    {w:'Didi',t:'Captain-Mission auswerten: hat Patrick alle 5 Kriterien erfüllt?',n:'Kein franz. Abgang / Zählungen / 3 Ansprachen / Mannschaft vollständig / Medienpflichten'},
+    {w:'Mäge',t:'Schlussrangliste Agenten-Cup präsentieren. Letztplatzierten bekannt geben.',n:'Bei Gleichstand: Korken-Elfmeterschiessen'},
+    {w:'alle',t:'Persönlicher Abschluss: jeder vervollständigt den Satz «Der FC Mariage sollte Patrick verpflichten, weil …»',n:'Darf ernst und persönlich sein — schöner Abschluss des Abends'},
   ]},
   {id:'morgen',st:'Morgen',t:'Frühstück — Offizielle Übergabe',dot:'db',steps:[
     {w:'Patrick + Letztplatzierter',t:'Frühstück und Kaffee für alle vorbereiten. Beim Aufräumen die Hauptarbeit übernehmen.',n:'Die Strafe wird jetzt eingelöst'},
     {w:'Didi',t:'Transfervertrag feierlich vorlesen wenn alle am Tisch sitzen.',q:'Pädi Merson hat alle Prüfungen absolviert. Das Transferkomitee bestätigt den Wechsel. HERE WE GO. 💍',n:'Ruhig und bewusst — der Moment verdient Würde'},
     {w:'alle',t:'Alle unterschreiben den Vertrag. Patrick zuerst, dann alle 7 Freunde.',n:'Binde darf Patrick als Erinnerung behalten'},
-    {w:'Sieber',t:'Abschliessenden Instagram-Post absetzen.',ig:'OFFICIAL AND CONFIRMED — Pädi Merson wechselt zum FC Mariage. Der Transfer ist vollzogen. Willkommen, Capitaine à vie. HERE WE GO. 💍'},
+    {w:'Dominik',t:'Abschliessenden Instagram-Post absetzen.',ig:'OFFICIAL AND CONFIRMED — Pädi Merson wechselt zum FC Mariage. Der Transfer ist vollzogen. Willkommen, Capitaine à vie. HERE WE GO. 💍'},
   ]},
 ];
 
@@ -1399,54 +1606,44 @@ function toggleAcc(id){
 }
 
 var ABL=[
-  {id:'a1',t:'Frankreich-Outfit + Begründung',st:'Bahnhof'},
-  {id:'a2',t:'Schiedsrichter vorstellen',st:'Bahnhof'},
-  {id:'a3',t:'Bier-Kapitan ernennen + Binde',st:'Bahnhof'},
-  {id:'a4',t:'Post 1: Binden-Zeremonie',st:'Bahnhof'},
-  {id:'a5',t:'Transferdossier + Mission übergeben',st:'Bahnhof'},
-  {id:'a6',t:'Post 2: Transfer auf der Kippe',st:'Bahnhof'},
-  {id:'a6b',t:'Molotow-Jass ankuendigen — laeuft den ganzen Tag',st:'Bahnhof'},
-  {id:'a7',t:'Mannschaftskontrolle #1',st:'Zug'},
-  {id:'a8',t:'Captain-Ansprache #1',st:'Zug'},
-  {id:'a9',t:'Baguetteverkauf (CHF 30.— Pflicht)',st:'Zug'},
-  {id:'a10',t:'Story: Financial Fair Play Update',st:'Zug'},
-
-  {id:'a12',t:'Kindheits-VAR (8-10 Fotos)',st:'Zug'},
-  {id:'a13',t:"Story: VAR Check",st:'Zug'},
-  {id:'a14',t:"L'Œil du VAR vergeben",st:'Zug'},
-  {id:'a15b',t:"Quiz: Wer kennt Pädi? + Médaille de l'Amitié",st:'Zug'},
-  {id:'a15',t:'Mannschaftskontrolle #2',st:'Boot'},
-  {id:'a16',t:'Rettungsschwimmerinnen-Kostüm übergeben',st:'Boot'},
-  {id:'a17',t:'Medizinische Beurteilung verlesen',st:'Boot'},
-  {id:'a18',t:'Captain-Ansprache #2',st:'Boot'},
-  {id:'a19',t:'Medizinisches Statement (Video)',st:'Boot'},
-  {id:'a20',t:'Wakeboard-Runs — alle dran',st:'Boot'},
-  {id:'a21',t:'Torjubel + Abschlussinterview Patrick',st:'Boot'},
-  {id:'a22',t:'Performance + Prix du Plongeon vergeben',st:'Boot'},
-  {id:'a23',t:'Post: Medical Update + IG-Zwischenstand',st:'Boot'},
-  {id:'a24',t:'Bullshit-Sommelier',st:'Wein'},
-
-  {id:'a26',t:'Post: Sponsor Update',st:'Wein'},
-  {id:'a27',t:'Raclette',st:'SAC-Hütte'},
-  {id:'a28',t:'Molotow Schlussstand + Médaille du Molotow',st:'SAC-Hütte'},
-  {id:'a28b',t:'Kings Cup spielen + Médaille du Kingscup (falls noch nicht gespielt)',st:'SAC-Hütte'},
-
-  {id:'a29b',t:"Task Team + Médaille d'Équipe",st:'SAC-Hütte'},
-  {id:'a30',t:'Match-Tipps einsammeln',st:'SAC-Hütte'},
-  {id:'a31',t:'Captain-Ansprache #3',st:'SAC-Hütte'},
-  {id:'a32',t:'Frankreich vs. England',st:'SAC-Hütte'},
-  {id:'a33',t:'Match-Tipp auswerten + Médaille du Football',st:'SAC-Hütte'},
-  {id:'a34',t:'Instagram-Mission auswerten',st:'SAC-Hütte'},
-  {id:'a35',t:'Schlussrangliste + Letztplatzierten',st:'SAC-Hütte'},
-  {id:'a36',t:'Captain-Mission auswerten (5 Kriterien)',st:'SAC-Hütte'},
-  {id:'a37',t:'Persoenlicher Abschluss',st:'SAC-Hütte'},
-  {id:'a36',t:'Captain-Mission auswerten (5 Kriterien)',st:'SAC-Hütte'},
-  {id:'a37',t:'Schlussrangliste + Letztplatzierten bekannt geben',st:'SAC-Hütte'},
-  {id:'a38',t:'Persönlicher Abschluss',st:'SAC-Hütte'},
+  {id:'a01',t:'Patrick empfangen',st:'Bahnhof'},
+  {id:'a02',t:'Frankreich-Outfit übergeben',st:'Bahnhof'},
+  {id:'a03',t:'Schiedsrichter vorstellen, Regeln erklären',st:'Bahnhof'},
+  {id:'a04',t:'Bier-Kapitän-Ernennung',st:'Bahnhof'},
+  {id:'a05',t:'Instagram-Post 1 + 2',st:'Bahnhof'},
+  {id:'a06',t:'Transferdossier + 5 Baguettes übergeben',st:'Bahnhof'},
+  {id:'a07',t:'Molotow-Jass + Kings Cup ankündigen',st:'Bahnhof'},
+  {id:'a08',t:'Mannschaftskontrolle + Captain-Ansprache #1',st:'Zug'},
+  {id:'a09',t:'Baguetteverkauf',st:'Zug'},
+  {id:'a10',t:'Instagram Story Baguettes',st:'Zug'},
+  {id:'a11',t:"Kindheits-VAR → L'Œil du VAR",st:'Zug'},
+  {id:'a12',t:"Quiz Wer kennt Pädi → Médaille de l'Amitié",st:'Zug'},
+  {id:'a13',t:'Mannschaftskontrolle',st:'Boot'},
+  {id:'a14',t:'Kostüm-Übergabe + medizinische Beurteilung',st:'Boot'},
+  {id:'a15',t:'Captain-Ansprache #2 + medizinisches Statement',st:'Boot'},
+  {id:'a16',t:'Wakeboard-Runs',st:'Boot'},
+  {id:'a17',t:'Médaille de la Performance + Prix du Plongeon',st:'Boot'},
+  {id:'a18',t:'Instagram Post Boot',st:'Boot'},
+  {id:'a19',t:'Begriffskarten bereithalten',st:'Wein'},
+  {id:'a20',t:'Bullshit-Sommelier → Médaille',st:'Wein'},
+  {id:'a21',t:'Sponsoren-Post',st:'Wein'},
+  {id:'a22',t:'Raclette',st:'SAC-Hütte'},
+  {id:'a23',t:"Task Team → Médaille d'Équipe",st:'SAC-Hütte'},
+  {id:'a24',t:'Molotow Schlussstand → Médaille du Molotow',st:'SAC-Hütte'},
+  {id:'a25',t:'Kings Cup (falls noch nicht) → Médaille',st:'SAC-Hütte'},
+  {id:'a26',t:'Match-Tipps einsammeln',st:'SAC-Hütte'},
+  {id:'a27',t:'Captain-Ansprache #3',st:'SAC-Hütte'},
+  {id:'a28',t:'Frankreich vs. England schauen',st:'SAC-Hütte'},
+  {id:'a29',t:'Match-Tipps auswerten → Médaille du Football',st:'SAC-Hütte'},
+  {id:'a30',t:'Instagram-Mission auswerten',st:'SAC-Hütte'},
+  {id:'a31',t:'Captain-Mission auswerten',st:'SAC-Hütte'},
+  {id:'a32',t:'Schlussrangliste + Letztplatzierten bekannt geben',st:'SAC-Hütte'},
+  {id:'a33',t:'Persönlicher Abschluss',st:'SAC-Hütte'},
   {id:'a39',t:'Frühstück + Kaffee vorbereiten (Patrick + Letztplatzierter)',st:'Morgen'},
   {id:'a40',t:'Transfervertrag vorlesen + unterschreiben — HERE WE GO! 💍',st:'Morgen'},
   {id:'a41',t:'Abschliessender Instagram-Post',st:'Morgen'},
 ];
+
 var stC={Bahnhof:'tb',Zug:'tz',Boot:'to',Wein:'tw','SAC-Hütte':'th',Morgen:'tb'};
 function renderAblauf(){
   // Load custom items from storage
@@ -1635,17 +1832,19 @@ var MIS=[
   {l:'Kommentare (10)',k:'k',target:10},
 ];
 function renderMis(){
+  var isPatric = APP_MODE === 'paedi' || patricMode === 'paedi';
   document.getElementById('missionBar').innerHTML=MIS.map(function(m){
     var val=m.sp==='b'?(S.baguette||0):m.sp==='e'?(S.ein||0):(S.mis[m.k]||0);
     var pct=Math.min(100,Math.round(val/m.target*100));
     var done=val>=m.target;
     var html='<div class="mr"><span class="ml">'+m.l+'</span>'
       +'<div class="pb"><div class="pf '+(done?'done':'')+'" style="width:'+pct+'%"></div></div>';
-    if(!m.sp&&m.k){
-      html+='<button class="bs" style="padding:3px 7px" data-mik="'+m.k+'" data-mid="-1">-</button>';
+    // Only show +/- buttons for crew, not for Pädi
+    if(!m.sp&&m.k&&!isPatric){
+      html+='<button class="bs" style="padding:3px 7px" data-mik="'+m.k+'" data-mid="-1">−</button>';
     }
-    html+='<span class="mv">'+val+'</span>';
-    if(!m.sp&&m.k){
+    html+='<span class="mv" style="'+(done?'color:var(--green);font-weight:700':'')+'">'+(done?'✓ ':'')+val+'</span>';
+    if(!m.sp&&m.k&&!isPatric){
       html+='<button class="bs" style="padding:3px 7px" data-mik="'+m.k+'" data-mid="1">+</button>';
     }
     html+='<span class="mt">/'+m.target+'</span></div>';
@@ -1658,9 +1857,9 @@ function renderMis(){
   });
 }
 function adjMi(k,d){S.mis[k]=Math.max(0,(S.mis[k]||0)+d);save();renderMis();}
-function adjBaguette(d){S.baguette=Math.max(0,Math.min(5,(S.baguette||0)+d));var e=document.getElementById('bc');if(e)e.textContent=S.baguette;renderMis();save();}
+function adjBaguette(d){if(APP_MODE==='paedi'||patricMode==='paedi') return;S.baguette=Math.max(0,Math.min(5,(S.baguette||0)+d));var e=document.getElementById('bc');if(e)e.textContent=S.baguette;renderMis();save();}
 function saveEin(){S.ein=parseFloat(document.getElementById('ein').value)||0;renderMis();save();}
-function saveIG(){['ig_f','ig_l','ig_k'].forEach(function(id){var e=document.getElementById(id);if(e)S[id]=e.value});save();}
+function saveIG(){['ig_f','ig_l','ig_k'].forEach(function(id){var e=document.getElementById(id);if(e)S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]=parseInt(e.value)||0;});save();renderMis();}
 function resetAll(){if(!confirm('Wirklich alles zurücksetzen?'))return;localStorage.removeItem('pm5');location.reload();}
 
 function schnaps(y,r){var s=0;if(y>=2)s++;if(y>=4)s++;if(r>0)s+=5;return s;}
@@ -1677,7 +1876,7 @@ function renderSB(){
     var r=S.red[p.id]||0;
     var isPatric=p.id==='patrick';
     var rc=!isPatric?(i===0?'r1':i===1?'r2':i===2?'r3':''):'';
-    var schnaps=Math.floor(y/2)+(y>=1&&r>=1?1:0)+(r>=1?2:0);
+    var schnaps = (r * 3) + Math.floor(y / 2) + (y > 4 ? (y - 4) : 0);
     html+='<div class="sb-card">'
       +'<div class="sb-card-top">'
         +'<div>'
@@ -1940,7 +2139,7 @@ function showTab(id,btn){
   // re-apply edits and re-enable edit mode on new content
   setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
   if(id==='packliste') renderPackliste();
-  if(id==='patrick'){renderMis();renderPC();renderPatricTab();}
+  if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();}
   if(id==='beni') renderVAR();
   if(id==='maege') renderTips();
   if(id==='didi') renderDidiRegie();
@@ -2235,7 +2434,10 @@ function enableEdit(){
         el.setAttribute('data-edit-id', stableId);
         var saved=getEdit(el);
         if(saved!==null) el.innerHTML=saved;
-        el.addEventListener('blur',function(){saveEdit(this);});
+        el.addEventListener('blur',function(){saveEdit(this); hideRTToolbar();});
+        el.addEventListener('focus',function(){ showRTToolbar(this); });
+        el.addEventListener('keyup', updateRTButtons);
+        el.addEventListener('mouseup', updateRTButtons);
       }
     });
   });
@@ -2246,7 +2448,10 @@ function enableEdit(){
       el.setAttribute('data-edit-id',stableId);
       var saved=getEdit(el);
       if(saved!==null) el.innerHTML=saved;
-      el.addEventListener('blur',function(){saveEdit(this);});
+      el.addEventListener('blur',function(){saveEdit(this); hideRTToolbar();});
+      el.addEventListener('focus',function(){ showRTToolbar(this); });
+      el.addEventListener('keyup', updateRTButtons);
+      el.addEventListener('mouseup', updateRTButtons);
     }
   });
   // Make checklist item texts editable
@@ -2433,6 +2638,7 @@ function setPatricMode(mode){
   patricMode=mode;
   localStorage.setItem('patricMode',mode);
   renderPatricTab();
+  renderPatricPack();
 }
 
 function showPatricPwModal(){
@@ -2544,9 +2750,9 @@ function applyAppMode(){
     // Hide edit button
     var editBtn = document.getElementById('editToggle');
     if(editBtn) editBtn.style.display='none';
-    // Remove patricModeWrap — already in paedi mode
     patricMode = 'paedi';
     localStorage.setItem('patricMode','paedi');
+    renderMis();
   } else {
     // Crew sees everything
     document.querySelectorAll('.nav-row .tab-btn').forEach(function(btn){
@@ -2619,6 +2825,175 @@ function renderTabToggles(){
   });
 }
 
+
+var rtTarget = null;
+var rtHideTimeout = null;
+
+function showRTToolbar(el){
+  if(!editMode) return;
+  rtTarget = el;
+  var tb = document.getElementById('rtToolbar');
+  if(!tb) return;
+  tb.style.display = 'flex';
+  positionRTToolbar(el);
+  updateRTButtons();
+}
+
+function positionRTToolbar(el){
+  var tb = document.getElementById('rtToolbar');
+  if(!tb || !el) return;
+  var rect = el.getBoundingClientRect();
+  var tbW = 180;
+  var top = rect.top + window.scrollY - 48;
+  var left = rect.left + window.scrollX;
+  if(top < 8) top = rect.bottom + window.scrollY + 6;
+  if(left + tbW > window.innerWidth - 8) left = window.innerWidth - tbW - 8;
+  tb.style.top = top + 'px';
+  tb.style.left = left + 'px';
+}
+
+function hideRTToolbar(){
+  rtHideTimeout = setTimeout(function(){
+    var tb = document.getElementById('rtToolbar');
+    if(tb) tb.style.display = 'none';
+    rtTarget = null;
+  }, 200);
+}
+
+function updateRTButtons(){
+  ['bold','italic','underline'].forEach(function(cmd){
+    var btn = document.querySelector('[data-cmd="'+cmd+'"]');
+    if(btn) btn.classList.toggle('active', document.queryCommandState(cmd));
+  });
+}
+
+function initRTToolbar(){
+  var tb = document.getElementById('rtToolbar');
+  if(!tb) return;
+
+  // Wire buttons
+  tb.querySelectorAll('[data-cmd]').forEach(function(btn){
+    btn.addEventListener('mousedown', function(e){
+      e.preventDefault(); // don't blur the contenteditable
+      clearTimeout(rtHideTimeout);
+      var cmd = this.getAttribute('data-cmd');
+      document.execCommand(cmd, false, null);
+      if(rtTarget){
+        saveEdit(rtTarget);
+        updateRTButtons();
+      }
+    });
+    btn.addEventListener('touchstart', function(e){
+      e.preventDefault();
+      clearTimeout(rtHideTimeout);
+      var cmd = this.getAttribute('data-cmd');
+      document.execCommand(cmd, false, null);
+      if(rtTarget){
+        saveEdit(rtTarget);
+        updateRTButtons();
+      }
+    }, {passive:false});
+  });
+
+  // Keep toolbar visible when hovering over it
+  tb.addEventListener('mouseenter', function(){ clearTimeout(rtHideTimeout); });
+  tb.addEventListener('mouseleave', function(){ hideRTToolbar(); });
+}
+
+
+var PATRIC_PACK = [
+  'Reisedokumente / Zugticket',
+  'Bargeld + Karte',
+  'Handy + Ladekabel',
+  'Powerbank',
+  'Badesachen (Wakeboarden)',
+  'Handtuch',
+  'Sonnenschutz',
+  'Übernachtungssachen',
+  'Gute Laune 🎉',
+];
+
+function getPatricPack(){
+  return JSON.parse(localStorage.getItem('pm5_patricpack')||'null') || PATRIC_PACK.slice();
+}
+function savePatricPack(items){ localStorage.setItem('pm5_patricpack', JSON.stringify(items)); }
+
+function renderPatricPack(){
+  var el = document.getElementById('patricPackliste');
+  if(!el) return;
+  var isPatric = APP_MODE === 'paedi' || patricMode === 'paedi';
+  var items = getPatricPack();
+  var checked = JSON.parse(localStorage.getItem('pm5_patricpackdone')||'{}');
+
+  var html = items.map(function(item, i){
+    var done = !!checked[i];
+    return '<div class="ci '+(done?'done':'')+'" data-ppidx="'+i+'">'
+      +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
+      +'<span class="pp-text" style="flex:1"'+(editMode&&!isPatric?' contenteditable="true"':'')+'>'+item+'</span>'
+      +(editMode&&!isPatric?'<span class="pp-del" data-ppdi="'+i+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;flex-shrink:0">&#215;</span>':'')
+      +'</div>';
+  }).join('');
+
+  if(editMode && !isPatric){
+    html += '<div class="pp-add" style="display:flex;align-items:center;gap:8px;padding:7px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+      +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+      +'Eintrag hinzufügen</div>';
+  }
+
+  el.innerHTML = html;
+
+  // Wire checkboxes — Pädi can check off
+  el.querySelectorAll('[data-ppidx]').forEach(function(row){
+    row.addEventListener('click', function(e){
+      if(e.target.classList.contains('pp-del')) return;
+      if(e.target.classList.contains('pp-text') && editMode && !isPatric) return;
+      var i = parseInt(this.getAttribute('data-ppidx'));
+      var done = JSON.parse(localStorage.getItem('pm5_patricpackdone')||'{}');
+      done[i] = !done[i];
+      localStorage.setItem('pm5_patricpackdone', JSON.stringify(done));
+      renderPatricPack();
+    });
+  });
+
+  // Wire deletes
+  el.querySelectorAll('.pp-del').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var items = getPatricPack();
+      items.splice(parseInt(this.getAttribute('data-ppdi')), 1);
+      savePatricPack(items); renderPatricPack();
+    });
+  });
+
+  // Wire add
+  var addBtn = el.querySelector('.pp-add');
+  if(addBtn) addBtn.addEventListener('click', function(){
+    var items = getPatricPack();
+    items.push('Neuer Eintrag');
+    savePatricPack(items); renderPatricPack();
+    setTimeout(function(){
+      var txts = el.querySelectorAll('.pp-text');
+      var last = txts[txts.length-1];
+      if(last){ last.setAttribute('contenteditable','true'); last.focus(); selectAll(last); }
+    },50);
+  });
+
+  // Wire text edit
+  if(editMode && !isPatric){
+    el.querySelectorAll('.pp-text').forEach(function(t){
+      t.addEventListener('click', function(e){ e.stopPropagation(); });
+      t.addEventListener('blur', function(){
+        var items = getPatricPack();
+        el.querySelectorAll('[data-ppidx]').forEach(function(row){
+          var txt = row.querySelector('.pp-text');
+          if(txt) items[parseInt(row.getAttribute('data-ppidx'))] = txt.textContent;
+        });
+        savePatricPack(items);
+      });
+    });
+  }
+}
+
 function init(){
   renderSB();
   renderAblauf();
@@ -2640,7 +3015,15 @@ function init(){
     el.addEventListener('input', saveIG);
   });
   var einEl=document.getElementById('ein');
-  if(einEl) einEl.addEventListener('input', saveEin);
+  if(einEl){
+    einEl.addEventListener('input', saveEin);
+    if(APP_MODE==='paedi'||patricMode==='paedi'){
+      einEl.setAttribute('readonly','true');
+      einEl.style.pointerEvents='none';
+      einEl.style.opacity='.6';
+    }
+  }
+  initRTToolbar();
   // wire sub-tab buttons
   document.querySelectorAll('[data-sub]').forEach(function(btn){
     btn.addEventListener('click',function(){ showSub(this.getAttribute('data-sub'),this); });
