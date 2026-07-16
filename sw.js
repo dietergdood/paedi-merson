@@ -1,4 +1,4 @@
-const CACHE_NAME = 'paedi-merson-v1';
+const CACHE_NAME = 'paedi-merson-v7';
 const ASSETS = [
   '/',
   '/index.html',
@@ -27,14 +27,12 @@ self.addEventListener('activate', function(e){
 });
 
 self.addEventListener('fetch', function(e){
-  // For Supabase API calls — always go network first
   if(e.request.url.includes('supabase.co')){
     e.respondWith(fetch(e.request).catch(function(){
       return new Response('{}', {headers:{'Content-Type':'application/json'}});
     }));
     return;
   }
-  // For CDN scripts — network first, cache fallback
   if(e.request.url.includes('cdn.') || e.request.url.includes('fonts.')){
     e.respondWith(
       fetch(e.request).then(function(res){
@@ -47,14 +45,14 @@ self.addEventListener('fetch', function(e){
     );
     return;
   }
-  // App shell — cache first
+  // Network first for app shell to always get latest
   e.respondWith(
-    caches.match(e.request).then(function(cached){
-      return cached || fetch(e.request).then(function(res){
-        var clone = res.clone();
-        caches.open(CACHE_NAME).then(function(c){ c.put(e.request, clone); });
-        return res;
-      });
+    fetch(e.request).then(function(res){
+      var clone = res.clone();
+      caches.open(CACHE_NAME).then(function(c){ c.put(e.request, clone); });
+      return res;
+    }).catch(function(){
+      return caches.match(e.request);
     })
   );
 });

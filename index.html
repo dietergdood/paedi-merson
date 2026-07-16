@@ -2377,12 +2377,9 @@ function regieEditField(sid, stepIdx, field, value){
 
 function renderRegie(){
   var data=getRegieData();
-  window._raccIds=[];
   var html='';
   data.forEach(function(s,si){
-    var ridx=window._raccIds.length;
-    window._raccIds.push(s.id);
-    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'" onclick="window._racc('+ridx+')">';
+    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'" onclick="toggleAcc(\''+s.id+'\')">';
     if(editMode){
       html+='<div class="re-sbtns" style="display:flex;gap:3px;margin-right:6px;flex-shrink:0">'
         +'<button class="bs bs-sm re-sup" data-sid="'+s.id+'" title="hoch">↑</button>'
@@ -2439,8 +2436,6 @@ function renderRegie(){
   var addBtn=document.getElementById('reAddStation');
   if(addBtn) addBtn.addEventListener('click',regieAddStation);
 }
-window._racc=function(idx){ toggleAcc(window._raccIds[idx]); };
-
 
 function renderDidiRegie(){
   var el=document.getElementById('didiRegie');
