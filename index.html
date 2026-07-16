@@ -1846,6 +1846,7 @@ Deine Pflichten ab sofort:<br>
 
 
 <script>
+
 // ─── Supabase Config ─────────────────────────────────────────────────────────
 // Diese Werte werden von Vercel als Environment Variables gesetzt
 // Lokal: erstelle eine .env.local Datei (siehe .env.example)
@@ -2216,20 +2217,19 @@ function regieEditField(sid, stepIdx, field, value){
 }
 
 function renderRegie(){
-  var data = editMode ? getRegieData() : getRegieData();
+  var data=getRegieData();
   var html='';
-  data.forEach(function(s, si){
-    html+='<div class="acc-item">'
-      +'<div class="acc-h" data-acc="'+s.id+'">';
+  data.forEach(function(s,si){
+    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'">';
     if(editMode){
-      html+='<div style="display:flex;gap:4px;margin-right:6px">'
-        +'<button class="bs bs-sm" onclick="event.stopPropagation();regieMoveStation(''+s.id+'',-1)" title="Nach oben">↑</button>'
-        +'<button class="bs bs-sm" onclick="event.stopPropagation();regieMoveStation(''+s.id+'',1)" title="Nach unten">↓</button>'
-        +'<button class="bs bs-sm" onclick="event.stopPropagation();regieDeleteStation(''+s.id+'')" style="color:#e03535" title="Löschen">✕</button>'
+      html+='<div class="re-sbtns" style="display:flex;gap:3px;margin-right:6px;flex-shrink:0">'
+        +'<button class="bs bs-sm re-sup" data-sid="'+s.id+'" title="hoch">↑</button>'
+        +'<button class="bs bs-sm re-sdn" data-sid="'+s.id+'" title="runter">↓</button>'
+        +'<button class="bs bs-sm re-sdel" data-sid="'+s.id+'" style="color:#e03535">✕</button>'
         +'</div>';
     }
     html+='<div class="adot '+s.dot+'"></div>'
-      +'<span class="acc-t" data-edit-id="regie-'+s.id+'-title"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'',null,'t',this.textContent)"':'')+'>'+s.t+'</span>'
+      +'<span class="acc-t re-stitle" data-sid="'+s.id+'"'+(editMode?' contenteditable="true"':'')+'>'+s.t+'</span>'
       +'<span class="acc-s">'+s.steps.length+' Schritte</span>'
       +'<span class="acc-a" id="arr_'+s.id+'">&#9660;</span>'
       +'</div><div class="acc-b" id="acc_'+s.id+'">';
@@ -2237,33 +2237,47 @@ function renderRegie(){
       var eid=s.id+'-'+i;
       html+='<div class="ds">';
       if(editMode){
-        html+='<div style="display:flex;flex-direction:column;gap:2px;margin-right:6px">'
-          +'<button class="bs bs-sm" onclick="regieMoveStep(''+s.id+'','+i+',-1)" style="padding:1px 5px;font-size:10px">↑</button>'
-          +'<button class="bs bs-sm" onclick="regieMoveStep(''+s.id+'','+i+',1)" style="padding:1px 5px;font-size:10px">↓</button>'
+        html+='<div class="re-stepbtns" style="display:flex;flex-direction:column;gap:2px;margin-right:6px;flex-shrink:0">'
+          +'<button class="bs bs-sm re-sup2" data-sid="'+s.id+'" data-si="'+i+'" style="padding:1px 5px;font-size:10px">↑</button>'
+          +'<button class="bs bs-sm re-sdn2" data-sid="'+s.id+'" data-si="'+i+'" style="padding:1px 5px;font-size:10px">↓</button>'
           +'</div>';
       }
       html+='<div class="dn">'+(i+1)+'</div><div class="dc">'
-        +'<div class="dw2" data-edit-id="regie-'+eid+'-w"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','w',this.textContent)"':'')+'>'+step.w+'</div>'
-        +'<div class="dt" data-edit-id="regie-'+eid+'-t"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','t',this.textContent)"':'')+'>'+step.t+'</div>';
-      if(step.q) html+='<div class="dq" data-edit-id="regie-'+eid+'-q"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','q',this.textContent)"':'')+'>'+step.q+'</div>';
-      if(step.ig) html+='<div class="igb" data-edit-id="regie-'+eid+'-ig"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','ig',this.textContent)"':'')+'>'+step.ig+'</div>';
+        +'<div class="dw2 re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="w"'+(editMode?' contenteditable="true"':'')+'>'+step.w+'</div>'
+        +'<div class="dt re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="t"'+(editMode?' contenteditable="true"':'')+'>'+step.t+'</div>';
+      if(step.q) html+='<div class="dq re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="q"'+(editMode?' contenteditable="true"':'')+'>'+step.q+'</div>';
+      if(step.ig) html+='<div class="igb re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="ig"'+(editMode?' contenteditable="true"':'')+'>'+step.ig+'</div>';
       if(step.m) html+='<div class="dm"><span>'+step.m+'</span></div>';
-      if(step.n) html+='<div class="dno" data-edit-id="regie-'+eid+'-n"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','n',this.textContent)"':'')+'>— '+step.n+'</div>';
+      if(step.n) html+='<div class="dno re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="n"'+(editMode?' contenteditable="true"':'')+'>— '+step.n+'</div>';
       if(editMode){
-        html+='<button class="bs bs-sm" onclick="regieDeleteStep(''+s.id+'','+i+')" style="color:#e03535;margin-top:4px">✕ Schritt löschen</button>';
+        html+='<button class="bs bs-sm re-sdel2" data-sid="'+s.id+'" data-si="'+i+'" style="color:#e03535;margin-top:4px">✕ Schritt löschen</button>';
       }
       html+='</div></div>';
     });
     if(editMode){
-      html+='<button class="bs" onclick="regieAddStep(''+s.id+'')" style="width:100%;margin-top:8px;color:var(--accent-dark)">+ Schritt hinzufügen</button>';
+      html+='<button class="bs re-sadd" data-sid="'+s.id+'" style="width:100%;margin-top:8px;color:var(--accent-dark)">+ Schritt hinzufügen</button>';
     }
     html+='</div></div>';
   });
   if(editMode){
-    html+='<button class="bs" onclick="regieAddStation()" style="width:100%;margin-top:8px;color:var(--accent-dark)">+ Station hinzufügen</button>';
+    html+='<button class="bs" id="reAddStation" style="width:100%;margin-top:8px;color:var(--accent-dark)">+ Station hinzufügen</button>';
   }
   var el=document.getElementById('regiAcc');
-  if(el) el.innerHTML=html;
+  if(!el) return;
+  el.innerHTML=html;
+  // Wire station buttons
+  el.querySelectorAll('.re-sup').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieMoveStation(this.dataset.sid,-1);}); });
+  el.querySelectorAll('.re-sdn').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieMoveStation(this.dataset.sid,1);}); });
+  el.querySelectorAll('.re-sdel').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieDeleteStation(this.dataset.sid);}); });
+  el.querySelectorAll('.re-stitle[contenteditable]').forEach(function(b){ b.addEventListener('blur',function(){regieEditField(this.dataset.sid,null,'t',this.textContent);}); });
+  // Wire step buttons
+  el.querySelectorAll('.re-sup2').forEach(function(b){ b.addEventListener('click',function(){regieMoveStep(this.dataset.sid,parseInt(this.dataset.si),-1);}); });
+  el.querySelectorAll('.re-sdn2').forEach(function(b){ b.addEventListener('click',function(){regieMoveStep(this.dataset.sid,parseInt(this.dataset.si),1);}); });
+  el.querySelectorAll('.re-sdel2').forEach(function(b){ b.addEventListener('click',function(){regieDeleteStep(this.dataset.sid,parseInt(this.dataset.si));}); });
+  el.querySelectorAll('.re-sadd').forEach(function(b){ b.addEventListener('click',function(){regieAddStep(this.dataset.sid);}); });
+  el.querySelectorAll('.re-fw[contenteditable]').forEach(function(b){ b.addEventListener('blur',function(){regieEditField(this.dataset.sid,parseInt(this.dataset.si),this.dataset.fld,this.textContent);}); });
+  var addBtn=document.getElementById('reAddStation');
+  if(addBtn) addBtn.addEventListener('click',regieAddStation);
 }
 
 
