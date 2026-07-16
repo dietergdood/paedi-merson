@@ -1296,22 +1296,20 @@ Deine Pflichten ab sofort:<br>
       <li>Einnahmen dokumentieren und am Abend melden</li>
     </ul></div>
   </div>
-  <div class="section">
-    <div class="section-title">Baguette-Tracker</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span style="font-size:13px;min-width:150px;color:#666">Baguettes verkauft:</span>
-        <button class="bs" data-bq="-1">−</button>
-        <span id="bc" style="font-size:18px;font-weight:700;min-width:30px;text-align:center">0</span>
-        <span style="font-size:13px;color:#aaa">/ 5</span>
-        <button class="bs" data-bq="1">+</button>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:13px;min-width:150px;color:#666">Einnahmen CHF:</span>
-        <input type="number" id="ein" placeholder="0" style="width:80px">
-        <span style="font-size:13px;color:#aaa">Pflicht: 30.– / Bonus: 50.–</span>
-      </div>
-    </div>
+   <div class="section">
+     <div class="section-title">Finanz-Checker</div>
+     <div style="display:flex;flex-direction:column;gap:10px">
+       <div style="display:flex;align-items:center;gap:8px">
+         <span style="font-size:13px;min-width:150px;color:#666">Einnahmen CHF:</span>
+         <input type="number" id="ein" placeholder="0" style="width:80px">
+       </div>
+       <div style="display:flex;align-items:center;gap:8px">
+         <span style="font-size:13px;min-width:150px;color:#666">Ziel CHF (Pflicht):</span>
+         <input type="number" id="einTarget" placeholder="30" style="width:80px">
+         <span style="font-size:12px;color:#aaa">→ wird in Tagesmission übernommen</span>
+       </div>
+     </div>
+   </div>
   </div>
   <div class="section">
     <div class="section-title">Verkaufstext für Patrick</div>
@@ -2002,7 +2000,7 @@ var P=[
   {id:'maege',name:'Mäge Sauter',role:'Médaillenchef'},
   {id:'patrick',name:'Patrick Avolio',role:'Bier-Kapitan'},
 ];
-var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,ig_f:'',ig_l:'',ig_k:'',mis:{f:0,l:0,k:0},abl:{},pc:{},mat:{},tips:{},varp:{}};
+var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,einTarget:30,ig_f:'',ig_l:'',ig_k:'',mis:{f:0,l:0,k:0},abl:{},pc:{},mat:{},tips:{},varp:{}};
 function save(){localStorage.setItem('pm5',JSON.stringify(S));}
 
 var MEDALS=[
@@ -2425,8 +2423,7 @@ function savePCHEdits(){
 function togPC(id){S.pc[id]=!S.pc[id];save();renderPC();}
 
 var MIS=[
-  {l:'Baguettes (5)',target:5,sp:'b'},
-  {l:'Einnahmen Pflicht CHF (30)',target:30,sp:'e'},
+  {l:'Einnahmen Pflicht CHF',target:S.einTarget||30,sp:'e'},
   {l:'Neue Follower (38)',k:'f',target:38},
   {l:'Likes (100)',k:'l',target:100},
   {l:'Kommentare (10)',k:'k',target:10},
@@ -2458,6 +2455,11 @@ function renderMis(){
 }
 function adjMi(k,d){S.mis[k]=Math.max(0,(S.mis[k]||0)+d);save();renderMis();}
 function adjBaguette(d){if(APP_MODE==='paedi'||patricMode==='paedi') return;S.baguette=Math.max(0,Math.min(5,(S.baguette||0)+d));var e=document.getElementById('bc');if(e)e.textContent=S.baguette;renderMis();save();}
+function saveEinTarget(){
+  var el=document.getElementById('einTarget');
+  if(el){ S.einTarget=parseFloat(el.value)||30; save(); renderMis(); }
+}
+
 function saveEin(){S.ein=parseFloat(document.getElementById('ein').value)||0;renderMis();save();}
 function saveIG(){['ig_f','ig_l','ig_k'].forEach(function(id){var e=document.getElementById(id);if(e)S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]=parseInt(e.value)||0;});save();renderMis();}
 function resetAll(){if(!confirm('Wirklich alles zurücksetzen?'))return;localStorage.removeItem('pm5');location.reload();}
@@ -3876,7 +3878,7 @@ function init(){
   renderRegie();
   renderAllMat();
   renderMedals();
-  var bc=document.getElementById('bc');if(bc)bc.textContent=S.baguette||0;
+
   var ein=document.getElementById('ein');if(ein)ein.value=S.ein||'';
   ['ig_f','ig_l','ig_k'].forEach(function(id){
     var e=document.getElementById(id);
@@ -3895,14 +3897,16 @@ function init(){
       showTab(tab,this);
     });
   });
-  // wire baguette +/- buttons
-  document.querySelectorAll('[data-bq]').forEach(function(el){
-    el.addEventListener('click',function(){ adjBaguette(parseInt(this.getAttribute('data-bq'))); });
-  });
+  // baguette buttons removed
   // wire IG inputs
   document.querySelectorAll('[data-ig]').forEach(function(el){
     el.addEventListener('input', saveIG);
   });
+  var einTargetEl=document.getElementById('einTarget');
+  if(einTargetEl){
+    einTargetEl.value=S.einTarget||30;
+    einTargetEl.addEventListener('change', saveEinTarget);
+  }
   var einEl=document.getElementById('ein');
   if(einEl){
     einEl.addEventListener('input', saveEin);
