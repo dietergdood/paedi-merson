@@ -639,6 +639,21 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     </div>
   </div>
 
+  <!-- CREW PASSWORD MODAL -->
+  <div id="crewPwModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(4px)">
+    <div style="background:#fff;border-radius:18px;padding:2rem;max-width:300px;width:90%;text-align:center">
+      <div style="font-size:28px;margin-bottom:.5rem">👥</div>
+      <div style="font-size:15px;font-weight:700;margin-bottom:.35rem">Crew-Modus</div>
+      <div style="font-size:12px;color:#888;margin-bottom:1rem">Crew-Passwort eingeben</div>
+      <input id="crewPwInput" type="password" placeholder="Passwort" style="width:100%;text-align:center;font-size:20px;letter-spacing:.2em;margin-bottom:.5rem;border-radius:10px" onkeydown="if(event.key==='Enter')checkCrewPw()">
+      <div id="crewPwError" style="font-size:12px;color:#e03535;margin-bottom:.5rem;display:none">Falsches Passwort</div>
+      <div style="display:flex;gap:8px;margin-top:.5rem">
+        <button onclick="closeCrewPwModal()" style="flex:1;padding:10px;border:1.5px solid #ddd;border-radius:10px;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#666">Zurück</button>
+        <button onclick="checkCrewPw()" style="flex:1;padding:10px;border:none;border-radius:10px;background:#0a0a0a;font-size:13px;font-weight:700;cursor:pointer;color:#e8c44a">Weiter</button>
+      </div>
+    </div>
+  </div>
+
   <!-- KACHELN — sichtbar für Crew immer, für Pädi nur wenn freigeschaltet -->
   <div id="patricContent">
 
@@ -891,6 +906,10 @@ Sie stehen ab sofort unter Beobachtung des Transferkomitees, des Schiedsrichters
 <!-- DIDI -->
 <div id="tab-didi" style="display:none">
   <div class="section"><div class="section-title">Meine Packliste</div><div id="matDidi"></div></div>
+  <div class="section">
+    <div class="section-title">Regie-Kurzansicht (Didi)</div>
+    <div id="didiRegie"></div>
+  </div>
   <div class="section">
     <div class="section-title">Didi Good — Transferdirektor & Schiedsrichter</div>
     <div class="info-block"><ul>
@@ -1830,41 +1849,45 @@ function toggleAcc(id){
 
 var ABL=[
   {id:'a01',t:'Patrick empfangen',st:'Bahnhof'},
-  {id:'a02',t:'Frankreich-Outfit übergeben',st:'Bahnhof'},
-  {id:'a03',t:'Schiedsrichter vorstellen, Regeln erklären',st:'Bahnhof'},
-  {id:'a04',t:'Bier-Kapitän-Ernennung',st:'Bahnhof'},
-  {id:'a05',t:'Instagram-Post 1 + 2',st:'Bahnhof'},
-  {id:'a06',t:'Transferdossier + 5 Baguettes übergeben',st:'Bahnhof'},
-  {id:'a07',t:'Molotow-Jass + Kings Cup ankündigen',st:'Bahnhof'},
-  {id:'a08',t:'Mannschaftskontrolle + Captain-Ansprache #1',st:'Zug'},
-  {id:'a09',t:'Baguetteverkauf',st:'Zug'},
-  {id:'a10',t:'Instagram Story Baguettes',st:'Zug'},
-  {id:'a11',t:"Kindheits-VAR → L'Œil du VAR",st:'Zug'},
-  {id:'a12',t:"Quiz Wer kennt Pädi → Médaille de l'Amitié",st:'Zug'},
-  {id:'a13',t:'Mannschaftskontrolle',st:'Boot'},
-  {id:'a14',t:'Kostüm-Übergabe + medizinische Beurteilung',st:'Boot'},
-  {id:'a15',t:'Captain-Ansprache #2 + medizinisches Statement',st:'Boot'},
-  {id:'a16',t:'Wakeboard-Runs',st:'Boot'},
-  {id:'a17',t:'Médaille de la Performance + Prix du Plongeon',st:'Boot'},
-  {id:'a18',t:'Instagram Post Boot',st:'Boot'},
-  {id:'a19',t:'Begriffskarten bereithalten',st:'Wein'},
-  {id:'a20',t:'Bullshit-Sommelier → Médaille',st:'Wein'},
-  {id:'a21',t:'Sponsoren-Post',st:'Wein'},
-  {id:'a22',t:'Raclette',st:'SAC-Hütte'},
-  {id:'a23',t:"Task Team → Médaille d'Équipe",st:'SAC-Hütte'},
-  {id:'a24',t:'Molotow Schlussstand → Médaille du Molotow',st:'SAC-Hütte'},
-  {id:'a25',t:'Kings Cup (falls noch nicht) → Médaille',st:'SAC-Hütte'},
-  {id:'a26',t:'Match-Tipps einsammeln',st:'SAC-Hütte'},
-  {id:'a27',t:'Captain-Ansprache #3',st:'SAC-Hütte'},
-  {id:'a28',t:'Frankreich vs. England schauen',st:'SAC-Hütte'},
-  {id:'a29',t:'Match-Tipps auswerten → Médaille du Football',st:'SAC-Hütte'},
-  {id:'a30',t:'Instagram-Mission auswerten',st:'SAC-Hütte'},
-  {id:'a31',t:'Captain-Mission auswerten',st:'SAC-Hütte'},
-  {id:'a32',t:'Schlussrangliste + Letztplatzierten bekannt geben',st:'SAC-Hütte'},
-  {id:'a33',t:'Persönlicher Abschluss',st:'SAC-Hütte'},
-  {id:'a39',t:'Frühstück + Kaffee vorbereiten (Patrick + Letztplatzierter)',st:'Morgen'},
-  {id:'a40',t:'Transfervertrag vorlesen + unterschreiben — HERE WE GO! 💍',st:'Morgen'},
-  {id:'a41',t:'Abschliessender Instagram-Post',st:'Morgen'},
+  {id:'a02',t:'Frankreich-Outfit übergeben + Begründung vorlesen',st:'Bahnhof'},
+  {id:'a03',t:'Schiedsrichter vorstellen + Regeln erklären',st:'Bahnhof'},
+  {id:'a04',t:'Bier-Kapitän-Ernennung + Binde anlegen',st:'Bahnhof'},
+  {id:'a05',t:'Instagram-Post 1 + 2 absetzen (Dominik)',st:'Bahnhof'},
+  {id:'a06',t:'Transferdossier + 5 Baguettes übergeben (Lädi)',st:'Bahnhof'},
+  {id:'a07',t:'Molotow-Jass + Kings Cup ankündigen (Mäge)',st:'Bahnhof'},
+  {id:'a08',t:'Tobi: Sommelier-Begriffe auf alle Geräte verteilen',st:'Bahnhof'},
+  {id:'a09',t:'Mannschaftskontrolle + Captain-Ansprache #1',st:'Zug'},
+  {id:'a10',t:'Baguetteverkauf im Zug',st:'Zug'},
+  {id:'a11',t:'Instagram Story: Baguetteverkauf (Dominik)',st:'Zug'},
+  {id:'a12',t:"Kindheits-VAR → L'Œil du VAR (Beni)",st:'Zug'},
+  {id:'a13',t:"Quiz «Wer kennt Pädi?» → Médaille de l'Amitié (Mäge)",st:'Zug'},
+  {id:'a14',t:'Instagram Story: VAR Check (Dominik)',st:'Zug'},
+  {id:'a15',t:'Mannschaftskontrolle vor dem Boot',st:'Boot'},
+  {id:'a16',t:'Kostüm-Übergabe + medizinische Beurteilung (Pädi Koch)',st:'Boot'},
+  {id:'a17',t:'Captain-Ansprache #2 + medizinisches Statement (Video)',st:'Boot'},
+  {id:'a18',t:'Wakeboard-Runs — alle mindestens 1 Run',st:'Boot'},
+  {id:'a19',t:'Médaille de la Performance + Prix du Plongeon (Pädi Koch)',st:'Boot'},
+  {id:'a20',t:'Instagram Post: Medical Update (Dominik)',st:'Boot'},
+  {id:'a21',t:'Ablauf mit Weingut abstimmen (Tobi)',st:'Wein'},
+  {id:'a22',t:'Bullshit-Sommelier → Médaille (Tobi)',st:'Wein'},
+  {id:'a23',t:'Kings Cup falls noch nicht gespielt → Médaille (Mäge)',st:'Wein'},
+  {id:'a24',t:'Sponsoren-Post (Dominik)',st:'Wein'},
+  {id:'a25',t:'Raclette geniessen',st:'SAC-Hütte'},
+  {id:'a26',t:"Task Team → Médaille d'Équipe (Mäge)",st:'SAC-Hütte'},
+  {id:'a27',t:'Molotow Schlussstand auswerten → Médaille du Molotow (Mäge)',st:'SAC-Hütte'},
+  {id:'a28',t:'Kings Cup falls noch nicht gespielt → Médaille (Mäge)',st:'SAC-Hütte'},
+  {id:'a29',t:'Match-Tipps einsammeln (alle)',st:'SAC-Hütte'},
+  {id:'a30',t:'Captain-Ansprache #3 (Patrick)',st:'SAC-Hütte'},
+  {id:'a31',t:'Frankreich vs. England schauen',st:'SAC-Hütte'},
+  {id:'a32',t:'Match-Tipps auswerten → Médaille du Football (Mäge)',st:'SAC-Hütte'},
+  {id:'a33',t:'Instagram-Mission auswerten + blauen Haken (Dominik)',st:'SAC-Hütte'},
+  {id:'a34',t:'Captain-Mission auswerten (Didi)',st:'SAC-Hütte'},
+  {id:'a35',t:'Schlussrangliste + Letztplatzierten bekannt geben (Mäge)',st:'SAC-Hütte'},
+  {id:'a36',t:'Persönlicher Abschluss — jeder vervollständigt den Satz',st:'SAC-Hütte'},
+  {id:'a37',t:'Frühstück vorbereiten (Patrick + Letztplatzierter)',st:'Morgen'},
+  {id:'a38',t:'Transfervertrag feierlich vorlesen (Didi)',st:'Morgen'},
+  {id:'a39',t:'Alle unterschreiben — HERE WE GO! 💍',st:'Morgen'},
+  {id:'a40',t:'Abschliessender Instagram-Post (Dominik)',st:'Morgen'},
 ];
 
 var stC={Bahnhof:'tb',Zug:'tz',Boot:'to',Wein:'tw','SAC-Hütte':'th',Morgen:'tb'};
@@ -2325,26 +2348,32 @@ function renderVAR(){
 function adjVAR(id,d){if(!S.varp)S.varp={};S.varp[id]=Math.max(0,(S.varp[id]||0)+d);save();renderVAR();}
 
 function renderTips(){
-  // Overview for Mäge — all tips in one place with winner button
   var el=document.getElementById('matchTipps');
   if(!el) return;
   var persons=P.filter(function(p){return p.id!=='maege';});
+  var winner=S.tips&&S.tips._winner;
   var html='<div style="display:flex;flex-direction:column;gap:6px">';
   persons.forEach(function(p){
     var t=(S.tips&&S.tips[p.id])||{};
-    var isWinner=S.tips&&S.tips._winner===p.id;
-    html+='<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
+    var isWinner=winner===p.id;
+    html+='<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;border-radius:8px;'
+      +'background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
       +'<span style="font-size:12px;min-width:75px;color:#555;font-weight:600">'+p.name.split(' ')[0]+':</span>'
       +'<span style="font-size:13px;font-weight:600;min-width:40px;color:#0a0a0a">'+(t.res||'—')+'</span>'
       +'<span style="font-size:12px;color:#888;min-width:90px">'+(t.tor||'—')+'</span>'
       +'<span style="font-size:12px;color:#888;min-width:40px">'+(t.min?t.min+"'":' —')+'</span>'
-      +'<button class="bs bs-sm" onclick="setTipWinner(''+p.id+'')" style="margin-left:auto;'+(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">'+
-      (isWinner?'✓ Gewinner':'Gewinner')+'</button>'
+      +'<button class="bs bs-sm tip-winner-btn" data-twid="'+p.id+'" style="margin-left:auto;'
+      +(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a;':'')+'">'
+      +(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
       +'</div>';
   });
   html+='</div>';
   el.innerHTML=html;
+  el.querySelectorAll('.tip-winner-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){setTipWinner(this.getAttribute('data-twid'));});
+  });
 }
+
 
 function setTipWinner(id){
   if(!S.tips) S.tips={};
@@ -2356,30 +2385,860 @@ function setTipWinner(id){
 function renderMyTip(personId){
   var el=document.getElementById('myTip_'+personId);
   if(!el) return;
+  var isPatric=APP_MODE==='paedi'||patricMode==='paedi';
   var t=(S.tips&&S.tips[personId])||{};
+  var isWinner=S.tips&&S.tips._winner===personId;
+  if(isPatric){
+    el.innerHTML='<div style="display:flex;flex-direction:column;gap:8px;color:#bbb;text-align:center;padding:.5rem;font-size:13px">Tipps werden vor dem Spiel freigeschaltet</div>'
+      +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem .75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">🏆 Du hast gewonnen!</div>':'');
+    return;
+  }
   el.innerHTML='<div style="display:flex;flex-direction:column;gap:8px">'
     +'<div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:120px;color:#666">Resultat:</span>'
-    +'<input id="tip_res_'+personId+'" placeholder="z.B. 2:1" value="'+(t.res||'')+'" style="width:80px" onblur="saveTip(''+personId+'')" oninput="saveTip(''+personId+'')"></div>'
+    +'<input class="tip-input" data-tipf="res" data-tpid="'+personId+'" placeholder="z.B. 2:1" value="'+(t.res||'')+'" style="width:80px"></div>'
     +'<div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:120px;color:#666">Erster Torschütze:</span>'
-    +'<input id="tip_tor_'+personId+'" placeholder="Name" value="'+(t.tor||'')+'" style="flex:1" onblur="saveTip(''+personId+'')" oninput="saveTip(''+personId+'')"></div>'
+    +'<input class="tip-input" data-tipf="tor" data-tpid="'+personId+'" placeholder="Name" value="'+(t.tor||'')+'" style="flex:1"></div>'
     +'<div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:120px;color:#666">Minute:</span>'
-    +'<input id="tip_min_'+personId+'" placeholder="z.B. 23" type="number" value="'+(t.min||'')+'" style="width:80px" onblur="saveTip(''+personId+'')" oninput="saveTip(''+personId+'')"></div>'
-    +(S.tips&&S.tips._winner===personId?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem .75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">🏆 Du hast gewonnen!</div>':'')
+    +'<input class="tip-input" data-tipf="min" data-tpid="'+personId+'" placeholder="z.B. 23" type="number" value="'+(t.min||'')+'" style="width:80px"></div>'
+    +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem .75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">🏆 Du hast gewonnen!</div>':'')
     +'</div>';
+  el.querySelectorAll('.tip-input').forEach(function(inp){
+    inp.addEventListener('blur',function(){
+      var pid=this.getAttribute('data-tpid');
+      var field=this.getAttribute('data-tipf');
+      if(!S.tips) S.tips={};
+      if(!S.tips[pid]) S.tips[pid]={};
+      S.tips[pid][field]=this.value;
+      save(); renderTips();
+    });
+  });
 }
+
 
 function saveTip(personId){
-  if(!S.tips) S.tips={};
-  var res=document.getElementById('tip_res_'+personId);
-  var tor=document.getElementById('tip_tor_'+personId);
-  var min=document.getElementById('tip_min_'+personId);
-  if(res) S.tips[personId]={
-    res:res.value,
-    tor:tor?tor.value:'',
-    min:min?min.value:''
-  };
-  save();
-  renderTips();
+  // Now handled via blur events in renderMyTip
 }
 
->
+// ─── Sub-tab system ───────────────────────────────────────────────────────────
+function showSub(id,btn){
+  document.querySelectorAll('[id^="sub-"]').forEach(function(el){el.style.display='none';});
+  var target=document.getElementById('sub-'+id);
+  if(target) target.style.display='block';
+  document.querySelectorAll('.sub-btn').forEach(function(b){b.classList.remove('active');});
+  var activeBtn=btn||document.querySelector('[data-sub="'+id+'"]');
+  if(activeBtn) activeBtn.classList.add('active');
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },50);
+}
+
+// ─── Tab system ───────────────────────────────────────────────────────────────
+function showTab(id,btn){
+  document.querySelectorAll('[id^="tab-"]').forEach(function(el){el.style.display='none';});
+  var target=document.getElementById('tab-'+id);
+  if(target) target.style.display='block';
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  var activeBtn=btn||document.querySelector('[data-tab="'+id+'"]');
+  if(activeBtn) activeBtn.classList.add('active');
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
+  if(id==='packliste') renderPackliste();
+  if(id==='regie'){ renderRegie(); renderDidiRegie(); }
+  if(id==='ablauf') renderAblauf();
+  if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderMyTip('patrick');renderMySOMMWord('patrick');}
+  if(['didi','dominik','berater','beni','koch','tobi'].indexOf(id)!==-1){
+    renderMyTip(id);
+    renderMySOMMWord(id);
+    renderMyQuizForm(id);
+    if(id!=='beni') renderMyVARGuesses(id);
+  }
+  if(id==='beni') renderVARBeni();
+  if(id==='tobi'){ renderSOMMTobi(); }
+  if(id==='maege'){ renderTips(); renderQuizMaege(); }
+  if(id==='sb') renderSB();
+}
+
+// ─── Edit mode ────────────────────────────────────────────────────────────────
+var EDIT_KEY='pm5_edits';
+var editMode=false;
+
+function toggleEdit(){
+  if(!editMode){
+    var ov=document.getElementById('pwOverlay');
+    ov.style.display='flex';
+    setTimeout(function(){ document.getElementById('pwInput').focus(); },100);
+  } else {
+    deactivateEdit();
+  }
+}
+
+function checkPw(){
+  var val=document.getElementById('pwInput').value;
+  if(val==='1975'){
+    closePwModal();
+    activateEdit();
+  } else {
+    var err=document.getElementById('pwError');
+    err.style.display='block';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+    setTimeout(function(){ err.style.display='none'; },2000);
+  }
+}
+
+function closePwModal(){
+  var ov=document.getElementById('pwOverlay');
+  ov.style.display='none';
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwError').style.display='none';
+}
+
+function activateEdit(){
+  editMode=true;
+  var btn=document.getElementById('editToggle');
+  var app=document.querySelector('.app');
+  btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Fertig';
+  btn.classList.add('active');
+  app.classList.add('edit-mode');
+  enableEdit();
+  renderAblauf();
+  renderPackliste();
+  renderPC();
+  renderAllMat();
+  renderPatricTab();
+  renderPatricPack();
+  renderTabToggles();
+}
+
+function deactivateEdit(){
+  editMode=false;
+  var btn=document.getElementById('editToggle');
+  var app=document.querySelector('.app');
+  btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Bearbeiten';
+  btn.classList.remove('active');
+  app.classList.remove('edit-mode');
+  saveAblaufEdits();
+  savePackEdits();
+  savePCHEdits();
+  saveMatEdits();
+  renderAblauf();
+  renderPackliste();
+  renderPC();
+  renderAllMat();
+  renderPatricTab();
+  renderPatricPack();
+  renderTabToggles();
+}
+
+function getStableId(el){
+  var parts=[];
+  var node=el;
+  while(node && node!==document.body){
+    var siblings=node.parentNode?Array.from(node.parentNode.children):[];
+    var idx=siblings.indexOf(node);
+    parts.unshift((node.tagName||'?').toLowerCase()+(node.className?'.'+node.className.trim().split(/\s+/)[0]:'')+':'+idx);
+    node=node.parentNode;
+  }
+  return parts.join('>').substring(0,120);
+}
+
+function assignStableIds(){
+  var selectors=[
+    '.section-title','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
+    '.highlight','.cbox .cf','#tab-story .section > div > p',
+    '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
+  ];
+  selectors.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      if(el.querySelector('input,button,select,table')) return;
+      if(!el.hasAttribute('data-edit-id')){
+        el.setAttribute('data-edit-id', getStableId(el));
+      }
+    });
+  });
+  document.querySelectorAll('.tt-table td').forEach(function(el,i){
+    if(!el.hasAttribute('data-edit-id')) el.setAttribute('data-edit-id','tt-td-'+i);
+  });
+}
+
+function applyAllEdits(){
+  var store=getEditStore();
+  if(!Object.keys(store).length) return;
+  assignStableIds();
+  document.querySelectorAll('[data-edit-id]').forEach(function(el){
+    var saved=store[el.getAttribute('data-edit-id')];
+    if(saved!==undefined && el.innerHTML!==saved) el.innerHTML=saved;
+  });
+}
+
+function getEditStore(){
+  try{ return JSON.parse(localStorage.getItem('pm5_edits')||'{}'); }
+  catch(e){ return {}; }
+}
+
+function getEdit(el){
+  var id=el.getAttribute('data-edit-id');
+  if(!id) return null;
+  var store=getEditStore();
+  return store[id]!==undefined?store[id]:null;
+}
+
+function saveEdit(el){
+  var id=el.getAttribute('data-edit-id');
+  if(!id) return;
+  var store=getEditStore();
+  store[id]=el.innerHTML;
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+}
+
+function enableEdit(){
+  var selectors=[
+    '.section-title','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
+    '.highlight','.cbox .cf','#tab-story .section > div > p',
+    '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
+  ];
+  selectors.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      if(el.querySelector('input,button,select,table')) return;
+      if(!el.hasAttribute('contenteditable')){
+        var stableId=getStableId(el);
+        el.setAttribute('contenteditable','true');
+        el.setAttribute('data-edit-id', stableId);
+        var saved=getEdit(el);
+        if(saved!==null) el.innerHTML=saved;
+        el.addEventListener('blur',function(){saveEdit(this); hideRTToolbar();});
+        el.addEventListener('focus',function(){ showRTToolbar(this); });
+        el.addEventListener('keyup', updateRTButtons);
+        el.addEventListener('mouseup', updateRTButtons);
+      }
+    });
+  });
+  document.querySelectorAll('.tt-table td').forEach(function(el,i){
+    if(!el.hasAttribute('contenteditable')){
+      var stableId='tt-td-'+i;
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id',stableId);
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('blur',function(){saveEdit(this); hideRTToolbar();});
+      el.addEventListener('focus',function(){ showRTToolbar(this); });
+      el.addEventListener('keyup', updateRTButtons);
+      el.addEventListener('mouseup', updateRTButtons);
+    }
+  });
+  document.querySelectorAll('.ci-text,.ci-st').forEach(function(el){
+    el.setAttribute('contenteditable','true');
+    el.addEventListener('click',function(e){ e.stopPropagation(); });
+    el.addEventListener('blur',function(){ saveAblaufEdits(); });
+  });
+  document.querySelectorAll('.pack-row span[style*="flex"]').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','pk-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('blur',function(){saveEdit(this);});
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+  document.querySelectorAll('.pack-who').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','pkw-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('blur',function(){saveEdit(this);});
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+  document.querySelectorAll('.ci .st').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','st-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('blur',function(){saveEdit(this);});
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+}
+
+// ─── Packliste ────────────────────────────────────────────────────────────────
+function getPackData(){
+  return JSON.parse(localStorage.getItem('pm5_pack')||'null')||PACKLISTE.map(function(c){
+    return {cat:c.cat, items:c.items.map(function(i){ return {t:i.t,who:i.who}; })};
+  });
+}
+function savePackData(d){
+  localStorage.setItem('pm5_pack',JSON.stringify(d));
+  saveListsToDB();
+}
+function renderPackliste(){
+  var el=document.getElementById('packContent');
+  if(!el) return;
+  var data=getPackData();
+  var html='';
+  data.forEach(function(cat,ci){
+    html+='<div class="pack-cat" data-pcat="'+ci+'"'+(editMode?' contenteditable="true"':'')+'>'+cat.cat+'</div>';
+    cat.items.forEach(function(item,ii){
+      var mid='pk_'+ci+'_'+ii;
+      var done=!!(S.mat&&S.mat[mid]);
+      html+='<div class="pack-row '+(done?'done':'')+'" data-pkid="'+mid+'" data-pci="'+ci+'" data-pii="'+ii+'">'
+        +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
+        +'<span class="pk-text" style="flex:1"'+(editMode?' contenteditable="true"':'')+'>'+(item.t||'')+'</span>'
+        +'<span class="pack-who"'+(editMode?' contenteditable="true"':'')+'>'+(item.who||'')+'</span>'
+        +(editMode?'<span class="pk-del" data-pci="'+ci+'" data-pii="'+ii+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;flex-shrink:0">&#215;</span>':'')
+        +'</div>';
+    });
+    if(editMode){
+      html+='<div class="pk-add" data-addcat="'+ci+'" style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+        +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+        +'Eintrag hinzufügen</div>';
+    }
+  });
+  if(editMode){
+    html+='<div id="addPackCat" style="display:flex;align-items:center;gap:8px;padding:8px 0;cursor:pointer;color:var(--accent-dark);font-size:13px;font-weight:600;border-top:2px dashed #e8c44a;margin-top:8px">'
+      +'<span style="width:18px;height:18px;border:1.5px dashed #e8c44a;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">+</span>'
+      +'Neue Kategorie</div>';
+  }
+  el.innerHTML=html;
+  document.querySelectorAll('[data-pkid]').forEach(function(row){
+    row.addEventListener('click',function(e){
+      if(e.target.classList.contains('pk-del')) return;
+      if(e.target.classList.contains('pk-text') && editMode) return;
+      if(e.target.classList.contains('pack-who') && editMode) return;
+      var id=this.getAttribute('data-pkid');
+      S.mat[id]=!S.mat[id]; save(); renderPackliste();
+    });
+  });
+  document.querySelectorAll('.pk-del').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-pci'));
+      var ii=parseInt(this.getAttribute('data-pii'));
+      d[ci].items.splice(ii,1);
+      savePackData(d); renderPackliste();
+    });
+  });
+  document.querySelectorAll('.pk-add').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-addcat'));
+      d[ci].items.push({t:'Neuer Eintrag',who:'alle'});
+      savePackData(d); renderPackliste();
+      setTimeout(function(){
+        var rows=document.querySelectorAll('[data-pci="'+ci+'"] .pk-text');
+        var last=rows[rows.length-1];
+        if(last){ last.focus(); selectAll(last); }
+      },50);
+    });
+  });
+  var addCat=document.getElementById('addPackCat');
+  if(addCat) addCat.addEventListener('click',function(){
+    var d=getPackData();
+    d.push({cat:'Neue Kategorie',items:[]});
+    savePackData(d); renderPackliste();
+  });
+  if(editMode){
+    document.querySelectorAll('.pk-text,.pack-who').forEach(function(el){
+      el.addEventListener('click',function(e){ e.stopPropagation(); });
+      el.addEventListener('blur',function(){ savePackEdits(); });
+    });
+    document.querySelectorAll('[data-pcat]').forEach(function(el){
+      el.addEventListener('blur',function(){ savePackEdits(); });
+    });
+  }
+}
+function savePackEdits(){
+  var d=getPackData();
+  document.querySelectorAll('[data-pcat]').forEach(function(el){
+    var ci=parseInt(el.getAttribute('data-pcat'));
+    if(d[ci]) d[ci].cat=el.textContent;
+  });
+  document.querySelectorAll('[data-pkid]').forEach(function(row){
+    var ci=parseInt(row.getAttribute('data-pci'));
+    var ii=parseInt(row.getAttribute('data-pii'));
+    if(d[ci]&&d[ci].items[ii]){
+      var txt=row.querySelector('.pk-text');
+      var who=row.querySelector('.pack-who');
+      if(txt) d[ci].items[ii].t=txt.textContent;
+      if(who) d[ci].items[ii].who=who.textContent;
+    }
+  });
+  savePackData(d);
+}
+
+// ─── Patrick Packliste ────────────────────────────────────────────────────────
+function getPatricPack(){
+  return JSON.parse(localStorage.getItem('pm5_patricpack')||'null') || PATRIC_PACK.slice();
+}
+function savePatricPack(items){ localStorage.setItem('pm5_patricpack', JSON.stringify(items)); }
+function renderPatricPack(){
+  var el = document.getElementById('patricPackliste');
+  if(!el) return;
+  var isPatric = APP_MODE === 'paedi';
+  var items = getPatricPack();
+  var checked = JSON.parse(localStorage.getItem('pm5_patricpackdone')||'{}');
+  var html = items.map(function(item, i){
+    var done = !!checked[i];
+    return '<div class="ci '+(done?'done':'')+'" data-ppidx="'+i+'">'
+      +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
+      +'<span class="pp-text" style="flex:1"'+(editMode&&!isPatric?' contenteditable="true"':'')+'>'+item+'</span>'
+      +(editMode&&!isPatric?'<span class="pp-del" data-ppdi="'+i+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;flex-shrink:0">&#215;</span>':'')
+      +'</div>';
+  }).join('');
+  if(editMode && !isPatric){
+    html += '<div class="pp-add" style="display:flex;align-items:center;gap:8px;padding:7px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+      +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+      +'Eintrag hinzufügen</div>';
+  }
+  el.innerHTML = html;
+  el.querySelectorAll('[data-ppidx]').forEach(function(row){
+    row.addEventListener('click', function(e){
+      if(e.target.classList.contains('pp-del')) return;
+      if(e.target.classList.contains('pp-text') && editMode && !isPatric) return;
+      var i = parseInt(this.getAttribute('data-ppidx'));
+      var done = JSON.parse(localStorage.getItem('pm5_patricpackdone')||'{}');
+      done[i] = !done[i];
+      localStorage.setItem('pm5_patricpackdone', JSON.stringify(done));
+      renderPatricPack();
+    });
+  });
+  el.querySelectorAll('.pp-del').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var items = getPatricPack();
+      items.splice(parseInt(this.getAttribute('data-ppdi')), 1);
+      savePatricPack(items); renderPatricPack();
+    });
+  });
+  var addBtn = el.querySelector('.pp-add');
+  if(addBtn) addBtn.addEventListener('click', function(){
+    var items = getPatricPack();
+    items.push('Neuer Eintrag');
+    savePatricPack(items); renderPatricPack();
+    setTimeout(function(){
+      var txts = el.querySelectorAll('.pp-text');
+      var last = txts[txts.length-1];
+      if(last){ last.setAttribute('contenteditable','true'); last.focus(); selectAll(last); }
+    },50);
+  });
+  if(editMode && !isPatric){
+    el.querySelectorAll('.pp-text').forEach(function(t){
+      t.addEventListener('click', function(e){ e.stopPropagation(); });
+      t.addEventListener('blur', function(){
+        var items = getPatricPack();
+        el.querySelectorAll('[data-ppidx]').forEach(function(row){
+          var txt = row.querySelector('.pp-text');
+          if(txt) items[parseInt(row.getAttribute('data-ppidx'))] = txt.textContent;
+        });
+        savePatricPack(items);
+      });
+    });
+  }
+}
+
+// ─── Tab toggles for Pädi ─────────────────────────────────────────────────────
+function getPaediTabs(){
+  return JSON.parse(localStorage.getItem('pm5_padeitabs')||'[]');
+}
+function savePaediTabs(tabs){
+  localStorage.setItem('pm5_padeitabs', JSON.stringify(tabs));
+  if(sb) sb.from('app_lists').upsert({id:'main', padeitabs:tabs, updated_at:new Date().toISOString()});
+}
+function renderTabToggles(){
+  var existing = document.getElementById('tabToggleBar');
+  if(existing) existing.remove();
+  if(!editMode) return;
+  var allTabs = [
+    {id:'timetable', label:'Timetable'},
+    {id:'story', label:'Die Pädi Merson Story'},
+    {id:'regie', label:'Regie'},
+  ];
+  var paediTabs = getPaediTabs();
+  var bar = document.createElement('div');
+  bar.id = 'tabToggleBar';
+  bar.style.cssText = 'background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:.6rem .9rem;margin-bottom:.75rem;font-size:11px;';
+  var html = '<div style="font-size:10px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Tabs für Pädi freischalten</div>';
+  html += '<div style="display:flex;gap:6px;flex-wrap:wrap">';
+  allTabs.forEach(function(t){
+    var on = paediTabs.indexOf(t.id) !== -1;
+    html += '<button class="pkachel-toggle '+(on?'on':'off')+'" data-tabtoggle="'+t.id+'">'+(on?'✓ ':'')+t.label+'</button>';
+  });
+  html += '</div>';
+  bar.innerHTML = html;
+  var nav = document.querySelector('.nav-wrap');
+  if(nav) nav.parentNode.insertBefore(bar, nav);
+  bar.querySelectorAll('[data-tabtoggle]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = this.getAttribute('data-tabtoggle');
+      var tabs = getPaediTabs();
+      var idx = tabs.indexOf(id);
+      if(idx === -1) tabs.push(id);
+      else tabs.splice(idx, 1);
+      savePaediTabs(tabs);
+      renderTabToggles();
+      if(APP_MODE === 'paedi') applyAppMode();
+    });
+  });
+}
+
+// ─── App mode ─────────────────────────────────────────────────────────────────
+var APP_MODE = null;
+var CREW_PW = '8704';
+var EDIT_PW_APP = '1975';
+var PAEDI_PW_APP = '1987';
+
+function initAppMode(){
+  var stored = localStorage.getItem('pm5_appmode');
+  if(stored === 'crew' || stored === 'paedi'){
+    APP_MODE = stored;
+    applyAppMode();
+  } else {
+    showLoginOverlay();
+  }
+}
+
+function showLoginOverlay(){
+  var ov = document.getElementById('loginOverlay');
+  if(ov){ ov.style.display='flex'; setTimeout(function(){ document.getElementById('loginInput').focus(); },200); }
+}
+
+function checkLogin(){
+  var val = document.getElementById('loginInput').value;
+  var err = document.getElementById('loginError');
+  if(val === PAEDI_PW_APP){
+    APP_MODE = 'paedi';
+    localStorage.setItem('pm5_appmode','paedi');
+    document.getElementById('loginOverlay').style.display='none';
+    document.getElementById('loginInput').value='';
+    patricMode = 'paedi';
+    localStorage.setItem('patricMode','paedi');
+    applyAppMode();
+  } else if(val === CREW_PW || val === EDIT_PW_APP){
+    APP_MODE = 'crew';
+    localStorage.setItem('pm5_appmode','crew');
+    document.getElementById('loginOverlay').style.display='none';
+    document.getElementById('loginInput').value='';
+    patricMode = 'crew';
+    localStorage.setItem('patricMode','crew');
+    if(val === EDIT_PW_APP) activateEdit();
+    applyAppMode();
+  } else {
+    err.textContent = 'Falsches Passwort';
+    document.getElementById('loginInput').value='';
+    document.getElementById('loginInput').focus();
+    setTimeout(function(){ err.textContent=''; },2000);
+  }
+}
+
+function applyAppMode(){
+  if(APP_MODE === 'paedi'){
+    var extraTabs = JSON.parse(localStorage.getItem('pm5_padeitabs')||'[]');
+    var allowed = ['sb','packliste','patrick'].concat(extraTabs);
+    document.querySelectorAll('.nav-row .tab-btn').forEach(function(btn){
+      var tab = btn.getAttribute('data-tab');
+      if(tab && allowed.indexOf(tab) === -1){
+        btn.style.display='none';
+      } else {
+        btn.style.display='';
+      }
+    });
+    showTab('sb', document.querySelector('[data-tab="sb"]'));
+    var editBtn = document.getElementById('editToggle');
+    if(editBtn) editBtn.style.display='none';
+    patricMode = 'paedi';
+    localStorage.setItem('patricMode','paedi');
+    renderMis();
+  } else {
+    document.querySelectorAll('.nav-row .tab-btn').forEach(function(btn){
+      btn.style.display='';
+    });
+    showTab('story', document.querySelector('[data-tab="story"]'));
+    patricMode = 'crew';
+    localStorage.setItem('patricMode','crew');
+  }
+}
+
+function logout(){
+  localStorage.removeItem('pm5_appmode');
+  localStorage.removeItem('patricMode');
+  APP_MODE = null;
+  patricMode = null;
+  location.reload();
+}
+
+// ─── Pädi tab mode ────────────────────────────────────────────────────────────
+var PATRIC_PW = '1987';
+var patricMode = localStorage.getItem('patricMode') || null;
+
+function getKachelState(){
+  var def={};
+  document.querySelectorAll('[data-kachel]').forEach(function(el){
+    var k=el.getAttribute('data-kachel');
+    def[k]=el.getAttribute('data-default')==='1';
+  });
+  var stored=JSON.parse(localStorage.getItem('pm5_kacheln')||'null');
+  if(!stored) return def;
+  Object.keys(def).forEach(function(k){ if(stored[k]===undefined) stored[k]=def[k]; });
+  return stored;
+}
+function saveKachelState(state){
+  localStorage.setItem('pm5_kacheln',JSON.stringify(state));
+  if(sb) sb.from('app_lists').upsert({id:'main',kacheln:state,updated_at:new Date().toISOString()});
+}
+function renderPatricTab(){
+  var state=getKachelState();
+  var isPatric=patricMode==='paedi';
+  var modeWrap=document.getElementById('patricModeWrap');
+  var patricContent=document.getElementById('patricContent');
+  if(modeWrap) modeWrap.style.display='none';
+  if(patricContent) patricContent.style.display='block';
+  document.querySelectorAll('.pkachel').forEach(function(el){
+    var k=el.getAttribute('data-kachel');
+    var unlocked=!!state[k];
+    el.querySelectorAll('.pkachel-lock-overlay,.pkachel-toggle').forEach(function(x){x.remove();});
+    el.classList.remove('pkachel-locked');
+    if(patricMode==='crew' && editMode){
+      var btn=document.createElement('button');
+      btn.className='pkachel-toggle '+(unlocked?'on':'off');
+      btn.innerHTML=(unlocked?'✓ Sichtbar für Pädi':'🔒 Versteckt');
+      btn.setAttribute('data-togglekachel',k);
+      el.insertBefore(btn,el.firstChild);
+      btn.addEventListener('click',function(){
+        var s=getKachelState();
+        s[k]=!s[k];
+        saveKachelState(s);
+        renderPatricTab();
+      });
+    }
+    if(isPatric){
+      el.style.display=unlocked?'block':'none';
+    } else {
+      el.style.display='block';
+    }
+  });
+  renderPatricMedaillen();
+}
+function renderPatricMedaillen(){
+  var el=document.getElementById('patricMedaillen');
+  if(!el) return;
+  var m=S.medals&&S.medals['patrick']||0;
+  el.innerHTML=m>0
+    ? '<div style="font-size:28px;text-align:center;padding:.5rem">'+('🥇').repeat(m)+'</div>'
+      +'<div style="text-align:center;font-size:13px;color:#888">'+m+' Médaille'+(m===1?'':'n')+'</div>'
+    : '<div style="text-align:center;font-size:13px;color:#bbb;padding:.5rem">Noch keine Médaillen</div>';
+}
+function setPatricMode(mode){
+  patricMode=mode;
+  localStorage.setItem('patricMode',mode);
+  renderPatricTab();
+  renderMis();
+  renderPatricPack();
+}
+function showPatricPwModal(){
+  var m=document.getElementById('patricPwModal');
+  if(m){ m.style.display='flex'; setTimeout(function(){ document.getElementById('patricPwInput').focus(); },100); }
+}
+function closePatricPwModal(){
+  var m=document.getElementById('patricPwModal');
+  if(m) m.style.display='none';
+  document.getElementById('patricPwInput').value='';
+  document.getElementById('patricPwError').style.display='none';
+}
+function checkPatricPw(){
+  var val=document.getElementById('patricPwInput').value;
+  if(val===PATRIC_PW){
+    closePatricPwModal();
+    setPatricMode('paedi');
+  } else {
+    document.getElementById('patricPwError').style.display='block';
+    document.getElementById('patricPwInput').value='';
+    setTimeout(function(){ document.getElementById('patricPwError').style.display='none'; },2000);
+  }
+}
+function showCrewPwModal(){
+  var m=document.getElementById('crewPwModal');
+  if(m){ m.style.display='flex'; setTimeout(function(){ document.getElementById('crewPwInput').focus(); },100); }
+}
+function closeCrewPwModal(){
+  var m=document.getElementById('crewPwModal');
+  if(m) m.style.display='none';
+  document.getElementById('crewPwInput').value='';
+  document.getElementById('crewPwError').style.display='none';
+}
+function checkCrewPw(){
+  var val=document.getElementById('crewPwInput').value;
+  if(val==='8704'){
+    closeCrewPwModal();
+    setPatricMode('crew');
+  } else {
+    document.getElementById('crewPwError').style.display='block';
+    document.getElementById('crewPwInput').value='';
+    setTimeout(function(){ document.getElementById('crewPwError').style.display='none'; },2000);
+  }
+}
+
+// ─── Rich Text Toolbar ────────────────────────────────────────────────────────
+var rtTarget = null;
+var rtHideTimeout = null;
+function showRTToolbar(el){
+  if(!editMode) return;
+  rtTarget = el;
+  var tb = document.getElementById('rtToolbar');
+  if(!tb) return;
+  tb.style.display = 'flex';
+  positionRTToolbar(el);
+  updateRTButtons();
+}
+function positionRTToolbar(el){
+  var tb = document.getElementById('rtToolbar');
+  if(!tb || !el) return;
+  var rect = el.getBoundingClientRect();
+  var tbW = 180;
+  var top = rect.top + window.scrollY - 48;
+  var left = rect.left + window.scrollX;
+  if(top < 8) top = rect.bottom + window.scrollY + 6;
+  if(left + tbW > window.innerWidth - 8) left = window.innerWidth - tbW - 8;
+  tb.style.top = top + 'px';
+  tb.style.left = left + 'px';
+}
+function hideRTToolbar(){
+  rtHideTimeout = setTimeout(function(){
+    var tb = document.getElementById('rtToolbar');
+    if(tb) tb.style.display = 'none';
+    rtTarget = null;
+  }, 200);
+}
+function updateRTButtons(){
+  ['bold','italic','underline'].forEach(function(cmd){
+    var btn = document.querySelector('[data-cmd="'+cmd+'"]');
+    if(btn) btn.classList.toggle('active', document.queryCommandState(cmd));
+  });
+}
+function initRTToolbar(){
+  var tb = document.getElementById('rtToolbar');
+  if(!tb) return;
+  tb.querySelectorAll('[data-cmd]').forEach(function(btn){
+    btn.addEventListener('mousedown', function(e){
+      e.preventDefault();
+      clearTimeout(rtHideTimeout);
+      var cmd = this.getAttribute('data-cmd');
+      document.execCommand(cmd, false, null);
+      if(rtTarget){ saveEdit(rtTarget); updateRTButtons(); }
+    });
+    btn.addEventListener('touchstart', function(e){
+      e.preventDefault();
+      clearTimeout(rtHideTimeout);
+      var cmd = this.getAttribute('data-cmd');
+      document.execCommand(cmd, false, null);
+      if(rtTarget){ saveEdit(rtTarget); updateRTButtons(); }
+    }, {passive:false});
+  });
+  tb.addEventListener('mouseenter', function(){ clearTimeout(rtHideTimeout); });
+  tb.addEventListener('mouseleave', function(){ hideRTToolbar(); });
+}
+
+// ─── Override save functions to sync to DB ───────────────────────────────────
+var _origSave = save;
+save = function(){
+  _origSave();
+  scheduleSave();
+};
+var _origSaveEdit = saveEdit;
+saveEdit = function(el){
+  _origSaveEdit(el);
+  var store = getEditStore();
+  saveEditsToDB(store);
+};
+var _origSaveAblItems = saveAblItems;
+saveAblItems = function(items){
+  _origSaveAblItems(items);
+  saveListsToDB();
+};
+var _origSavePackData = savePackData;
+savePackData = function(d){
+  localStorage.setItem('pm5_pack',JSON.stringify(d));
+  saveListsToDB();
+};
+var _origSavePCH = savePCH;
+savePCH = function(items){
+  _origSavePCH(items);
+  saveListsToDB();
+};
+var _origSaveMatData = saveMatData;
+saveMatData = function(d){
+  _origSaveMatData(d);
+  saveListsToDB();
+};
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+function init(){
+  renderSB();
+  renderAblauf();
+  renderPackliste();
+  renderPC();
+  renderMis();
+  renderRegie();
+  renderAllMat();
+  renderMedals();
+  var bc=document.getElementById('bc');if(bc)bc.textContent=S.baguette||0;
+  var ein=document.getElementById('ein');if(ein)ein.value=S.ein||'';
+  ['ig_f','ig_l','ig_k'].forEach(function(id){
+    var e=document.getElementById(id);
+    if(e) e.value=S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]||'';
+  });
+  initRTToolbar();
+  // wire sub-tab buttons
+  document.querySelectorAll('[data-sub]').forEach(function(btn){
+    btn.addEventListener('click',function(){ showSub(this.getAttribute('data-sub'),this); });
+  });
+  // wire tab buttons
+  document.querySelectorAll('[data-tab]').forEach(function(btn){
+    btn.addEventListener('click',function(){ showTab(this.getAttribute('data-tab'),this); });
+  });
+  // wire baguette +/- buttons
+  document.querySelectorAll('[data-bq]').forEach(function(el){
+    el.addEventListener('click',function(){ adjBaguette(parseInt(this.getAttribute('data-bq'))); });
+  });
+  // wire IG inputs
+  document.querySelectorAll('[data-ig]').forEach(function(el){
+    el.addEventListener('input', saveIG);
+  });
+  var einEl=document.getElementById('ein');
+  if(einEl){
+    einEl.addEventListener('input', saveEin);
+    if(APP_MODE==='paedi'||patricMode==='paedi'){
+      einEl.setAttribute('readonly','true');
+      einEl.style.pointerEvents='none';
+      einEl.style.opacity='.6';
+    }
+  }
+  // wire close modal on overlay
+  var ov=document.getElementById('mOverlay');
+  if(ov) ov.addEventListener('click',function(e){ if(e.target===ov) closeModal(e); });
+  // Apply saved edits
+  setTimeout(applyAllEdits, 150);
+  setTimeout(applyAllEdits, 600);
+  setTimeout(applyAllEdits, 1800);
+}
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+// clear legacy data
+['pm3','pm4','paeditransfer','paeditransfer2','paeditransfer3'].forEach(function(k){ localStorage.removeItem(k); });
+
+var supabaseReady = initSupabase();
+if(supabaseReady){
+  loadFromDB().then(function(){
+    init();
+    initAppMode();
+    subscribeRealtime();
+    showToast('Verbunden ✓');
+  });
+} else {
+  init();
+  initAppMode();
+}
+</script>
+</body>
+</html>
