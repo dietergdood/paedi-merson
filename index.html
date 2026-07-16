@@ -53,19 +53,51 @@ body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--blac
 .bottom-bar{
   position:fixed;bottom:0;left:0;right:0;z-index:990;
   background:#0a0a0a;border-top:1px solid #1e1e1e;
-  padding:6px 0 calc(6px + env(safe-area-inset-bottom));
+  padding:8px 0 calc(8px + env(safe-area-inset-bottom));
 }
-.bottom-bar-main{display:flex;justify-content:space-around;align-items:center;margin-bottom:4px}
-.bottom-bar-crew{display:flex;justify-content:center;gap:3px;overflow-x:auto;padding:0 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.bottom-bar-crew::-webkit-scrollbar{display:none}
-.bb-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;border:none;background:transparent;cursor:pointer;border-radius:8px;min-width:48px;transition:all .15s}
-.bb-btn .bb-icon{font-size:20px;line-height:1}
-.bb-btn .bb-label{font-size:9px;font-weight:700;color:#555;letter-spacing:.05em;text-transform:uppercase}
+.bottom-bar-main{
+  display:flex;justify-content:space-around;align-items:center;
+  padding:0 4px;
+}
+.bb-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 10px;border:none;background:transparent;cursor:pointer;
+  border-radius:10px;min-width:0;flex:1;transition:all .15s;
+}
+.bb-btn .bb-icon{font-size:22px;line-height:1}
+.bb-btn .bb-label{font-size:9px;font-weight:700;color:#555;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
 .bb-btn.active .bb-label{color:#e8c44a}
-.bb-btn.active .bb-icon{filter:drop-shadow(0 0 4px rgba(232,196,74,.5))}
-.bb-crew-btn{font-size:10px;font-weight:700;padding:4px 10px;border:none;border-radius:14px;background:#1a1a1a;color:#555;cursor:pointer;white-space:nowrap;letter-spacing:.04em;flex-shrink:0;transition:all .15s}
-.bb-crew-btn.active{background:#e8c44a22;color:#e8c44a;border:1px solid #e8c44a44}
-.app{padding-bottom:90px}
+.bb-btn.active .bb-icon{filter:drop-shadow(0 0 6px rgba(232,196,74,.6))}
+.app{padding-bottom:76px}
+
+/* ── CREW DRAWER (slides up on mobile) ── */
+.crew-drawer{
+  position:fixed;bottom:-100%;left:0;right:0;z-index:989;
+  background:#0a0a0a;border-top:1px solid #222;
+  padding:12px 12px calc(80px + env(safe-area-inset-bottom));
+  transition:bottom .3s cubic-bezier(.4,0,.2,1);
+  max-height:70vh;overflow-y:auto;
+}
+.crew-drawer.open{bottom:0}
+.crew-drawer-handle{width:36px;height:4px;background:#333;border-radius:2px;margin:0 auto 14px}
+.crew-drawer-title{font-size:10px;font-weight:700;color:#444;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.crew-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.crew-tile{
+  display:flex;flex-direction:column;align-items:flex-start;
+  padding:12px 14px;border:none;border-radius:12px;
+  background:#111;cursor:pointer;text-align:left;
+  transition:all .15s;border:1px solid #1e1e1e;
+}
+.crew-tile:active{transform:scale(.97)}
+.crew-tile.active{background:#e8c44a18;border-color:#e8c44a44}
+.crew-tile .ct-name{font-size:13px;font-weight:700;color:#ccc;letter-spacing:.02em}
+.crew-tile .ct-role{font-size:10px;color:#555;margin-top:2px}
+.crew-tile.active .ct-name{color:#e8c44a}
+.crew-drawer-overlay{
+  position:fixed;inset:0;z-index:988;background:rgba(0,0,0,.5);
+  display:none;
+}
+.crew-drawer-overlay.open{display:block}
 
 /* ── DESKTOP SIDEBAR (768px+) ── */
 @media(min-width:768px){
@@ -517,7 +549,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
   <div class="section">
     <div class="section-title">Was heute passiert — Die ganze Story</div>
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
-      <p style="margin-bottom:1rem">Patrick — bekannt als <strong>Pädi Merson</strong>, 38-jaehriger Edeltechniker, langjaehriger Fussball-Captain, Weinliebhaber und Digitalstratege — steht heute vor dem wichtigsten Wechsel seiner Karriere: vom <strong>FC Junggeselle</strong> zum <strong>FC Mariage</strong>. Die beiden Vereine haben sich grundsaetzlich auf den Transfer geeinigt. Bevor der Vertrag aber unterschrieben werden kann, muss Pädi A. beweisen, dass er den Anforderungen des FC Mariage gewachsen ist.</p>
+      <p style="margin-bottom:1rem">Patrick — bekannt als <strong>Pädi Merson</strong>, 38-jähriger Edeltechniker, langjähriger Fussball-Captain, Weinliebhaber und Digitalstratege — steht heute vor dem wichtigsten Wechsel seiner Karriere: vom <strong>FC Junggeselle</strong> zum <strong>FC Mariage</strong>. Die beiden Vereine haben sich grundsätzlich auf den Transfer geeinigt. Bevor der Vertrag aber unterschrieben werden kann, muss Pädi A. beweisen, dass er den Anforderungen des FC Mariage gewachsen ist.</p>
     </div>
   </div>
   <div class="section">
@@ -525,29 +557,29 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
       <p style="margin-bottom:.6rem">Sieben Freunde begleiten den Transfer — jeder mit einer offiziellen Funktion.</p>
       <p style="margin-bottom:.5rem"><strong>Didi Good</strong> ist Transferdirektor und Schiedsrichter. Er führt durch den Tag, kündigt alle Prüfungen an und verteilt gelbe und rote Karten. Seine Entscheidungen sind endgültig — nur der VAR kann eingreifen.</p>
-      <p style="margin-bottom:.5rem"><strong>Sieber Sieber</strong> ist Social-Media-Manager. Nur er bedient das Instagram-Profil «Pädi Merson» und veroeffentlicht den ganzen Tag Posts und Storys. Patrick darf das Profil nicht selbst benutzen.</p>
-      <p style="margin-bottom:.5rem"><strong>Spielerberater & Finanzchef</strong> organisiert die fünf Baguettes und begleitet den Verkauf im Zug. Er darf Patrick beraten, aber nicht selbst verkaufen.</p>
+      <p style="margin-bottom:.5rem"><strong>Dominik Sieber</strong> ist Social-Media-Manager. Nur er bedient das Instagram-Profil «Pädi Merson» und veröffentlicht den ganzen Tag Posts und Storys. Patrick darf das Profil nicht selbst benutzen.</p>
+      <p style="margin-bottom:.5rem"><strong>Lädi — Spielerberater & Finanzchef</strong> organisiert die fünf Baguettes und begleitet den Verkauf im Zug. Er darf Patrick beraten, aber nicht selbst verkaufen.</p>
       <p style="margin-bottom:.5rem"><strong>Beni Benz</strong> ist VAR- und Archivchef. Er hat echte und digital bearbeitete Fotos aus Patricks Vergangenheit vorbereitet und prüft, ob Patrick seine eigene Geschichte kennt. Er ist auch zweite Entscheidungsinstanz wenn der Schiedsrichter selbst in einen Streitfall verwickelt ist.</p>
       <p style="margin-bottom:.5rem"><strong>Pädi Koch</strong> ist Mannschaftsarzt und Wassersportdirektor. Er leitet den Wakeboard-Block und vergibt die Sportmedaillen.</p>
       <p style="margin-bottom:.5rem"><strong>Tobi Freitag</strong> ist Sponsoren- und Weinmanager. Er leitet die beiden Wettbewerbe bei der Weindegustation.</p>
       <p style="margin-bottom:.75rem"><strong>Mäge Sauter</strong> ist Wettbewerbs- und Médaillenchef. Er führt die Rangliste, leitet den Molotow-Jass und das Quiz am Abend und bestimmt am Ende den Letztplatzierten.</p>
-      <p>Patrick selbst wird zum <strong>Bier-Kapitan</strong> ernannt. Er muss die Mannschaft bei jedem Ortswechsel zaehlen, drei kurze Captain-Ansprachen halten und darf unter keinen Umstaenden einen französischen Abgang machen. Wegen seiner bekannten Neigung dazu trägt er den ganzen Tag die offizielle französische Auswaertsuniform: gestreiftes Trikot und Baskenmuetze.</p>
+      <p>Patrick selbst wird zum <strong>Bier-Kapitan</strong> ernannt. Er muss die Mannschaft bei jedem Ortswechsel zählen, drei kurze Captain-Ansprachen halten und darf unter keinen Umständen einen französischen Abgang machen. Wegen seiner bekannten Neigung dazu trägt er den ganzen Tag die offizielle französische Auswärtsuniform: gestreiftes Trikot und Baskmütze.</p>
     </div>
   </div>
   <div class="section">
     <div class="section-title">Transferprüfung & Agenten-Cup</div>
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
-      <p style="margin-bottom:.75rem">Der Tag laeuft auf zwei Ebenen gleichzeitig.</p>
-      <p style="margin-bottom:.75rem"><strong>Patrick</strong> muss seine Transfereignung beweisen: Er finanziert seine Zugreise selbst durch den Verkauf von fünf Baguettes an Zugpassagiere (Ziel: mind. CHF 30.–, Bonus ab CHF 50.–). Parallel dazu sammelt er auf Instagram neue Follower, Likes und Kommentare. Schafft er die Ziele, erhält er am Abend den offiziellen blauen Haken. Schafft er es nicht, muss er gemeinsam mit dem Letztplatzierten ein oeffentliches Entschuldigungsvideo aufnehmen.</p>
+      <p style="margin-bottom:.75rem">Der Tag läuft auf zwei Ebenen gleichzeitig.</p>
+      <p style="margin-bottom:.75rem"><strong>Patrick</strong> muss seine Transfereignung beweisen: Er finanziert seine Zugreise selbst durch den Verkauf von fünf Baguettes an Zugpassagiere (Ziel: mind. CHF 30.–, Bonus ab CHF 50.–). Parallel dazu sammelt er auf Instagram neue Follower, Likes und Kommentare. Schafft er die Ziele, erhält er am Abend den offiziellen blauen Haken. Schafft er es nicht, muss er gemeinsam mit dem Letztplatzierten ein öffentliches Entschuldigungsvideo aufnehmen.</p>
       <p>Die <strong>sieben Freunde</strong> treten im Agenten-Cup gegeneinander an. Über den Tag können acht Goldmedaillen gewonnen werden. Der Freund mit den wenigsten Médaillen am Ende teilt Patricks Strafe.</p>
     </div>
   </div>
   <div class="section">
     <div class="section-title">Station 1 — Bahnhof</div>
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
-      <p style="margin-bottom:.75rem">Der Tag beginnt mit einem offiziellen Empfang. Didi tritt als Transferdirektor auf und eröffnet den Prozess feierlich. Als Erstes erhält Patrick sein Pflicht-Outfit: das gestreifte französische Trikot und die Baskenmuetze. Didi verlieset die Begründung — Patricks bekannte Neigung zum französischen Abgang macht ihn zu einem Fluchtrisiko, das jederzeit erkennbar bleiben muss.</p>
-      <p style="margin-bottom:.75rem">Danach folgt die feierliche Ernennung zum <strong>Bier-Kapitan</strong>. Didi liest die offizielle Mitteilung des FC Mariage vor und legt Patrick die Kapitänsbinde an. Ab diesem Moment trägt Patrick die Verantwortung für die Mannschaft — er muss sie bei jedem Ortswechsel vollständig zaehlen und darf unter keinen Umstaenden verschwinden ohne Ankuendigung.</p>
-      <p>Der Spielerberater überreicht das Transferdossier: ein offizielles Dokument das erklaert, warum das Handgeld noch nicht überwiesen wurde und was Patrick heute leisten muss. Sieber setzt die ersten zwei Instagram-Posts ab. Mäge kündigt an: Molotow-Jass und Kings Cup laufen ab jetzt den ganzen Tag.</p>
+      <p style="margin-bottom:.75rem">Der Tag beginnt mit einem offiziellen Empfang. Didi tritt als Transferdirektor auf und eröffnet den Prozess feierlich. Als Erstes erhält Patrick sein Pflicht-Outfit: das gestreifte französische Trikot und die Baskmütze. Didi verlieset die Begründung — Patricks bekannte Neigung zum französischen Abgang macht ihn zu einem Fluchtrisiko, das jederzeit erkennbar bleiben muss.</p>
+      <p style="margin-bottom:.75rem">Danach folgt die feierliche Ernennung zum <strong>Bier-Kapitan</strong>. Didi liest die offizielle Mitteilung des FC Mariage vor und legt Patrick die Kapitänsbinde an. Ab diesem Moment trägt Patrick die Verantwortung für die Mannschaft — er muss sie bei jedem Ortswechsel vollständig zählen und darf unter keinen Umständen verschwinden ohne Ankündigung.</p>
+      <p>Der Spielerberater überreicht das Transferdossier: ein offizielles Dokument das erklärt, warum das Handgeld noch nicht überwiesen wurde und was Patrick heute leisten muss. Sieber setzt die ersten zwei Instagram-Posts ab. Mäge kündigt an: Molotow-Jass und Kings Cup laufen ab jetzt den ganzen Tag.</p>
     </div>
   </div>
 
@@ -555,7 +587,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div class="section-title">Station 2 — Zugfahrt</div>
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
       <p style="margin-bottom:.75rem">Im Zug wird es ernst. Patrick hält seine erste Captain-Ansprache — maximal 20 Sekunden, Inhalt frei. Danach startet die Finanzierungsaufgabe: Patrick muss fünf Baguettes an Zugpassagiere verkaufen und mindestens CHF 30.– einnehmen. CHF 50.– gilt als Bonus. Der Spielerberater steht beratend zur Seite, darf aber nicht selbst verkaufen. Jeder Freund darf Patrick einen Verkaufssatz oder eine Strategie flüstern.</p>
-      <p style="margin-bottom:.75rem">Nach dem Verkauf folgt der <strong>Kindheits-VAR</strong>. Beni hat 8 bis 10 Fotos aus Patricks Vergangenheit vorbereitet — einige echt, andere digital manipuliert. Patrick muss bei jedem Bild entscheiden ob es echt ist, was veraendert wurde, wann und wo es aufgenommen wurde und wer dabei war. Alle anderen tippen gleichzeitig: echt oder fake? Wer am meisten richtig liegt, gewinnt die <strong>Médaille L'Œil du VAR</strong>.</p>
+      <p style="margin-bottom:.75rem">Nach dem Verkauf folgt der <strong>Kindheits-VAR</strong>. Beni hat 8 bis 10 Fotos aus Patricks Vergangenheit vorbereitet — einige echt, andere digital manipuliert. Patrick muss bei jedem Bild entscheiden ob es echt ist, was verändert wurde, wann und wo es aufgenommen wurde und wer dabei war. Alle anderen tippen gleichzeitig: echt oder fake? Wer am meisten richtig liegt, gewinnt die <strong>Médaille L'Œil du VAR</strong>.</p>
       <p>Zum Abschluss der Zugfahrt moderiert Mäge das Quiz <strong>«Wer kennt Pädi A. am besten?»</strong>. Fünf Fragen — alle haben vorher still ihre Antworten aufgeschrieben, Patrick gibt danach die echten Antworten. Wer am meisten getroffen hat, gewinnt die <strong>Médaille de l'Amitié</strong>.</p>
     </div>
   </div>
@@ -565,14 +597,14 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
       <p style="margin-bottom:.75rem">Pädi Koch übernimmt das Kommando als Mannschaftsarzt und Wassersportdirektor. Zuerst wird das Rettungsschwimmerinnen-Kostüm feierlich an Patrick übergeben — er trägt es über der Kapitänsbinde. Pädi Koch verlieset die medizinische Beurteilung: exzellente Hand-Auge-Koordination am Weinglas, Wasser-Leistungen bislang undokumentiert.</p>
       <p style="margin-bottom:.75rem">Patrick hält seine zweite Captain-Ansprache, dann spricht er sein medizinisches Statement direkt in die Kamera. Danach muss jeder mindestens einen Wakeboard-Run absolvieren. Bewertet werden <strong>Stil und Figur</strong> — Haltung, Gleichgewicht, Kontrolle, Unterhaltungswert. Patrick tritt zwingend im Rettungsschwimmerinnen-Kostüm an, kann die <strong>Médaille de la Performance</strong> aber trotzdem gewinnen.</p>
-      <p>Parallel beobachtet Pädi Koch alle Stürze. Nur unbeabsichtigte zaehlen — bewertet nach Dramatik, Gesichtsausdruck und Unterhaltungswert. Der spektakulärste gewinnt den <strong>Prix du Plongeon</strong>. Nach Patricks bestem Run folgt sein Torjubel und ein kurzes Abschlussinterview.</p>
+      <p>Parallel beobachtet Pädi Koch alle Stürze. Nur unbeabsichtigte zählen — bewertet nach Dramatik, Gesichtsausdruck und Unterhaltungswert. Der spektakulärste gewinnt den <strong>Prix du Plongeon</strong>. Nach Patricks bestem Run folgt sein Torjubel und ein kurzes Abschlussinterview.</p>
     </div>
   </div>
 
   <div class="section">
     <div class="section-title">Station 4 — Weindegustation</div>
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
-      <p style="margin-bottom:.75rem">Die Weindegustation steht im Vordergrund — Tobi hat den Ablauf mit dem Weingut abgestimmt und hält die Wettbewerbe kurz. Jede Person zieht eine Begriffskarte und muss den Wein damit in einem einzigen Satz beschreiben: der <strong>Bullshit-Sommelier</strong>. Die Begriffe sind sorgfältig ausgewaehlt — Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette. Die lustigste Beschreibung gewinnt die <strong>Médaille Bullshit Sommelier</strong>.</p>
+      <p style="margin-bottom:.75rem">Die Weindegustation steht im Vordergrund — Tobi hat den Ablauf mit dem Weingut abgestimmt und hält die Wettbewerbe kurz. Jede Person zieht eine Begriffskarte und muss den Wein damit in einem einzigen Satz beschreiben: der <strong>Bullshit-Sommelier</strong>. Die Begriffe sind sorgfältig ausgewählt — Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette. Die lustigste Beschreibung gewinnt die <strong>Médaille Bullshit Sommelier</strong>.</p>
       <p>Sieber setzt den Sponsoren-Post ab. Der Transfer nähert sich seinem Höhepunkt.</p>
     </div>
   </div>
@@ -581,8 +613,8 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div class="section-title">Station 5 — SAC-Hütte (Abend)</div>
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
       <p style="margin-bottom:.75rem">Nach dem Raclette beginnt der letzte und intensivste Teil des Tages. Zuerst <strong>Task Team</strong>: Mäge bildet die Teams, zwei treten gegeneinander an, das dritte schiedsrichtert. <em>Task! Team! Los!</em> Wer zuerst 7 Aufgaben gewinnt, holt die <strong>Médaille d'Équipe</strong>. Danach werden die Schlussstände von Molotow-Jass und Kings Cup ausgewertet — wer den ganzen Tag die meisten Partien gewonnen hat, gewinnt die jeweilige Médaille.</p>
-      <p style="margin-bottom:.75rem">Vor dem Anpfiff gibt Patrick seine letzte Captain-Ansprache. Alle geben ihren Match-Tipp ab: Resultat, erster Torschuetze, Minute des ersten Tores. Dann schaut die Gruppe gemeinsam Frankreich gegen England. Bei einem französischen Tor macht Patrick seinen Torjubel vom Boot nach — bei einem englischen Tor spricht er Englisch mit französischem Akzent bis zur nächsten Unterbrechung. Wer den besten Tipp hatte, gewinnt die <strong>Médaille du Football</strong>.</p>
-      <p style="margin-bottom:.75rem">Sieber praesentiert den Instagram-Abschlussbericht. Hat Patrick die Ziele erreicht, erhält er feierlich den blauen Haken. Mäge erstellt die Schlussrangliste des Agenten-Cups — bei Gleichstand entscheidet das Korken-Elfmeterschiessen. Der Letztplatzierte steht fest.</p>
+      <p style="margin-bottom:.75rem">Vor dem Anpfiff gibt Patrick seine letzte Captain-Ansprache. Alle geben ihren Match-Tipp ab: Resultat, erster Torschütze, Minute des ersten Tores. Dann schaut die Gruppe gemeinsam Frankreich gegen England. Bei einem französischen Tor macht Patrick seinen Torjubel vom Boot nach — bei einem englischen Tor spricht er Englisch mit französischem Akzent bis zur nächsten Unterbrechung. Wer den besten Tipp hatte, gewinnt die <strong>Médaille du Football</strong>.</p>
+      <p style="margin-bottom:.75rem">Sieber präsentiert den Instagram-Abschlussbericht. Hat Patrick die Ziele erreicht, erhält er feierlich den blauen Haken. Mäge erstellt die Schlussrangliste des Agenten-Cups — bei Gleichstand entscheidet das Korken-Elfmeterschiessen. Der Letztplatzierte steht fest.</p>
       <p>Didi prüft die Captain-Mission. Mäge präsentiert die Schlussrangliste und nennt den Letztplatzierten. Dann der persönliche Moment — jeder Freund vervollständigt den Satz <em>«Der FC Mariage sollte Patrick verpflichten, weil …»</em>. Der Abend endet ruhig und persönlich.</p>
     </div>
   </div>
@@ -1181,7 +1213,7 @@ Deine Pflichten ab sofort:<br>
 <div id="tab-berater" style="display:none">
   <div class="section"><div class="section-title">Meine Packliste</div><div id="matLädi"></div></div>
   <div class="section">
-    <div class="section-title">Lädi — Spielerberater & Finanzchef</div>
+    <div class="section-title">Lädi — Lädi — Spielerberater & Finanzchef</div>
     <div class="info-block"><ul>
       <li>5 Baguettes organisieren und mitbringen (+ Tasche / Bauchladen)</li>
       <li>Transferdossier an Patrick übergeben</li>
@@ -1565,7 +1597,7 @@ Deine Pflichten ab sofort:<br>
     <div class="section-title">Der Transfervertrag (Didi verliest am Morgen)</div>
     <div class="cbox">
       <div style="font-size:16px;font-weight:700;margin-bottom:.75rem">OFFICIAL AND CONFIRMED</div>
-      <div style="font-size:13px;color:#666;margin-bottom:1.25rem;line-height:1.6">Pädi Merson hat die finanzielle Prüfung, den historischen VAR, den medizinischen Wakeboard-Test, die Sponsorenverhandlungen und die Social-Media-Anforderungen absolviert. Das Transferkomitee bestaetigt den Wechsel.</div>
+      <div style="font-size:13px;color:#666;margin-bottom:1.25rem;line-height:1.6">Pädi Merson hat die finanzielle Prüfung, den historischen VAR, den medizinischen Wakeboard-Test, die Sponsorenverhandlungen und die Social-Media-Anforderungen absolviert. Das Transferkomitee bestätigt den Wechsel.</div>
       <div class="cf"><span>Spieler:</span> Patrick «Pädi Merson»</div>
       <div class="cf"><span>Vertragsdauer:</span> lebenslang</div>
       <div class="cf"><span>Ausstiegsklausel:</span> keine</div>
@@ -1574,13 +1606,13 @@ Deine Pflichten ab sofort:<br>
       <div class="cf"><span>Position:</span> Chief Domestic Officer</div>
       <div class="cf"><span>Nebenfunktion:</span> Bier-Kapitan</div>
       <div class="cf"><span>Ruckennummer:</span> 38</div>
-      <div style="font-size:12px;color:#888;margin-top:1rem;font-style:italic;line-height:1.5">Der FC Mariage übernimmt den Spieler trotz bekannter Risiken in den Bereichen französische Abgaenge, spontane Feierfreude, uebertriebener Fussballsachverstand und gehobener Weinkonsum.</div>
+      <div style="font-size:12px;color:#888;margin-top:1rem;font-style:italic;line-height:1.5">Der FC Mariage übernimmt den Spieler trotz bekannter Risiken in den Bereichen französische Abgänge, spontane Feierfreude, uebertriebener Fussballsachverstand und gehobener Weinkonsum.</div>
       <div style="margin-top:1.5rem;font-size:22px;font-weight:700;letter-spacing:.05em">HERE WE GO. &#128141;</div>
       <div class="sl">Alle 7 Freunde unterschreiben als Lädi &middot; Patrick als Spieler und lebenslanger Bier-Kapitan</div>
     </div>
   </div>
   <div class="section">
-    <div class="section-title">Persoenlicher Abschluss (jeder vervollständigt)</div>
+    <div class="section-title">Persönlicher Abschluss (jeder vervollständigt)</div>
     <div class="qb">&#8222;Der FC Mariage sollte Patrick verpflichten, weil ...&#8220;</div>
     <div style="font-size:12px;color:#aaa;margin-top:6px">Darf ernst und persönlich sein.</div>
   </div>
@@ -1597,6 +1629,69 @@ Deine Pflichten ab sofort:<br>
 </div><!-- /app -->
 </div><!-- /main-content -->
 </div><!-- /app-layout -->
+
+<!-- CREW DRAWER OVERLAY -->
+<div class="crew-drawer-overlay" id="crewOverlay" onclick="closeCrewDrawer()"></div>
+
+<!-- CREW DRAWER -->
+<div class="crew-drawer" id="crewDrawer">
+  <div class="crew-drawer-handle"></div>
+  <div class="crew-drawer-title">Crew & Mehr</div>
+  <div class="crew-grid">
+    <button class="crew-tile" data-tab="patrick" onclick="selectCrewTab(this)">
+      <span class="ct-name">⚽ Pädi A.</span>
+      <span class="ct-role">Bier-Kapitän</span>
+    </button>
+    <button class="crew-tile" data-tab="didi" onclick="selectCrewTab(this)">
+      <span class="ct-name">🎽 Didi</span>
+      <span class="ct-role">Transferdirektor</span>
+    </button>
+    <button class="crew-tile" data-tab="dominik" onclick="selectCrewTab(this)">
+      <span class="ct-name">📸 Sieber</span>
+      <span class="ct-role">Social Media</span>
+    </button>
+    <button class="crew-tile" data-tab="berater" onclick="selectCrewTab(this)">
+      <span class="ct-name">💼 Lädi</span>
+      <span class="ct-role">Finanzchef</span>
+    </button>
+    <button class="crew-tile" data-tab="beni" onclick="selectCrewTab(this)">
+      <span class="ct-name">🔍 Beni</span>
+      <span class="ct-role">VAR-Chef</span>
+    </button>
+    <button class="crew-tile" data-tab="koch" onclick="selectCrewTab(this)">
+      <span class="ct-name">🏄 Pädi K.</span>
+      <span class="ct-role">Mannschaftsarzt</span>
+    </button>
+    <button class="crew-tile" data-tab="tobi" onclick="selectCrewTab(this)">
+      <span class="ct-name">🍷 Tobi</span>
+      <span class="ct-role">Weinmanager</span>
+    </button>
+    <button class="crew-tile" data-tab="maege" onclick="selectCrewTab(this)">
+      <span class="ct-name">🥇 Mäge</span>
+      <span class="ct-role">Médaillenchef</span>
+    </button>
+  </div>
+  <div style="height:1px;background:#1e1e1e;margin:14px 0"></div>
+  <div class="crew-drawer-title">Navigation</div>
+  <div class="crew-grid">
+    <button class="crew-tile" data-tab="packliste" onclick="selectCrewTab(this)">
+      <span class="ct-name">🎒 Packliste</span>
+      <span class="ct-role">Was mitnehmen</span>
+    </button>
+    <button class="crew-tile" data-tab="timetable" onclick="selectCrewTab(this)">
+      <span class="ct-name">🕐 Timetable</span>
+      <span class="ct-role">Zeitplan</span>
+    </button>
+    <button class="crew-tile" data-tab="vertrag" onclick="selectCrewTab(this)">
+      <span class="ct-name">📄 Vertrag</span>
+      <span class="ct-role">Transfervertrag</span>
+    </button>
+    <button class="crew-tile" data-tab="ablauf" onclick="selectCrewTab(this)">
+      <span class="ct-name">✅ Ablauf</span>
+      <span class="ct-role">Checkliste</span>
+    </button>
+  </div>
+</div>
 
 <!-- BOTTOM BAR (mobile) -->
 <nav class="bottom-bar" id="bottomBar">
@@ -1617,23 +1712,10 @@ Deine Pflichten ab sofort:<br>
       <span class="bb-icon">⚽</span>
       <span class="bb-label">Pädi</span>
     </button>
-    <button class="bb-btn" data-tab="more-menu" id="moreBtn">
-      <span class="bb-icon">☰</span>
-      <span class="bb-label">Mehr</span>
+    <button class="bb-btn" id="moreBtn" onclick="toggleCrewDrawer()">
+      <span class="bb-icon">👥</span>
+      <span class="bb-label">Crew</span>
     </button>
-  </div>
-  <div class="bottom-bar-crew" id="crewBar">
-    <button class="bb-crew-btn" data-tab="packliste">Packliste</button>
-    <button class="bb-crew-btn" data-tab="timetable">Timetable</button>
-    <button class="bb-crew-btn" data-tab="vertrag">Vertrag</button>
-    <span style="width:1px;height:14px;background:#222;flex-shrink:0;margin:auto 2px"></span>
-    <button class="bb-crew-btn" data-tab="didi">Didi</button>
-    <button class="bb-crew-btn" data-tab="dominik">Sieber</button>
-    <button class="bb-crew-btn" data-tab="berater">Lädi</button>
-    <button class="bb-crew-btn" data-tab="beni">Beni</button>
-    <button class="bb-crew-btn" data-tab="koch">Pädi K.</button>
-    <button class="bb-crew-btn" data-tab="tobi">Tobi</button>
-    <button class="bb-crew-btn" data-tab="maege">Mäge</button>
   </div>
 </nav>
 
@@ -1797,32 +1879,32 @@ function save(){localStorage.setItem('pm5',JSON.stringify(S));}
 
 var MEDALS=[
   {icon:'🔍',name:"L'Œil du VAR",when:'Zug',
-   desc:'Beni zeigt 8-10 Fotos aus Patricks Vergangenheit — einige sind echt, andere digital manipuliert. Alle tippen bei jedem Bild echt oder fake. Patrick beantwortet zusaetzlich 4 Fragen pro Bild: Echt oder manipuliert? Was wurde veraendert? Wann und wo entstand das Original? Wer war dabei?',
+   desc:'Beni zeigt 8-10 Fotos aus Patricks Vergangenheit — einige sind echt, andere digital manipuliert. Alle tippen bei jedem Bild echt oder fake. Patrick beantwortet zusaetzlich 4 Fragen pro Bild: Echt oder manipuliert? Was wurde verändert? Wann und wo entstand das Original? Wer war dabei?',
    vergabe:'Wer am meisten Bilder korrekt identifiziert, gewinnt. Bei Gleichstand entscheidet Patrick.'},
   {icon:'❤️',name:"Médaille de l'Amitié",when:'Zug',
    desc:'Quiz: Wer kennt Pädi A. am besten? Mäge stellt 5 Fragen, die alle vorher still auf Zettel beantwortet haben. Patrick gibt danach seine echten Antworten. Mögliche Fragen: Welches Lied bringt ihn auf die Tanzfläche? Was ist sein unnötigster Luxus? Was bestellt er nach einer langen Partynacht? Welchen Wein trinkt er am liebsten? Womit nervt man ihn am schnellsten?',
-   vergabe:'Wer die meisten Antworten richtig eingeschaetzt hat, gewinnt.'},
+   vergabe:'Wer die meisten Antworten richtig eingeschätzt hat, gewinnt.'},
   {icon:'🏄',name:'Médaille de la Performance',when:'Boot',
    desc:'Jeder macht mindestens einen Wakeboard-Run. Bewertet werden Stil und Figur — nicht Geschwindigkeit oder Dauer. Kriterien: Haltung und Körperspannung, Gleichgewicht, Kontrolle, Unterhaltungswert. Patrick tritt im Rettungsschwimmerinnen-Kostüm an und kann die Médaille trotzdem gewinnen.',
    vergabe:'Gruppenabstimmung. Pädi Koch leitet und entscheidet bei Gleichstand.'},
   {icon:'💥',name:'Prix du Plongeon',when:'Boot',
-   desc:'Fuer den spektakulärsten unbeabsichtigten Sturz beim Wakeboarden. Bewertet: Dramatik, Körpersprache, Gesichtsausdruck, Unterhaltungswert, vorhandenes Videomaterial. Absichtliche oder riskante Stürze werden disqualifiziert.',
+   desc:'Für den spektakulärsten unbeabsichtigten Sturz beim Wakeboarden. Bewertet: Dramatik, Körpersprache, Gesichtsausdruck, Unterhaltungswert, vorhandenes Videomaterial. Absichtliche oder riskante Stürze werden disqualifiziert.',
    vergabe:'Gruppenabstimmung. Pädi Koch entscheidet bei Uneinigkeit.'},
   {icon:'🍷',name:'Bullshit Sommelier',when:'Weindegustation',
    desc:'Jede Person zieht eine Begriffskarte und beschreibt den Wein in einem einzigen Satz. Begriffe: Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette. Beispiel: Dieser Wein beginnt mit aggressivem Gegenpressing und endet zuverlässiger als ein Fahrzeug von Emil Frey.',
    vergabe:'Patrick oder Gruppenabstimmung bestimmt die lustigste Beschreibung. Tobi leitet.'},
   {icon:'👑',name:'Médaille du Kingscup',when:'Einmalig — wann die Gruppe will',
-   desc:'Kings Cup wird einmal gespielt, wann immer es passt. Klassisches Trinkkartenspiel: Karten aufdecken, jede hat eine Regel. Wer gewinnt, gewinnt die Médaille. Keine laufende Tabelle noetig.',
+   desc:'Kings Cup wird einmal gespielt, wann immer es passt. Klassisches Trinkkartenspiel: Karten aufdecken, jede hat eine Regel. Wer gewinnt, gewinnt die Médaille. Keine laufende Tabelle nötig.',
    vergabe:'Gewinner der Runde bekommt die Médaille direkt. Mäge vergibt sie sofort.'},
   {icon:'🃏',name:'Médaille du Molotow',when:'Den ganzen Tag',
-   desc:'Molotow-Jass laeuft den ganzen Tag — wann immer Zeit und Lust da ist. Zu zweit gespielt, je zwei Karten pro Spieler, keine Trumpfansage, es zaehlen nur Stiche. Mäge führt laufend eine Siegtabelle. Am Abend in der Huette wird zusammengezaehlt.',
+   desc:'Molotow-Jass läuft den ganzen Tag — wann immer Zeit und Lust da ist. Zu zweit gespielt, je zwei Karten pro Spieler, keine Trumpfansage, es zählen nur Stiche. Mäge führt laufend eine Siegtabelle. Am Abend in der Hütte wird zusammengezählt.',
    vergabe:'Wer am Abend die meisten Molotow-Siege hat, gewinnt. Mäge zaehlt zusammen.'},
-  {icon:'🏆',name:"Médaille d'Équipe",when:'SAC-Huette — Abend',
+  {icon:'🏆',name:"Médaille d'Équipe",when:'SAC-Hütte — Abend',
    desc:'Task Team: 150 spassige Minispiele für 3+ Personen. Zwei Teams treten gegeneinander an, das dritte schiedsrichtert. Das Task-Team zieht eine Karte und liest die Aufgabe vor. Startsignal: Task! Team! Los! Wer die Aufgabe gewinnt, bekommt die Karte. Gespielt wird bis ein Team 7 Aufgaben gewonnen hat. Aufgaben erfordern Geschicklichkeit, Teamgeist und Schnelligkeit. Dauer ca. 20 Minuten.',
    vergabe:"Das Sieger-Team gewinnt gemeinsam die Médaille. Bei 8 Personen: 3 Teams a 2-3 Personen bilden, Patrick spielt mit."},
-  {icon:'⚽',name:'Médaille du Football',when:'SAC-Huette — Abend',
-   desc:'Alle tippen vor dem Spiel: Endresultat, erster Torschuetze, Minute des ersten Tores. Optionale Regeln: bei einem franzoesischen Tor macht Patrick seinen Torjubel vom Boot nach; bei einem englischen Tor spricht er bis zur nächsten Unterbrechung Englisch mit franzoesischem Akzent.',
-   vergabe:'Auswertung nach Prioritaet: korrektes Resultat, korrekte Tordifferenz, erster Torschuetze, Minute. Mäge wertet aus.'},
+  {icon:'⚽',name:'Médaille du Football',when:'SAC-Hütte — Abend',
+   desc:'Alle tippen vor dem Spiel: Endresultat, erster Torschütze, Minute des ersten Tores. Optionale Regeln: bei einem französischen Tor macht Patrick seinen Torjubel vom Boot nach; bei einem englischen Tor spricht er bis zur nächsten Unterbrechung Englisch mit französischem Akzent.',
+   vergabe:'Auswertung nach Priorität: korrektes Resultat, korrekte Tordifferenz, erster Torschütze, Minute. Mäge wertet aus.'},
 ];
 
 function renderMedals(){
@@ -2139,10 +2221,10 @@ function togAbl(id){S.abl[id]=!S.abl[id];save();renderAblauf();
 }
 
 var PCH=[
-  {id:'p1',t:'Kein franzoesischer Abgang'},
-  {id:'p2',t:'Mannschaft vor Ortswechseln gezaehlt'},
+  {id:'p1',t:'Kein französischer Abgang'},
+  {id:'p2',t:'Mannschaft vor Ortswechseln gezählt'},
   {id:'p3',t:'Mind. 2 Captain-Ansprachen gehalten'},
-  {id:'p4',t:'Mannschaft vollständig bis zur Huette'},
+  {id:'p4',t:'Mannschaft vollständig bis zur Hütte'},
   {id:'p5',t:'Medienpflichten erfüllt'},
 ];
 function getPCH(){
@@ -2382,10 +2464,10 @@ var MAT={
   didi:['Transferdossier (ausgedruckt)','Captain-Ernennung (ausgedruckt)','Transfervertrag (ausgedruckt)','Klemmbrett','Pfeife','Gelbe Karten','Rote Karten','Stifte'],
   dominik:['Smartphone','Instagram-Zugang Pädi Merson','Powerbank','Gebastelter blauer Haken'],
   berater:['Fünf Baguettes','Tasche oder Bauchladen','Einnahmenliste','Optional: TWINT-QR-Code','Goldmedaille'],
-  beni:['8-10 bearbeitete Fotos','Originalbilder','Handy/Tablet oder Ausdrucke','Antwortblaetter','Stifte','Goldmedaille'],
-  koch:['Rettungsschwimmerinnen-Kostüm','Bier-Kapitaensbinde (Ersatz)','Smartphone/Kamera','Zwei Goldmedaillen'],
-  tobi:['Begriffskarten (8 Stueck)','Papier','Stifte','Eine Goldmedaille'],
-  maege:['Médaillenrangliste + Molotow-Tabelle','Jass-Karten (von Anfang an dabei)','Kings Cup Karten','Task Team Spiel','Quizfragen (5 auswaehlen, für den Zug)','Match-Tippscheine','Zettel','Stifte','Weinkorken + Becher','Fünf Goldmedaillen'],
+  beni:['8-10 bearbeitete Fotos','Originalbilder','Handy/Tablet oder Ausdrucke','Antwortblätter','Stifte','Goldmedaille'],
+  koch:['Rettungsschwimmerinnen-Kostüm','Bier-Kapitänsbinde (Ersatz)','Smartphone/Kamera','Zwei Goldmedaillen'],
+  tobi:['Begriffskarten (8 Stück)','Papier','Stifte','Eine Goldmedaille'],
+  maege:['Médaillenrangliste + Molotow-Tabelle','Jass-Karten (von Anfang an dabei)','Kings Cup Karten','Task Team Spiel','Quizfragen (5 auswählen, für den Zug)','Match-Tippscheine','Zettel','Stifte','Weinkorken + Becher','Fünf Goldmedaillen'],
 };
 function getMatData(){
   return JSON.parse(localStorage.getItem('pm5_mat')||'null')||
@@ -3733,6 +3815,38 @@ function installPWA(){
     deferredInstallPrompt.prompt();
     deferredInstallPrompt.userChoice.then(function(){ deferredInstallPrompt = null; });
   }
+}
+
+
+// ─── Crew Drawer (mobile) ────────────────────────────────────────────────────
+function toggleCrewDrawer(){
+  var drawer = document.getElementById('crewDrawer');
+  var overlay = document.getElementById('crewOverlay');
+  var moreBtn = document.getElementById('moreBtn');
+  if(!drawer) return;
+  var isOpen = drawer.classList.contains('open');
+  if(isOpen){ closeCrewDrawer(); }
+  else {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    if(moreBtn) moreBtn.querySelector('.bb-label').style.color='#e8c44a';
+  }
+}
+function closeCrewDrawer(){
+  var drawer = document.getElementById('crewDrawer');
+  var overlay = document.getElementById('crewOverlay');
+  var moreBtn = document.getElementById('moreBtn');
+  if(drawer) drawer.classList.remove('open');
+  if(overlay) overlay.classList.remove('open');
+  if(moreBtn) moreBtn.querySelector('.bb-label').style.color='';
+}
+function selectCrewTab(btn){
+  var tab = btn.getAttribute('data-tab');
+  closeCrewDrawer();
+  showTab(tab, btn);
+  // update crew tiles active state
+  document.querySelectorAll('.crew-tile').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
 }
 
 var supabaseReady = initSupabase();
