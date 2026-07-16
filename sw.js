@@ -1,58 +1,26 @@
-const CACHE_NAME = 'paedi-merson-v7';
-const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-];
+const CACHE_NAME = 'paedi-merson-v8';
+const ASSETS = ['/', '/index.html', '/manifest.json'];
 
 self.addEventListener('install', function(e){
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache){
-      return cache.addAll(ASSETS);
-    })
-  );
+  e.waitUntil(caches.open(CACHE_NAME).then(function(cache){ return cache.addAll(ASSETS); }));
   self.skipWaiting();
 });
 
 self.addEventListener('activate', function(e){
-  e.waitUntil(
-    caches.keys().then(function(keys){
-      return Promise.all(
-        keys.filter(function(k){ return k !== CACHE_NAME; })
-            .map(function(k){ return caches.delete(k); })
-      );
-    })
-  );
+  e.waitUntil(caches.keys().then(function(keys){
+    return Promise.all(keys.filter(function(k){ return k !== CACHE_NAME; }).map(function(k){ return caches.delete(k); }));
+  }));
   self.clients.claim();
 });
 
 self.addEventListener('fetch', function(e){
   if(e.request.url.includes('supabase.co')){
-    e.respondWith(fetch(e.request).catch(function(){
-      return new Response('{}', {headers:{'Content-Type':'application/json'}});
-    }));
+    e.respondWith(fetch(e.request).catch(function(){ return new Response('{}', {headers:{'Content-Type':'application/json'}}); }));
     return;
   }
   if(e.request.url.includes('cdn.') || e.request.url.includes('fonts.')){
-    e.respondWith(
-      fetch(e.request).then(function(res){
-        var clone = res.clone();
-        caches.open(CACHE_NAME).then(function(c){ c.put(e.request, clone); });
-        return res;
-      }).catch(function(){
-        return caches.match(e.request);
-      })
-    );
+    e.respondWith(fetch(e.request).then(function(res){ var clone=res.clone(); caches.open(CACHE_NAME).then(function(c){ c.put(e.request, clone); }); return res; }).catch(function(){ return caches.match(e.request); }));
     return;
   }
-  // Network first for app shell to always get latest
-  e.respondWith(
-    fetch(e.request).then(function(res){
-      var clone = res.clone();
-      caches.open(CACHE_NAME).then(function(c){ c.put(e.request, clone); });
-      return res;
-    }).catch(function(){
-      return caches.match(e.request);
-    })
-  );
+  e.respondWith(fetch(e.request).then(function(res){ var clone=res.clone(); caches.open(CACHE_NAME).then(function(c){ c.put(e.request, clone); }); return res; }).catch(function(){ return caches.match(e.request); }));
 });
