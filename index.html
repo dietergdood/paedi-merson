@@ -209,6 +209,13 @@ body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--blac
 
 /* ACCORDION */
 .acc-item{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--card);margin-bottom:8px;box-shadow:var(--shadow)}
+.game-acc{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:6px}
+.game-acc-h{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:var(--card);gap:8px;user-select:none}
+.game-acc-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.game-acc-arr{font-size:10px;color:var(--muted);transition:transform .2s}
+.game-acc-b{display:none;padding:0 14px 12px}
+.game-acc.open .game-acc-arr{transform:rotate(180deg)}
+.game-acc.open .game-acc-b{display:block}
 .acc-h{display:flex;align-items:center;gap:10px;padding:1rem 1.1rem;cursor:pointer;user-select:none;transition:background .1s}
 .acc-h:hover{background:#fafaf8}
 .adot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
@@ -1133,12 +1140,6 @@ Deine Pflichten ab sofort:<br>
       <li>Alle Medienpflichten erfüllt</li>
     </ol></div>
   </div>
-
-<div class="section">
-    <div class="section-title">Quiz — Wer kennt Pädi A. am besten?</div>
-    <div id="myQuiz_didi"></div>
-  </div>
-
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_didi')">
       <div class="adot dz"></div>
@@ -1146,21 +1147,41 @@ Deine Pflichten ab sofort:<br>
       <div class="acc-a" id="arr_games_didi">▼</div>
     </div>
     <div class="acc-b" id="acc_games_didi">
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Kindheits-VAR — Meine Tipps</div>
-        <div id="myVAR_didi"></div>
+      <div class="game-acc" id="gameacc_didi_myVARdidi">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_didi_myVARdidi')">
+          <span class="game-acc-title">🔍 Kindheits-VAR</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myVAR_didi"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Quiz — Wer kennt Pädi am besten?</div>
-        <div id="myQuiz_didi"></div>
+      <div class="game-acc" id="gameacc_didi_myQuizdidi">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_didi_myQuizdidi')">
+          <span class="game-acc-title">❓ Quiz</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myQuiz_didi"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Bullshit-Sommelier — Mein Begriff</div>
-        <div id="mySOMMWord_didi"></div>
+      <div class="game-acc" id="gameacc_didi_mySOMMWorddidi">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_didi_mySOMMWorddidi')">
+          <span class="game-acc-title">🍷 Sommelier</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="mySOMMWord_didi"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Match-Tipp — Frankreich vs. England</div>
-        <div id="myTip_didi"></div>
+      <div class="game-acc" id="gameacc_didi_myTipdidi">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_didi_myTipdidi')">
+          <span class="game-acc-title">⚽ Match-Tipp</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myTip_didi"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1215,12 +1236,6 @@ Deine Pflichten ab sofort:<br>
     <div class="section-title">Abschliessender Post (Morgen beim Frühstück)</div>
     <div class="igb"><b>Instagram</b>OFFICIAL AND CONFIRMED — Pädi Merson wechselt zum FC Mariage. Der Transfer ist vollzogen. Willkommen, Capitaine à vie. HERE WE GO. 💍</div>
   </div>
-
-<div class="section">
-    <div class="section-title">Quiz — Wer kennt Pädi A. am besten?</div>
-    <div id="myQuiz_dominik"></div>
-  </div>
-
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_dominik')">
       <div class="adot dz"></div>
@@ -1228,21 +1243,41 @@ Deine Pflichten ab sofort:<br>
       <div class="acc-a" id="arr_games_dominik">▼</div>
     </div>
     <div class="acc-b" id="acc_games_dominik">
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Kindheits-VAR — Meine Tipps</div>
-        <div id="myVAR_dominik"></div>
+      <div class="game-acc" id="gameacc_dominik_myVARdominik">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_dominik_myVARdominik')">
+          <span class="game-acc-title">🔍 Kindheits-VAR</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myVAR_dominik"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Quiz — Wer kennt Pädi am besten?</div>
-        <div id="myQuiz_dominik"></div>
+      <div class="game-acc" id="gameacc_dominik_myQuizdominik">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_dominik_myQuizdominik')">
+          <span class="game-acc-title">❓ Quiz</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myQuiz_dominik"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Bullshit-Sommelier — Mein Begriff</div>
-        <div id="mySOMMWord_dominik"></div>
+      <div class="game-acc" id="gameacc_dominik_mySOMMWorddominik">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_dominik_mySOMMWorddominik')">
+          <span class="game-acc-title">🍷 Sommelier</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="mySOMMWord_dominik"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Match-Tipp — Frankreich vs. England</div>
-        <div id="myTip_dominik"></div>
+      <div class="game-acc" id="gameacc_dominik_myTipdominik">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_dominik_myTipdominik')">
+          <span class="game-acc-title">⚽ Match-Tipp</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myTip_dominik"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1292,12 +1327,6 @@ Deine Pflichten ab sofort:<br>
       <li>Kostüm als Gesprächsöffner nutzen</li>
     </ul></div>
   </div>
-
-<div class="section">
-    <div class="section-title">Quiz — Wer kennt Pädi A. am besten?</div>
-    <div id="myQuiz_berater"></div>
-  </div>
-
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_berater')">
       <div class="adot dz"></div>
@@ -1305,21 +1334,41 @@ Deine Pflichten ab sofort:<br>
       <div class="acc-a" id="arr_games_berater">▼</div>
     </div>
     <div class="acc-b" id="acc_games_berater">
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Kindheits-VAR — Meine Tipps</div>
-        <div id="myVAR_berater"></div>
+      <div class="game-acc" id="gameacc_berater_myVARberater">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_berater_myVARberater')">
+          <span class="game-acc-title">🔍 Kindheits-VAR</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myVAR_berater"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Quiz — Wer kennt Pädi am besten?</div>
-        <div id="myQuiz_berater"></div>
+      <div class="game-acc" id="gameacc_berater_myQuizberater">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_berater_myQuizberater')">
+          <span class="game-acc-title">❓ Quiz</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myQuiz_berater"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Bullshit-Sommelier — Mein Begriff</div>
-        <div id="mySOMMWord_berater"></div>
+      <div class="game-acc" id="gameacc_berater_mySOMMWordberater">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_berater_mySOMMWordberater')">
+          <span class="game-acc-title">🍷 Sommelier</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="mySOMMWord_berater"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Match-Tipp — Frankreich vs. England</div>
-        <div id="myTip_berater"></div>
+      <div class="game-acc" id="gameacc_berater_myTipberater">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_berater_myTipberater')">
+          <span class="game-acc-title">⚽ Match-Tipp</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myTip_berater"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1370,35 +1419,39 @@ Deine Pflichten ab sofort:<br>
     </ul></div>
     <div id="varPunkte" style="margin-top:.5rem"></div>
   </div>
-
-<div class="section">
-    <div class="section-title">Bullshit-Sommelier — Mein Begriff</div>
-    <div id="mySOMMWord_beni"></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Quiz — Wer kennt Pädi A. am besten?</div>
-    <div id="myQuiz_beni"></div>
-  </div>
-
-  <div class="acc-item" style="margin-bottom:.75rem">
+<div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_beni')">
       <div class="adot dz"></div>
       <div class="acc-t">Spiele & Wettbewerbe</div>
       <div class="acc-a" id="arr_games_beni">▼</div>
     </div>
     <div class="acc-b" id="acc_games_beni">
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Kindheits-VAR — Übersicht & Auswertung</div>
-        <div id="varBeniOverview"></div>
+      <div class="game-acc" id="gameacc_beni_varBeniOverview">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_beni_varBeniOverview')">
+          <span class="game-acc-title">🔍 VAR — Übersicht</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="varBeniOverview"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Quiz — Wer kennt Pädi am besten?</div>
-        <div id="myQuiz_beni"></div>
+      <div class="game-acc" id="gameacc_beni_myQuizbeni">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_beni_myQuizbeni')">
+          <span class="game-acc-title">❓ Quiz</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myQuiz_beni"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Match-Tipp — Frankreich vs. England</div>
-        <div id="myTip_beni"></div>
+      <div class="game-acc" id="gameacc_beni_myTipbeni">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_beni_myTipbeni')">
+          <span class="game-acc-title">⚽ Match-Tipp</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myTip_beni"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1439,12 +1492,6 @@ Deine Pflichten ab sofort:<br>
     </ul></div>
     <div class="highlight" style="margin-top:8px">Nur unbeabsichtigte Stürze zählen — bei Gleichstand entscheidet Pädi Koch.</div>
   </div>
-
-<div class="section">
-    <div class="section-title">Quiz — Wer kennt Pädi A. am besten?</div>
-    <div id="myQuiz_koch"></div>
-  </div>
-
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_koch')">
       <div class="adot dz"></div>
@@ -1452,21 +1499,41 @@ Deine Pflichten ab sofort:<br>
       <div class="acc-a" id="arr_games_koch">▼</div>
     </div>
     <div class="acc-b" id="acc_games_koch">
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Kindheits-VAR — Meine Tipps</div>
-        <div id="myVAR_koch"></div>
+      <div class="game-acc" id="gameacc_koch_myVARkoch">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_koch_myVARkoch')">
+          <span class="game-acc-title">🔍 Kindheits-VAR</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myVAR_koch"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Quiz — Wer kennt Pädi am besten?</div>
-        <div id="myQuiz_koch"></div>
+      <div class="game-acc" id="gameacc_koch_myQuizkoch">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_koch_myQuizkoch')">
+          <span class="game-acc-title">❓ Quiz</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myQuiz_koch"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Bullshit-Sommelier — Mein Begriff</div>
-        <div id="mySOMMWord_koch"></div>
+      <div class="game-acc" id="gameacc_koch_mySOMMWordkoch">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_koch_mySOMMWordkoch')">
+          <span class="game-acc-title">🍷 Sommelier</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="mySOMMWord_koch"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Match-Tipp — Frankreich vs. England</div>
-        <div id="myTip_koch"></div>
+      <div class="game-acc" id="gameacc_koch_myTipkoch">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_koch_myTipkoch')">
+          <span class="game-acc-title">⚽ Match-Tipp</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myTip_koch"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1511,12 +1578,6 @@ Deine Pflichten ab sofort:<br>
     <div class="section-title">Übersicht — wer hat was?</div>
     <div id="sommTobiOverview"></div>
   </div>
-
-<div class="section">
-    <div class="section-title">Quiz — Wer kennt Pädi A. am besten?</div>
-    <div id="myQuiz_tobi"></div>
-  </div>
-
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_tobi')">
       <div class="adot dz"></div>
@@ -1524,25 +1585,32 @@ Deine Pflichten ab sofort:<br>
       <div class="acc-a" id="arr_games_tobi">▼</div>
     </div>
     <div class="acc-b" id="acc_games_tobi">
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Quiz — Wer kennt Pädi am besten?</div>
-        <div id="myQuiz_tobi"></div>
-      </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Begriffe verteilen</div>
-        <div class="tr" style="margin-bottom:.75rem">
-          <span class="badge bp">Emil Frey</span><span class="badge bp">Digitalisierung</span>
-          <span class="badge bp">Gegenpressing</span><span class="badge bp">Grindr</span>
-          <span class="badge bp">Rettungsschwimmerin</span><span class="badge bp">England</span>
-          <span class="badge bp">Flitterwochen</span><span class="badge bp">Raclette</span>
+      <div class="game-acc" id="gameacc_tobi_myQuiztobi">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_tobi_myQuiztobi')">
+          <span class="game-acc-title">❓ Quiz</span>
+          <span class="game-acc-arr">▼</span>
         </div>
-        <button class="bs" onclick="distributeSOMMWords()" style="width:100%;padding:10px;background:#0a0a0a;color:#e8c44a;border-color:#0a0a0a;font-weight:700;font-size:13px;margin-bottom:.75rem">🎲 Begriffe zufällig verteilen</button>
-        <div class="section-title">Übersicht & Gewinner</div>
-        <div id="sommTobiOverview"></div>
+        <div class="game-acc-b">
+          <div id="myQuiz_tobi"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Match-Tipp — Frankreich vs. England</div>
-        <div id="myTip_tobi"></div>
+      <div class="game-acc" id="gameacc_tobi_sommTobiOverview">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_tobi_sommTobiOverview')">
+          <span class="game-acc-title">🍷 Sommelier</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="sommTobiOverview"></div>
+        </div>
+      </div>
+      <div class="game-acc" id="gameacc_tobi_myTiptobi">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_tobi_myTiptobi')">
+          <span class="game-acc-title">⚽ Match-Tipp</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myTip_tobi"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1600,13 +1668,23 @@ Deine Pflichten ab sofort:<br>
       <div class="acc-a" id="arr_games_maege">▼</div>
     </div>
     <div class="acc-b" id="acc_games_maege">
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Quiz — Übersicht & Auswertung</div>
-        <div id="quizMaegeOverview"></div>
+      <div class="game-acc" id="gameacc_maege_quizMaegeOverview">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_maege_quizMaegeOverview')">
+          <span class="game-acc-title">❓ Quiz — Auswertung</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="quizMaegeOverview"></div>
+        </div>
       </div>
-      <div class="section" style="margin:0;border:none;box-shadow:none;padding:.75rem 0 0">
-        <div class="section-title">Match-Tipps — Übersicht & Gewinner</div>
-        <div id="matchTipps"></div>
+      <div class="game-acc" id="gameacc_maege_matchTipps">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_maege_matchTipps')">
+          <span class="game-acc-title">⚽ Match-Tipps — Auswertung</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="matchTipps"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -3901,6 +3979,28 @@ function selectCrewTab(btn){
   // update crew tiles active state
   document.querySelectorAll('.crew-tile').forEach(function(t){t.classList.remove('active');});
   btn.classList.add('active');
+}
+
+
+function toggleGameAcc(id){
+  var el=document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('open');
+  // Trigger render for lazy content
+  var body=el.querySelector('.game-acc-b');
+  if(!body||!el.classList.contains('open')) return;
+  var divs=body.querySelectorAll('[id]');
+  divs.forEach(function(d){
+    var did=d.id;
+    if(did.indexOf('myVAR_')===0) renderMyVARGuesses(did.replace('myVAR_',''));
+    else if(did.indexOf('myQuiz_')===0) renderMyQuizForm(did.replace('myQuiz_',''));
+    else if(did.indexOf('mySOMMWord_')===0) renderMySOMMWord(did.replace('mySOMMWord_',''));
+    else if(did.indexOf('myTip_')===0) renderMyTip(did.replace('myTip_',''));
+    else if(did==='varBeniOverview') renderVARBeni();
+    else if(did==='sommTobiOverview') renderSOMMTobi();
+    else if(did==='quizMaegeOverview') renderQuizMaege();
+    else if(did==='matchTipps') renderTips();
+  });
 }
 
 var supabaseReady = initSupabase();
