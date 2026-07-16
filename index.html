@@ -1239,7 +1239,7 @@ function toggleAcc(id){
   var open=b.classList.contains('open');
   b.classList.toggle('open',!open);
   a.classList.toggle('open',!open);
-  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },50);
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
 }
 
 var ABL=[
@@ -1694,7 +1694,7 @@ function showSub(id,btn){
   document.querySelectorAll('.sub-btn').forEach(function(b){b.classList.remove('active');});
   var activeBtn=btn||document.querySelector('[data-sub="'+id+'"]');
   if(activeBtn) activeBtn.classList.add('active');
-  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },50);
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
 }
 
 function showTab(id,btn){
@@ -1705,7 +1705,7 @@ function showTab(id,btn){
   var activeBtn=btn||document.querySelector('[data-tab="'+id+'"]');
   if(activeBtn) activeBtn.classList.add('active');
   // re-apply edits and re-enable edit mode on new content
-  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },50);
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
   if(id==='packliste') renderPackliste();
   if(id==='patrick'){renderMis();renderPC();}
   if(id==='beni') renderVAR();
@@ -1952,8 +1952,20 @@ function deactivateEdit(){
   renderAllMat();
 }
 
+function getStableId(el){
+  // Generate stable ID based on DOM position (not random)
+  var parts=[];
+  var node=el;
+  while(node && node!==document.body){
+    var siblings=node.parentNode?Array.from(node.parentNode.children):[];
+    var idx=siblings.indexOf(node);
+    parts.unshift((node.tagName||'?').toLowerCase()+(node.className?'.'+node.className.trim().split(/\s+/)[0]:'')+':'+idx);
+    node=node.parentNode;
+  }
+  return parts.join('>').substring(0,120);
+}
+
 function enableEdit(){
-  // Make all p, li, td, th, div content editable where it makes sense
   var selectors=[
     '.section-title',
     '.info-block li',
@@ -1971,13 +1983,9 @@ function enableEdit(){
     '.highlight',
     '.cbox .cf',
     '#tab-story .section > div > p',
-    '#tab-story .section > div > p > strong',
     '.acc-t',
-    '.acc-s',
-    '.modal-desc',
     '.pname',
     '.prole',
-    'h1.header-title',
     '.header-eyebrow',
     '.header-sub',
   ];
@@ -1985,21 +1993,20 @@ function enableEdit(){
     document.querySelectorAll(sel).forEach(function(el){
       if(el.querySelector('input,button,select,table')) return;
       if(!el.hasAttribute('contenteditable')){
+        var stableId=getStableId(el);
         el.setAttribute('contenteditable','true');
-        el.setAttribute('data-edit-id', el.tagName+'-'+Math.random().toString(36).substr(2,6));
-        // restore saved content
+        el.setAttribute('data-edit-id', stableId);
         var saved=getEdit(el);
         if(saved!==null) el.innerHTML=saved;
-        // save on input
         el.addEventListener('input',function(){saveEdit(this);});
       }
     });
   });
-  // Also make timetable cells editable
-  document.querySelectorAll('.tt-table td').forEach(function(el){
+  document.querySelectorAll('.tt-table td').forEach(function(el,i){
     if(!el.hasAttribute('contenteditable')){
+      var stableId='tt-td-'+i;
       el.setAttribute('contenteditable','true');
-      el.setAttribute('data-edit-id','ttd-'+Math.random().toString(36).substr(2,6));
+      el.setAttribute('data-edit-id',stableId);
       var saved=getEdit(el);
       if(saved!==null) el.innerHTML=saved;
       el.addEventListener('input',function(){saveEdit(this);});
@@ -2072,22 +2079,40 @@ function saveEdit(el){
   localStorage.setItem(EDIT_KEY,JSON.stringify(store));
 }
 
+function assignStableIds(){
+  // Assign stable IDs to all editable elements so edits persist across reloads
+  var selectors=[
+    '.section-title','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
+    '.highlight','.cbox .cf','#tab-story .section > div > p',
+    '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
+  ];
+  selectors.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      if(el.querySelector('input,button,select,table')) return;
+      if(!el.hasAttribute('data-edit-id')){
+        el.setAttribute('data-edit-id', getStableId(el));
+      }
+    });
+  });
+  document.querySelectorAll('.tt-table td').forEach(function(el,i){
+    if(!el.hasAttribute('data-edit-id')) el.setAttribute('data-edit-id','tt-td-'+i);
+  });
+}
+
 function applyAllEdits(){
   var store=getEditStore();
   if(!Object.keys(store).length) return;
-  // We need to apply edits after render — use MutationObserver or just retry
-  setTimeout(function(){
-    document.querySelectorAll('[data-edit-id]').forEach(function(el){
-      var saved=store[el.getAttribute('data-edit-id')];
-      if(saved!==undefined) el.innerHTML=saved;
-    });
-  },100);
+  assignStableIds();
+  document.querySelectorAll('[data-edit-id]').forEach(function(el){
+    var saved=store[el.getAttribute('data-edit-id')];
+    if(saved!==undefined && el.innerHTML!==saved) el.innerHTML=saved;
+  });
 }
 
 function init(){
   renderSB();
   renderAblauf();
-  setTimeout(applyAllEdits, 200);
   renderPackliste();
   renderPC();
   renderMis();
@@ -2120,6 +2145,10 @@ function init(){
   // wire close modal on overlay
   var ov=document.getElementById('mOverlay');
   if(ov) ov.addEventListener('click',function(e){ if(e.target===ov) closeModal(e); });
+  // Apply saved edits after everything is rendered
+  setTimeout(applyAllEdits, 150);
+  setTimeout(applyAllEdits, 600);
+  setTimeout(applyAllEdits, 1800);
 }
 init();
 
