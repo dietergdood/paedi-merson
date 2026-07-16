@@ -471,7 +471,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div id="sbBody"></div>
   </div>
   <div class="section">
-    <div class="section-title">Schnaps-Strafen (morgen früh)</div>
+    <div class="section-title">Schnaps-Strafen</div>
     <div id="schnaps"></div>
     <div style="margin-top:10px;font-size:12px;color:var(--muted);line-height:1.8">
       <strong style="color:var(--black);font-size:11px;text-transform:uppercase;letter-spacing:.05em">Sofort einzunehmen:</strong><br>
@@ -1855,6 +1855,8 @@ Deine Pflichten ab sofort:<br>
 
 
 
+
+
 // ─── Supabase Config ─────────────────────────────────────────────────────────
 // Diese Werte werden von Vercel als Environment Variables gesetzt
 // Lokal: erstelle eine .env.local Datei (siehe .env.example)
@@ -2699,15 +2701,7 @@ function renderSB(){
     });
   });
   // schnaps section
-  var sc=document.getElementById('schnaps');
-  if(sc){
-    var lines=P.filter(function(p){return p.id!=='patrick';}).map(function(p){
-      var y=S.yellow[p.id]||0; var r=S.red[p.id]||0;
-      var s=Math.floor(y/2)+(y>=1&&r>=1?1:0)+(r>=1?2:0);
-      return s>0?'<span class="badge br" style="font-size:12px;padding:3px 10px">'+p.name+': '+s+'× Schnaps</span>':'';
-    }).filter(Boolean).join(' ');
-    sc.innerHTML=lines||'<span style="color:#bbb;font-size:13px">Noch keine Karten vergeben.</span>';
-  }
+  var sc=documen// schnaps pills removed
 }
 
 {
