@@ -411,7 +411,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
   <button class="s-btn active" data-tab="story">📖 Story</button>
   <button class="s-btn" data-tab="regie">🎬 Regie</button>
   <button class="s-btn" data-tab="packliste">🎒 Packliste</button>
-  <button class="s-btn" data-tab="timetable">🕐 Timetable</button>
+  <button class="s-btn" data-tab="timetable">📋 Programm</button>
   <div class="s-divider"></div>
   <button class="s-btn" data-tab="sb">🏆 Scoreboard</button>
   <button class="s-btn" data-tab="vertrag">📄 Vertrag</button>
@@ -444,7 +444,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <button class="tab-btn active" data-tab="story">Die Pädi Merson Story</button>
     <button class="tab-btn" data-tab="regie">Regie</button>
     <button class="tab-btn" data-tab="packliste">Packliste</button>
-    <button class="tab-btn" data-tab="timetable">Timetable</button>
+    <button class="tab-btn" data-tab="timetable">Programm</button>
     <span style="flex:1"></span>
     <button class="tab-btn" data-tab="sb">Scoreboard</button>
     <button class="tab-btn" data-tab="vertrag">Vertrag</button>
@@ -512,48 +512,109 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 
 <!-- TIMETABLE -->
 <div id="tab-timetable" style="display:none">
-  <div class="section">
-    <div class="section-title">Timetable — Samstag</div>
-    <table class="tt-table">
-      <thead><tr><th>Zeit</th><th>Station</th><th>Was</th></tr></thead>
-      <tbody>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Bahnhof</span></td><td class="tt-desc">Treffpunkt. Pädi A. wird empfangen.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Bahnhof</span></td><td class="tt-desc">Offizielle Eröffnung: Outfit, Bier-Kapitän-Ernennung, Dossier-Übergabe.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station tz">Zug</span></td><td class="tt-desc">Abfahrt. Baguetteverkauf, Kindheits-VAR, Quiz.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station tz">Zug</span></td><td class="tt-desc">Ankunft.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station to">Boot</span></td><td class="tt-desc">Wakeboarden. Kostüm-Übergabe, Runs, Médaillen.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station tw">Wein</span></td><td class="tt-desc">Weindegustation. Bullshit-Sommelier.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Ankunft SAC-Hütte.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Raclette.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Task Team, Molotow- & Kings Cup Schlussstand.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Match-Tipp einsammeln, Frankreich vs. England.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station th">Hütte</span></td><td class="tt-desc">Instagram-Auswertung, Schlussrangliste, persönlicher Abschluss.</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="section">
-    <div class="section-title">Timetable — Sonntag</div>
-    <table class="tt-table">
-      <thead><tr><th>Zeit</th><th>Station</th><th>Was</th></tr></thead>
-      <tbody>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Morgen</span></td><td class="tt-desc">Patrick + Letztplatzierter bereiten Frühstück und Kaffee vor.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Morgen</span></td><td class="tt-desc">Offizielle Übergabe: Didi verliest Vertrag, alle unterschreiben.</td></tr>
-        <tr><td class="tt-time">__:__</td><td><span class="tt-station tb">Morgen</span></td><td class="tt-desc">Abschliessender Instagram-Post. Abreise.</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="section" style="background:#fffbeb;border-color:#fde68a">
-    <div class="section-title" style="color:#92400e">Den ganzen Tag</div>
-    <div class="info-block"><ul>
-      <li><strong>Molotow-Jass</strong> — läuft den ganzen Tag, Mäge führt Tabelle</li>
-      <li><strong>Kings Cup</strong> — einmalig, wann es der Gruppe passt</li>
-      <li><strong>Instagram</strong> — Sieber postet laufend Updates</li>
-    </ul></div>
-  </div>
-</div>
 
+  <div class="section">
+    <div class="section-title">Programm & Unterkunft — Sa. 18.07.2026</div>
 
-<!-- STORY -->
+    <!-- Timeline -->
+    <div style="display:flex;flex-direction:column;gap:0">
+
+      <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee">
+        <div style="font-size:12px;font-weight:700;color:#aaa;min-width:48px">06:15</div>
+        <div style="font-size:13px;color:#0a0a0a">Abholen Pädi A.</div>
+      </div>
+
+      <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee">
+        <div style="font-size:12px;font-weight:700;color:#aaa;min-width:48px">06:54</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#0a0a0a">Abfahrt Herrliberg-Feldmeilen</div>
+          <div style="font-size:11px;color:#888;margin-top:2px">S16 Gl. 2 → Zürich HB → IC → Lutry &nbsp;·&nbsp; 3h 7min</div>
+          <a href="https://www.sbb.ch/de/kaufen/pages/fahrplan/fahrplan.xhtml?von=Herrliberg-Feldmeilen&nach=Lutry&datum=18.07.2026&zeit=06:54&ab=true" target="_blank" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:3px">→ SBB Verbindung</a>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee">
+        <div style="font-size:12px;font-weight:700;color:#aaa;min-width:48px">10:01</div>
+        <div style="font-size:13px;color:#0a0a0a">Ankunft Lutry</div>
+      </div>
+
+      <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee">
+        <div style="font-size:12px;font-weight:700;color:#aaa;min-width:48px">10:30</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#0a0a0a">Iboote Wasserspass</div>
+          <div style="font-size:11px;color:#888;margin-top:2px">Wakeboarden, Médaillen & Spass</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee">
+        <div style="font-size:12px;font-weight:700;color:#aaa;min-width:48px">~14:00</div>
+        <div style="font-size:13px;color:#0a0a0a">Ende Wasserspass</div>
+      </div>
+
+      <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee">
+        <div style="font-size:12px;font-weight:700;color:#aaa;min-width:48px">14:40</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#0a0a0a">Abfahrt Lutry → Villette</div>
+          <div style="font-size:11px;color:#888;margin-top:2px">Ankunft 14:42</div>
+          <a href="https://www.sbb.ch/de/kaufen/pages/fahrplan/fahrplan.xhtml?von=Lutry&nach=Villette%20(Lavaux)&datum=18.07.2026&zeit=14:40&ab=true" target="_blank" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:3px">→ SBB Verbindung</a>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee">
+        <div style="font-size:12px;font-weight:700;color:#aaa;min-width:48px">15:00</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#0a0a0a">Degustation & Mittagessen</div>
+          <div style="font-size:11px;color:#888;margin-top:2px">Domaine de la Crausaz, Grandvaux · Sa 10:30–18:00</div>
+          <img src="https://www.lacrausaz.ch/assets/img/galerie/10.jpg" style="width:100%;height:90px;object-fit:cover;border-radius:6px;margin-top:6px;display:block" alt="Domaine de la Crausaz" onerror="this.style.display='none'">
+          <a href="https://www.lacrausaz.ch/" target="_blank" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:4px">→ lacrausaz.ch</a>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee">
+        <div style="font-size:12px;font-weight:700;color:#aaa;min-width:48px">~16:30</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#0a0a0a">Verschiebung ins Chalet</div>
+          <div style="font-size:11px;color:#888;margin-top:2px">ÖV oder Taxi</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;padding:10px 0">
+        <div style="font-size:12px;font-weight:700;color:#aaa;min-width:48px">Abend</div>
+        <div style="font-size:13px;color:#0a0a0a">Raclette · Wein · Spiele · WM & Spass</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Unterkunft -->
+  <div class="section">
+    <div class="section-title">Unterkunft</div>
+    <div style="border-radius:8px;overflow:hidden;border:1px solid #eee;margin-bottom:8px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
+        <img src="https://www.cas-jaman.ch/images/le_grillet_2.jpg" style="width:100%;height:100px;object-fit:cover;display:block" alt="Chalet le Grillet" onerror="this.style.display='none'">
+        <img src="https://www.cas-jaman.ch/dropbox/photo/chalet-le-grillet/mysize/vue_depuis_la_terrasse_du_grillet.jpg" style="width:100%;height:100px;object-fit:cover;display:block" alt="Aussicht" onerror="this.style.display='none'">
+      </div>
+      <div style="padding:10px 12px">
+        <div style="font-size:13px;font-weight:700;color:#0a0a0a">Chalet le Grillet — CAS Jaman</div>
+        <div style="font-size:11px;color:#888;margin-top:2px">1185m · Les Pléiades · 15 Plätze · Dusche/WC · Terrasse & Grill</div>
+        <a href="https://www.cas-jaman.ch/cabanes/chalet-le-grillet.php" target="_blank" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:4px">→ cas-jaman.ch</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Morgenessen -->
+  <div class="section">
+    <div class="section-title">Morgenessen — So. ab 10:30</div>
+    <div style="border-radius:8px;overflow:hidden;border:1px solid #eee">
+      <img src="https://images.contenthub.dev/h24dbpy2mqzk/6e187facd7d3cf4eef0c7d67a430937a/rest_ple_001.jpg?fm=jpg&fl=progressive&f=center&fit=fill&q=45&h=200&w=500" style="width:100%;height:100px;object-fit:cover;display:block" alt="Restaurant Les Pléiades" onerror="this.style.display='none'">
+      <div style="padding:10px 12px">
+        <div style="font-size:13px;font-weight:700;color:#0a0a0a">Restaurant Les Pléiades — MOB</div>
+        <div style="font-size:11px;color:#888;margin-top:2px">Panoramaterrasse · Voralpen & Genfersee</div>
+        <a href="https://www.mob.ch/de/service-providers/restaurant-les-pleiades" target="_blank" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:4px">→ mob.ch</a>
+      </div>
+    </div>
+  </div>
+
 <div id="tab-story" style="display:none">
   <div class="section">
     <div class="section-title">Was heute passiert — Die ganze Story</div>
