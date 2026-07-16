@@ -1310,7 +1310,6 @@ Deine Pflichten ab sofort:<br>
        </div>
      </div>
    </div>
-  </div>
   <div class="section">
     <div class="section-title">Verkaufstext für Patrick</div>
     <div class="qb">«Entschuldigung, ich stehe kurz vor dem wichtigsten Transfer meines Lebens. Leider hat der FC Mariage mein Handgeld noch nicht überwiesen. Möchten Sie meine Karriere mit dem Kauf eines limitierten Transfer-Baguettes unterstützen?»</div>
@@ -1893,6 +1892,7 @@ async function loadFromDB(){
       if(r3.data.kacheln) localStorage.setItem('pm5_kacheln', JSON.stringify(r3.data.kacheln));
       if(r3.data.padeitabs) localStorage.setItem('pm5_padeitabs', JSON.stringify(r3.data.padeitabs));
       if(r3.data.somm) localStorage.setItem('pm5_somm', JSON.stringify(r3.data.somm));
+      if(r3.data.regie) localStorage.setItem('pm5_regie', JSON.stringify(r3.data.regie));
       if(r3.data.quiz) localStorage.setItem('pm5_quiz', JSON.stringify(r3.data.quiz));
       if(r3.data.varstate) localStorage.setItem('pm5_var', JSON.stringify(r3.data.varstate));
     }
@@ -2133,35 +2133,139 @@ var REGIE=[
   ]},
 ];
 
+
+// ─── Regie Edit Management ────────────────────────────────────────────────────
+function getRegieData(){
+  var saved = localStorage.getItem('pm5_regie');
+  if(saved){ try{ return JSON.parse(saved); } catch(e){} }
+  return JSON.parse(JSON.stringify(REGIE)); // deep clone
+}
+function saveRegieData(data){
+  localStorage.setItem('pm5_regie', JSON.stringify(data));
+  if(sb) sb.from('app_lists').upsert({id:'main', regie:data, updated_at:new Date().toISOString()});
+}
+
+function regieAddStation(){
+  var data = getRegieData();
+  var newId = 'st' + Date.now();
+  data.push({id:newId, st:'Neue Station', t:'Neue Station', dot:'db', steps:[]});
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieDeleteStation(sid){
+  var data = getRegieData();
+  data = data.filter(function(s){ return s.id !== sid; });
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieMoveStation(sid, dir){
+  var data = getRegieData();
+  var idx = data.findIndex(function(s){ return s.id === sid; });
+  var newIdx = idx + dir;
+  if(newIdx < 0 || newIdx >= data.length) return;
+  var tmp = data[idx]; data[idx] = data[newIdx]; data[newIdx] = tmp;
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieAddStep(sid){
+  var data = getRegieData();
+  var s = data.find(function(s){ return s.id === sid; });
+  if(!s) return;
+  s.steps.push({w:'Alle', t:'Neuer Schritt'});
+  saveRegieData(data);
+  renderRegie();
+  // Open the accordion
+  var acc = document.getElementById('acc_'+sid);
+  if(acc && !acc.classList.contains('open')) toggleAcc(sid);
+}
+
+function regieDeleteStep(sid, stepIdx){
+  var data = getRegieData();
+  var s = data.find(function(s){ return s.id === sid; });
+  if(!s) return;
+  s.steps.splice(stepIdx, 1);
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieMoveStep(sid, stepIdx, dir){
+  var data = getRegieData();
+  var s = data.find(function(s){ return s.id === sid; });
+  if(!s) return;
+  var newIdx = stepIdx + dir;
+  if(newIdx < 0 || newIdx >= s.steps.length) return;
+  var tmp = s.steps[stepIdx]; s.steps[stepIdx] = s.steps[newIdx]; s.steps[newIdx] = tmp;
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieEditField(sid, stepIdx, field, value){
+  var data = getRegieData();
+  if(stepIdx === null){
+    // Edit station title
+    var s = data.find(function(s){ return s.id === sid; });
+    if(s) s.t = value;
+  } else {
+    var s = data.find(function(s){ return s.id === sid; });
+    if(s && s.steps[stepIdx]) s.steps[stepIdx][field] = value;
+  }
+  saveRegieData(data);
+}
+
 function renderRegie(){
-  var store=getEditStore();
+  var data = editMode ? getRegieData() : getRegieData();
   var html='';
-  REGIE.forEach(function(s){
+  data.forEach(function(s, si){
     html+='<div class="acc-item">'
-      +'<div class="acc-h" data-acc="'+s.id+'">'
-      +'<div class="adot '+s.dot+'"></div>'
-      +'<span class="acc-t" data-edit-id="regie-'+s.id+'-title">'+(store['regie-'+s.id+'-title']||s.t)+'</span>'
+      +'<div class="acc-h" data-acc="'+s.id+'">';
+    if(editMode){
+      html+='<div style="display:flex;gap:4px;margin-right:6px">'
+        +'<button class="bs bs-sm" onclick="event.stopPropagation();regieMoveStation(''+s.id+'',-1)" title="Nach oben">↑</button>'
+        +'<button class="bs bs-sm" onclick="event.stopPropagation();regieMoveStation(''+s.id+'',1)" title="Nach unten">↓</button>'
+        +'<button class="bs bs-sm" onclick="event.stopPropagation();regieDeleteStation(''+s.id+'')" style="color:#e03535" title="Löschen">✕</button>'
+        +'</div>';
+    }
+    html+='<div class="adot '+s.dot+'"></div>'
+      +'<span class="acc-t" data-edit-id="regie-'+s.id+'-title"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'',null,'t',this.textContent)"':'')+'>'+s.t+'</span>'
       +'<span class="acc-s">'+s.steps.length+' Schritte</span>'
       +'<span class="acc-a" id="arr_'+s.id+'">&#9660;</span>'
       +'</div><div class="acc-b" id="acc_'+s.id+'">';
     s.steps.forEach(function(step,i){
       var eid=s.id+'-'+i;
-      html+='<div class="ds"><div class="dn">'+(i+1)+'</div><div class="dc">'
-        +'<div class="dw2" data-edit-id="regie-'+eid+'-w">'+(store['regie-'+eid+'-w']||step.w)+'</div>'
-        +'<div class="dt" data-edit-id="regie-'+eid+'-t">'+(store['regie-'+eid+'-t']||step.t)+'</div>';
-      if(step.q) html+='<div class="dq" data-edit-id="regie-'+eid+'-q">'+(store['regie-'+eid+'-q']||step.q)+'</div>';
-      if(step.ig) html+='<div class="igb" data-edit-id="regie-'+eid+'-ig"><b>Instagram</b>'+(store['regie-'+eid+'-ig']||step.ig)+'</div>';
-      if(step.m) html+='<div class="dm">Médaille: '+step.m+'</div>';
-      if(step.n) html+='<div class="dno">— '+step.n+'</div>';
+      html+='<div class="ds">';
+      if(editMode){
+        html+='<div style="display:flex;flex-direction:column;gap:2px;margin-right:6px">'
+          +'<button class="bs bs-sm" onclick="regieMoveStep(''+s.id+'','+i+',-1)" style="padding:1px 5px;font-size:10px">↑</button>'
+          +'<button class="bs bs-sm" onclick="regieMoveStep(''+s.id+'','+i+',1)" style="padding:1px 5px;font-size:10px">↓</button>'
+          +'</div>';
+      }
+      html+='<div class="dn">'+(i+1)+'</div><div class="dc">'
+        +'<div class="dw2" data-edit-id="regie-'+eid+'-w"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','w',this.textContent)"':'')+'>'+step.w+'</div>'
+        +'<div class="dt" data-edit-id="regie-'+eid+'-t"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','t',this.textContent)"':'')+'>'+step.t+'</div>';
+      if(step.q) html+='<div class="dq" data-edit-id="regie-'+eid+'-q"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','q',this.textContent)"':'')+'>'+step.q+'</div>';
+      if(step.ig) html+='<div class="igb" data-edit-id="regie-'+eid+'-ig"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','ig',this.textContent)"':'')+'>'+step.ig+'</div>';
+      if(step.m) html+='<div class="dm"><span>'+step.m+'</span></div>';
+      if(step.n) html+='<div class="dno" data-edit-id="regie-'+eid+'-n"'+(editMode?' contenteditable="true" onblur="regieEditField(''+s.id+'','+i+','n',this.textContent)"':'')+'>— '+step.n+'</div>';
+      if(editMode){
+        html+='<button class="bs bs-sm" onclick="regieDeleteStep(''+s.id+'','+i+')" style="color:#e03535;margin-top:4px">✕ Schritt löschen</button>';
+      }
       html+='</div></div>';
     });
+    if(editMode){
+      html+='<button class="bs" onclick="regieAddStep(''+s.id+'')" style="width:100%;margin-top:8px;color:var(--accent-dark)">+ Schritt hinzufügen</button>';
+    }
     html+='</div></div>';
   });
-  document.getElementById('regiAcc').innerHTML=html;
-  document.querySelectorAll('[data-acc]').forEach(function(el){
-    el.addEventListener('click',function(){ toggleAcc(this.getAttribute('data-acc')); });
-  });
+  if(editMode){
+    html+='<button class="bs" onclick="regieAddStation()" style="width:100%;margin-top:8px;color:var(--accent-dark)">+ Station hinzufügen</button>';
+  }
+  var el=document.getElementById('regiAcc');
+  if(el) el.innerHTML=html;
 }
+
 
 function renderDidiRegie(){
   var el=document.getElementById('didiRegie');
@@ -3151,6 +3255,7 @@ function activateEdit(){
   renderPatricTab();
   renderPatricPack();
   renderTabToggles();
+  renderRegie();
 }
 
 function deactivateEdit(){
@@ -3171,6 +3276,7 @@ function deactivateEdit(){
   renderPatricTab();
   renderPatricPack();
   renderTabToggles();
+  renderRegie();
 }
 
 function getStableId(el){
