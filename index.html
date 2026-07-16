@@ -1999,6 +1999,8 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 
 
 
+
+
 // ─── Supabase Config ─────────────────────────────────────────────────────────
 // Diese Werte werden von Vercel als Environment Variables gesetzt
 // Lokal: erstelle eine .env.local Datei (siehe .env.example)
@@ -2373,7 +2375,7 @@ function renderRegie(){
   var data=getRegieData();
   var html='';
   data.forEach(function(s,si){
-    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'" onclick="toggleAcc(\''+s.id+'\');">';
+    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'">';
     if(editMode){
       html+='<div class="re-sbtns" style="display:flex;gap:3px;margin-right:6px;flex-shrink:0">'
         +'<button class="bs bs-sm re-sup" data-sid="'+s.id+'" title="hoch">↑</button>'
@@ -2465,9 +2467,10 @@ function renderDidiRegie(){
 function toggleAcc(id){
   var b=document.getElementById('acc_'+id);
   var a=document.getElementById('arr_'+id);
+  if(!b){ console.warn('toggleAcc: acc_'+id+' not found'); return; }
   var open=b.classList.contains('open');
   b.classList.toggle('open',!open);
-  a.classList.toggle('open',!open);
+  if(a) a.classList.toggle('open',!open);
   setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
 }
 
