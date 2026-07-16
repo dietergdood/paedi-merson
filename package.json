@@ -1,12 +1,5 @@
 {
-  "name": "paedi-merson-transfer",
+  "name": "paedi-merson",
   "version": "1.0.0",
-  "description": "Pädi Merson — Der Transfer JGA App",
-  "scripts": {
-    "build": "node build.js",
-    "dev": "npx serve ."
-  },
-  "engines": {
-    "node": ">=18"
-  }
+  "description": "Pädi Merson — Der Transfer JGA App"
 }
