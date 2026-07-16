@@ -1849,6 +1849,9 @@ Deine Pflichten ab sofort:<br>
 <script>
 
 
+
+
+
 // ─── Supabase Config ─────────────────────────────────────────────────────────
 // Diese Werte werden von Vercel als Environment Variables gesetzt
 // Lokal: erstelle eine .env.local Datei (siehe .env.example)
@@ -2003,7 +2006,7 @@ var P=[
   {id:'maege',name:'Mäge Sauter',role:'Médaillenchef'},
   {id:'patrick',name:'Patrick Avolio',role:'Bier-Kapitan'},
 ];
-var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,einTarget:30,ig_f:'',ig_l:'',ig_k:'',mis:{f:0,l:0,k:0},abl:{},pc:{},mat:{},tips:{},varp:{}};
+var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,einTarget:30,ig_f:'',ig_l:'',ig_k:'',mis:{f:0,l:0,k:0},schnapsGt:{},abl:{},pc:{},mat:{},tips:{},varp:{}};
 function save(){localStorage.setItem('pm5',JSON.stringify(S));}
 
 var MEDALS=[
@@ -2644,7 +2647,12 @@ function renderSB(){
           +'</div>'
         +'</div>'
         // Schnaps
-        +(!isPatric&&schnaps>0?'<div class="sb-cell"><div class="sb-cell-label">Schnaps</div><div style="font-size:13px;font-weight:700;color:var(--red);padding-top:4px">'+schnaps+'×🥃</div></div>':'')
+        +(!isPatric&&schnaps>0?(function(){
+         var gt=S.schnapsGt[p.id]||0;
+         var pct=schnaps>0?Math.round((gt/schnaps)*100):0;
+         var all=gt>=schnaps;
+         return '<div style="margin-top:8px;border-top:1px solid #eee;padding-top:8px">'           +'<div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Schnaps</div>'           +'<div style="display:flex;align-items:center;gap:6px">'           +'<div style="flex:1;height:6px;background:#f0f0ee;border-radius:3px;overflow:hidden">'           +'<div style="width:'+pct+'%;height:100%;background:'+(all?'#16a34a':'#e8c44a')+';border-radius:3px;transition:width .3s"></div>'           +'</div>'           +'<div style="font-size:11px;color:'+(all?'#16a34a':'var(--muted)')+';white-space:nowrap;min-width:38px">'+(all?'alle ✓':gt+' / '+schnaps)+'</div>'           +'<button class="bs bs-sm" data-fn="schnapsgt" data-id="'+p.id+'" data-max="'+schnaps+'" data-d="-1" style="padding:2px 7px">−</button>'           +'<button class="bs bs-sm" data-fn="schnapsgt" data-id="'+p.id+'" data-max="'+schnaps+'" data-d="1" style="padding:2px 7px">+</button>'           +'</div>'           +'</div>';
+       })():'')
       +'</div>'
     +'</div>';
   });
@@ -2658,6 +2666,11 @@ function renderSB(){
       if(fn==='medal') S.medals[id]=Math.max(0,(S.medals[id]||0)+d);
       if(fn==='yellow') S.yellow[id]=Math.max(0,(S.yellow[id]||0)+d);
       if(fn==='red') S.red[id]=Math.max(0,(S.red[id]||0)+d);
+      if(fn==='schnapsgt'){
+        if(!S.schnapsGt) S.schnapsGt={};
+        var max=parseInt(this.getAttribute('data-max')||'0');
+        S.schnapsGt[id]=Math.max(0,Math.min(max,(S.schnapsGt[id]||0)+d));
+      }
       save(); renderSB();
     });
   });
