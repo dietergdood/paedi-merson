@@ -1848,6 +1848,7 @@ Deine Pflichten ab sofort:<br>
 
 <script>
 
+
 // ─── Supabase Config ─────────────────────────────────────────────────────────
 // Diese Werte werden von Vercel als Environment Variables gesetzt
 // Lokal: erstelle eine .env.local Datei (siehe .env.example)
@@ -2266,6 +2267,14 @@ function renderRegie(){
   var el=document.getElementById('regiAcc');
   if(!el) return;
   el.innerHTML=html;
+  // Wire accordion toggles
+  el.querySelectorAll('.acc-h').forEach(function(h){
+    h.addEventListener('click',function(e){
+      if(e.target.closest('.re-sbtns')) return; // don't toggle when clicking edit buttons
+      var id=this.getAttribute('data-acc');
+      if(id) toggleAcc(id);
+    });
+  });
   // Wire station buttons
   el.querySelectorAll('.re-sup').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieMoveStation(this.dataset.sid,-1);}); });
   el.querySelectorAll('.re-sdn').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieMoveStation(this.dataset.sid,1);}); });
