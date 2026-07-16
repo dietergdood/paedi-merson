@@ -2465,13 +2465,14 @@ function renderDidiRegie(){
 }
 
 function toggleAcc(id){
+  console.log('toggleAcc called:', id);
   var b=document.getElementById('acc_'+id);
   var a=document.getElementById('arr_'+id);
   if(!b){ console.warn('toggleAcc: acc_'+id+' not found'); return; }
   var open=b.classList.contains('open');
   b.classList.toggle('open',!open);
   if(a) a.classList.toggle('open',!open);
-  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
+  console.log('toggleAcc done:', id, 'open=', !open, 'display=', b.style.display, 'classes=', b.className);
 }
 
 var ABL=[
