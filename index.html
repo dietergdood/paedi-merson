@@ -279,7 +279,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 
 <div class="app">
 <div class="header">
-  <div class="header-eyebrow">JGA 2025</div>
+  <div class="header-eyebrow">JGA 2026</div>
   <h1>Pädi Merson</h1>
   <div class="header-sub">FC Junggeselle &rarr; FC Mariage &nbsp;·&nbsp; Der Transfer</div>
   <div style="margin-top:.75rem;display:flex;align-items:center;justify-content:center;gap:8px">
@@ -607,6 +607,23 @@ Sie stehen ab sofort unter Beobachtung des Transferkomitees, des Schiedsrichters
       </div>
     </div>
 
+    <!-- KACHEL: Persönliche Packliste (freischaltbar) -->
+    <div class="pkachel" data-kachel="packliste" data-default="1">
+      <div class="section">
+        <div class="section-title">Meine Packliste</div>
+        <div class="info-block"><ul>
+          <li>Reisedokumente / Zugticket</li>
+          <li>Bargeld + Karte</li>
+          <li>Handy + Ladekabel</li>
+          <li>Badesachen (Wakeboarden)</li>
+          <li>Handtuch</li>
+          <li>Sonnenschutz</li>
+          <li>Übernachtungssachen</li>
+          <li>Gute Laune 🎉</li>
+        </ul></div>
+      </div>
+    </div>
+
     <!-- KACHEL: Médaillen (freischaltbar) -->
     <div class="pkachel" data-kachel="medaillen" data-default="0">
       <div class="section">
@@ -648,6 +665,7 @@ Sie stehen ab sofort unter Beobachtung des Transferkomitees, des Schiedsrichters
 </div>
 <!-- DIDI -->
 <div id="tab-didi" style="display:none">
+  <div class="section"><div class="section-title">Meine Packliste</div><div id="matDidi"></div></div>
   <div class="section">
     <div class="section-title">Didi Good — Regie-Kurzansicht</div>
     <div id="didiRegie"></div>
@@ -694,11 +712,12 @@ Ihre Aufgabe: die Mannschaft sicher durch den Spieltag führen, die Moral hochha
     <div class="section-title">Sonderregel</div>
     <div class="info-block">Ist der Schiedsrichter selbst an einer strittigen Situation beteiligt, entscheidet Beni (VAR-Chef) als zweite und letzte Instanz.</div>
   </div>
-  <div class="section"><div class="section-title">Material</div><div id="matDidi"></div></div>
+  
 </div>
 
 <!-- DOMINIK -->
 <div id="tab-dominik" style="display:none">
+  <div class="section"><div class="section-title">Meine Packliste</div><div id="matSieber"></div></div>
   <div class="section">
     <div class="section-title">Sieber Sieber — Social-Media-Manager</div>
     <div class="info-block"><ul>
@@ -753,11 +772,12 @@ Ihre Aufgabe: die Mannschaft sicher durch den Spieltag führen, die Moral hochha
     <div class="section-title">Abschliessender Post (Morgen beim Frühstück)</div>
     <div class="igb"><b>Instagram</b>OFFICIAL AND CONFIRMED — Pädi Merson wechselt zum FC Mariage. Der Transfer ist vollzogen. Willkommen, Capitaine à vie. HERE WE GO. 💍</div>
   </div>
-  <div class="section"><div class="section-title">Material</div><div id="matSieber"></div></div>
+  
 </div>
 
 <!-- BERATER -->
 <div id="tab-berater" style="display:none">
+  <div class="section"><div class="section-title">Meine Packliste</div><div id="matLädi"></div></div>
   <div class="section">
     <div class="section-title">Spielerberater & Finanzchef</div>
     <div class="info-block"><ul>
@@ -798,11 +818,12 @@ Ihre Aufgabe: die Mannschaft sicher durch den Spieltag führen, die Moral hochha
     </div>
   </div>
 
-  <div class="section"><div class="section-title">Material</div><div id="matLädi"></div></div>
+  
 </div>
 
 <!-- BENI -->
 <div id="tab-beni" style="display:none">
+  <div class="section"><div class="section-title">Meine Packliste</div><div id="matBeni"></div></div>
   <div class="section">
     <div class="section-title">Beni Benz — VAR- & Archivchef</div>
     <div class="info-block"><ul>
@@ -840,11 +861,12 @@ Ihre Aufgabe: die Mannschaft sicher durch den Spieltag führen, die Moral hochha
     <div class="section-title">VAR-Punkteblatt</div>
     <div style="display:flex;flex-direction:column;gap:6px" id="varPunkte"></div>
   </div>
-  <div class="section"><div class="section-title">Material</div><div id="matBeni"></div></div>
+  
 </div>
 
 <!-- PAEDI KOCH -->
 <div id="tab-koch" style="display:none">
+  <div class="section"><div class="section-title">Meine Packliste</div><div id="matKoch"></div></div>
   <div class="section">
     <div class="section-title">Pädi Koch — Mannschaftsarzt & Wassersportdirektor</div>
     <div class="info-block"><ul>
@@ -882,11 +904,12 @@ Ihre Aufgabe: die Mannschaft sicher durch den Spieltag führen, die Moral hochha
     <div class="section-title">Abschlussinterview (nach Patricks bestem Run)</div>
     <div class="qb">&#8222;Pädi A., wie beurteilst du deine Leistung und ist der Transfer nach diesem Auftritt noch realistisch?&#8220;</div>
   </div>
-  <div class="section"><div class="section-title">Material</div><div id="matKoch"></div></div>
+  
 </div>
 
 <!-- TOBI -->
 <div id="tab-tobi" style="display:none">
+  <div class="section"><div class="section-title">Meine Packliste</div><div id="matTobi"></div></div>
   <div class="section">
     <div class="section-title">Tobi Freitag — Sponsoren- & Weinmanager</div>
     <div class="info-block"><ul>
@@ -909,11 +932,12 @@ Ihre Aufgabe: die Mannschaft sicher durch den Spieltag führen, die Moral hochha
     <div class="qb" style="margin-top:10px">Beispiel: &#8222;Dieser Wein beginnt mit aggressivem Gegenpressing, entwickelt danach die Eleganz eines erfolgreichen Grindr-Dates und endet zuverlässiger als ein Fahrzeug von Emil Frey.&#8220;</div>
   </div>
 
-  <div class="section"><div class="section-title">Material</div><div id="matTobi"></div></div>
+  
 </div>
 
 <!-- MAEGE -->
 <div id="tab-maege" style="display:none">
+  <div class="section"><div class="section-title">Meine Packliste</div><div id="matMäge"></div></div>
   <div class="section">
     <div class="section-title">Mäge Sauter — Wettbewerbs- & Médaillenchef</div>
     <div class="info-block"><ul>
@@ -969,7 +993,7 @@ Ihre Aufgabe: die Mannschaft sicher durch den Spieltag führen, die Moral hochha
     <div class="section-title">Stechen bei Gleichstand</div>
     <div class="info-block">Korken-Elfmeterschiessen: alle Betroffenen werfen aus derselben Distanz einen Weinkorken in einen Becher. Wer zuletzt trifft, verliert.</div>
   </div>
-  <div class="section"><div class="section-title">Material</div><div id="matMäge"></div></div>
+  
 </div>
 
 <!-- VERTRAG -->
@@ -1073,6 +1097,7 @@ async function loadFromDB(){
       if(r3.data.pch) localStorage.setItem('pm5_pch', JSON.stringify(r3.data.pch));
       if(r3.data.mat) localStorage.setItem('pm5_mat', JSON.stringify(r3.data.mat));
       if(r3.data.kacheln) localStorage.setItem('pm5_kacheln', JSON.stringify(r3.data.kacheln));
+      if(r3.data.padeitabs) localStorage.setItem('pm5_padeitabs', JSON.stringify(r3.data.padeitabs));
     }
   } catch(e){ console.warn('loadFromDB error:', e); }
 }
@@ -1142,6 +1167,7 @@ function subscribeRealtime(){
         if(d.pch) localStorage.setItem('pm5_pch', JSON.stringify(d.pch));
         if(d.mat) localStorage.setItem('pm5_mat', JSON.stringify(d.mat));
         if(d.kacheln) localStorage.setItem('pm5_kacheln', JSON.stringify(d.kacheln));
+        if(d.padeitabs) localStorage.setItem('pm5_padeitabs', JSON.stringify(d.padeitabs));
         renderAblauf(); renderPackliste(); renderPC(); renderAllMat(); renderPatricTab();
       })
     .subscribe();
@@ -2141,6 +2167,7 @@ function activateEdit(){
   renderPC();
   renderAllMat();
   renderPatricTab();
+  renderTabToggles();
 }
 
 function deactivateEdit(){
@@ -2159,6 +2186,7 @@ function deactivateEdit(){
   renderPC();
   renderAllMat();
   renderPatricTab();
+  renderTabToggles();
 }
 
 function getStableId(el){
@@ -2502,8 +2530,9 @@ function checkLogin(){
 
 function applyAppMode(){
   if(APP_MODE === 'paedi'){
-    // Pädi sieht nur: Scoreboard, Packliste, Pädi-Tab
-    var allowed = ['sb','packliste','patrick'];
+    // Pädi sieht: Scoreboard, Packliste, seinen Tab — und was die Crew freischaltet
+    var extraTabs = JSON.parse(localStorage.getItem('pm5_padeitabs')||'[]');
+    var allowed = ['sb','packliste','patrick'].concat(extraTabs);
     document.querySelectorAll('.nav-row .tab-btn').forEach(function(btn){
       var tab = btn.getAttribute('data-tab');
       if(tab && allowed.indexOf(tab) === -1){
@@ -2536,6 +2565,58 @@ function logout(){
   patricMode = null;
   // reload
   location.reload();
+}
+
+
+function getPaediTabs(){
+  return JSON.parse(localStorage.getItem('pm5_padeitabs')||'[]');
+}
+function savePaediTabs(tabs){
+  localStorage.setItem('pm5_padeitabs', JSON.stringify(tabs));
+  if(sb) sb.from('app_lists').upsert({id:'main', padeitabs:tabs, updated_at:new Date().toISOString()});
+}
+
+function renderTabToggles(){
+  var existing = document.getElementById('tabToggleBar');
+  if(existing) existing.remove();
+  if(!editMode) return;
+
+  var allTabs = [
+    {id:'timetable', label:'Timetable'},
+    {id:'story', label:'Die Story'},
+    {id:'regie', label:'Regie'},
+  ];
+  var paediTabs = getPaediTabs();
+  var bar = document.createElement('div');
+  bar.id = 'tabToggleBar';
+  bar.style.cssText = 'background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:.6rem .9rem;margin-bottom:.75rem;font-size:11px;';
+  var html = '<div style="font-size:10px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Tabs für Pädi freischalten</div>';
+  html += '<div style="display:flex;gap:6px;flex-wrap:wrap">';
+  allTabs.forEach(function(t){
+    var on = paediTabs.indexOf(t.id) !== -1;
+    html += '<button class="pkachel-toggle '+(on?'on':'off')+'" data-tabtoggle="'+t.id+'">'+(on?'✓ ':'')+t.label+'</button>';
+  });
+  html += '</div>';
+  bar.innerHTML = html;
+
+  // Insert before nav
+  var nav = document.querySelector('.nav-wrap');
+  if(nav) nav.parentNode.insertBefore(bar, nav);
+
+  // Wire toggles
+  bar.querySelectorAll('[data-tabtoggle]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = this.getAttribute('data-tabtoggle');
+      var tabs = getPaediTabs();
+      var idx = tabs.indexOf(id);
+      if(idx === -1) tabs.push(id);
+      else tabs.splice(idx, 1);
+      savePaediTabs(tabs);
+      renderTabToggles();
+      // Re-apply if in paedi mode
+      if(APP_MODE === 'paedi') applyAppMode();
+    });
+  });
 }
 
 function init(){
