@@ -1084,63 +1084,40 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 </div>
 <!-- DIDI -->
 <div id="tab-didi" style="display:none">
-  <div class="section"><div class="section-title">Meine Packliste</div><div id="matDidi"></div></div>
-  <div class="section">
-    <div class="section-title">Regie-Kurzansicht (Didi)</div>
-    <div id="didiRegie"></div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('role_didi')">
+      <span style="font-size:14px;margin-right:4px">🎬</span>
+      <span class="acc-t">Regie & Aufgaben</span>
+      <span class="acc-a" id="arr_role_didi">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_role_didi">
+
+<div class="section-title">Regie-Kurzansicht (Didi)</div>
+<div class="section-title">Didi Good — Transferdirektor & Schiedsrichter</div>
+<div class="section-title">Text 1: Französisches Outfit (verlesen)</div>
+<div class="section-title">Text 2: Bier-Kapitän-Ernennung (verlesen)</div>
+<div class="section-title">Text 3: Schiedsrichter-Ansage</div>
+<div class="section-title">Text 4: Transfervertrag (am Morgen verlesen)</div>
+<div class="section-title">Ablauf Abend / Morgen</div>
+<div class="section-title">Captain-Mission — 5 Kriterien</div>
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Didi Good — Transferdirektor & Schiedsrichter</div>
-    <div class="info-block"><ul>
-      <li>Frankreich-Outfit übergeben und Begründung vorlesen</li>
-      <li>Sich als Schiedsrichter vorstellen — Regeln erklären (Karten, Schnaps, Captain-Pflichten)</li>
-      <li>Bier-Kapitän-Ernennung feierlich vorlesen und Binde anlegen</li>
-      <li>Karten verteilen nach eigenem Ermessen — endgültig, nicht diskutierbar, willkürlich</li>
-      <li>Captain-Mission am Abend auswerten (5 Kriterien)</li>
-      <li>Transfervertrag am Morgen feierlich vorlesen</li>
-    </ul></div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('pack_didi')">
+      <span style="font-size:14px;margin-right:4px">🎒</span>
+      <span class="acc-t">Meine Packliste</span>
+      <span class="acc-a" id="arr_pack_didi">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_pack_didi">
+
+<div class="section-title">Meine Packliste</div>
+
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Text 1: Französisches Outfit (verlesen)</div>
-    <div class="qb">Sehr geehrter Monsieur Merson,<br><br>
-aufgrund Ihrer bekannten Neigung zum sogenannten französischen Abgang besteht beim FC Mariage eine erhöhte Fluchtgefahr. Sie verlassen Veranstaltungen regelmässig ohne sich ordnungsgemäss abzumelden. Damit Sie jederzeit erkennbar bleiben, tragen Sie die offizielle französische Auswärtsuniform: gestreiftes Trikot und Baskmütze. Ein weiterer französischer Abgang vor der Vertragsunterzeichnung wird als grobe Vertragspflichtverletzung gewertet.<br><br>
-<em>Das Outfit ist für den ganzen Tag Pflicht.</em></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Text 2: Bier-Kapitän-Ernennung (verlesen)</div>
-    <div class="qb">Kraft meines Amtes als Transferdirektor und Schiedsrichter ernenne ich Patrick Avolio hiermit offiziell zum <strong>Bier-Kapitän</strong> des heutigen Transfers.<br><br>
-Deine Pflichten ab sofort:<br>
-— Vor jedem Ortswechsel: Mannschaftskontrolle<br>
-— Drei Captain-Ansprachen im Verlauf des Tages<br>
-— Kein Verschwinden ohne Ankündigung<br>
-— Dein Wort gilt — «Der Bier-Kapitän hat gesprochen.»</div>
-  </div>
-  <div class="section">
-    <div class="section-title">Text 3: Schiedsrichter-Ansage</div>
-    <div class="qb">Als Schiedsrichter dieser Veranstaltung weise ich darauf hin: Meine Entscheidungen sind endgültig, nicht anfechtbar und vollkommen willkürlich. Wer reklamiert, riskiert die nächste Karte. Das Spiel beginnt jetzt.</div>
-  </div>
-  <div class="section">
-    <div class="section-title">Text 4: Transfervertrag (am Morgen verlesen)</div>
-    <div class="qb">Patrick Avolio hat heute alle Prüfungen des Transferkomitees absolviert. Die finanzielle Selbständigkeit wurde nachgewiesen. Der medizinische Test bestanden. Die Social-Media-Anforderungen erfüllt. Das Komitee bestätigt hiermit den Wechsel vom FC Junggeselle zum FC Mariage. Dieser Transfer ist offiziell, endgültig und unwiderruflich.<br><br>
-<strong>HERE WE GO. 💍</strong></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Ablauf Abend / Morgen</div>
-    <div class="info-block"><ul>
-      <li><strong>Abend:</strong> Captain-Mission auswerten, Schlussrangliste abwarten, persönlicher Abschluss</li>
-      <li><strong>Morgen:</strong> Transfervertrag feierlich vorlesen wenn alle am Frühstückstisch sitzen</li>
-    </ul></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Captain-Mission — 5 Kriterien</div>
-    <div class="info-block"><ol>
-      <li>Kein französischer Abgang ohne Ankündigung</li>
-      <li>Alle Mannschaftskontrollen durchgeführt</li>
-      <li>Mindestens 3 Captain-Ansprachen gehalten</li>
-      <li>Mannschaft immer vollständig</li>
-      <li>Alle Medienpflichten erfüllt</li>
-    </ol></div>
-  </div>
+
+
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_didi')">
       <div class="adot dz"></div>
@@ -1190,53 +1167,37 @@ Deine Pflichten ab sofort:<br>
 
 <!-- DOMINIK -->
 <div id="tab-dominik" style="display:none">
-  <div class="section"><div class="section-title">Meine Packliste</div><div id="matSieber"></div></div>
-  <div class="section">
-    <div class="section-title">Dominik Sieber — Social-Media-Manager</div>
-    <div class="info-block"><ul>
-      <li>Ausgangsstand festhalten (Follower, Likes, Kommentare)</li>
-      <li>Alle Posts laufend absetzen — Fotos und Videos aufnehmen</li>
-      <li>Patrick kurze Medienaufträge erteilen</li>
-      <li>Instagram-Ziele überwachen: 38 Follower, 100 Likes, 10 Kommentare</li>
-      <li>Am Abend Abschlussbericht präsentieren + blauen Haken übergeben bei Erfolg</li>
-      <li>Am Morgen: abschliessenden Post absetzen — OFFICIAL AND CONFIRMED</li>
-    </ul></div>
-    <div class="highlight">Fremde nur mit Zustimmung fotografieren und veröffentlichen.</div>
-  </div>
-  <div class="section">
-    <div class="section-title">Ausgangsstand festhalten</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:150px;color:#666">Follower start:</span>
-        <input type="number" id="ig_f" data-ig="f" placeholder="0"></div>
-      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:150px;color:#666">Likes start:</span>
-        <input type="number" id="ig_l" data-ig="l" placeholder="0"></div>
-      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:150px;color:#666">Kommentare start:</span>
-        <input type="number" id="ig_k" data-ig="k" placeholder="0"></div>
+
+<div class="section-title">Ausgangsstand festhalten</div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('role_dominik')">
+      <span style="font-size:14px;margin-right:4px">📋</span>
+      <span class="acc-t">Meine Rolle & Aufgaben</span>
+      <span class="acc-a" id="arr_role_dominik">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_role_dominik">
+
+<div class="section-title">Dominik Sieber — Social-Media-Manager</div>
+<div class="section-title">Alle Posts — in Reihenfolge</div>
+<div class="section-title">Abschliessender Post (Morgen beim Frühstück)</div>
     </div>
   </div>
-  <div class="section">
-    <div class="section-title">Alle Posts — in Reihenfolge</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">Bahnhof — Post 1</div>
-      <div class="igb"><b>Instagram</b>BREAKING NEWS — Pädi Merson wurde am Bahnhof gesichtet. Der Transfer ist offiziell eingeleitet. #PädiMerson #DerTransfer</div></div>
-      <div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">Bahnhof — Post 2</div>
-      <div class="igb"><b>Instagram</b>OFFICIAL — Pädi Merson erhält sein Transferdossier. Die Mission beginnt. #BierKapitän #FCMarriage</div></div>
-      <div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">Zug — Story</div>
-      <div class="igb"><b>Instagram Story</b>FAIR PLAY UPDATE — Pädi Merson finanziert seinen eigenen Transfer. Respekt. #Baguette</div></div>
-      <div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">Zug — Story VAR</div>
-      <div class="igb"><b>Instagram Story</b>VAR CHECK — Die Vergangenheit von Pädi Merson wird gründlich geprüft. #VAR</div></div>
-      <div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">Boot — Post</div>
-      <div class="igb"><b>Instagram</b>MEDICAL UPDATE — Pädi Merson hat den Wakeboard-Test bestanden. Ergebnis: ausbaufähig. #Kostüm #Rettungsschwimmerin</div></div>
-      <div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">Wein — Post</div>
-      <div class="igb"><b>Instagram</b>SPONSOR UPDATE — Pädi Merson befindet sich in finalen Transferverhandlungen. Bei Wein. In der Westschweiz.</div></div>
-      <div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">Morgen — Abschluss</div>
-      <div class="igb"><b>Instagram</b>OFFICIAL AND CONFIRMED — Pädi Merson wechselt zum FC Mariage. Der Transfer ist vollzogen. Willkommen, Capitaine à vie. HERE WE GO. 💍</div></div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('pack_dominik')">
+      <span style="font-size:14px;margin-right:4px">🎒</span>
+      <span class="acc-t">Meine Packliste</span>
+      <span class="acc-a" id="arr_pack_dominik">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_pack_dominik">
+
+<div class="section-title">Meine Packliste</div>
+
     </div>
   </div>
-  <div class="section">
-    <div class="section-title">Abschliessender Post (Morgen beim Frühstück)</div>
-    <div class="igb"><b>Instagram</b>OFFICIAL AND CONFIRMED — Pädi Merson wechselt zum FC Mariage. Der Transfer ist vollzogen. Willkommen, Capitaine à vie. HERE WE GO. 💍</div>
-  </div>
+
+
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_dominik')">
       <div class="adot dz"></div>
@@ -1286,45 +1247,37 @@ Deine Pflichten ab sofort:<br>
 
 <!-- BERATER -->
 <div id="tab-berater" style="display:none">
-  <div class="section"><div class="section-title">Meine Packliste</div><div id="matLädi"></div></div>
-  <div class="section">
-    <div class="section-title">Lädi — Spielerberater & Finanzchef</div>
-    <div class="info-block"><ul>
-      <li>5 Baguettes organisieren und mitbringen (+ Tasche / Bauchladen)</li>
-      <li>Transferdossier an Patrick übergeben</li>
-      <li>Patrick die Verkaufsmission erklären: CHF 30 Pflicht, CHF 50 Bonus</li>
-      <li>Patrick beraten — aber nicht selbst verkaufen</li>
-      <li>Einnahmen dokumentieren und am Abend melden</li>
-    </ul></div>
+
+<div class="section-title">Finanz-Checker</div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('role_berater')">
+      <span style="font-size:14px;margin-right:4px">📋</span>
+      <span class="acc-t">Meine Rolle & Aufgaben</span>
+      <span class="acc-a" id="arr_role_berater">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_role_berater">
+
+<div class="section-title">Lädi — Spielerberater & Finanzchef</div>
+<div class="section-title">Verkaufstext für Patrick</div>
+<div class="section-title">Mögliche Strategien</div>
+    </div>
   </div>
-   <div class="section">
-     <div class="section-title">Finanz-Checker</div>
-     <div style="display:flex;flex-direction:column;gap:10px">
-       <div style="display:flex;align-items:center;gap:8px">
-         <span style="font-size:13px;min-width:150px;color:#666">Einnahmen CHF:</span>
-         <input type="number" id="ein" placeholder="0" style="width:80px">
-       </div>
-       <div style="display:flex;align-items:center;gap:8px">
-         <span style="font-size:13px;min-width:150px;color:#666">Ziel CHF (Pflicht):</span>
-         <input type="number" id="einTarget" placeholder="30" style="width:80px">
-         <span style="font-size:12px;color:#aaa">→ wird in Tagesmission übernommen</span>
-       </div>
-     </div>
-   </div>
-  <div class="section">
-    <div class="section-title">Verkaufstext für Patrick</div>
-    <div class="qb">«Entschuldigung, ich stehe kurz vor dem wichtigsten Transfer meines Lebens. Leider hat der FC Mariage mein Handgeld noch nicht überwiesen. Möchten Sie meine Karriere mit dem Kauf eines limitierten Transfer-Baguettes unterstützen?»</div>
-    <div class="highlight" style="margin-top:8px">Ein Nein wird sofort akzeptiert — kein Druck, kein zweites Mal fragen.</div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('pack_berater')">
+      <span style="font-size:14px;margin-right:4px">🎒</span>
+      <span class="acc-t">Meine Packliste</span>
+      <span class="acc-a" id="arr_pack_berater">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_pack_berater">
+
+<div class="section-title">Meine Packliste</div>
+
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Mögliche Strategien</div>
-    <div class="info-block"><ul>
-      <li>Familien mit Kindern ansprechen — emotionaler Appell</li>
-      <li>Andere Reisende in der Nähe des Speisewagens</li>
-      <li>Freunde können Tipps flüstern — nicht selbst verkaufen</li>
-      <li>Kostüm als Gesprächsöffner nutzen</li>
-    </ul></div>
-  </div>
+
+
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_berater')">
       <div class="adot dz"></div>
@@ -1374,50 +1327,37 @@ Deine Pflichten ab sofort:<br>
 
 <!-- BENI -->
 <div id="tab-beni" style="display:none">
-  <div class="section"><div class="section-title">Meine Packliste</div><div id="matBeni"></div></div>
-  <div class="section">
-    <div class="section-title">Beni Benz — VAR-Chef & zweite Entscheidungsinstanz</div>
-    <div class="info-block"><ul>
-      <li>8–10 Fotos vorbereiten (je ca. 50% echt / manipuliert)</li>
-      <li>Kindheits-VAR im Zug moderieren</li>
-      <li>Punkte der Freunde (echt/fake) notieren</li>
-      <li>Patrick lässt 4 Fragen pro Bild beantworten</li>
-      <li>Manipulationen erst am Schluss auflösen</li>
-      <li>Médaille L'Œil du VAR vergeben</li>
-      <li>Bei Streitfall: zweite Entscheidungsinstanz wenn Schiedsrichter selbst beteiligt</li>
-    </ul></div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('role_beni')">
+      <span style="font-size:14px;margin-right:4px">📋</span>
+      <span class="acc-t">Meine Rolle & Aufgaben</span>
+      <span class="acc-a" id="arr_role_beni">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_role_beni">
+
+<div class="section-title">Beni Benz — VAR-Chef & zweite Entscheidungsinstanz</div>
+<div class="section-title">Patricks 4 Fragen pro Foto</div>
+<div class="section-title">Mögliche Manipulationen</div>
+<div class="section-title">Wertung</div>
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Patricks 4 Fragen pro Foto</div>
-    <div class="info-block"><ol>
-      <li>Echt oder manipuliert?</li>
-      <li>Was wurde verändert?</li>
-      <li>Wann und wo entstand das Original?</li>
-      <li>Wer aus der Gruppe war dabei?</li>
-    </ol></div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('pack_beni')">
+      <span style="font-size:14px;margin-right:4px">🎒</span>
+      <span class="acc-t">Meine Packliste</span>
+      <span class="acc-a" id="arr_pack_beni">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_pack_beni">
+
+<div class="section-title">Meine Packliste</div>
+
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Mögliche Manipulationen</div>
-    <div class="info-block"><ul>
-      <li>Patrick trägt ein England-Trikot</li>
-      <li>Er hält als Kind bereits ein Weinglas</li>
-      <li>Er steht neben einer berühmten Person</li>
-      <li>Jahreszahl im Bild verändert</li>
-      <li>Hintergrund ausgetauscht</li>
-      <li>Gesicht einer anderen Person eingefügt</li>
-    </ul></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Wertung</div>
-    <div class="info-block"><ul>
-      <li>Alle tippen gleichzeitig: echt oder fake</li>
-      <li>Wer am meisten richtig liegt, gewinnt</li>
-      <li>Bei Gleichstand entscheidet Patrick selbst</li>
-      <li>Médaille <strong>L'Œil du VAR</strong> sofort vergeben</li>
-    </ul></div>
-    <div id="varPunkte" style="margin-top:.5rem"></div>
-  </div>
-<div class="acc-item" style="margin-bottom:.75rem">
+
+
+  <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_beni')">
       <div class="adot dz"></div>
       <div class="acc-t">Spiele & Wettbewerbe</div>
@@ -1457,39 +1397,36 @@ Deine Pflichten ab sofort:<br>
 
 <!-- PAEDI KOCH -->
 <div id="tab-koch" style="display:none">
-  <div class="section"><div class="section-title">Meine Packliste</div><div id="matKoch"></div></div>
-  <div class="section">
-    <div class="section-title">Pädi Koch — Mannschaftsarzt & Wassersportdirektor</div>
-    <div class="info-block"><ul>
-      <li>Rettungsschwimmerinnen-Kostüm mitbringen und feierlich übergeben</li>
-      <li>Medizinische Beurteilung vorlesen</li>
-      <li>Patricks Statement filmen (Video für Instagram)</li>
-      <li>Wakeboard-Runs beobachten und bewerten: Stil, Haltung, Gleichgewicht, Unterhaltungswert</li>
-      <li>Gruppenabstimmung leiten für 2 Médaillen</li>
-      <li>Sicherheit im Auge behalten — keine absichtlichen Sturzaktionen</li>
-    </ul></div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('role_koch')">
+      <span style="font-size:14px;margin-right:4px">📋</span>
+      <span class="acc-t">Meine Rolle & Aufgaben</span>
+      <span class="acc-a" id="arr_role_koch">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_role_koch">
+
+<div class="section-title">Pädi Koch — Mannschaftsarzt & Wassersportdirektor</div>
+<div class="section-title">Medizinische Beurteilung (vorlesen)</div>
+<div class="section-title">Bewertungskriterien Wakeboard</div>
+<div class="section-title">Médaillen zu vergeben</div>
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Medizinische Beurteilung (vorlesen)</div>
-    <div class="qb">«Der Spieler verfügt am Weinglas über eine ausgezeichnete Hand-Auge-Koordination. Seine Leistungen auf dem Wakeboard sind bislang jedoch nicht dokumentiert. Das Transferkomitee empfiehlt eine sofortige Überprüfung seiner Wasserkompetenzen unter kontrollierten Bedingungen.»</div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('pack_koch')">
+      <span style="font-size:14px;margin-right:4px">🎒</span>
+      <span class="acc-t">Meine Packliste</span>
+      <span class="acc-a" id="arr_pack_koch">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_pack_koch">
+
+<div class="section-title">Meine Packliste</div>
+
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Bewertungskriterien Wakeboard</div>
-    <div class="info-block"><ul>
-      <li><strong>Haltung</strong> — aufrecht, Körperspannung</li>
-      <li><strong>Gleichgewicht</strong> — wie lange hält er sich?</li>
-      <li><strong>Kontrolle</strong> — Lenkung, Reaktion</li>
-      <li><strong>Unterhaltungswert</strong> — Gesichtsausdruck, Jubel, Kommentare</li>
-    </ul></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Médaillen zu vergeben</div>
-    <div class="info-block"><ul>
-      <li><strong>🏄 Médaille de la Performance</strong> — bester Run (Gruppenabstimmung)</li>
-      <li><strong>💥 Prix du Plongeon</strong> — spektakulärster unbeabsichtigter Sturz</li>
-    </ul></div>
-    <div class="highlight" style="margin-top:8px">Nur unbeabsichtigte Stürze zählen — bei Gleichstand entscheidet Pädi Koch.</div>
-  </div>
+
+
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_koch')">
       <div class="adot dz"></div>
@@ -1539,43 +1476,36 @@ Deine Pflichten ab sofort:<br>
 
 <!-- TOBI -->
 <div id="tab-tobi" style="display:none">
-  <div class="section"><div class="section-title">Meine Packliste</div><div id="matTobi"></div></div>
-  <div class="section">
-    <div class="section-title">Tobi Freitag — Sponsoren- & Weinmanager</div>
-    <div class="info-block"><ul>
-      <li>Ablauf mit dem Weingut kurz abstimmen</li>
-      <li>8 Begriffskarten vorbereiten und mitbringen</li>
-      <li>Bullshit-Sommelier moderieren</li>
-      <li>Gruppenabstimmung oder Patrick bestimmt Gewinner</li>
-      <li>Médaille <strong>Bullshit Sommelier</strong> vergeben</li>
-      <li>Sponsoren-Post an Dominik weitergeben</li>
-    </ul></div>
-    <div class="highlight" style="margin-top:8px">Die Weindegustation steht im Vordergrund — Wettbewerb soll locker und schnell ablaufen.</div>
-  </div>
-  <div class="section">
-    <div class="section-title">Bullshit-Sommelier — Ablauf</div>
-    <div class="info-block">
-      <p style="margin-bottom:.5rem">Jede Person zieht eine Begriffskarte und beschreibt den Wein damit in einem einzigen Satz. Beispiel: «Dieser Wein beginnt mit aggressivem Gegenpressing und endet zuverlässiger als ein Fahrzeug von Emil Frey.»</p>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('role_tobi')">
+      <span style="font-size:14px;margin-right:4px">📋</span>
+      <span class="acc-t">Meine Rolle & Aufgaben</span>
+      <span class="acc-a" id="arr_role_tobi">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_role_tobi">
+
+<div class="section-title">Tobi Freitag — Sponsoren- & Weinmanager</div>
+<div class="section-title">Bullshit-Sommelier — Ablauf</div>
+<div class="section-title">Die 8 Begriffskarten</div>
+<div class="section-title">Übersicht — wer hat was?</div>
     </div>
   </div>
-  <div class="section">
-    <div class="section-title">Die 8 Begriffskarten</div>
-    <div class="tr" style="margin-bottom:.75rem">
-      <span class="badge bp">Emil Frey</span>
-      <span class="badge bp">Digitalisierung</span>
-      <span class="badge bp">Gegenpressing</span>
-      <span class="badge bp">Grindr</span>
-      <span class="badge bp">Rettungsschwimmerin</span>
-      <span class="badge bp">England</span>
-      <span class="badge bp">Flitterwochen</span>
-      <span class="badge bp">Raclette</span>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('pack_tobi')">
+      <span style="font-size:14px;margin-right:4px">🎒</span>
+      <span class="acc-t">Meine Packliste</span>
+      <span class="acc-a" id="arr_pack_tobi">&#9660;</span>
     </div>
-    <button class="bs" onclick="distributeSOMMWords()" style="width:100%;padding:10px;background:#0a0a0a;color:#e8c44a;border-color:#0a0a0a;font-weight:700;font-size:13px">🎲 Begriffe zufällig verteilen</button>
+    <div class="acc-b" id="acc_pack_tobi">
+
+<div class="section-title">Meine Packliste</div>
+
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Übersicht — wer hat was?</div>
-    <div id="sommTobiOverview"></div>
-  </div>
+
+
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_tobi')">
       <div class="adot dz"></div>
@@ -1616,48 +1546,37 @@ Deine Pflichten ab sofort:<br>
 
 <!-- MAEGE -->
 <div id="tab-maege" style="display:none">
-  <div class="section"><div class="section-title">Meine Packliste</div><div id="matMäge"></div></div>
-  <div class="section">
-    <div class="section-title">Mäge Sauter — Wettbewerbs- & Médaillenchef</div>
-    <div class="info-block"><ul>
-      <li>Alle 9 Médaillen und Karten laufend im Scoreboard dokumentieren</li>
-      <li>Molotow-Jass leiten: den ganzen Tag, Siegtabelle führen</li>
-      <li>Kings Cup moderieren (einmalig, wann es passt) → Médaille sofort</li>
-      <li>Quiz «Wer kennt Pädi A. am besten?» im Zug moderieren → Médaille</li>
-      <li>Task Team in der Hütte organisieren → Médaille d'Équipe</li>
-      <li>Match-Tipps einsammeln und auswerten → Médaille du Football</li>
-      <li>Schlussrangliste erstellen, Letztplatzierten bestimmen</li>
-      <li>Bei Gleichstand: Korken-Elfmeterschiessen organisieren</li>
-    </ul></div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('role_maege')">
+      <span style="font-size:14px;margin-right:4px">📋</span>
+      <span class="acc-t">Meine Rolle & Aufgaben</span>
+      <span class="acc-a" id="arr_role_maege">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_role_maege">
+
+<div class="section-title">Mäge Sauter — Wettbewerbs- & Médaillenchef</div>
+<div class="section-title">Molotow-Jass — Médaille du Molotow</div>
+<div class="section-title">Quiz — Médaille de l'Amitié (im Zug)</div>
+<div class="section-title">Task Team — Médaille d'Équipe (Hütte Abend)</div>
+<div class="section-title">Match-Tipps — Médaille du Football</div>
+<div class="section-title">Schlussrangliste Agenten-Cup</div>
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Molotow-Jass — Médaille du Molotow</div>
-    <div class="info-block"><p>Läuft den ganzen Tag — wann immer Zeit und Lust da ist. Zu zweit gespielt, je zwei Karten pro Spieler, keine Trumpfansage, es zählen nur Stiche. Mäge führt laufend eine Siegtabelle. Am Abend Schlussstand auswerten.</p></div>
+
+  <div class="acc-item">
+    <div class="acc-h" onclick="toggleAcc('pack_maege')">
+      <span style="font-size:14px;margin-right:4px">🎒</span>
+      <span class="acc-t">Meine Packliste</span>
+      <span class="acc-a" id="arr_pack_maege">&#9660;</span>
+    </div>
+    <div class="acc-b" id="acc_pack_maege">
+
+<div class="section-title">Meine Packliste</div>
+
+    </div>
   </div>
-  <div class="section">
-    <div class="section-title">Quiz — Médaille de l'Amitié (im Zug)</div>
-    <div class="info-block" style="margin-bottom:.75rem"><p>5 Fragen über Pädi A. — alle haben vorher still ihre Antworten eingetragen. Patrick gibt die echten Antworten. Wer am meisten getroffen hat, gewinnt.</p></div>
-    <div id="quizMaegeOverview"></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Task Team — Médaille d'Équipe (Hütte Abend)</div>
-    <div class="info-block"><p>150 Minispiele, 3+ Personen. Teams bilden (2–3 Personen), drittes Team schiedsrichtert und liest Karte vor. Startsignal: <strong>Task! Team! Los!</strong> Wer zuerst 7 Aufgaben gewinnt, holt die Médaille. Patrick spielt mit. Dauer ca. 20 Min.</p></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Match-Tipps — Médaille du Football</div>
-    <div class="info-block"><p style="margin-bottom:.5rem">Vor dem Anpfiff sammelt Mäge alle Tipps ein:</p>
-    <ul>
-      <li>Endresultat</li>
-      <li>Erster Torschütze</li>
-      <li>Minute des ersten Tores</li>
-    </ul>
-    <p style="margin-top:.5rem">Auswertung nach Priorität: Resultat → Tordifferenz → Torschütze → Minute.</p></div>
-    <div id="matchTipps" style="margin-top:.5rem"></div>
-  </div>
-  <div class="section">
-    <div class="section-title">Schlussrangliste Agenten-Cup</div>
-    <div class="info-block"><p>Nach dem Spiel: alle Médaillen zählen, Karten berücksichtigen (zählen nicht direkt, aber Schnaps-Strafen sind ein Malus). Letztplatzierten bekannt geben — er teilt Patricks Strafe am Morgen.</p></div>
-  </div>
+
 
   <div class="acc-item" style="margin-bottom:.75rem">
     <div class="acc-h" onclick="toggleAcc('games_maege')">
