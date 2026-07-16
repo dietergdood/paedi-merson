@@ -3384,7 +3384,7 @@ function showTab(id,btn){
   if(activeBtn) activeBtn.classList.add('active');
   setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
   if(id==='packliste') renderPackliste();
-  if(id==='regie'){ renderRegie(); renderDidiRegie(); }
+  if(id==='regie'){ showSub('drehbuch'); renderRegie(); renderDidiRegie(); }
   if(id==='didi'){ renderDidiRegie(); }
   if(id==='ablauf') renderAblauf();
   if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderMyTip('patrick');renderMySOMMWord('patrick');}
@@ -4307,15 +4307,6 @@ function toggleGameAcc(id){
     else if(did==='matchTipps') renderTips();
   });
 }
-
-// Global accordion handler
-document.addEventListener('click', function(e){
-  var h = e.target.closest('.acc-h');
-  if(!h) return;
-  if(e.target.closest('.re-sbtns')) return;
-  var id = h.getAttribute('data-acc');
-  if(id) toggleAcc(id);
-});
 
 var supabaseReady = initSupabase();
 if(supabaseReady){
