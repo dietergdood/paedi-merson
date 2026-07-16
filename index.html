@@ -1859,6 +1859,7 @@ Deine Pflichten ab sofort:<br>
 
 
 
+
 // ─── Supabase Config ─────────────────────────────────────────────────────────
 // Diese Werte werden von Vercel als Environment Variables gesetzt
 // Lokal: erstelle eine .env.local Datei (siehe .env.example)
@@ -2233,7 +2234,7 @@ function renderRegie(){
   var data=getRegieData();
   var html='';
   data.forEach(function(s,si){
-    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'">';
+    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'" onclick="toggleAcc(\''+s.id+'\');">';
     if(editMode){
       html+='<div class="re-sbtns" style="display:flex;gap:3px;margin-right:6px;flex-shrink:0">'
         +'<button class="bs bs-sm re-sup" data-sid="'+s.id+'" title="hoch">↑</button>'
