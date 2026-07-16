@@ -1998,7 +1998,7 @@ function enableEdit(){
         el.setAttribute('data-edit-id', stableId);
         var saved=getEdit(el);
         if(saved!==null) el.innerHTML=saved;
-        el.addEventListener('input',function(){saveEdit(this);});
+        el.addEventListener('blur',function(){saveEdit(this);});
       }
     });
   });
@@ -2009,7 +2009,7 @@ function enableEdit(){
       el.setAttribute('data-edit-id',stableId);
       var saved=getEdit(el);
       if(saved!==null) el.innerHTML=saved;
-      el.addEventListener('input',function(){saveEdit(this);});
+      el.addEventListener('blur',function(){saveEdit(this);});
     }
   });
   // Make checklist item texts editable
@@ -2019,7 +2019,7 @@ function enableEdit(){
       el.setAttribute('data-edit-id','ci-'+Math.random().toString(36).substr(2,6));
       var saved=getEdit(el);
       if(saved!==null) el.innerHTML=saved;
-      el.addEventListener('input',function(){saveEdit(this);});
+      el.addEventListener('blur',function(){saveEdit(this);});
       // prevent click-to-check when editing
       el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
     }
@@ -2031,7 +2031,7 @@ function enableEdit(){
       el.setAttribute('data-edit-id','pk-'+Math.random().toString(36).substr(2,6));
       var saved=getEdit(el);
       if(saved!==null) el.innerHTML=saved;
-      el.addEventListener('input',function(){saveEdit(this);});
+      el.addEventListener('blur',function(){saveEdit(this);});
       el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
     }
   });
@@ -2042,7 +2042,7 @@ function enableEdit(){
       el.setAttribute('data-edit-id','pkw-'+Math.random().toString(36).substr(2,6));
       var saved=getEdit(el);
       if(saved!==null) el.innerHTML=saved;
-      el.addEventListener('input',function(){saveEdit(this);});
+      el.addEventListener('blur',function(){saveEdit(this);});
       el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
     }
   });
@@ -2053,7 +2053,7 @@ function enableEdit(){
       el.setAttribute('data-edit-id','st-'+Math.random().toString(36).substr(2,6));
       var saved=getEdit(el);
       if(saved!==null) el.innerHTML=saved;
-      el.addEventListener('input',function(){saveEdit(this);});
+      el.addEventListener('blur',function(){saveEdit(this);});
       el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
     }
   });
