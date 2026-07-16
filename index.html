@@ -2419,6 +2419,295 @@ function saveTip(personId){
   // Now handled via blur events in renderMyTip
 }
 
+
+// ─── Bullshit Sommelier ───────────────────────────────────────────────────────
+var SOMM_WORDS = ['Emil Frey','Digitalisierung','Gegenpressing','Grindr','Rettungsschwimmerin','England','Flitterwochen','Raclette'];
+
+var QUIZ_QUESTIONS = [
+  'Welches Lied bringt ihn auf die Tanzfläche?',
+  'Was ist sein unnötigster Luxus?',
+  'Was bestellt er nach einer langen Partynacht?',
+  'Welchen Wein trinkt er am liebsten?',
+  'Womit nervt man ihn am schnellsten?',
+];
+
+function getSOMMState(){ return JSON.parse(localStorage.getItem('pm5_somm')||'null') || {assigned:{}, winner:null}; }
+function saveSOMMState(s){ localStorage.setItem('pm5_somm',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',somm:s,updated_at:new Date().toISOString()}); }
+
+function getQuizState(){ return JSON.parse(localStorage.getItem('pm5_quiz')||'null') || {answers:{}, winner:null, paediAnswers:[]}; }
+function saveQuizState(s){ localStorage.setItem('pm5_quiz',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',quiz:s,updated_at:new Date().toISOString()}); }
+
+function getVARState(){ return JSON.parse(localStorage.getItem('pm5_var')||'null') || {photos:[], guesses:{}, winner:null}; }
+function saveVARState(s){ localStorage.setItem('pm5_var',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',varstate:s,updated_at:new Date().toISOString()}); }
+
+function distributeSOMMWords(){
+  var persons=P.slice();
+  var words=SOMM_WORDS.slice();
+  for(var i=words.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=words[i]; words[i]=words[j]; words[j]=tmp;
+  }
+  var assigned={};
+  persons.forEach(function(p,i){ assigned[p.id]=words[i%words.length]; });
+  var state={assigned:assigned, winner:null};
+  saveSOMMState(state);
+  renderSOMMTobi();
+  renderAllPersonSOMMWords();
+  showToast('Begriffe verteilt!');
+}
+
+function setSOMMWinner(id){
+  var s=getSOMMState(); s.winner=id; saveSOMMState(s); renderSOMMTobi();
+}
+
+function renderSOMMTobi(){
+  var el=document.getElementById('sommTobiOverview');
+  if(!el) return;
+  var s=getSOMMState();
+  if(!Object.keys(s.assigned||{}).length){
+    el.innerHTML='<div style="color:#bbb;font-size:13px;text-align:center;padding:1rem">Noch nicht verteilt</div>';
+    return;
+  }
+  var html='<div style="display:flex;flex-direction:column;gap:6px">';
+  P.forEach(function(p){
+    var word=s.assigned[p.id]||'—';
+    var isWinner=s.winner===p.id;
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
+      +'<span style="font-size:12px;font-weight:600;min-width:70px;color:#555">'+p.name.split(' ')[0]+':</span>'
+      +'<span class="badge bp" style="font-size:11px">'+word+'</span>'
+      +'<button class="bs bs-sm somm-winner-btn" data-swid="'+p.id+'" style="margin-left:auto;'+(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">'+(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
+      +'</div>';
+  });
+  html+='</div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.somm-winner-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){ setSOMMWinner(this.getAttribute('data-swid')); });
+  });
+}
+
+function renderMySOMMWord(personId){
+  var el=document.getElementById('mySOMMWord_'+personId);
+  if(!el) return;
+  var s=getSOMMState();
+  var word=s.assigned&&s.assigned[personId];
+  var isWinner=s.winner===personId;
+  if(!word){
+    el.innerHTML='<div style="color:#bbb;font-size:13px;text-align:center;padding:.5rem">Tobi hat noch nicht verteilt</div>';
+  } else {
+    el.innerHTML='<div style="text-align:center;padding:.5rem">'
+      +'<div style="font-size:11px;color:#888;margin-bottom:.35rem">Dein Begriff:</div>'
+      +'<span class="badge bp" style="font-size:15px;padding:6px 16px">'+word+'</span>'
+      +'<div style="font-size:12px;color:#888;margin-top:.5rem;font-style:italic">Beschreibe den Wein in einem einzigen Satz damit.</div>'
+      +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem;margin-top:.5rem;font-size:12px;font-weight:700;color:#166534">Bullshit Sommelier!</div>':'')
+      +'</div>';
+  }
+}
+
+function renderAllPersonSOMMWords(){
+  P.forEach(function(p){ renderMySOMMWord(p.id); });
+}
+
+// ─── Pädi Quiz ────────────────────────────────────────────────────────────────
+function saveMyQuizAnswers(personId){
+  var s=getQuizState();
+  if(!s.answers) s.answers={};
+  var answers=[];
+  QUIZ_QUESTIONS.forEach(function(q,i){
+    var el=document.getElementById('quiz_'+personId+'_'+i);
+    answers.push(el?el.value:'');
+  });
+  s.answers[personId]=answers;
+  saveQuizState(s);
+}
+
+function savePaediAnswers(){
+  var s=getQuizState();
+  var answers=[];
+  QUIZ_QUESTIONS.forEach(function(q,i){
+    var el=document.getElementById('paedi_ans_'+i);
+    answers.push(el?el.value:'');
+  });
+  s.paediAnswers=answers;
+  saveQuizState(s);
+  renderQuizMaege();
+}
+
+function setQuizWinner(id){
+  var s=getQuizState(); s.winner=id; saveQuizState(s); renderQuizMaege();
+}
+
+function renderMyQuizForm(personId){
+  var el=document.getElementById('myQuiz_'+personId);
+  if(!el) return;
+  var s=getQuizState();
+  var saved=(s.answers&&s.answers[personId])||[];
+  var isWinner=s.winner===personId;
+  var html='<div style="display:flex;flex-direction:column;gap:8px">';
+  QUIZ_QUESTIONS.forEach(function(q,i){
+    html+='<div>'
+      +'<div style="font-size:11px;font-weight:700;color:#888;margin-bottom:3px">Frage '+(i+1)+': '+q+'</div>'
+      +'<input id="quiz_'+personId+'_'+i+'" placeholder="Deine Antwort" value="'+(saved[i]||'')+'" style="width:100%" class="quiz-inp" data-qpid="'+personId+'" data-qi="'+i+'">'
+      +'</div>';
+  });
+  html+='</div>'+(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem;margin-top:.75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">Wer kennt Pädi am besten!</div>':'');
+  el.innerHTML=html;
+  el.querySelectorAll('.quiz-inp').forEach(function(inp){
+    inp.addEventListener('blur',function(){ saveMyQuizAnswers(this.getAttribute('data-qpid')); });
+  });
+}
+
+function renderQuizMaege(){
+  var el=document.getElementById('quizMaegeOverview');
+  if(!el) return;
+  var s=getQuizState();
+  var html='<div style="margin-bottom:.75rem"><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Pädis echte Antworten</div>';
+  QUIZ_QUESTIONS.forEach(function(q,i){
+    html+='<div style="margin-bottom:5px">'
+      +'<div style="font-size:11px;color:#aaa;margin-bottom:2px">'+q+'</div>'
+      +'<input id="paedi_ans_'+i+'" placeholder="Patricks Antwort" value="'+((s.paediAnswers&&s.paediAnswers[i])||'')+'" style="width:100%;font-size:12px" class="paedi-ans-inp">'
+      +'</div>';
+  });
+  html+='</div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Antworten der Crew</div><div style="display:flex;flex-direction:column;gap:6px">';
+  P.filter(function(p){return p.id!=='maege';}).forEach(function(p){
+    var ans=(s.answers&&s.answers[p.id])||[];
+    var isWinner=s.winner===p.id;
+    var hasAnswers=ans.some(function(a){return a&&a.trim();});
+    html+='<div style="border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+';padding:6px 10px">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(hasAnswers?'6px':'0')+'">'
+      +'<span style="font-size:12px;font-weight:700;color:#555">'+p.name.split(' ')[0]+'</span>'
+      +'<button class="bs bs-sm quiz-winner-btn" data-qwid="'+p.id+'" style="'+(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">'+(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
+      +'</div>';
+    if(hasAnswers){
+      ans.forEach(function(a,i){ if(a) html+='<div style="font-size:11px;color:#666;margin-bottom:2px"><span style="color:#aaa">F'+(i+1)+':</span> '+a+'</div>'; });
+    } else {
+      html+='<div style="font-size:11px;color:#bbb;font-style:italic">Noch keine Antworten</div>';
+    }
+    html+='</div>';
+  });
+  html+='</div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.quiz-winner-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){ setQuizWinner(this.getAttribute('data-qwid')); });
+  });
+  el.querySelectorAll('.paedi-ans-inp').forEach(function(inp){
+    inp.addEventListener('blur', savePaediAnswers);
+  });
+}
+
+// ─── Kindheits-VAR ────────────────────────────────────────────────────────────
+function setVARPhotoCount(n){
+  var s=getVARState(); s.photos=[];
+  for(var i=0;i<n;i++) s.photos.push({label:'Foto '+(i+1),real:null});
+  saveVARState(s); renderVARBeni(); renderAllPersonVAR();
+}
+
+function setVARPhotoReal(idx,isReal){
+  var s=getVARState();
+  if(!s.photos[idx]) s.photos[idx]={label:'Foto '+(idx+1)};
+  s.photos[idx].real=isReal;
+  saveVARState(s); renderVARBeni(); renderAllPersonVAR();
+}
+
+function saveMyVARGuess(personId,photoIdx,guess){
+  var s=getVARState();
+  if(!s.guesses) s.guesses={};
+  if(!s.guesses[personId]) s.guesses[personId]=[];
+  s.guesses[personId][photoIdx]=guess;
+  saveVARState(s); renderMyVARGuesses(personId);
+}
+
+function setVARWinner(id){
+  var s=getVARState(); s.winner=id; saveVARState(s); renderVARBeni();
+}
+
+function renderMyVARGuesses(personId){
+  var el=document.getElementById('myVAR_'+personId);
+  if(!el) return;
+  var s=getVARState();
+  var n=(s.photos&&s.photos.length)||0;
+  var isWinner=s.winner===personId;
+  if(!n){
+    el.innerHTML='<div style="color:#bbb;font-size:13px;text-align:center;padding:.5rem">Beni hat noch keine Fotos vorbereitet</div>';
+    return;
+  }
+  var guesses=(s.guesses&&s.guesses[personId])||[];
+  var html='<div style="display:flex;flex-direction:column;gap:6px">';
+  s.photos.forEach(function(photo,i){
+    var g=guesses[i];
+    var revealed=photo.real!==null;
+    var correct=revealed&&((g==='echt')===photo.real);
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:'+(revealed?(correct?'#dcfce7':'#fee2e2'):'#fafaf8')+';border:1px solid '+(revealed?(correct?'#bbf7d0':'#fecaca'):'#eee')+'">'
+      +'<span style="font-size:12px;font-weight:700;min-width:55px;color:#555">Foto '+(i+1)+':</span>'
+      +'<button class="bs bs-sm var-guess-btn" data-vpid="'+personId+'" data-vi="'+i+'" data-vg="echt" style="'+(g==='echt'?'background:#0a0a0a;color:#e8c44a;border-color:#0a0a0a':'')+'">Echt</button>'
+      +'<button class="bs bs-sm var-guess-btn" data-vpid="'+personId+'" data-vi="'+i+'" data-vg="fake" style="'+(g==='fake'?'background:#0a0a0a;color:#e8c44a;border-color:#0a0a0a':'')+'">Fake</button>'
+      +(revealed?'<span style="font-size:11px;font-weight:700;color:'+(correct?'#16a34a':'#dc2626')+'">'+(correct?'✓':'✗')+'</span>':'')
+      +'</div>';
+  });
+  html+='</div>';
+  if(isWinner) html+='<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem;margin-top:.5rem;font-size:12px;font-weight:700;color:#166534;text-align:center">VAR Medaille!</div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.var-guess-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      saveMyVARGuess(this.getAttribute('data-vpid'),parseInt(this.getAttribute('data-vi')),this.getAttribute('data-vg'));
+    });
+  });
+}
+
+function renderVARBeni(){
+  var el=document.getElementById('varBeniOverview');
+  if(!el) return;
+  var s=getVARState();
+  var n=(s.photos&&s.photos.length)||0;
+  var html='<div style="margin-bottom:.75rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+    +'<span style="font-size:12px;color:#666">Anzahl Fotos:</span>';
+  [6,7,8,9,10].forEach(function(x){
+    html+='<button class="bs bs-sm var-count-btn" data-vc="'+x+'" style="'+(n===x?'background:#0a0a0a;color:#e8c44a;border-color:#0a0a0a':'')+'">'+x+'</button>';
+  });
+  html+='</div>';
+  if(n){
+    html+='<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Echt oder Fake?</div>';
+    html+='<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:.75rem">';
+    s.photos.forEach(function(photo,i){
+      html+='<div style="display:flex;align-items:center;gap:8px">'
+        +'<span style="font-size:12px;min-width:55px;color:#555">Foto '+(i+1)+':</span>'
+        +'<button class="bs bs-sm var-real-btn" data-vri="'+i+'" data-vrv="1" style="'+(photo.real===true?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">Echt</button>'
+        +'<button class="bs bs-sm var-real-btn" data-vri="'+i+'" data-vrv="0" style="'+(photo.real===false?'background:#dc2626;color:#fff;border-color:#dc2626':'')+'">Fake</button>'
+        +'</div>';
+    });
+    html+='</div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Punktestand</div>';
+    html+='<div style="display:flex;flex-direction:column;gap:5px">';
+    P.filter(function(p){return p.id!=='beni';}).forEach(function(p){
+      var guesses=(s.guesses&&s.guesses[p.id])||[];
+      var correct=0;
+      s.photos.forEach(function(photo,i){
+        if(photo.real!==null&&guesses[i]&&((guesses[i]==='echt')===photo.real)) correct++;
+      });
+      var revealed=s.photos.filter(function(ph){return ph.real!==null;}).length;
+      var isWinner=s.winner===p.id;
+      html+='<div style="display:flex;align-items:center;gap:8px;padding:5px 10px;border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
+        +'<span style="font-size:12px;font-weight:600;min-width:70px;color:#555">'+p.name.split(' ')[0]+':</span>'
+        +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+correct+'/'+revealed+'</span>'
+        +'<button class="bs bs-sm var-winner-btn" data-vwid="'+p.id+'" style="margin-left:auto;'+(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">'+(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
+        +'</div>';
+    });
+    html+='</div>';
+  }
+  el.innerHTML=html;
+  el.querySelectorAll('.var-count-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){ setVARPhotoCount(parseInt(this.getAttribute('data-vc'))); });
+  });
+  el.querySelectorAll('.var-real-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){ setVARPhotoReal(parseInt(this.getAttribute('data-vri')),this.getAttribute('data-vrv')==='1'); });
+  });
+  el.querySelectorAll('.var-winner-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){ setVARWinner(this.getAttribute('data-vwid')); });
+  });
+}
+
+function renderAllPersonVAR(){
+  P.filter(function(p){return p.id!=='beni';}).forEach(function(p){ renderMyVARGuesses(p.id); });
+}
+
 // ─── Sub-tab system ───────────────────────────────────────────────────────────
 function showSub(id,btn){
   document.querySelectorAll('[id^="sub-"]').forEach(function(el){el.style.display='none';});
@@ -2663,6 +2952,60 @@ function enableEdit(){
 }
 
 // ─── Packliste ────────────────────────────────────────────────────────────────
+var PACKLISTE=[
+  {cat:'Allgemein — alle mitbringen',items:[
+    {t:'Reisedokumente / Zugticket',who:'alle'},
+    {t:'Bargeld + Karte',who:'alle'},
+    {t:'Handy + Ladekabel',who:'alle'},
+    {t:'Powerbank',who:'alle'},
+    {t:'Badesachen (Wakeboarden)',who:'alle'},
+    {t:'Handtuch',who:'alle'},
+    {t:'Sonnenschutz',who:'alle'},
+    {t:'Übernachtungssachen',who:'alle'},
+    {t:'Gute Laune',who:'alle'},
+  ]},
+  {cat:'Outfit & Kostüme',items:[
+    {t:'Gestreiftes französisches Shirt',who:'Didi'},
+    {t:'Baskmütze',who:'Didi'},
+    {t:'Rettungsschwimmerinnen-Kostüm',who:'Pädi K.'},
+    {t:'Bier-Kapitänsbinde',who:'Didi'},
+  ]},
+  {cat:'Spiele & Material',items:[
+    {t:'Jass-Karten (Molotow)',who:'Mäge'},
+    {t:'Kings Cup Karten',who:'Mäge'},
+    {t:'Task Team Spiel',who:'Mäge'},
+    {t:'5 Baguettes',who:'Lädi'},
+    {t:'Tasche / Bauchladen',who:'Lädi'},
+    {t:'8-10 bearbeitete Fotos (VAR)',who:'Beni'},
+  ]},
+  {cat:'Dokumente & Druck',items:[
+    {t:'Transferdossier (ausgedruckt)',who:'Didi'},
+    {t:'Bier-Kapitän-Ernennung',who:'Didi'},
+    {t:'Transfervertrag (ausgedruckt)',who:'Didi'},
+    {t:'Quizfragen (5 ausgewählt)',who:'Mäge'},
+    {t:'Match-Tippzettel',who:'Mäge'},
+    {t:'Begriffskarten Bullshit-Sommelier',who:'Tobi'},
+  ]},
+  {cat:'Sonstiges',items:[
+    {t:'Pfeife + Karten (Gelb/Rot)',who:'Didi'},
+    {t:'Stifte + Zettel',who:'Mäge'},
+    {t:'Blauer Haken (gebastelt)',who:'Dominik'},
+    {t:'Weinkorken + Becher',who:'Mäge'},
+  ]},
+];
+
+var PATRIC_PACK=[
+  'Reisedokumente / Zugticket',
+  'Bargeld + Karte',
+  'Handy + Ladekabel',
+  'Powerbank',
+  'Badesachen (Wakeboarden)',
+  'Handtuch',
+  'Sonnenschutz',
+  'Übernachtungssachen',
+  'Gute Laune',
+];
+
 function getPackData(){
   return JSON.parse(localStorage.getItem('pm5_pack')||'null')||PACKLISTE.map(function(c){
     return {cat:c.cat, items:c.items.map(function(i){ return {t:i.t,who:i.who}; })};
