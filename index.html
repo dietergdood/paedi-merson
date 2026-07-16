@@ -2001,6 +2001,10 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 
 
 
+
+
+
+
 // ─── Supabase Config ─────────────────────────────────────────────────────────
 // Diese Werte werden von Vercel als Environment Variables gesetzt
 // Lokal: erstelle eine .env.local Datei (siehe .env.example)
@@ -2373,9 +2377,12 @@ function regieEditField(sid, stepIdx, field, value){
 
 function renderRegie(){
   var data=getRegieData();
+  window._raccIds=[];
   var html='';
   data.forEach(function(s,si){
-    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'">';
+    var ridx=window._raccIds.length;
+    window._raccIds.push(s.id);
+    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'" onclick="window._racc('+ridx+')">';
     if(editMode){
       html+='<div class="re-sbtns" style="display:flex;gap:3px;margin-right:6px;flex-shrink:0">'
         +'<button class="bs bs-sm re-sup" data-sid="'+s.id+'" title="hoch">↑</button>'
@@ -2420,13 +2427,10 @@ function renderRegie(){
   var el=document.getElementById('regiAcc');
   if(!el) return;
   el.innerHTML=html;
-  // acc-h handled by global click delegation
-  // Wire station buttons
   el.querySelectorAll('.re-sup').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieMoveStation(this.dataset.sid,-1);}); });
   el.querySelectorAll('.re-sdn').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieMoveStation(this.dataset.sid,1);}); });
   el.querySelectorAll('.re-sdel').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieDeleteStation(this.dataset.sid);}); });
   el.querySelectorAll('.re-stitle[contenteditable]').forEach(function(b){ b.addEventListener('blur',function(){regieEditField(this.dataset.sid,null,'t',this.textContent);}); });
-  // Wire step buttons
   el.querySelectorAll('.re-sup2').forEach(function(b){ b.addEventListener('click',function(){regieMoveStep(this.dataset.sid,parseInt(this.dataset.si),-1);}); });
   el.querySelectorAll('.re-sdn2').forEach(function(b){ b.addEventListener('click',function(){regieMoveStep(this.dataset.sid,parseInt(this.dataset.si),1);}); });
   el.querySelectorAll('.re-sdel2').forEach(function(b){ b.addEventListener('click',function(){regieDeleteStep(this.dataset.sid,parseInt(this.dataset.si));}); });
@@ -2435,6 +2439,7 @@ function renderRegie(){
   var addBtn=document.getElementById('reAddStation');
   if(addBtn) addBtn.addEventListener('click',regieAddStation);
 }
+window._racc=function(idx){ toggleAcc(window._raccIds[idx]); };
 
 
 function renderDidiRegie(){
