@@ -2260,16 +2260,15 @@ async function saveListsToDB(){
   if(!sb) return;
   try {
     var payload = {id:'main', updated_at: new Date().toISOString()};
-    var abl = localStorage.getItem('pm5_abl');
-    var pack = localStorage.getItem('pm5_pack');
-    var pch = localStorage.getItem('pm5_pch');
-    var mat = localStorage.getItem('pm5_mat');
-    var kacheln = localStorage.getItem('pm5_kacheln');
-    if(abl) payload.ablauf = JSON.parse(abl);
-    if(pack) payload.packliste = JSON.parse(pack);
-    if(pch) payload.pch = JSON.parse(pch);
-    if(mat) payload.mat = JSON.parse(mat);
-    if(kacheln) payload.kacheln = JSON.parse(kacheln);
+    var keys = {
+      ablauf:'pm5_abl', packliste:'pm5_pack', pch:'pm5_pch',
+      mat:'pm5_mat', kacheln:'pm5_kacheln', padeitabs:'pm5_padeitabs',
+      somm:'pm5_somm', regie:'pm5_regie', quiz:'pm5_quiz', varstate:'pm5_var'
+    };
+    Object.keys(keys).forEach(function(col){
+      var raw = localStorage.getItem(keys[col]);
+      if(raw){ try{ payload[col] = JSON.parse(raw); }catch(e){} }
+    });
     await sb.from('app_lists').upsert(payload);
   } catch(e){ console.warn('saveListsToDB error:', e); }
 }
@@ -3224,18 +3223,23 @@ function renderTips(){
   if(!S.tips._marks) S.tips._marks={};
   var persons=P.filter(function(p){return p.id!=='maege';});
   var scores={};
+  var flagFR='<div style="display:inline-flex;width:22px;height:15px;border-radius:2px;overflow:hidden;vertical-align:middle;flex-shrink:0"><div style="flex:1;background:#002395"></div><div style="flex:1;background:#fff"></div><div style="flex:1;background:#ED2939"></div></div>';
+  var flagEN='<svg width="22" height="15" viewBox="0 0 22 15" style="border-radius:2px;vertical-align:middle;flex-shrink:0;display:inline-block"><rect width="22" height="15" fill="#fff"/><rect x="9.5" y="0" width="3" height="15" fill="#C8102E"/><rect x="0" y="6" width="22" height="3" fill="#C8102E"/></svg>';
   var html='<div style="display:flex;flex-direction:column;gap:8px">';
   persons.forEach(function(p){
     var t=(S.tips&&S.tips[p.id])||{};
     var marks=(S.tips._marks&&S.tips._marks[p.id])||{};
     var pts=Object.values(marks).reduce(function(s,v){return s+(v===1?1:0);},0);
     scores[p.id]=pts;
+    // Build display fields using fr/en for score, plus tor and min
+    var hasRes=(t.fr!==undefined&&t.fr!=='')||(t.en!==undefined&&t.en!=='');
+    var resVal=hasRes?(flagFR+'<span style="font-size:13px;font-weight:700;color:#0a0a0a;margin:0 4px">'+(t.fr||'0')+'</span><span style="font-size:11px;color:#bbb">:</span><span style="font-size:13px;font-weight:700;color:#0a0a0a;margin:0 4px">'+(t.en||'0')+'</span>'+flagEN):'—';
     var fields=[
-      {key:'res',label:'Resultat',val:t.res||'—'},
-      {key:'tor',label:'Torschütze',val:t.tor||'—'},
-      {key:'min',label:'Minute',val:t.min?t.min+"'":'—'}
+      {key:'res',label:'Resultat',val:hasRes?resVal:null,isHtml:true},
+      {key:'tor',label:'Torschütze',val:t.tor||null,isHtml:false},
+      {key:'min',label:'Minute',val:t.min?(t.min+"'"):null,isHtml:false}
     ];
-    var hasData=t.res||t.tor||t.min;
+    var hasData=hasRes||t.tor||t.min;
     html+='<div style="border-radius:8px;background:#fafaf8;border:1px solid #eee;padding:8px 10px">'
       +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(hasData?'8px':'0')+'">'
       +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.name+'</span>'
@@ -3243,11 +3247,11 @@ function renderTips(){
       +'</div>';
     if(hasData){
       fields.forEach(function(f){
-        if(!f.val||f.val==='—') return;
+        if(!f.val) return;
         var m=marks[f.key];
         html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">'
-          +'<span style="font-size:11px;color:#aaa;min-width:70px">'+f.label+':</span>'
-          +'<span style="font-size:12px;color:#555;flex:1">'+f.val+'</span>'
+          +'<span style="font-size:11px;color:#aaa;min-width:70px;flex-shrink:0">'+f.label+':</span>'
+          +'<span style="font-size:12px;color:#555;flex:1;display:flex;align-items:center;gap:3px">'+(f.isHtml?f.val:'<span>'+f.val+'</span>')+'</span>'
           +'<button class="tip-mark-btn" data-pid="'+p.id+'" data-fk="'+f.key+'" data-mark="1" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(m===1?'#16a34a':'#e4e2db')+';background:'+(m===1?'#dcfce7':'#fff')+';color:'+(m===1?'#16a34a':'#aaa')+';cursor:pointer;font-size:14px">✓</button>'
           +'<button class="tip-mark-btn" data-pid="'+p.id+'" data-fk="'+f.key+'" data-mark="0" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(m===0?'#dc2626':'#e4e2db')+';background:'+(m===0?'#fee2e2':'#fff')+';color:'+(m===0?'#dc2626':'#aaa')+';cursor:pointer;font-size:14px">✗</button>'
           +'</div>';
@@ -4929,6 +4933,9 @@ async function initSupabaseDefaults(){
       mat: JSON.parse(localStorage.getItem('pm5_mat')||'null') || {},
       kacheln: {},
       padeitabs: [],
+      somm: JSON.parse(localStorage.getItem('pm5_somm')||'null') || {assigned:{}, winner:null},
+      quiz: JSON.parse(localStorage.getItem('pm5_quiz')||'null') || {answers:{}, winner:null, paediAnswers:[]},
+      varstate: JSON.parse(localStorage.getItem('pm5_var')||'null') || {photos:[], guesses:{}, winner:null},
       updated_at: new Date().toISOString()
     });
 
@@ -4956,7 +4963,7 @@ async function initSupabaseDefaults(){
 
 // ─── Person Packliste from central Packliste ────────────────────────────────
 var PERSON_WHO_MAP = {
-  didi:'Didi', dominik:'Dominik', berater:'Lädi', beni:'Beni',
+  didi:'Didi', dominik:'Sieber', berater:'Lädi', beni:'Beni',
   koch:'Pädi K.', tobi:'Tobi', maege:'Mäge', patrick:'Pädi A.'
 };
 
