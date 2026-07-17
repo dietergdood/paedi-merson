@@ -2665,10 +2665,10 @@ function adjMi(k,d){S.mis[k]=Math.max(0,(S.mis[k]||0)+d);save();renderMis();}
 function adjBaguette(d){if(APP_MODE==='paedi'||patricMode==='paedi') return;S.baguette=Math.max(0,Math.min(5,(S.baguette||0)+d));var e=document.getElementById('bc');if(e)e.textContent=S.baguette;renderMis();save();}
 function saveEinTarget(){
   var el=document.getElementById('einTarget');
-  if(el){ S.einTarget=parseFloat(el.value)||30; save(); renderMis(); }
+  if(el){ S.einTarget=parseFloat(el.value)||50; save(); saveToDB(); renderMis(); }
 }
 
-function saveEin(){S.ein=parseFloat(document.getElementById('ein').value)||0;renderMis();save();}
+function saveEin(){S.ein=parseFloat(document.getElementById('ein').value)||0;renderMis();save();saveToDB();}
 function populateIG(){
   populateIG();
 }
@@ -2679,7 +2679,7 @@ function saveIG(){
     var et=document.getElementById(id+'_target');
     if(et) S[id+'_target']=parseInt(et.value)||({ig_f:38,ig_l:100,ig_k:10}[id]);
   });
-  save(); renderMis();
+  save(); saveToDB(); renderMis();
 }
 function resetAll(){if(!confirm('Wirklich alles zurücksetzen?'))return;localStorage.removeItem('pm5');location.reload();}
 
