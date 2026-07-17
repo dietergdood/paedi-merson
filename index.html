@@ -143,6 +143,9 @@ body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--blac
   .header{display:none}
 }
 
+/* Hide list edit controls outside edit mode */
+.app:not(.edit-mode) .li-add,
+.app:not(.edit-mode) .li-del { display:none !important; }
 /* legacy nav hidden */
 .nav-wrap{display:none}
 
