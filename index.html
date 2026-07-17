@@ -3726,6 +3726,7 @@ function applyAllEdits(){
   document.querySelectorAll('[data-edit-id]').forEach(function(el){
     var id=el.getAttribute('data-edit-id');
     if(!VALID_KEY.test(id)) return; // skip old DOM-position keys
+    if(document.activeElement===el) return; // skip focused elements
     var saved=store[id];
     if(saved!==undefined && el.innerHTML!==saved) el.innerHTML=saved;
   });
