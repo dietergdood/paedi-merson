@@ -782,7 +782,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
         <div class="pkachel" data-kachel="dossier" data-default="0">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:.6rem"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#e8c44a;flex-shrink:0;margin-top:1px"></span><span class="section-title" style="margin:0">Transferdossier & Tagesmission</span></div>
-          <div style="background:#fafaf8;border:0.5px solid #e4e2db;border-radius:10px;padding:.9rem 1rem">
+          <div class="dossier-body" style="background:#fafaf8;border:0.5px solid #e4e2db;border-radius:10px;padding:.9rem 1rem">
             <div style="font-size:10px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:.75rem">CONFIDENTIEL — TRANSFERDOSSIER</div>
               <p>Sehr geehrter Monsieur Merson,</p><br>
               <p>Ihr Wechsel vom FC Junggeselle zum FC Mariage befindet sich in der entscheidenden Phase. Der FC Mariage hat dem Transfer grundsätzlich zugestimmt. Vor der endgültigen Vertragsunterzeichnung müssen Sie jedoch Ihre finanzielle Selbstständigkeit, körperliche Eignung und öffentliche Relevanz beweisen.</p><br>
@@ -3722,7 +3722,7 @@ function getStableId(el){
 
 function assignStableIds(){
   var selectors=[
-    '.section-title','.sub-label','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.section-title','.sub-label','.info-block li','.info-block p','.dossier-body p','.dossier-body li','.qb','.dt','.dq',
     '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
     '.highlight','.cbox .cf','#tab-story .section > div > p',
     '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
@@ -3773,7 +3773,7 @@ function saveEdit(el){
 
 function enableEdit(){
   var selectors=[
-    '.section-title','.sub-label','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.section-title','.sub-label','.info-block li','.info-block p','.dossier-body p','.dossier-body li','.qb','.dt','.dq',
     '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
     '.highlight','.cbox .cf','#tab-story .section > div > p',
     '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
