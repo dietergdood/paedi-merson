@@ -3471,7 +3471,8 @@ function setVARPhotoCount(n){
 function setVARPhotoReal(idx,isReal){
   var s=getVARState();
   if(!s.photos[idx]) s.photos[idx]={label:'Foto '+(idx+1)};
-  s.photos[idx].real=isReal;
+  // Toggle: click same button again to deselect
+  s.photos[idx].real=(s.photos[idx].real===isReal?null:isReal);
   saveVARState(s); renderVARBeni(); renderAllPersonVAR();
 }
 
