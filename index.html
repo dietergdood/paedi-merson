@@ -1993,7 +1993,7 @@ async function loadFromDB(){
       if(!S.schnapsGt) S.schnapsGt={};
     }
     var r2 = await sb.from('app_edits').select('edits').eq('id','main').single();
-    if(r2.data && r2.data.edits){
+    if(r2.data && r2.data.edits && Object.keys(r2.data.edits).length){
       localStorage.setItem('pm5_edits', JSON.stringify(r2.data.edits));
     }
     var r3 = await sb.from('app_lists').select('*').eq('id','main').single();
@@ -2008,6 +2008,8 @@ async function loadFromDB(){
       if(r3.data.regie) localStorage.setItem('pm5_regie', JSON.stringify(r3.data.regie));
       if(r3.data.quiz) localStorage.setItem('pm5_quiz', JSON.stringify(r3.data.quiz));
       if(r3.data.varstate) localStorage.setItem('pm5_var', JSON.stringify(r3.data.varstate));
+      if(r3.data.patricpack) localStorage.setItem('pm5_patricpack', JSON.stringify(r3.data.patricpack));
+      if(r3.data.patricpackdone) localStorage.setItem('pm5_patricpackdone', JSON.stringify(r3.data.patricpackdone));
     }
   } catch(e){ console.warn('loadFromDB error:', e); }
 }
@@ -2038,7 +2040,8 @@ async function saveListsToDB(){
     var keys = {
       ablauf:'pm5_abl', packliste:'pm5_pack', pch:'pm5_pch',
       mat:'pm5_mat', kacheln:'pm5_kacheln', padeitabs:'pm5_padeitabs',
-      somm:'pm5_somm', regie:'pm5_regie', quiz:'pm5_quiz', varstate:'pm5_var'
+      somm:'pm5_somm', regie:'pm5_regie', quiz:'pm5_quiz', varstate:'pm5_var',
+      patricpack:'pm5_patricpack', patricpackdone:'pm5_patricpackdone'
     };
     Object.keys(keys).forEach(function(col){
       var raw = localStorage.getItem(keys[col]);
@@ -2080,7 +2083,9 @@ function subscribeRealtime(){
         if(d.somm) { localStorage.setItem('pm5_somm', JSON.stringify(d.somm)); renderSOMMTobi(); renderAllPersonSOMMWords(); }
         if(d.quiz) { localStorage.setItem('pm5_quiz', JSON.stringify(d.quiz)); renderQuizMaege(); P.forEach(function(p){renderMyQuizForm(p.id);}); }
         if(d.varstate) { localStorage.setItem('pm5_var', JSON.stringify(d.varstate)); renderVARBeni(); renderAllPersonVAR(); }
-        renderAblauf(); renderPackliste(); renderPC(); renderAllMat(); renderPatricTab();
+        if(d.patricpack) localStorage.setItem('pm5_patricpack', JSON.stringify(d.patricpack));
+        if(d.patricpackdone) localStorage.setItem('pm5_patricpackdone', JSON.stringify(d.patricpackdone));
+        renderAblauf(); renderPackliste(); renderPC(); renderAllMat(); renderPatricTab(); renderPatricPack();
       })
     .subscribe();
 }
@@ -4050,7 +4055,7 @@ function savePackEdits(){
 function getPatricPack(){
   return JSON.parse(localStorage.getItem('pm5_patricpack')||'null') || PATRIC_PACK.slice();
 }
-function savePatricPack(items){ localStorage.setItem('pm5_patricpack', JSON.stringify(items)); }
+function savePatricPack(items){ localStorage.setItem('pm5_patricpack', JSON.stringify(items)); if(sb) sb.from('app_lists').upsert({id:'main',patricpack:items,updated_at:new Date().toISOString()}); }
 function renderPatricPack(){
   var el = document.getElementById('patricPackliste');
   if(!el) return;
@@ -4078,7 +4083,7 @@ function renderPatricPack(){
       var i = parseInt(this.getAttribute('data-ppidx'));
       var done = JSON.parse(localStorage.getItem('pm5_patricpackdone')||'{}');
       done[i] = !done[i];
-      localStorage.setItem('pm5_patricpackdone', JSON.stringify(done));
+      localStorage.setItem('pm5_patricpackdone', JSON.stringify(done)); if(sb) sb.from('app_lists').upsert({id:'main',patricpackdone:done,updated_at:new Date().toISOString()});
       renderPatricPack();
     });
   });
@@ -4782,6 +4787,8 @@ async function initSupabaseDefaults(){
       somm: JSON.parse(localStorage.getItem('pm5_somm')||'null') || {assigned:{}, winner:null},
       quiz: JSON.parse(localStorage.getItem('pm5_quiz')||'null') || {answers:{}, winner:null, paediAnswers:[]},
       varstate: JSON.parse(localStorage.getItem('pm5_var')||'null') || {photos:[], guesses:{}, winner:null},
+      patricpack: JSON.parse(localStorage.getItem('pm5_patricpack')||'null') || [],
+      patricpackdone: JSON.parse(localStorage.getItem('pm5_patricpackdone')||'null') || {},
       updated_at: new Date().toISOString()
     });
 
