@@ -1776,6 +1776,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
             <div class="section-title">Die 8 Begriffskarten</div>
             <div id="sommBegriffe"><span style="color:#aaa;font-size:13px">Lädt...</span></div>
           </div>
+          <button onclick="distributeSOMMWords()" style="width:100%;padding:10px;background:#0a0a0a;color:#e8c44a;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px">🎲 Begriffe zufällig verteilen</button>
           <div id="sommTobiOverview"></div>
         </div>
       </div>
@@ -3423,7 +3424,7 @@ function renderQuizMaege(){
   var html='<div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Antworten der Crew</div><div style="display:flex;flex-direction:column;gap:6px">';
   var qs=getQuizQuestions();
   var scores={};
-  P.filter(function(p){return p.id!=='maege';}).forEach(function(p){
+  P.filter(function(p){return p.id!=='patrick';}).forEach(function(p){
     var ans=(s.answers&&s.answers[p.id])||[];
     var marks=(s.marks&&s.marks[p.id])||[];
     var pts=marks.reduce(function(sum,m){ return sum+(m===1?1:0); },0);
