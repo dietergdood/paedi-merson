@@ -3590,6 +3590,12 @@ function setVARPhotoCount(n){
   saveVARState(s); renderVARBeni(); renderAllPersonVAR();
 }
 
+function resetVARState(){
+  var state={photos:[], guesses:{}, winner:null};
+  saveVARState(state); renderVARBeni(); renderAllPersonVAR();
+  showToast('VAR zurückgesetzt');
+}
+
 function setVARPhotoReal(idx,isReal){
   var s=getVARState();
   if(!s.photos[idx]) s.photos[idx]={label:'Foto '+(idx+1)};
@@ -3654,6 +3660,7 @@ function renderVARBeni(){
   [6,7,8,9,10].forEach(function(x){
     html+='<button class="var-count-btn" data-vc="'+x+'" style="width:44px;height:44px;border-radius:8px;border:1.5px solid '+(n===x?'#0a0a0a':'#e4e2db')+';background:'+(n===x?'#0a0a0a':'#fff')+';color:'+(n===x?'#e8c44a':'#555')+';font-size:15px;font-weight:700;cursor:pointer">'+x+'</button>';
   });
+  html+='<button onclick="resetVARState()" style="padding:6px 12px;background:#fee2e2;color:#e03535;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;margin-left:4px">✕ Reset</button>';
   html+='</div>';
   if(n){
     html+='<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Echt oder Fake?</div>';
