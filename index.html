@@ -5009,7 +5009,13 @@ if(supabaseReady){
     if(!_initDone){ _initDone=true; init(); initAppMode(); }
   }, 500);
   loadFromDB().then(function(){
-    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); }
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓');
+    // Populate inputs with DB values after load
+    var einEl=document.getElementById('ein'); if(einEl) einEl.value=S.ein||'';
+    var einTEl=document.getElementById('einTarget'); if(einTEl) einTEl.value=S.einTarget||50;
+    ['ig_f','ig_l','ig_k'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]||''; });
+    ['ig_f_target','ig_l_target','ig_k_target'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=S[id+'_target']||''; });
+    }
   }).catch(function(){
     if(!_initDone){ _initDone=true; clearTimeout(_initFallback); init(); initAppMode(); }
   });
