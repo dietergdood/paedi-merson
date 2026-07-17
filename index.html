@@ -3727,7 +3727,7 @@ function getStableId(el){
 
 function assignStableIds(){
   var selectors=[
-    '.section-title','.sub-label','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.section-title','.sub-label','.qb','.dt','.dq',
     '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
     '.highlight','.cbox .cf','#tab-story .section > div > p',
     '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
@@ -3789,7 +3789,7 @@ function saveEdit(el){
 
 function enableEdit(){
   var selectors=[
-    '.section-title','.sub-label','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.section-title','.sub-label','.qb','.dt','.dq',
     '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
     '.highlight','.cbox .cf','#tab-story .section > div > p',
     '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
@@ -3872,9 +3872,15 @@ function enableListEdit(){
     // Add delete buttons to existing li
     ul.querySelectorAll('li').forEach(function(li, lii){
       if(li.querySelector('.li-del')) return;
+      li.removeAttribute('contenteditable');
       li.style.cssText='display:flex;align-items:center;gap:6px;list-style:none';
-      // Wrap existing text in editable span
-      var existingText=li.textContent.trim();
+      // Get clean text — strip any button text
+      var existingText='';
+      li.childNodes.forEach(function(n){
+        if(n.nodeType===Node.TEXT_NODE) existingText+=n.textContent;
+        else if(n.nodeName!=='BUTTON') existingText+=n.textContent;
+      });
+      existingText=existingText.trim();
       li.innerHTML='';
       var liSpan=document.createElement('span');
       liSpan.setAttribute('contenteditable','true');
