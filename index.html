@@ -1837,6 +1837,15 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
           <div id="sommTobiOverview"></div>
         </div>
       </div>
+      <div class="game-acc" id="gameacc_tobi_myVARtobi">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_tobi_myVARtobi')">
+          <span class="game-acc-title">🔍 Vergangenheits-VAR</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myVAR_tobi"></div>
+        </div>
+      </div>
       <div class="game-acc" id="gameacc_tobi_myTiptobi">
         <div class="game-acc-h" onclick="toggleGameAcc('gameacc_tobi_myTiptobi')">
           <span class="game-acc-title">⚽ Match-Tipp</span>
@@ -1897,6 +1906,15 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
     </div>
     <div class="acc-b" id="acc_games_maege">
       <div class="game-acc" id="gameacc_maege_mySOMMWordmaege"><div class="game-acc-h" onclick="toggleGameAcc('gameacc_maege_mySOMMWordmaege')"><span class="game-acc-title">🍷 Sommelier</span><span class="game-acc-arr">▼</span></div><div class="game-acc-b"><div style="text-align:center;padding:.5rem;background:#fef9eb;border-radius:8px"><div style="font-size:11px;color:#888;margin-bottom:.35rem">Dein Begriff:</div><div id="mySOMMWord_maege" style="font-size:16px;font-weight:700;color:#b8940a"></div></div></div></div>
+      <div class="game-acc" id="gameacc_maege_myVARmaege">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_maege_myVARmaege')">
+          <span class="game-acc-title">🔍 Vergangenheits-VAR</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myVAR_maege"></div>
+        </div>
+      </div>
       <div class="game-acc" id="gameacc_maege_myQuizmaege">
         <div class="game-acc-h" onclick="toggleGameAcc('gameacc_maege_myQuizmaege')">
           <span class="game-acc-title">❓ Quiz</span>
@@ -3753,7 +3771,7 @@ function showTab(id,btn){
   }
   if(id==='beni') renderVARBeni();
   if(id==='tobi'){ renderSOMMTobi(); }
-  if(id==='maege'){ renderMyQuizForm('maege'); renderMyTip('maege'); renderTips(); renderQuizMaege(); }
+  if(id==='maege'){ renderMyQuizForm('maege'); renderMyTip('maege'); renderMySOMMWord('maege'); renderMyVARGuesses('maege'); renderTips(); renderQuizMaege(); }
   if(id==='sb') renderSB();
 }
 
