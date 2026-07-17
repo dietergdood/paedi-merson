@@ -3790,6 +3790,7 @@ function enableEdit(){
         // Use existing stable data-edit-id if already set, else generate from DOM position
         var stableId=el.getAttribute('data-edit-id')||getStableId(el);
         el.setAttribute('contenteditable','true');
+        el.setAttribute('spellcheck','false');
         el.setAttribute('data-edit-id', stableId);
         var saved=getEdit(el);
         if(saved!==null) el.innerHTML=saved;
@@ -3866,6 +3867,7 @@ function enableListEdit(){
       li.innerHTML='';
       var liSpan=document.createElement('span');
       liSpan.setAttribute('contenteditable','true');
+      liSpan.setAttribute('spellcheck','false');
       liSpan.style.cssText='flex:1;outline:none;min-width:0';
       liSpan.textContent=existingText;
       var del=document.createElement('button');
@@ -3874,6 +3876,7 @@ function enableListEdit(){
       del.style.cssText='flex-shrink:0;width:20px;height:20px;border:none;background:#fee2e2;color:#e03535;border-radius:4px;cursor:pointer;font-size:12px;padding:0;line-height:1';
       del.addEventListener('click',function(e){
         e.stopPropagation();
+        ul._userEdited=true;
         li.remove();
         saveListEdit(ul);
       });
@@ -3895,6 +3898,7 @@ function enableListEdit(){
         // Text span (editable) comes first
         var liSpan=document.createElement('span');
         liSpan.setAttribute('contenteditable','true');
+        liSpan.setAttribute('spellcheck','false');
         liSpan.style.cssText='flex:1;outline:none;min-width:0';
         liSpan.textContent='Neuer Eintrag';
         var del=document.createElement('button');
@@ -3906,9 +3910,13 @@ function enableListEdit(){
           li.remove();
           saveListEdit(ul);
         });
+        liSpan.addEventListener('input',function(){ ul._userEdited=true; saveListEdit(ul); });
+        liSpan.addEventListener('blur',function(){ if(ul._userEdited) saveListEdit(ul); });
         li.appendChild(liSpan);
         li.appendChild(del);
         ul.appendChild(li);
+        ul._userEdited=true;
+        saveListEdit(ul);
         // Focus the new item
         var range=document.createRange();
         range.setStart(liSpan,0);
@@ -3916,8 +3924,8 @@ function enableListEdit(){
         var sel=window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
-        li.focus();
-        li.addEventListener('blur',function(){ saveListEdit(ul); });
+        liSpan.focus();
+        selectAll(liSpan);
       });
       ul.parentNode.insertBefore(addBtn, ul.nextSibling);
     }
