@@ -338,6 +338,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 #editToggle.active{background:var(--accent)!important;color:var(--black)!important;box-shadow:0 4px 16px rgba(232,196,74,.5)!important}
 .edit-hint{display:none;font-size:11px;color:var(--accent-dark);text-align:center;margin-bottom:.5rem;font-weight:600}
 .edit-mode .edit-hint{display:block}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}input[type=number]{-moz-appearance:textfield}
 </style>
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0a0a0a">
@@ -3173,20 +3174,40 @@ function renderMyTip(personId){
   var isPatric=APP_MODE==='paedi'||patricMode==='paedi';
   var t=(S.tips&&S.tips[personId])||{};
   var isWinner=S.tips&&S.tips._winner===personId;
+  var flagFR='<div style="width:44px;height:30px;border-radius:4px;overflow:hidden;display:flex;flex-shrink:0"><div style="flex:1;background:#002395"></div><div style="flex:1;background:#fff"></div><div style="flex:1;background:#ED2939"></div></div>';
+  var flagEN='<div style="width:44px;height:30px;background:#012169;border-radius:4px;overflow:hidden;position:relative;flex-shrink:0"><div style="position:absolute;left:50%;top:0;bottom:0;width:20%;transform:translateX(-50%);background:#fff"></div><div style="position:absolute;top:50%;left:0;right:0;height:20%;transform:translateY(-50%);background:#fff"></div><div style="position:absolute;left:50%;top:0;bottom:0;width:10%;transform:translateX(-50%);background:#C8102E"></div><div style="position:absolute;top:50%;left:0;right:0;height:10%;transform:translateY(-50%);background:#C8102E"></div></div>';
   if(isPatric){
-    el.innerHTML='<div style="display:flex;flex-direction:column;gap:8px;color:#bbb;text-align:center;padding:.5rem;font-size:13px">Tipps werden vor dem Spiel freigeschaltet</div>'
+    el.innerHTML='<div style="color:#bbb;font-size:13px;text-align:center;padding:.5rem">Tipps werden vor dem Spiel freigeschaltet</div>'
       +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem .75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">🏆 Du hast gewonnen!</div>':'');
     return;
   }
-  el.innerHTML='<div style="display:flex;flex-direction:column;gap:8px">'
-    +'<div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:120px;color:#666">Resultat:</span>'
-    +'<input class="tip-input" data-tipf="res" data-tpid="'+personId+'" placeholder="z.B. 2:1" value="'+(t.res||'')+'" style="width:80px"></div>'
-    +'<div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:120px;color:#666">Erster Torschütze:</span>'
-    +'<input class="tip-input" data-tipf="tor" data-tpid="'+personId+'" placeholder="Name" value="'+(t.tor||'')+'" style="flex:1"></div>'
-    +'<div style="display:flex;align-items:center;gap:8px"><span style="font-size:13px;min-width:120px;color:#666">Minute:</span>'
-    +'<input class="tip-input" data-tipf="min" data-tpid="'+personId+'" placeholder="z.B. 23" type="number" value="'+(t.min||'')+'" style="width:80px"></div>'
-    +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem .75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">🏆 Du hast gewonnen!</div>':'')
-    +'</div>';
+  el.innerHTML='<div style="background:#0a0a0a;padding:10px 14px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:space-between;margin:-8px -8px 12px">'
+    +'<span style="font-size:10px;font-weight:500;color:#888;letter-spacing:.08em;text-transform:uppercase">Frankreich vs. England</span>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin-bottom:14px">'
+      +'<div style="display:flex;flex-direction:column;align-items:center;gap:5px">'
+        +flagFR
+        +'<span style="font-size:11px;color:#888">Frankreich</span>'
+        +'<input type="number" class="tip-input" data-tipf="fr" data-tpid="'+personId+'" placeholder="0" value="'+(t.fr||'')+'" style="width:52px;height:52px;text-align:center;font-size:24px;font-weight:700;border:1.5px solid #e4e2db;border-radius:10px;background:#fafaf8">'
+      +'</div>'
+      +'<div style="font-size:22px;font-weight:300;color:#ccc;margin-top:28px">:</div>'
+      +'<div style="display:flex;flex-direction:column;align-items:center;gap:5px">'
+        +flagEN
+        +'<span style="font-size:11px;color:#888">England</span>'
+        +'<input type="number" class="tip-input" data-tipf="en" data-tpid="'+personId+'" placeholder="0" value="'+(t.en||'')+'" style="width:52px;height:52px;text-align:center;font-size:24px;font-weight:700;border:1.5px solid #e4e2db;border-radius:10px;background:#fafaf8">'
+      +'</div>'
+    +'</div>'
+    +'<div style="border-top:1px solid #f0f0ee;padding-top:12px;display:flex;flex-direction:column;gap:10px">'
+      +'<div style="display:flex;align-items:center;gap:10px">'
+        +'<span style="font-size:12px;color:#888;min-width:120px;flex-shrink:0">Erster Torschütze</span>'
+        +'<input class="tip-input" data-tipf="tor" data-tpid="'+personId+'" placeholder="Name" value="'+(t.tor||'')+'" style="flex:1;min-width:0;height:36px;padding:0 10px;border:1px solid #e4e2db;border-radius:8px;background:#fafaf8;font-size:13px;box-sizing:border-box">'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:10px">'
+        +'<span style="font-size:12px;color:#888;min-width:120px;flex-shrink:0">Minute</span>'
+        +'<input type="number" class="tip-input" data-tipf="min" data-tpid="'+personId+'" placeholder="z.B. 23" value="'+(t.min||'')+'" style="width:80px;height:36px;padding:0 10px;border:1px solid #e4e2db;border-radius:8px;background:#fafaf8;font-size:13px;box-sizing:border-box">'
+      +'</div>'
+    +'</div>'
+    +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem;margin-top:.75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">🏆 Du hast gewonnen!</div>':'');
   el.querySelectorAll('.tip-input').forEach(function(inp){
     inp.addEventListener('blur',function(){
       var pid=this.getAttribute('data-tpid');
@@ -3194,12 +3215,14 @@ function renderMyTip(personId){
       if(!S.tips) S.tips={};
       if(!S.tips[pid]) S.tips[pid]={};
       S.tips[pid][field]=this.value;
+      // Build res string from fr+en
+      if(S.tips[pid].fr!==undefined||S.tips[pid].en!==undefined){
+        S.tips[pid].res=(S.tips[pid].fr||'0')+':'+(S.tips[pid].en||'0');
+      }
       save(); saveToDB(); renderTips();
     });
   });
 }
-
-
 function saveTip(personId){
   // Now handled via blur events in renderMyTip
 }
