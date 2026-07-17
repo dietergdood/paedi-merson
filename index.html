@@ -3717,17 +3717,23 @@ function assignStableIds(){
 
 function applyAllEdits(){
   var store=getEditStore();
-  if(!Object.keys(store).length) return;
+  var keys=Object.keys(store);
+  if(!keys.length) return;
   assignStableIds();
   applyListEdits();
   var VALID_KEY=/^(qb-|st-|sl-|at-|hl-|dt-|dq-|dno-|dw-|tt-td-|dossier-body-|__)/;
+  var applied=0;
   document.querySelectorAll('[data-edit-id]').forEach(function(el){
     var id=el.getAttribute('data-edit-id');
-    if(!VALID_KEY.test(id)) return; // skip old DOM-position keys
-    if(document.activeElement===el) return; // skip focused elements
+    if(!VALID_KEY.test(id)) return;
+    if(document.activeElement===el) return;
     var saved=store[id];
-    if(saved!==undefined && el.innerHTML!==saved) el.innerHTML=saved;
+    if(saved!==undefined){
+      el.innerHTML=saved;
+      applied++;
+    }
   });
+  console.log('applyAllEdits: store keys='+keys.length+', applied='+applied);
 }
 
 var _editStore = {};
