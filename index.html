@@ -4166,6 +4166,8 @@ function renderTabToggles(){
     {id:'timetable', label:'Programm'},
     {id:'story', label:'Die Pädi Merson Story'},
     {id:'regie', label:'Regie'},
+    {id:'packliste', label:'Packliste'},
+    {id:'sb', label:'Scoreboard'},
   ];
   var paediTabs = getPaediTabs();
   var bar = document.createElement('div');
@@ -4247,7 +4249,7 @@ function checkLogin(){
 function applyAppMode(){
   if(APP_MODE === 'paedi'){
     var extraTabs = JSON.parse(localStorage.getItem('pm5_padeitabs')||'[]');
-    var allowed = ['sb','packliste','patrick'].concat(extraTabs);
+    var allowed = ['patrick'].concat(extraTabs);
     document.querySelectorAll('.tab-btn,.s-btn,.s-crew-btn,.bb-btn,.bb-crew-btn').forEach(function(btn){
       var tab=btn.getAttribute('data-tab');
       if(tab && allowed.indexOf(tab)===-1){ btn.style.display='none'; }
