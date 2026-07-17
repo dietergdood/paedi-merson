@@ -1242,21 +1242,21 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
       </div>
       <div style="display:grid;grid-template-columns:130px 80px 1fr 80px;align-items:center;gap:8px">
         <span style="font-size:13px;color:#666">Follower:</span>
-        <input type="number" id="ig_f" placeholder="0" style="width:80px">
+        <input type="number" id="ig_f" data-ig="f" placeholder="0" style="width:80px">
         <span style="font-size:12px;color:#aaa;text-align:center">→</span>
-        <input type="number" id="ig_f_target" placeholder="38" style="width:80px">
+        <input type="number" id="ig_f_target" placeholder="38" style="width:80px" oninput="saveIG()">
       </div>
       <div style="display:grid;grid-template-columns:130px 80px 1fr 80px;align-items:center;gap:8px">
         <span style="font-size:13px;color:#666">Likes:</span>
-        <input type="number" id="ig_l" placeholder="0" style="width:80px">
+        <input type="number" id="ig_l" data-ig="l" placeholder="0" style="width:80px">
         <span style="font-size:12px;color:#aaa;text-align:center">→</span>
-        <input type="number" id="ig_l_target" placeholder="100" style="width:80px">
+        <input type="number" id="ig_l_target" placeholder="100" style="width:80px" oninput="saveIG()">
       </div>
       <div style="display:grid;grid-template-columns:130px 80px 1fr 80px;align-items:center;gap:8px">
         <span style="font-size:13px;color:#666">Kommentare:</span>
-        <input type="number" id="ig_k" placeholder="0" style="width:80px">
+        <input type="number" id="ig_k" data-ig="k" placeholder="0" style="width:80px">
         <span style="font-size:12px;color:#aaa;text-align:center">→</span>
-        <input type="number" id="ig_k_target" placeholder="10" style="width:80px">
+        <input type="number" id="ig_k_target" placeholder="10" style="width:80px" oninput="saveIG()">
       </div>
     </div>
   </div>
