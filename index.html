@@ -4780,8 +4780,15 @@ function renderProgramm(){
   html+='<div style="display:flex;flex-direction:column;gap:0" id="progItems">';
 
   p.items.forEach(function(item,i){
-    html+='<div class="prog-item" data-prog-i="'+i+'" style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee;align-items:flex-start">';
-    if(editMode) html+=delBtn.replace('class="prog-del-item"','class="prog-del-item" data-prog-i="'+i+'"');
+    var n=p.items.length;
+    html+='<div class="prog-item" data-prog-i="'+i+'" style="display:flex;gap:8px;padding:10px 0;border-bottom:1px solid #f0f0ee;align-items:flex-start">';
+    if(editMode){
+      html+='<div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0;padding-top:2px">';
+      html+='<button class="prog-up bs bs-sm" data-prog-i="'+i+'" style="padding:1px 5px;font-size:11px;line-height:1.3'+(i===0?';opacity:.3;pointer-events:none':'')+'">↑</button>';
+      html+='<button class="prog-dn bs bs-sm" data-prog-i="'+i+'" style="padding:1px 5px;font-size:11px;line-height:1.3'+(i===n-1?';opacity:.3;pointer-events:none':'')+'">↓</button>';
+      html+='<button class="prog-del-item bs bs-sm" data-prog-i="'+i+'" style="padding:1px 5px;font-size:11px;line-height:1.3;color:#e03535;border-color:#fecaca">✕</button>';
+      html+='</div>';
+    }
     html+='<div class="prog-time" data-prog-i="'+i+'"'+ce+' style="font-size:12px;font-weight:700;color:#aaa;min-width:48px;flex-shrink:0">'+item.time+'</div>';
     html+='<div style="flex:1;min-width:0">';
     html+='<div class="prog-title-t" data-prog-i="'+i+'"'+ce+' style="font-size:13px;font-weight:700;color:#0a0a0a">'+item.title+'</div>';
@@ -4796,6 +4803,9 @@ function renderProgramm(){
       html+='</div>';
     }
     html+='</div></div>';
+    if(editMode && i<n-1){
+      html+='<button class="prog-ins-before" data-prog-i="'+( i+1 )+'" style="display:flex;align-items:center;gap:6px;width:100%;padding:3px 0;border:none;background:transparent;cursor:pointer;color:#e8c44a;font-size:11px;font-weight:600;opacity:.4;transition:opacity .15s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.4"><span style="flex:1;height:1px;background:#e8c44a;border-radius:1px"></span>+ hier einfügen<span style="flex:1;height:1px;background:#e8c44a;border-radius:1px"></span></button>';
+    }
   });
 
   if(editMode){
@@ -4882,14 +4892,49 @@ function renderProgramm(){
     e.addEventListener('change', saveFromDOM);
   });
   el.querySelectorAll('.prog-del-item').forEach(function(btn){
-    btn.addEventListener('click',function(){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      saveFromDOM();
       var p2=getProgramm();
       p2.items.splice(+this.dataset.progI,1);
       saveProgramm(p2); renderProgramm();
     });
   });
+  el.querySelectorAll('.prog-up').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      saveFromDOM();
+      var p2=getProgramm();
+      var i=+this.dataset.progI;
+      if(i===0) return;
+      var tmp=p2.items[i]; p2.items[i]=p2.items[i-1]; p2.items[i-1]=tmp;
+      saveProgramm(p2); renderProgramm();
+    });
+  });
+  el.querySelectorAll('.prog-dn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      saveFromDOM();
+      var p2=getProgramm();
+      var i=+this.dataset.progI;
+      if(i>=p2.items.length-1) return;
+      var tmp=p2.items[i]; p2.items[i]=p2.items[i+1]; p2.items[i+1]=tmp;
+      saveProgramm(p2); renderProgramm();
+    });
+  });
+  el.querySelectorAll('.prog-ins-before').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      saveFromDOM();
+      var p2=getProgramm();
+      var i=+this.dataset.progI;
+      p2.items.splice(i,0,{time:'--:--',title:'Neuer Eintrag',desc:'',link:'',linkText:''});
+      saveProgramm(p2); renderProgramm();
+    });
+  });
   var addBtn=el.querySelector('#progAddItem');
   if(addBtn) addBtn.addEventListener('click',function(){
+    saveFromDOM();
     var p2=getProgramm();
     p2.items.push({time:'--:--',title:'Neuer Eintrag',desc:'',link:'',linkText:''});
     saveProgramm(p2); renderProgramm();
@@ -4997,7 +5042,9 @@ function renderPersonPackliste(personKey){
     html += '<div class="pack-row ' + (done?'done':'') + '" data-ppid="' + mid + '" style="cursor:pointer">'
       + '<div class="cb ' + (done?'chk':'') + '">' + (!done?'':'V') + '</div>'
       + '<span style="flex:1;font-size:13px;' + (done?'text-decoration:line-through;color:#ccc':'') + '">' + item.t + '</span>'
-      + (item.who==='alle' ? '<span style="font-size:10px;color:#aaa;background:#f0f0ee;padding:1px 6px;border-radius:10px">alle</span>' : '')
+      + '<span style="font-size:10px;padding:1px 6px;border-radius:10px;flex-shrink:0;'
+        + (item.who==='alle' ? 'color:#aaa;background:#f0f0ee' : 'color:#b8940a;background:#fef3c7') + '">'
+        + item.who + '</span>'
       + '</div>';
   });
   el.innerHTML = html;
