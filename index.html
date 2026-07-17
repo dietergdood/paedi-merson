@@ -2454,7 +2454,7 @@ var ABL=[
 var stC={Bahnhof:'tb',Zug:'tz',Boot:'to',Wein:'tw','SAC-Hütte':'th',Morgen:'tb'};
 function renderAblauf(){
   // Load custom items from storage
-  var customAbl=JSON.parse(localStorage.getItem('pm5_abl')||'null');
+  var customAbl=_ablData;
   var items=customAbl||ABL;
   var el=document.getElementById('ablaufList');
   if(!el) return;
@@ -2503,7 +2503,7 @@ function renderAblauf(){
 }
 
 function getAblItems(){
-  return JSON.parse(localStorage.getItem('pm5_abl')||'null')||ABL.slice();
+  return _ablData||ABL.slice();
 }
 
 function saveAblItems(items){
@@ -4019,7 +4019,7 @@ var PATRIC_PACK=[
 ];
 
 function getPackData(){
-  return JSON.parse(localStorage.getItem('pm5_pack')||'null')||PACKLISTE.map(function(c){
+  return _packData||PACKLISTE.map(function(c){
     return {cat:c.cat, items:c.items.map(function(i){ return {t:i.t,who:i.who}; })};
   });
 }
@@ -4786,12 +4786,12 @@ async function initSupabaseDefaults(){
       ablauf: _ablData || [],
       packliste: _packData || [],
       pch: _pchData || [],
-      mat: JSON.parse(localStorage.getItem('pm5_mat')||'null') || {},
+      mat: _matData || {},
       kacheln: {},
       padeitabs: [],
-      somm: JSON.parse(localStorage.getItem('pm5_somm')||'null') || {assigned:{}, winner:null},
-      quiz: JSON.parse(localStorage.getItem('pm5_quiz')||'null') || {answers:{}, winner:null, paediAnswers:[]},
-      varstate: JSON.parse(localStorage.getItem('pm5_var')||'null') || {photos:[], guesses:{}, winner:null},
+      somm: _sommState || {assigned:{}, winner:null},
+      quiz: _quizState || {answers:{}, winner:null, paediAnswers:[]},
+      varstate: _varState || {photos:[], guesses:{}, winner:null},
       patricpack: _patricpackData || [],
       patricpackdone: _patricpackdoneData||{},
       updated_at: new Date().toISOString()
