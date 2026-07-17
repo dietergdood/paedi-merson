@@ -1820,12 +1820,9 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
       </div>
       <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
         <div class="section-title">Quiz — Médaille de l'Amitié (im Zug)</div>
-        <div id="quizFragenEdit" style="margin-bottom:12px"></div>
-          <div id="quizMaegeOverview"></div>
       </div>
       <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
         <div class="section-title">Match-Tipps — Médaille du Football</div>
-        <div id="matchTipps"></div>
       </div>
       <div class="section" style="border:none;box-shadow:none">
         <div class="section-title">Schlussrangliste Agenten-Cup</div>
@@ -1856,22 +1853,29 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
       <div class="acc-a" id="arr_games_maege">▼</div>
     </div>
     <div class="acc-b" id="acc_games_maege">
-      <div class="game-acc" id="gameacc_maege_quizMaegeOverview">
-        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_maege_quizMaegeOverview')">
-          <span class="game-acc-title">❓ Quiz — Auswertung</span>
+      <div class="game-acc" id="gameacc_maege_myQuizmaege">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_maege_myQuizmaege')">
+          <span class="game-acc-title">❓ Quiz</span>
           <span class="game-acc-arr">▼</span>
         </div>
         <div class="game-acc-b">
-          <div id="quizMaegeOverview"></div>
+          <div id="myQuiz_maege"></div>
+          <div style="border-top:1px solid #f0f0ee;margin-top:12px;padding-top:12px">
+            <div id="quizFragenEdit" style="margin-bottom:8px"></div>
+            <div id="quizMaegeOverview"></div>
+          </div>
         </div>
       </div>
-      <div class="game-acc" id="gameacc_maege_matchTipps">
-        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_maege_matchTipps')">
-          <span class="game-acc-title">⚽ Match-Tipps — Auswertung</span>
+      <div class="game-acc" id="gameacc_maege_myTipmaege">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_maege_myTipmaege')">
+          <span class="game-acc-title">⚽ Match-Tipp</span>
           <span class="game-acc-arr">▼</span>
         </div>
         <div class="game-acc-b">
-          <div id="matchTipps"></div>
+          <div id="myTip_maege"></div>
+          <div style="border-top:1px solid #f0f0ee;margin-top:12px;padding-top:12px">
+            <div id="matchTipps"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -3440,7 +3444,7 @@ function renderQuizMaege(){
   });
   html+='</div>';
   el.innerHTML=html;
-  if(editMode && document.getElementById('quizFragenEdit')){ renderQuizFragen(); }
+  if(document.getElementById('quizFragenEdit')){ renderQuizFragen(); }
   el.querySelectorAll('.quiz-winner-btn').forEach(function(btn){
     btn.addEventListener('click',function(){ setQuizWinner(this.getAttribute('data-qwid')); });
   });
@@ -3601,7 +3605,7 @@ function showTab(id,btn){
   }
   if(id==='beni') renderVARBeni();
   if(id==='tobi'){ renderSOMMTobi(); }
-  if(id==='maege'){ renderTips(); renderQuizMaege(); }
+  if(id==='maege'){ renderMyQuizForm('maege'); renderMyTip('maege'); renderTips(); renderQuizMaege(); }
   if(id==='sb') renderSB();
 }
 
