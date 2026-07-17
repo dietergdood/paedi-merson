@@ -3127,7 +3127,7 @@ function getQuizQuestions(){
 function saveQuizQuestions(qs){
   var store=getEditStore();
   store['__quizquestions__']=JSON.stringify(qs);
-  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('saveListEdit error:',r.error); });
+  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()}).then(function(r){ if(r.error){ console.warn('saveListEdit error:',r.error); showToast('Fehler ✗'); } else { showToast('Liste gespeichert ✓'); } });
   QUIZ_QUESTIONS=qs;
 }
 
