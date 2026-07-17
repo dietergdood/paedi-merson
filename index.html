@@ -940,6 +940,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="section">
         <div class="section-title">Meine Packliste</div>
         <div id="patricPackliste"></div>
+        <div style="border-top:1px solid #f0f0ee;margin-top:8px;padding-top:8px">
+          <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Aus Gesamtpackliste</div>
+          <div id="personPack_patrick"></div>
+        </div>
       </div>
     </div>
 
@@ -1227,6 +1231,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="section" style="border:none;box-shadow:none">
         <div class="section-title">Meine Packliste</div>
         <div id="matDidi"></div>
+        <div style="border-top:1px solid #f0f0ee;margin-top:8px;padding-top:8px">
+          <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Aus Gesamtpackliste</div>
+          <div id="personPack_didi"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1382,6 +1390,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="section" style="border:none;box-shadow:none">
         <div class="section-title">Meine Packliste</div>
         <div id="matDominik"></div>
+        <div style="border-top:1px solid #f0f0ee;margin-top:8px;padding-top:8px">
+          <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Aus Gesamtpackliste</div>
+          <div id="personPack_dominik"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1500,6 +1512,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="section" style="border:none;box-shadow:none">
         <div class="section-title">Meine Packliste</div>
         <div id="matBerater"></div>
+        <div style="border-top:1px solid #f0f0ee;margin-top:8px;padding-top:8px">
+          <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Aus Gesamtpackliste</div>
+          <div id="personPack_berater"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1613,6 +1629,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="section" style="border:none;box-shadow:none">
         <div class="section-title">Meine Packliste</div>
         <div id="matBeni"></div>
+        <div style="border-top:1px solid #f0f0ee;margin-top:8px;padding-top:8px">
+          <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Aus Gesamtpackliste</div>
+          <div id="personPack_beni"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1721,6 +1741,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="section" style="border:none;box-shadow:none">
         <div class="section-title">Meine Packliste</div>
         <div id="matKoch"></div>
+        <div style="border-top:1px solid #f0f0ee;margin-top:8px;padding-top:8px">
+          <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Aus Gesamtpackliste</div>
+          <div id="personPack_koch"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1817,6 +1841,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="section" style="border:none;box-shadow:none">
         <div class="section-title">Meine Packliste</div>
         <div id="matTobi"></div>
+        <div style="border-top:1px solid #f0f0ee;margin-top:8px;padding-top:8px">
+          <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Aus Gesamtpackliste</div>
+          <div id="personPack_tobi"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1920,6 +1948,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="section" style="border:none;box-shadow:none">
         <div class="section-title">Meine Packliste</div>
         <div id="matMaege"></div>
+        <div style="border-top:1px solid #f0f0ee;margin-top:8px;padding-top:8px">
+          <div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Aus Gesamtpackliste</div>
+          <div id="personPack_maege"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -3793,8 +3825,9 @@ function showTab(id,btn){
   if(id==='regie-checkliste'){ showTab('story'); showSub('story-checkliste'); return; }
   if(id==='didi'){ renderDidiRegie(); }
   if(id==='ablauf') renderAblauf();
-  if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderMyTip('patrick');renderMySOMMWord('patrick');renderMyVARGuesses('patrick');}
+  if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderPersonPackliste('patrick');renderMyTip('patrick');renderMySOMMWord('patrick');renderMyVARGuesses('patrick');}
   if(['didi','dominik','berater','beni','koch','tobi'].indexOf(id)!==-1){
+    renderPersonPackliste(id);
     renderMyTip(id);
     renderMySOMMWord(id);
     renderMyQuizForm(id);
@@ -3802,7 +3835,7 @@ function showTab(id,btn){
   }
   if(id==='beni') renderVARBeni();
   if(id==='tobi'){ renderSOMMTobi(); }
-  if(id==='maege'){ renderMyQuizForm('maege'); renderMyTip('maege'); renderMySOMMWord('maege'); renderMyVARGuesses('maege'); renderTips(); renderQuizMaege(); }
+  if(id==='maege'){ renderPersonPackliste('maege'); renderMyQuizForm('maege'); renderMyTip('maege'); renderMySOMMWord('maege'); renderMyVARGuesses('maege'); renderTips(); renderQuizMaege(); }
   if(id==='sb') renderSB();
 }
 
@@ -4187,83 +4220,8 @@ function savePackData(d){
   localStorage.setItem('pm5_pack',JSON.stringify(d));
   saveListsToDB();
 }
-function renderPackliste(){
-  var el=document.getElementById('packContent');
-  if(!el) return;
-  var data=getPackData();
-  var html='';
-  data.forEach(function(cat,ci){
-    html+='<div class="pack-cat" data-pcat="'+ci+'"'+(editMode?' contenteditable="true"':'')+'>'+cat.cat+'</div>';
-    cat.items.forEach(function(item,ii){
-      var mid='pk_'+ci+'_'+ii;
-      var done=!!(S.mat&&S.mat[mid]);
-      html+='<div class="pack-row '+(done?'done':'')+'" data-pkid="'+mid+'" data-pci="'+ci+'" data-pii="'+ii+'">'
-        +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
-        +'<span class="pk-text" style="flex:1"'+(editMode?' contenteditable="true"':'')+'>'+(item.t||'')+'</span>'
-        +'<span class="pack-who"'+(editMode?' contenteditable="true"':'')+'>'+(item.who||'')+'</span>'
-        +(editMode?'<span class="pk-del" data-pci="'+ci+'" data-pii="'+ii+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;flex-shrink:0">&#215;</span>':'')
-        +'</div>';
-    });
-    if(editMode){
-      html+='<div class="pk-add" data-addcat="'+ci+'" style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
-        +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
-        +'Eintrag hinzufügen</div>';
-    }
-  });
-  if(editMode){
-    html+='<div id="addPackCat" style="display:flex;align-items:center;gap:8px;padding:8px 0;cursor:pointer;color:var(--accent-dark);font-size:13px;font-weight:600;border-top:2px dashed #e8c44a;margin-top:8px">'
-      +'<span style="width:18px;height:18px;border:1.5px dashed #e8c44a;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">+</span>'
-      +'Neue Kategorie</div>';
-  }
-  el.innerHTML=html;
-  document.querySelectorAll('[data-pkid]').forEach(function(row){
-    row.addEventListener('click',function(e){
-      if(e.target.classList.contains('pk-del')) return;
-      if(e.target.classList.contains('pk-text') && editMode) return;
-      if(e.target.classList.contains('pack-who') && editMode) return;
-      var id=this.getAttribute('data-pkid');
-      S.mat[id]=!S.mat[id]; save(); renderPackliste();
-    });
-  });
-  document.querySelectorAll('.pk-del').forEach(function(btn){
-    btn.addEventListener('click',function(e){
-      e.stopPropagation();
-      var d=getPackData();
-      var ci=parseInt(this.getAttribute('data-pci'));
-      var ii=parseInt(this.getAttribute('data-pii'));
-      d[ci].items.splice(ii,1);
-      savePackData(d); renderPackliste();
-    });
-  });
-  document.querySelectorAll('.pk-add').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var d=getPackData();
-      var ci=parseInt(this.getAttribute('data-addcat'));
-      d[ci].items.push({t:'Neuer Eintrag',who:'alle'});
-      savePackData(d); renderPackliste();
-      setTimeout(function(){
-        var rows=document.querySelectorAll('[data-pci="'+ci+'"] .pk-text');
-        var last=rows[rows.length-1];
-        if(last){ last.focus(); selectAll(last); }
-      },50);
-    });
-  });
-  var addCat=document.getElementById('addPackCat');
-  if(addCat) addCat.addEventListener('click',function(){
-    var d=getPackData();
-    d.push({cat:'Neue Kategorie',items:[]});
-    savePackData(d); renderPackliste();
-  });
-  if(editMode){
-    document.querySelectorAll('.pk-text,.pack-who').forEach(function(el){
-      el.addEventListener('click',function(e){ e.stopPropagation(); });
-      el.addEventListener('blur',function(){ savePackEdits(); });
-    });
-    document.querySelectorAll('[data-pcat]').forEach(function(el){
-      el.addEventListener('blur',function(){ savePackEdits(); });
-    });
-  }
-}
+
+
 function savePackEdits(){
   var d=getPackData();
   document.querySelectorAll('[data-pcat]').forEach(function(el){
@@ -4993,6 +4951,3190 @@ async function initSupabaseDefaults(){
   } catch(e) {
     console.warn('initSupabaseDefaults error:', e);
   }
+}
+
+
+// ─── Person Packliste from central Packliste ────────────────────────────────
+var PERSON_WHO_MAP = {
+  didi:'Didi', dominik:'Dominik', berater:'Lädi', beni:'Beni',
+  koch:'Pädi K.', tobi:'Tobi', maege:'Mäge', patrick:'Pädi A.'
+};
+
+function getPersonPackItems(personKey){
+  var whoName = PERSON_WHO_MAP[personKey] || personKey;
+  var data = getPackData();
+  var items = [];
+  data.forEach(function(cat){
+    cat.items.forEach(function(item){
+      if(item.who === whoName || item.who === 'alle'){
+        items.push({t: item.t, cat: cat.cat, who: item.who});
+      }
+    });
+  });
+  return items;
+}
+
+function renderPersonPackliste(personKey){
+  var el = document.getElementById('personPack_' + personKey);
+  if(!el) return;
+  var items = getPersonPackItems(personKey);
+  if(!items.length){
+    el.innerHTML = '<div style="font-size:13px;color:#aaa;font-style:italic;padding:4px 0">Noch keine Einträge zugewiesen</div>';
+    return;
+  }
+  if(!S.mat) S.mat = {};
+  var html = '';
+  items.forEach(function(item, i){
+    var mid = 'pp_' + personKey + '_' + i;
+    var done = !!S.mat[mid];
+    html += '<div class="pack-row ' + (done?'done':'') + '" data-ppid="' + mid + '" style="cursor:pointer">'
+      + '<div class="cb ' + (done?'chk':'') + '">' + (!done?'':'V') + '</div>'
+      + '<span style="flex:1;font-size:13px;' + (done?'text-decoration:line-through;color:#ccc':'') + '">' + item.t + '</span>'
+      + (item.who==='alle' ? '<span style="font-size:10px;color:#aaa;background:#f0f0ee;padding:1px 6px;border-radius:10px">alle</span>' : '')
+      + '</div>';
+  });
+  el.innerHTML = html;
+  el.querySelectorAll('[data-ppid]').forEach(function(row){
+    row.addEventListener('click', function(){
+      var id = this.getAttribute('data-ppid');
+      S.mat[id] = !S.mat[id];
+      save();
+      renderPersonPackliste(personKey);
+    });
+  });
+}
+
+function init(){
+  renderSB();
+  renderAblauf();
+  renderPackliste();
+  renderPC();
+  renderMis();
+  renderRegie();
+  renderAllMat();
+  renderMedals();
+
+  var ein=document.getElementById('ein');if(ein)ein.value=S.ein||'';
+  ['ig_f','ig_l','ig_k'].forEach(function(id){
+    var e=document.getElementById(id);
+    if(e) e.value=S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]||'';
+  });
+  initRTToolbar();
+  // wire sub-tab buttons
+  document.querySelectorAll('[data-sub]').forEach(function(btn){
+    btn.addEventListener('click',function(){ showSub(this.getAttribute('data-sub'),this); });
+  });
+  // wire all nav buttons
+  document.querySelectorAll('[data-tab]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var tab=this.getAttribute('data-tab');
+      if(tab==='more-menu') return;
+      showTab(tab,this);
+    });
+  });
+  // baguette buttons removed
+  // wire IG inputs
+  document.querySelectorAll('[data-ig]').forEach(function(el){
+    el.addEventListener('input', saveIG);
+  });
+  // wire IG target inputs
+  ['ig_f_target','ig_l_target','ig_k_target'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('input', saveIG);
+  });
+  var einTargetEl=document.getElementById('einTarget');
+  if(einTargetEl){
+    einTargetEl.value=S.einTarget||30;
+    einTargetEl.addEventListener('change', saveEinTarget);
+  }
+  var einEl=document.getElementById('ein');
+  if(einEl){
+    einEl.addEventListener('input', saveEin);
+    if(APP_MODE==='paedi'||patricMode==='paedi'){
+      einEl.setAttribute('readonly','true');
+      einEl.style.pointerEvents='none';
+      einEl.style.opacity='.6';
+    }
+  }
+  // wire close modal on overlay
+  var ov=document.getElementById('mOverlay');
+  if(ov) ov.addEventListener('click',function(e){ if(e.target===ov) closeModal(e); });
+  // Apply saved edits
+  setTimeout(applyAllEdits, 150);
+  setTimeout(applyAllEdits, 600);
+  setTimeout(applyAllEdits, 1800);
+}
+
+// ─── Boot ─────────────────────────────────────────────────────────────────────
+// clear legacy data
+['pm3','pm4','paeditransfer','paeditransfer2','paeditransfer3'].forEach(function(k){ localStorage.removeItem(k); });
+
+
+// ─── PWA Install Prompt ───────────────────────────────────────────────────────
+var deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  var banner = document.getElementById('installBanner');
+  if(banner && !localStorage.getItem('pwa_installed')) banner.style.display = 'block';
+});
+window.addEventListener('appinstalled', function(){
+  localStorage.setItem('pwa_installed', '1');
+  var banner = document.getElementById('installBanner');
+  if(banner) banner.style.display = 'none';
+  deferredInstallPrompt = null;
+});
+function installPWA(){
+  var banner = document.getElementById('installBanner');
+  if(banner) banner.style.display = 'none';
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(function(){ deferredInstallPrompt = null; });
+  }
+}
+
+
+// ─── Crew Drawer (mobile) ────────────────────────────────────────────────────
+function toggleCrewDrawer(){
+  var drawer = document.getElementById('crewDrawer');
+  var overlay = document.getElementById('crewOverlay');
+  var moreBtn = document.getElementById('moreBtn');
+  if(!drawer) return;
+  var isOpen = drawer.classList.contains('open');
+  if(isOpen){ closeCrewDrawer(); }
+  else {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    if(moreBtn) moreBtn.querySelector('.bb-label').style.color='#e8c44a';
+  }
+}
+function closeCrewDrawer(){
+  var drawer = document.getElementById('crewDrawer');
+  var overlay = document.getElementById('crewOverlay');
+  var moreBtn = document.getElementById('moreBtn');
+  if(drawer) drawer.classList.remove('open');
+  if(overlay) overlay.classList.remove('open');
+  if(moreBtn) moreBtn.querySelector('.bb-label').style.color='';
+}
+function selectCrewTab(btn){
+  var tab = btn.getAttribute('data-tab');
+  closeCrewDrawer();
+  showTab(tab, btn);
+  // update crew tiles active state
+  document.querySelectorAll('.crew-tile').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+}
+
+
+function toggleGameAcc(id){
+  var el=document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('open');
+  // Trigger render for lazy content
+  var body=el.querySelector('.game-acc-b');
+  if(!body||!el.classList.contains('open')) return;
+  var divs=body.querySelectorAll('[id]');
+  divs.forEach(function(d){
+    var did=d.id;
+    if(did.indexOf('myVAR_')===0) renderMyVARGuesses(did.replace('myVAR_',''));
+    else if(did.indexOf('myQuiz_')===0) renderMyQuizForm(did.replace('myQuiz_',''));
+    else if(did.indexOf('mySOMMWord_')===0) renderMySOMMWord(did.replace('mySOMMWord_',''));
+    else if(did.indexOf('myTip_')===0) renderMyTip(did.replace('myTip_',''));
+    else if(did==='varBeniOverview') renderVARBeni();
+    else if(did==='sommTobiOverview') renderSOMMTobi();
+    else if(did==='quizMaegeOverview') renderQuizMaege();
+    else if(did==='matchTipps') renderTips();
+  });
+}
+
+var supabaseReady = initSupabase();
+if(supabaseReady){
+  var _initDone = false;
+  var _initFallback = setTimeout(function(){
+    if(!_initDone){ _initDone=true; init(); initAppMode(); }
+  }, 500);
+  loadFromDB().then(function(){
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); }
+  }).catch(function(){
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); init(); initAppMode(); }
+  });
+} else {
+  init();
+  initAppMode();
+}function renderPackliste(){
+  var el=document.getElementById('packContent');
+  if(!el) return;
+  var data=getPackData();
+  var WHO=['alle','Didi','Sieber','Lädi','Beni','Pädi K.','Tobi','Mäge','Pädi A.'];
+  var html='';
+  data.forEach(function(cat,ci){
+    if(editMode){
+      html+='<div style="display:flex;align-items:center;gap:6px;margin:10px 0 4px">'
+        +'<div class="pack-cat" data-pcat="'+ci+'" contenteditable="true" style="flex:1;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#aaa">'+cat.cat+'</div>'
+        +'<button class="pk-cat-up bs bs-sm" data-ci="'+ci+'" style="padding:2px 6px">↑</button>'
+        +'<button class="pk-cat-dn bs bs-sm" data-ci="'+ci+'" style="padding:2px 6px">↓</button>'
+        +'<button class="pk-cat-del bs bs-sm" data-ci="'+ci+'" style="padding:2px 6px;color:#e03535">✕</button>'
+        +'</div>';
+    } else {
+      html+='<div class="pack-cat">'+cat.cat+'</div>';
+    }
+    cat.items.forEach(function(item,ii){
+      var mid='pk_'+ci+'_'+ii;
+      var done=!!(S.mat&&S.mat[mid]);
+      html+='<div class="pack-row '+(done?'done':'')+'" data-pkid="'+mid+'" data-pci="'+ci+'" data-pii="'+ii+'">';
+      if(!editMode) html+='<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>';
+      if(editMode){
+        html+='<div style="display:flex;gap:4px;flex-shrink:0">'
+          +'<button class="pk-up bs bs-sm" data-pci="'+ci+'" data-pii="'+ii+'" style="padding:1px 5px;font-size:11px">↑</button>'
+          +'<button class="pk-dn bs bs-sm" data-pci="'+ci+'" data-pii="'+ii+'" style="padding:1px 5px;font-size:11px">↓</button>'
+          +'</div>';
+      }
+      html+='<span class="pk-text" style="flex:1"'+(editMode?' contenteditable="true"':'')+'>'+( item.t||'' )+'</span>';
+      if(editMode){
+        html+='<select class="pack-who-sel" data-pci="'+ci+'" data-pii="'+ii+'" style="font-size:11px;padding:2px 4px;border-radius:6px;border:1px solid #e4e2db;background:#fff;max-width:80px">';
+        WHO.forEach(function(w){ html+='<option value="'+w+'"'+(item.who===w?' selected':'')+'>'+w+'</option>'; });
+        html+='</select>';
+        html+='<span class="pk-del" data-pci="'+ci+'" data-pii="'+ii+'" style="margin-left:4px;cursor:pointer;font-size:16px;color:#e03535;flex-shrink:0">&#215;</span>';
+      } else {
+        html+='<span class="pack-who">'+( item.who||'' )+'</span>';
+      }
+      html+='</div>';
+    });
+    if(editMode){
+      html+='<div class="pk-add" data-addcat="'+ci+'" style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+        +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+        +'Eintrag hinzufügen</div>';
+    }
+  });
+  if(editMode){
+    html+='<div id="addPackCat" style="display:flex;align-items:center;gap:8px;padding:8px 0;cursor:pointer;color:var(--accent-dark);font-size:13px;font-weight:600;border-top:2px dashed #e8c44a;margin-top:8px">'
+      +'<span style="width:18px;height:18px;border:1.5px dashed #e8c44a;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">+</span>'
+      +'Neue Kategorie</div>';
+  }
+  el.innerHTML=html;
+
+  // Checkbox toggle (view mode)
+  document.querySelectorAll('[data-pkid]').forEach(function(row){
+    row.addEventListener('click',function(e){
+      if(editMode) return;
+      var id=this.getAttribute('data-pkid');
+      S.mat[id]=!S.mat[id]; save(); renderPackliste();
+    });
+  });
+
+  if(!editMode) return;
+
+  // Who dropdown
+  document.querySelectorAll('.pack-who-sel').forEach(function(sel){
+    sel.addEventListener('change',function(){
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-pci'));
+      var ii=parseInt(this.getAttribute('data-pii'));
+      if(d[ci]&&d[ci].items[ii]) d[ci].items[ii].who=this.value;
+      savePackData(d); renderPackliste();
+      ['didi','dominik','berater','beni','koch','tobi','maege','patrick'].forEach(function(k){ renderPersonPackliste(k); });
+    });
+  });
+
+  // Item up/down
+  document.querySelectorAll('.pk-up,.pk-dn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-pci'));
+      var ii=parseInt(this.getAttribute('data-pii'));
+      var dir=this.classList.contains('pk-up')?-1:1;
+      var items=d[ci].items;
+      var ni=ii+dir;
+      if(ni<0||ni>=items.length) return;
+      var tmp=items[ii]; items[ii]=items[ni]; items[ni]=tmp;
+      savePackData(d); renderPackliste();
+    });
+  });
+
+  // Category up/down
+  document.querySelectorAll('.pk-cat-up,.pk-cat-dn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-ci'));
+      var dir=this.classList.contains('pk-cat-up')?-1:1;
+      var ni=ci+dir;
+      if(ni<0||ni>=d.length) return;
+      var tmp=d[ci]; d[ci]=d[ni]; d[ni]=tmp;
+      savePackData(d); renderPackliste();
+    });
+  });
+
+  // Category delete
+  document.querySelectorAll('.pk-cat-del').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-ci'));
+      if(confirm('Sektion "'+d[ci].cat+'" löschen?')) { d.splice(ci,1); savePackData(d); renderPackliste(); }
+    });
+  });
+
+  // Item delete
+  document.querySelectorAll('.pk-del').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-pci'));
+      var ii=parseInt(this.getAttribute('data-pii'));
+      d[ci].items.splice(ii,1);
+      savePackData(d); renderPackliste();
+    });
+  });
+
+  // Add item
+  document.querySelectorAll('.pk-add').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var d=getPackData();
+      var ci=parseInt(this.getAttribute('data-addcat'));
+      d[ci].items.push({t:'Neuer Eintrag',who:'alle'});
+      savePackData(d); renderPackliste();
+      setTimeout(function(){
+        var rows=document.querySelectorAll('[data-pci="'+ci+'"] .pk-text');
+        var last=rows[rows.length-1];
+        if(last){ last.focus(); selectAll(last); }
+      },50);
+    });
+  });
+
+  // Add category
+  var addCat=document.getElementById('addPackCat');
+  if(addCat) addCat.addEventListener('click',function(){
+    var d=getPackData();
+    d.push({cat:'Neue Kategorie',items:[]});
+    savePackData(d); renderPackliste();
+  });
+
+  // Text edits
+  document.querySelectorAll('.pk-text').forEach(function(el){
+    el.addEventListener('click',function(e){ e.stopPropagation(); });
+    el.addEventListener('blur',function(){ savePackEdits(); });
+  });
+  document.querySelectorAll('[data-pcat]').forEach(function(el){
+    el.addEventListener('blur',function(){ savePackEdits(); });
+  });
+}
+function initSupabase(){
+  if(!SUPABASE_URL || !SUPABASE_KEY){
+    console.log('Supabase not configured — using localStorage fallback');
+    return false;
+  }
+  try {
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    return true;
+  } catch(e) {
+    console.warn('Supabase init failed:', e);
+    return false;
+  }
+}
+
+// ─── Sync functions ───────────────────────────────────────────────────────────
+async function loadFromDB(){
+  if(!sb) return;
+  try {
+    var r1 = await sb.from('app_state').select('state').eq('id','main').single();
+    if(r1.data && r1.data.state && Object.keys(r1.data.state).length){
+      S = Object.assign(S, r1.data.state);
+      if(!S.schnapsGt) S.schnapsGt={};
+    }
+    var r2 = await sb.from('app_edits').select('edits').eq('id','main').single();
+    if(r2.data && r2.data.edits){
+      localStorage.setItem('pm5_edits', JSON.stringify(r2.data.edits));
+    }
+    var r3 = await sb.from('app_lists').select('*').eq('id','main').single();
+    if(r3.data){
+      if(r3.data.ablauf) localStorage.setItem('pm5_abl', JSON.stringify(r3.data.ablauf));
+      if(r3.data.packliste) localStorage.setItem('pm5_pack', JSON.stringify(r3.data.packliste));
+      if(r3.data.pch) localStorage.setItem('pm5_pch', JSON.stringify(r3.data.pch));
+      if(r3.data.mat) localStorage.setItem('pm5_mat', JSON.stringify(r3.data.mat));
+      if(r3.data.kacheln) localStorage.setItem('pm5_kacheln', JSON.stringify(r3.data.kacheln));
+      if(r3.data.padeitabs) localStorage.setItem('pm5_padeitabs', JSON.stringify(r3.data.padeitabs));
+      if(r3.data.somm) localStorage.setItem('pm5_somm', JSON.stringify(r3.data.somm));
+      if(r3.data.regie) localStorage.setItem('pm5_regie', JSON.stringify(r3.data.regie));
+      if(r3.data.quiz) localStorage.setItem('pm5_quiz', JSON.stringify(r3.data.quiz));
+      if(r3.data.varstate) localStorage.setItem('pm5_var', JSON.stringify(r3.data.varstate));
+    }
+  } catch(e){ console.warn('loadFromDB error:', e); }
+}
+
+function scheduleSave(){
+  if(syncTimeout) clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(saveToDB, 800);
+}
+
+async function saveToDB(){
+  if(!sb) return;
+  try {
+    await sb.from('app_state').upsert({id:'main', state:S, updated_at: new Date().toISOString()});
+  } catch(e){ console.warn('saveToDB error:', e); }
+}
+
+async function saveEditsToDB(edits){
+  if(!sb) return;
+  try {
+    await sb.from('app_edits').upsert({id:'main', edits:edits, updated_at: new Date().toISOString()});
+  } catch(e){ console.warn('saveEditsToDB error:', e); }
+}
+
+async function saveListsToDB(){
+  if(!sb) return;
+  try {
+    var payload = {id:'main', updated_at: new Date().toISOString()};
+    var abl = localStorage.getItem('pm5_abl');
+    var pack = localStorage.getItem('pm5_pack');
+    var pch = localStorage.getItem('pm5_pch');
+    var mat = localStorage.getItem('pm5_mat');
+    var kacheln = localStorage.getItem('pm5_kacheln');
+    if(abl) payload.ablauf = JSON.parse(abl);
+    if(pack) payload.packliste = JSON.parse(pack);
+    if(pch) payload.pch = JSON.parse(pch);
+    if(mat) payload.mat = JSON.parse(mat);
+    if(kacheln) payload.kacheln = JSON.parse(kacheln);
+    await sb.from('app_lists').upsert(payload);
+  } catch(e){ console.warn('saveListsToDB error:', e); }
+}
+
+function subscribeRealtime(){
+  if(!sb) return;
+  realtimeChannel = sb.channel('app-sync')
+    .on('postgres_changes', {event:'UPDATE', schema:'public', table:'app_state'},
+      function(payload){
+        if(payload.new && payload.new.state){
+          var remote = payload.new.state;
+          // merge remote state
+          Object.keys(remote).forEach(function(k){ S[k]=remote[k]; });
+          renderSB(); renderAblauf(); renderPC(); renderAllMat(); renderMedals(); renderMis(); renderTips();
+          showToast('Aktualisiert von einem anderen Gerät');
+        }
+      })
+    .on('postgres_changes', {event:'UPDATE', schema:'public', table:'app_edits'},
+      function(payload){
+        if(payload.new && payload.new.edits){
+          localStorage.setItem('pm5_edits', JSON.stringify(payload.new.edits));
+          applyAllEdits();
+        }
+      })
+    .on('postgres_changes', {event:'UPDATE', schema:'public', table:'app_lists'},
+      function(payload){
+        var d = payload.new;
+        if(d.ablauf) localStorage.setItem('pm5_abl', JSON.stringify(d.ablauf));
+        if(d.packliste) localStorage.setItem('pm5_pack', JSON.stringify(d.packliste));
+        if(d.pch) localStorage.setItem('pm5_pch', JSON.stringify(d.pch));
+        if(d.mat) localStorage.setItem('pm5_mat', JSON.stringify(d.mat));
+        if(d.kacheln) localStorage.setItem('pm5_kacheln', JSON.stringify(d.kacheln));
+        if(d.padeitabs) localStorage.setItem('pm5_padeitabs', JSON.stringify(d.padeitabs));
+        if(d.somm) { localStorage.setItem('pm5_somm', JSON.stringify(d.somm)); renderSOMMTobi(); renderAllPersonSOMMWords(); }
+        if(d.quiz) { localStorage.setItem('pm5_quiz', JSON.stringify(d.quiz)); renderQuizMaege(); P.forEach(function(p){renderMyQuizForm(p.id);}); }
+        if(d.varstate) { localStorage.setItem('pm5_var', JSON.stringify(d.varstate)); renderVARBeni(); renderAllPersonVAR(); }
+        renderAblauf(); renderPackliste(); renderPC(); renderAllMat(); renderPatricTab();
+      })
+    .subscribe();
+}
+
+function showToast(msg){
+  var t = document.getElementById('syncToast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'syncToast';
+    t.style.cssText = 'position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#0a0a0a;color:#e8c44a;font-size:12px;font-weight:600;padding:8px 16px;border-radius:20px;z-index:997;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timeout);
+  t._timeout = setTimeout(function(){ t.style.opacity='0'; }, 2500);
+}
+
+
+// clear legacy data from old versions
+['pm3','pm4','paeditransfer','paeditransfer2','paeditransfer3'].forEach(function(k){ localStorage.removeItem(k); });
+var P=[
+  {id:'didi',name:'Didi Good',role:'Transferdirektor'},
+  {id:'dominik',name:'Sieber',role:'Social-Media-Manager'},
+  {id:'berater',name:'Lädi',role:'Finanzchef'},
+  {id:'beni',name:'Beni Benz',role:'VAR-Chef'},
+  {id:'koch',name:'Pädi K.',role:'Mannschaftsarzt'},
+  {id:'tobi',name:'Tobi Freitag',role:'Weinmanager'},
+  {id:'maege',name:'Mäge Sauter',role:'Médaillenchef'},
+  {id:'patrick',name:'Pädi A.',role:'Bier-Kapitan'},
+];
+var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,einTarget:30,ig_f:'',ig_l:'',ig_k:'',ig_f_target:38,ig_l_target:100,ig_k_target:10,mis:{f:0,l:0,k:0},schnapsGt:{},abl:{},pc:{},mat:{},tips:{},varp:{}};
+function save(){localStorage.setItem('pm5',JSON.stringify(S));}
+
+var MEDALS=[
+  {icon:'🔍',name:"L'Œil du VAR",when:'Zug',
+   desc:'Beni zeigt 8-10 Fotos aus Patricks Vergangenheit — einige sind echt, andere digital manipuliert. Alle tippen bei jedem Bild echt oder fake. Patrick beantwortet zusaetzlich 4 Fragen pro Bild: Echt oder manipuliert? Was wurde verändert? Wann und wo entstand das Original? Wer war dabei?',
+   vergabe:'Wer am meisten Bilder korrekt identifiziert, gewinnt. Bei Gleichstand entscheidet Patrick.'},
+  {icon:'❤️',name:"Médaille de l'Amitié",when:'Zug',
+   desc:'Quiz: Wer kennt Pädi A. am besten? Mäge stellt 5 Fragen, die alle vorher still auf Zettel beantwortet haben. Patrick gibt danach seine echten Antworten. Mögliche Fragen: Welches Lied bringt ihn auf die Tanzfläche? Was ist sein unnötigster Luxus? Was bestellt er nach einer langen Partynacht? Welchen Wein trinkt er am liebsten? Womit nervt man ihn am schnellsten?',
+   vergabe:'Wer die meisten Antworten richtig eingeschätzt hat, gewinnt.'},
+  {icon:'🏄',name:'Médaille de la Performance',when:'Boot',
+   desc:'Jeder macht mindestens einen Wakeboard-Run. Bewertet werden Stil und Figur — nicht Geschwindigkeit oder Dauer. Kriterien: Haltung und Körperspannung, Gleichgewicht, Kontrolle, Unterhaltungswert. Patrick tritt im Rettungsschwimmerinnen-Kostüm an und kann die Médaille trotzdem gewinnen.',
+   vergabe:'Gruppenabstimmung. Pädi Koch leitet und entscheidet bei Gleichstand.'},
+  {icon:'💥',name:'Prix du Plongeon',when:'Boot',
+   desc:'Für den spektakulärsten unbeabsichtigten Sturz beim Wakeboarden. Bewertet: Dramatik, Körpersprache, Gesichtsausdruck, Unterhaltungswert, vorhandenes Videomaterial. Absichtliche oder riskante Stürze werden disqualifiziert.',
+   vergabe:'Gruppenabstimmung. Pädi Koch entscheidet bei Uneinigkeit.'},
+  {icon:'🍷',name:'Bullshit Sommelier',when:'Weindegustation',
+   desc:'Jede Person zieht eine Begriffskarte und beschreibt den Wein in einem einzigen Satz. Begriffe: Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette. Beispiel: Dieser Wein beginnt mit aggressivem Gegenpressing und endet zuverlässiger als ein Fahrzeug von Emil Frey.',
+   vergabe:'Patrick oder Gruppenabstimmung bestimmt die lustigste Beschreibung. Tobi leitet.'},
+  {icon:'👑',name:'Médaille du Kingscup',when:'Einmalig — wann die Gruppe will',
+   desc:'Kings Cup wird einmal gespielt, wann immer es passt. Klassisches Trinkkartenspiel: Karten aufdecken, jede hat eine Regel. Wer gewinnt, gewinnt die Médaille. Keine laufende Tabelle nötig.',
+   vergabe:'Gewinner der Runde bekommt die Médaille direkt. Mäge vergibt sie sofort.'},
+  {icon:'🃏',name:'Médaille du Molotow',when:'Den ganzen Tag',
+   desc:'Molotow-Jass läuft den ganzen Tag — wann immer Zeit und Lust da ist. Zu zweit gespielt, je zwei Karten pro Spieler, keine Trumpfansage, es zählen nur Stiche. Mäge führt laufend eine Siegtabelle. Am Abend in der Hütte wird zusammengezählt.',
+   vergabe:'Wer am Abend die meisten Molotow-Siege hat, gewinnt. Mäge zaehlt zusammen.'},
+  {icon:'🏆',name:"Médaille d'Équipe",when:'SAC-Hütte — Abend',
+   desc:'Task Team: 150 spassige Minispiele für 3+ Personen. Zwei Teams treten gegeneinander an, das dritte schiedsrichtert. Das Task-Team zieht eine Karte und liest die Aufgabe vor. Startsignal: Task! Team! Los! Wer die Aufgabe gewinnt, bekommt die Karte. Gespielt wird bis ein Team 7 Aufgaben gewonnen hat. Aufgaben erfordern Geschicklichkeit, Teamgeist und Schnelligkeit. Dauer ca. 20 Minuten.',
+   vergabe:"Das Sieger-Team gewinnt gemeinsam die Médaille. Bei 8 Personen: 3 Teams a 2-3 Personen bilden, Patrick spielt mit."},
+  {icon:'⚽',name:'Médaille du Football',when:'SAC-Hütte — Abend',
+   desc:'Alle tippen vor dem Spiel: Endresultat, erster Torschütze, Minute des ersten Tores. Optionale Regeln: bei einem französischen Tor macht Patrick seinen Torjubel vom Boot nach; bei einem englischen Tor spricht er bis zur nächsten Unterbrechung Englisch mit französischem Akzent.',
+   vergabe:'Auswertung nach Priorität: korrektes Resultat, korrekte Tordifferenz, erster Torschütze, Minute. Mäge wertet aus.'},
+];
+
+function renderMedals(){
+  var g=document.getElementById('medalGrid');
+  if(!g) return;
+  var html='';
+  for(var i=0;i<MEDALS.length;i++){
+    var m=MEDALS[i];
+    html+='<div class="medal-item" data-mi="'+i+'" style="cursor:pointer;">'
+      +'<div style="font-size:22px;margin-bottom:4px">'+m.icon+'</div>'
+      +'<div class="medal-name">'+m.name+'</div>'
+      +'<div class="medal-desc">'+m.when+'</div>'
+      +'<div style="font-size:10px;color:#b5a96e;margin-top:5px;font-weight:600">Details &#8594;</div>'
+      +'</div>';
+  }
+  g.innerHTML=html;
+  var items=g.querySelectorAll('[data-mi]');
+  for(var j=0;j<items.length;j++){
+    (function(idx){
+      items[idx].addEventListener('click',function(){ openModal(idx); });
+    })(j);
+  }
+}
+
+function openModal(i){
+  var m=MEDALS[i];
+  document.getElementById('mIcon').textContent=m.icon;
+  document.getElementById('mTitle').textContent=m.name;
+  document.getElementById('mWhen').textContent=m.when;
+  document.getElementById('mDesc').textContent=m.desc;
+  document.getElementById('mVergabe').innerHTML='<b style="color:#92400e">Vergabe:</b> '+m.vergabe;
+  var o=document.getElementById('mOverlay');
+  o.style.display='flex';
+}
+
+function closeModal(e){
+  if(!e||e.target===document.getElementById('mOverlay')){
+    document.getElementById('mOverlay').style.display='none';
+  }
+}
+
+var REGIE=[
+  {id:'bh',st:'Bahnhof',t:'Bahnhof — Offizielle Eröffnung',dot:'db',steps:[
+    {w:'alle',t:'Patrick empfangen. Alle Freunde versammeln sich am Bahnhof.'},
+    {w:'Didi',t:'Story erklären — den Transfer kurz vorstellen.',q:'Patrick — bekannt als Pädi Merson, 38-jähriger Edeltechniker, langjähriger Fussball-Captain, Weinliebhaber und Digitalstratege — steht heute vor dem wichtigsten Wechsel seiner Karriere: vom FC Junggeselle zum FC Mariage. Die beiden Vereine haben sich grundsätzlich auf den Transfer geeinigt. Bevor der Vertrag aber unterschrieben werden kann, muss Pädi A. beweisen, dass er den Anforderungen des FC Mariage gewachsen ist.'},
+    {w:'Lädi',t:'Transferdossier übergeben und CONFIDENTIEL-Text vorlesen. 5 Baguettes bereitstellen.',q:'CONFIDENTIEL — TRANSFERDOSSIER. Sehr geehrter Monsieur Merson, Ihr Wechsel vom FC Junggeselle zum FC Mariage befindet sich in der entscheidenden Phase. Der FC Mariage hat dem Transfer grundsätzlich zugestimmt. Vor der endgültigen Vertragsunterzeichnung müssen Sie jedoch Ihre finanzielle Selbstständigkeit, körperliche Eignung und öffentliche Relevanz beweisen. Leider wurde Ihr vereinbartes Handgeld noch nicht überwiesen. Sie müssen Ihre Reise nach Lutry deshalb selbst finanzieren. Ihre Tagesmission: fünf Baguettes verkaufen, mindestens CHF 50.– einnehmen, 50 neue Follower gewinnen, 100 Likes sammeln, zehn Kommentare erhalten. Bonne chance.',n:'Bauchladen / Tasche für Patrick bereithalten'},
+    {w:'Didi',t:'Sich als Transferdirektor und Schiedsrichter vorstellen. Alle Rollen und Regeln vorstellen.',q:'Sieben Freunde begleiten den Transfer — jeder mit einer offiziellen Funktion. Didi Good ist Transferdirektor und Schiedsrichter. Er führt durch den Tag, kündigt alle Prüfungen an und verteilt gelbe und rote Karten. Seine Entscheidungen sind endgültig — nur der VAR kann eingreifen. Dominik Sieber ist Social-Media-Manager. Nur er bedient das Instagram-Profil «Pädi Merson» und veröffentlicht den ganzen Tag Posts und Storys. Patrick darf das Profil nicht selbst benutzen. Lädi — Spielerberater & Finanzchef organisiert die fünf Baguettes und begleitet den Verkauf im Zug. Er darf Patrick beraten, aber nicht selbst verkaufen. Beni Benz ist VAR- und Archivchef. Er hat echte und digital bearbeitete Fotos aus Patricks Vergangenheit vorbereitet und prüft, ob Patrick seine eigene Geschichte kennt. Er ist auch zweite Entscheidungsinstanz wenn der Schiedsrichter selbst in einen Streitfall verwickelt ist. Pädi Koch ist Mannschaftsarzt und Wassersportdirektor. Er leitet den Wakeboard-Block und vergibt die Sportmedaillen. Tobi Freitag ist Sponsoren- und Weinmanager. Er leitet die beiden Wettbewerbe bei der Weindegustation. Mäge Sauter ist Wettbewerbs- und Médaillenchef. Er führt die Rangliste, leitet den Molotow-Jass und das Quiz am Abend und bestimmt am Ende den Letztplatzierten.'},
+    {w:'Didi',t:'Frankreich-Outfit (Shirt + Baskmütze) übergeben und Begründung vorlesen.',q:'Aufgrund Ihrer bekannten Neigung zum französischen Abgang stuft das Transferkomitee Sie als Fluchtrisiko ein. Das Outfit ist Pflicht — den ganzen Tag.'},
+    {w:'Didi',t:'Bier-Kapitän-Ernennung feierlich vorlesen und Kapitänsbinde anlegen.',q:'OFFIZIELLE MITTEILUNG DES FC MARIAGE. Sehr geehrter Monsieur Merson, Sie waren während vieler Jahre unser Spieler, Captain, Trainer, Taktgeber und gelegentlich auch lautstarker Schiedsrichter. Aufgrund dieser aussergewöhnlichen Verdienste werden Sie für Ihren letzten Einsatz vor dem Transfer zum FC Mariage zum offiziellen BIER-KAPITÄN ernannt. Ihre Aufgabe: die Mannschaft sicher durch den heutigen Spieltag führen, die Moral hochhalten und dafür sorgen, dass alle sieben Mitspieler am nächsten Austragungsort eintreffen. Die Bezeichnung Bier-Kapitän verpflichtet nicht zum übermässigen Trinken. Sie bestätigt lediglich Ihre langjährige Erfahrung in den Bereichen Führung, Fussball, Geselligkeit und zweifelhafte taktische Entscheidungen.',n:'Kapitänsbinde feierlich anlegen'},
+    {w:'Dominik',t:'Instagram-Post 1 absetzen.',ig:'BREAKING NEWS — Pädi Merson wurde am Bahnhof gesichtet. Der Transfer ist offiziell eingeleitet. #PädiMerson #DerTransfer'},
+    {w:'Dominik',t:'Instagram-Post 2 absetzen.',ig:'OFFICIAL — Pädi Merson erhält sein Transferdossier. Die Mission beginnt. #BierKapitän'},
+    {w:'Mäge',t:'Molotow-Jass ankündigen: läuft den ganzen Tag, wann immer Zeit ist. Mäge führt Tabelle.'},
+    {w:'Mäge',t:'Kings Cup ankündigen: wird einmal gespielt wann es der Gruppe passt.'},
+  ]},
+  {id:'zg',st:'Zug',t:'Zugfahrt — Baguettes, VAR & Quiz',dot:'dz',steps:[
+    {w:'Patrick',t:'Erste Mannschaftskontrolle vor dem Einsteigen.',q:'Mannschaft vollständig. Der Transfer kann fortgesetzt werden.'},
+    {w:'Patrick',t:'Captain-Ansprache #1 — max. 20 Sekunden, Inhalt frei.',n:'Beispiel: Männer, wir müssen die Räume im Zug nutzen, kompakt auftreten und konsequent zum Abschluss kommen.'},
+    {w:'Lädi',t:'Baguettes übergeben. Verkaufstext erklären. Ziel: CHF 30 Pflicht, CHF 50 Bonus.',n:'Alle dürfen Patrick Strategien flüstern, aber nicht selbst verkaufen'},
+    {w:'Patrick',t:'Baguetteverkauf im Zug — so viele Passagiere wie möglich ansprechen.'},
+    {w:'Dominik',t:'Instagram Story: Baguetteverkauf dokumentieren.',ig:'FAIR PLAY UPDATE — Pädi Merson finanziert seinen eigenen Transfer. Respekt. #Baguette'},
+    {w:'Beni',t:'Vergangenheits-VAR: 8–10 Fotos zeigen. Alle tippen echt oder fake. Patrick beantwortet 4 Fragen pro Bild.',m:"L'Œil du VAR",n:'Beni wertet aus und vergibt Médaille'},
+    {w:'Dominik',t:'Instagram Story: VAR Check absetzen.',ig:'VAR CHECK — Die Vergangenheit von Pädi Merson wird gründlich geprüft.'},
+    {w:'Mäge',t:'Quiz «Wer kennt Pädi A. am besten?» — 5 Fragen, alle haben vorher still geschrieben, Patrick gibt echte Antworten.',m:"Médaille de l'Amitié",n:'Mäge moderiert, wertet aus und vergibt Médaille'},
+  ]},
+  {id:'bt',st:'Boot',t:'Boot — Wakeboarden & Médaillen',dot:'do',steps:[
+    {w:'Patrick',t:'Mannschaftskontrolle vor dem Einsteigen.',q:'Mannschaft vollständig. Der Transfer kann fortgesetzt werden.'},
+    {w:'Pädi Koch',t:'Rettungsschwimmerinnen-Kostüm feierlich übergeben. Patrick trägt es über der Kapitänsbinde.',n:'Pädi Koch verliest die medizinische Beurteilung'},
+    {w:'Patrick',t:'Captain-Ansprache #2 — max. 20 Sekunden.',q:'Ich bin nicht hier, um gut auszusehen. Ich bin hier, um den medizinischen Test des FC Mariage zu bestehen.'},
+    {w:'Patrick',t:'Medizinisches Statement direkt in die Kamera sprechen — Pädi Koch filmt.',n:'Für Instagram'},
+    {w:'alle',t:'Jeder macht mindestens einen Wakeboard-Run. Pädi Koch bewertet Stil, Haltung, Gleichgewicht, Unterhaltungswert.'},
+    {w:'Patrick',t:'Nach bestem Run: Torjubel nachmachen. Danach kurzes Abschlussinterview.'},
+    {w:'Pädi Koch',t:'Gruppenabstimmung: bester Run = Médaille de la Performance, spektakulärster Sturz = Prix du Plongeon.',m:'Médaille de la Performance + Prix du Plongeon',n:'Pädi Koch entscheidet bei Gleichstand'},
+    {w:'Dominik',t:'Post absetzen.',ig:'MEDICAL UPDATE — Pädi Merson hat den Wakeboard-Test des FC Mariage bestanden. Ergebnis: ausbaufähig. #Kostüm'},
+  ]},
+  {id:'wn',st:'Wein',t:'Weindegustation — Bullshit Sommelier',dot:'dw',steps:[
+    {w:'Tobi',t:'Ablauf mit Weingut abgestimmt. Begriffskarten bereithalten: Emil Frey, Digitalisierung, Gegenpressing, Grindr, Rettungsschwimmerin, England, Flitterwochen, Raclette.'},
+    {w:'alle',t:'Bullshit-Sommelier: jeder zieht eine Begriffskarte und beschreibt den Wein in einem einzigen Satz.',m:'Bullshit Sommelier',n:'Tobi moderiert. Patrick oder Gruppenabstimmung bestimmt die lustigste Beschreibung'},
+    {w:'Dominik',t:'Sponsoren-Post absetzen.',ig:'SPONSOR UPDATE — Pädi Merson befindet sich in finalen Transferverhandlungen. Bei Wein. In der Westschweiz.'},
+    {w:'Mäge',t:'Falls Kings Cup noch nicht gespielt: jetzt wäre ein guter Moment.',m:'Médaille du Kingscup',n:'Wer die Runde gewinnt, bekommt die Médaille sofort'},
+  ]},
+  {id:'ht',st:'SAC-Hütte',t:'SAC-Hütte — Abend & Finale',dot:'dh',steps:[
+    {w:'alle',t:'Raclette geniessen. Keine Aufgaben — einfach zusammensitzen.',n:'Molotow läuft weiter wenn Lust'},
+    {w:'Mäge',t:'Task Team spielen. Teams bilden (2–3 Personen), drittes Team schiedsrichtert. Task! Team! Los! Wer zuerst 7 Aufgaben gewinnt.',m:"Médaille d'Équipe",n:'Ca. 20 Min. — Patrick spielt mit'},
+    {w:'Mäge',t:'Molotow-Jass Schlussstand auswerten. Wer hat den ganzen Tag die meisten Partien gewonnen?',m:'Médaille du Molotow'},
+    {w:'Mäge',t:'Falls Kings Cup noch nicht gespielt: jetzt spielen.',m:'Médaille du Kingscup',n:'Wer die Runde gewinnt, bekommt die Médaille sofort'},
+    {w:'alle',t:'Match-Tipps einsammeln: Resultat, Torschütze, Minute des ersten Tores.',n:'Alle inkl. Patrick'},
+    {w:'Patrick',t:'Captain-Ansprache #3 vor dem Spiel — letzte Ansprache als Junggeselle.',q:'Männer, das hier ist mein letztes Spiel als Freier. Ich erwarte Einsatz, Leidenschaft und mindestens ein Tor von Frankreich.'},
+    {w:'alle',t:'Frankreich vs. England schauen. Bei französischem Tor: Patrick macht Torjubel vom Boot nach. Bei englischem Tor: Patrick spricht Englisch mit französischem Akzent.'},
+    {w:'Mäge',t:'Match-Tipps auswerten. Bestes Resultat, Torschütze, Minute.',m:'Médaille du Football'},
+    {w:'Dominik',t:'Instagram-Mission auswerten: Follower, Likes, Kommentare. Hat Patrick die Ziele erreicht?',n:'Blauer Haken wenn Ziele erreicht'},
+    {w:'Didi',t:'Captain-Mission auswerten: hat Patrick alle 5 Kriterien erfüllt?',n:'Kein franz. Abgang / Zählungen / 3 Ansprachen / Mannschaft vollständig / Medienpflichten'},
+    {w:'Mäge',t:'Schlussrangliste Agenten-Cup präsentieren. Letztplatzierten bekannt geben.',n:'Bei Gleichstand: Korken-Elfmeterschiessen'},
+    {w:'alle',t:'Persönlicher Abschluss: jeder vervollständigt den Satz «Der FC Mariage sollte Patrick verpflichten, weil …»',n:'Darf ernst und persönlich sein — schöner Abschluss des Abends'},
+  ]},
+  {id:'morgen',st:'Morgen',t:'Frühstück — Offizielle Übergabe',dot:'db',steps:[
+    {w:'Patrick + Letztplatzierter',t:'Frühstück und Kaffee für alle vorbereiten. Beim Aufräumen die Hauptarbeit übernehmen.',n:'Die Strafe wird jetzt eingelöst'},
+    {w:'Didi',t:'Transfervertrag feierlich vorlesen wenn alle am Tisch sitzen.',q:'Pädi Merson hat alle Prüfungen absolviert. Das Transferkomitee bestätigt den Wechsel. HERE WE GO. 💍',n:'Ruhig und bewusst — der Moment verdient Würde'},
+    {w:'alle',t:'Alle unterschreiben den Vertrag. Patrick zuerst, dann alle 7 Freunde.',n:'Binde darf Patrick als Erinnerung behalten'},
+    {w:'Dominik',t:'Abschliessenden Instagram-Post absetzen.',ig:'OFFICIAL AND CONFIRMED — Pädi Merson wechselt zum FC Mariage. Der Transfer ist vollzogen. Willkommen, Capitaine à vie. HERE WE GO. 💍'},
+  ]},
+];
+
+
+// ─── Regie Edit Management ────────────────────────────────────────────────────
+function getRegieData(){
+  var saved = localStorage.getItem('pm5_regie');
+  if(saved){ try{ return JSON.parse(saved); } catch(e){} }
+  return JSON.parse(JSON.stringify(REGIE)); // deep clone
+}
+function saveRegieData(data){
+  localStorage.setItem('pm5_regie', JSON.stringify(data));
+  if(sb) sb.from('app_lists').upsert({id:'main', regie:data, updated_at:new Date().toISOString()});
+}
+
+function regieAddStation(){
+  var data = getRegieData();
+  var newId = 'st' + Date.now();
+  data.push({id:newId, st:'Neue Station', t:'Neue Station', dot:'db', steps:[]});
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieDeleteStation(sid){
+  var data = getRegieData();
+  data = data.filter(function(s){ return s.id !== sid; });
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieMoveStation(sid, dir){
+  var data = getRegieData();
+  var idx = data.findIndex(function(s){ return s.id === sid; });
+  var newIdx = idx + dir;
+  if(newIdx < 0 || newIdx >= data.length) return;
+  var tmp = data[idx]; data[idx] = data[newIdx]; data[newIdx] = tmp;
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieAddStep(sid){
+  var data = getRegieData();
+  var s = data.find(function(s){ return s.id === sid; });
+  if(!s) return;
+  s.steps.push({w:'Alle', t:'Neuer Schritt'});
+  saveRegieData(data);
+  renderRegie();
+  // Open the accordion
+  var acc = document.getElementById('acc_'+sid);
+  if(acc && !acc.classList.contains('open')) toggleAcc(sid);
+}
+
+function regieDeleteStep(sid, stepIdx){
+  var data = getRegieData();
+  var s = data.find(function(s){ return s.id === sid; });
+  if(!s) return;
+  s.steps.splice(stepIdx, 1);
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieMoveStep(sid, stepIdx, dir){
+  var data = getRegieData();
+  var s = data.find(function(s){ return s.id === sid; });
+  if(!s) return;
+  var newIdx = stepIdx + dir;
+  if(newIdx < 0 || newIdx >= s.steps.length) return;
+  var tmp = s.steps[stepIdx]; s.steps[stepIdx] = s.steps[newIdx]; s.steps[newIdx] = tmp;
+  saveRegieData(data);
+  renderRegie();
+}
+
+function regieEditField(sid, stepIdx, field, value){
+  var data = getRegieData();
+  if(stepIdx === null){
+    // Edit station title
+    var s = data.find(function(s){ return s.id === sid; });
+    if(s) s.t = value;
+  } else {
+    var s = data.find(function(s){ return s.id === sid; });
+    if(s && s.steps[stepIdx]) s.steps[stepIdx][field] = value;
+  }
+  saveRegieData(data);
+}
+
+function renderRegie(){
+  var data=getRegieData();
+  var html='';
+  data.forEach(function(s,si){
+    html+='<div class="acc-item"><div class="acc-h" data-acc="'+s.id+'" onclick="toggleAcc(\''+s.id+'\')">';
+    if(editMode){
+      html+='<div class="re-sbtns" style="display:flex;gap:3px;margin-right:6px;flex-shrink:0">'
+        +'<button class="bs bs-sm re-sup" data-sid="'+s.id+'" title="hoch">↑</button>'
+        +'<button class="bs bs-sm re-sdn" data-sid="'+s.id+'" title="runter">↓</button>'
+        +'<button class="bs bs-sm re-sdel" data-sid="'+s.id+'" style="color:#e03535">✕</button>'
+        +'</div>';
+    }
+    html+='<div class="adot '+s.dot+'"></div>'
+      +'<span class="acc-t re-stitle" data-sid="'+s.id+'"'+(editMode?' contenteditable="true"':'')+'>'+s.t+'</span>'
+      +'<span class="acc-s">'+s.steps.length+' Schritte</span>'
+      +'<span class="acc-a" id="arr_'+s.id+'">&#9660;</span>'
+      +'</div><div class="acc-b" id="acc_'+s.id+'">';
+    s.steps.forEach(function(step,i){
+      var eid=s.id+'-'+i;
+      html+='<div class="ds">';
+      if(editMode){
+        html+='<div class="re-stepbtns" style="display:flex;flex-direction:column;gap:2px;margin-right:6px;flex-shrink:0">'
+          +'<button class="bs bs-sm re-sup2" data-sid="'+s.id+'" data-si="'+i+'" style="padding:1px 5px;font-size:10px">↑</button>'
+          +'<button class="bs bs-sm re-sdn2" data-sid="'+s.id+'" data-si="'+i+'" style="padding:1px 5px;font-size:10px">↓</button>'
+          +'</div>';
+      }
+      html+='<div class="dn">'+(i+1)+'</div><div class="dc">'
+        +'<div class="dw2 re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="w"'+(editMode?' contenteditable="true"':'')+'>'+step.w+'</div>'
+        +'<div class="dt re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="t"'+(editMode?' contenteditable="true"':'')+'>'+step.t+'</div>';
+      if(step.q) html+='<div class="dq re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="q"'+(editMode?' contenteditable="true"':'')+'>'+step.q+'</div>';
+      if(step.ig) html+='<div class="igb re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="ig"'+(editMode?' contenteditable="true"':'')+'>'+step.ig+'</div>';
+      if(step.m) html+='<div class="dm"><span>'+step.m+'</span></div>';
+      if(step.n) html+='<div class="dno re-fw" data-sid="'+s.id+'" data-si="'+i+'" data-fld="n"'+(editMode?' contenteditable="true"':'')+'>— '+step.n+'</div>';
+      if(editMode){
+        html+='<button class="bs bs-sm re-sdel2" data-sid="'+s.id+'" data-si="'+i+'" style="color:#e03535;margin-top:4px">✕ Schritt löschen</button>';
+      }
+      html+='</div></div>';
+    });
+    if(editMode){
+      html+='<button class="bs re-sadd" data-sid="'+s.id+'" style="width:100%;margin-top:8px;color:var(--accent-dark)">+ Schritt hinzufügen</button>';
+    }
+    html+='</div></div>';
+  });
+  if(editMode){
+    html+='<button class="bs" id="reAddStation" style="width:100%;margin-top:8px;color:var(--accent-dark)">+ Station hinzufügen</button>';
+  }
+  var el=document.getElementById('regiAcc');
+  if(!el) return;
+  el.innerHTML=html;
+  el.querySelectorAll('.re-sup').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieMoveStation(this.dataset.sid,-1);}); });
+  el.querySelectorAll('.re-sdn').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieMoveStation(this.dataset.sid,1);}); });
+  el.querySelectorAll('.re-sdel').forEach(function(b){ b.addEventListener('click',function(e){e.stopPropagation();regieDeleteStation(this.dataset.sid);}); });
+  el.querySelectorAll('.re-stitle[contenteditable]').forEach(function(b){ b.addEventListener('blur',function(){regieEditField(this.dataset.sid,null,'t',this.textContent);}); });
+  el.querySelectorAll('.re-sup2').forEach(function(b){ b.addEventListener('click',function(){regieMoveStep(this.dataset.sid,parseInt(this.dataset.si),-1);}); });
+  el.querySelectorAll('.re-sdn2').forEach(function(b){ b.addEventListener('click',function(){regieMoveStep(this.dataset.sid,parseInt(this.dataset.si),1);}); });
+  el.querySelectorAll('.re-sdel2').forEach(function(b){ b.addEventListener('click',function(){regieDeleteStep(this.dataset.sid,parseInt(this.dataset.si));}); });
+  el.querySelectorAll('.re-sadd').forEach(function(b){ b.addEventListener('click',function(){regieAddStep(this.dataset.sid);}); });
+  el.querySelectorAll('.re-fw[contenteditable]').forEach(function(b){ b.addEventListener('blur',function(){regieEditField(this.dataset.sid,parseInt(this.dataset.si),this.dataset.fld,this.textContent);}); });
+  var addBtn=document.getElementById('reAddStation');
+  if(addBtn) addBtn.addEventListener('click',regieAddStation);
+}
+
+function renderDidiRegie(){
+  var el=document.getElementById('didiRegie');
+  if(!el) return;
+  var data=getRegieData();
+  var html='';
+  data.forEach(function(s, si){
+    var mineIdx=[];
+    s.steps.forEach(function(x,i){ if(x.w&&x.w.indexOf('Didi')===0) mineIdx.push(i); });
+    if(!mineIdx.length) return;
+    html+='<div style="margin-bottom:14px" data-didi-s="'+si+'">';
+    html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">';
+    if(editMode){
+      html+='<div style="display:flex;flex-direction:column;gap:1px;margin-right:2px">'
+        +'<button class="bs bs-sm didi-s-up" data-si="'+si+'" style="padding:1px 5px;font-size:10px">↑</button>'
+        +'<button class="bs bs-sm didi-s-dn" data-si="'+si+'" style="padding:1px 5px;font-size:10px">↓</button>'
+        +'</div>';
+    }
+    html+='<div class="adot '+s.dot+'" style="width:8px;height:8px"></div>'
+      +'<span style="font-size:13px;font-weight:700">'+s.t+'</span></div>';
+    mineIdx.forEach(function(stepIdx){
+      var step=s.steps[stepIdx];
+      html+='<div style="display:flex;gap:8px;margin-bottom:8px;padding-left:16px;align-items:flex-start">';
+      if(editMode){
+        html+='<div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0">'
+          +'<button class="bs bs-sm didi-step-up" data-si="'+si+'" data-stepi="'+stepIdx+'" style="padding:1px 5px;font-size:10px">↑</button>'
+          +'<button class="bs bs-sm didi-step-dn" data-si="'+si+'" data-stepi="'+stepIdx+'" style="padding:1px 5px;font-size:10px">↓</button>'
+          +'</div>';
+      }
+      html+='<div style="font-size:12px;color:#3b82f6;min-width:12px;margin-top:2px">&#8594;</div><div>';
+      html+='<div style="font-size:13px">'+step.t+'</div>';
+      if(step.q){
+        var preview=step.q.length>160?step.q.substring(0,160)+'...':step.q;
+        html+='<div class="qb" style="margin-top:5px;font-size:12px">'+preview+'</div>';
+      }
+      if(step.n) html+='<div style="font-size:11px;color:#aaa;margin-top:3px;font-style:italic">— '+step.n+'</div>';
+      html+='</div></div>';
+    });
+    html+='</div>';
+  });
+  el.innerHTML=html;
+
+  if(!editMode) return;
+
+  // Station up/down
+  el.querySelectorAll('.didi-s-up').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      regieMoveStation(data[+this.dataset.si].id,-1);
+    });
+  });
+  el.querySelectorAll('.didi-s-dn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      regieMoveStation(data[+this.dataset.si].id,1);
+    });
+  });
+
+  // Step up/down (within same station)
+  el.querySelectorAll('.didi-step-up').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      regieMoveStep(data[+this.dataset.si].id,+this.dataset.stepi,-1);
+    });
+  });
+  el.querySelectorAll('.didi-step-dn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      regieMoveStep(data[+this.dataset.si].id,+this.dataset.stepi,1);
+    });
+  });
+}
+
+function toggleAcc(id){
+  var b=document.getElementById('acc_'+id);
+  var a=document.getElementById('arr_'+id);
+  if(!b) return;
+  var open=b.classList.contains('open');
+  b.classList.toggle('open',!open);
+  if(a) a.classList.toggle('open',!open);
+}
+
+var ABL=[
+  {id:'a01',t:'Patrick empfangen',st:'Bahnhof'},
+  {id:'a02',t:'Frankreich-Outfit übergeben + Begründung vorlesen',st:'Bahnhof'},
+  {id:'a03',t:'Schiedsrichter vorstellen + Regeln erklären',st:'Bahnhof'},
+  {id:'a04',t:'Bier-Kapitän-Ernennung + Binde anlegen',st:'Bahnhof'},
+  {id:'a05',t:'Instagram-Post 1 + 2 absetzen (Dominik)',st:'Bahnhof'},
+  {id:'a06',t:'Transferdossier + 5 Baguettes übergeben (Lädi)',st:'Bahnhof'},
+  {id:'a07',t:'Molotow-Jass + Kings Cup ankündigen (Mäge)',st:'Bahnhof'},
+  {id:'a08',t:'Tobi: Sommelier-Begriffe auf alle Geräte verteilen',st:'Bahnhof'},
+  {id:'a09',t:'Mannschaftskontrolle + Captain-Ansprache #1',st:'Zug'},
+  {id:'a10',t:'Baguetteverkauf im Zug',st:'Zug'},
+  {id:'a11',t:'Instagram Story: Baguetteverkauf (Dominik)',st:'Zug'},
+  {id:'a12',t:"Vergangenheits-VAR → L'Œil du VAR (Beni)",st:'Zug'},
+  {id:'a13',t:"Quiz «Wer kennt Pädi?» → Médaille de l'Amitié (Mäge)",st:'Zug'},
+  {id:'a14',t:'Instagram Story: VAR Check (Dominik)',st:'Zug'},
+  {id:'a15',t:'Mannschaftskontrolle vor dem Boot',st:'Boot'},
+  {id:'a16',t:'Kostüm-Übergabe + medizinische Beurteilung (Pädi Koch)',st:'Boot'},
+  {id:'a17',t:'Captain-Ansprache #2 + medizinisches Statement (Video)',st:'Boot'},
+  {id:'a18',t:'Wakeboard-Runs — alle mindestens 1 Run',st:'Boot'},
+  {id:'a19',t:'Médaille de la Performance + Prix du Plongeon (Pädi Koch)',st:'Boot'},
+  {id:'a20',t:'Instagram Post: Medical Update (Dominik)',st:'Boot'},
+  {id:'a21',t:'Ablauf mit Weingut abstimmen (Tobi)',st:'Wein'},
+  {id:'a22',t:'Bullshit-Sommelier → Médaille (Tobi)',st:'Wein'},
+  {id:'a23',t:'Kings Cup falls noch nicht gespielt → Médaille (Mäge)',st:'Wein'},
+  {id:'a24',t:'Sponsoren-Post (Dominik)',st:'Wein'},
+  {id:'a25',t:'Raclette geniessen',st:'SAC-Hütte'},
+  {id:'a26',t:"Task Team → Médaille d'Équipe (Mäge)",st:'SAC-Hütte'},
+  {id:'a27',t:'Molotow Schlussstand auswerten → Médaille du Molotow (Mäge)',st:'SAC-Hütte'},
+  {id:'a28',t:'Kings Cup falls noch nicht gespielt → Médaille (Mäge)',st:'SAC-Hütte'},
+  {id:'a29',t:'Match-Tipps einsammeln (alle)',st:'SAC-Hütte'},
+  {id:'a30',t:'Captain-Ansprache #3 (Patrick)',st:'SAC-Hütte'},
+  {id:'a31',t:'Frankreich vs. England schauen',st:'SAC-Hütte'},
+  {id:'a32',t:'Match-Tipps auswerten → Médaille du Football (Mäge)',st:'SAC-Hütte'},
+  {id:'a33',t:'Instagram-Mission auswerten + blauen Haken (Dominik)',st:'SAC-Hütte'},
+  {id:'a34',t:'Captain-Mission auswerten (Didi)',st:'SAC-Hütte'},
+  {id:'a35',t:'Schlussrangliste + Letztplatzierten bekannt geben (Mäge)',st:'SAC-Hütte'},
+  {id:'a36',t:'Persönlicher Abschluss — jeder vervollständigt den Satz',st:'SAC-Hütte'},
+  {id:'a37',t:'Frühstück vorbereiten (Patrick + Letztplatzierter)',st:'Morgen'},
+  {id:'a38',t:'Transfervertrag feierlich vorlesen (Didi)',st:'Morgen'},
+  {id:'a39',t:'Alle unterschreiben — HERE WE GO! 💍',st:'Morgen'},
+  {id:'a40',t:'Abschliessender Instagram-Post (Dominik)',st:'Morgen'},
+];
+
+var stC={Bahnhof:'tb',Zug:'tz',Boot:'to',Wein:'tw','SAC-Hütte':'th',Morgen:'tb'};
+function renderAblauf(){
+  // Load custom items from storage
+  var customAbl=JSON.parse(localStorage.getItem('pm5_abl')||'null');
+  var items=customAbl||ABL;
+  var el=document.getElementById('ablaufList');
+  if(!el) return;
+  var html=items.map(function(item){
+    var done=!!S.abl[item.id];
+    var stClass=stC[item.st]||'tb';
+    return '<div class="ci '+(done?'done':'')+'" data-abl="'+item.id+'">'
+      +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
+      +'<span class="ci-text" style="flex:1">'+item.t+'</span>'
+      +'<span class="ci-st st '+stClass+'">'+item.st+'</span>'
+      +(editMode?'<span class="ci-del" data-delid="'+item.id+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;line-height:1;flex-shrink:0" title="Löschen">&#215;</span>':'')
+      +'</div>';
+  }).join('');
+  // Add new item button in edit mode
+  if(editMode){
+    html+='<div id="addAblaufBtn" style="display:flex;align-items:center;gap:8px;padding:8px 0;cursor:pointer;color:var(--accent-dark);font-size:13px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:4px" onclick="addAblaufItem()">'
+      +'<span style="width:18px;height:18px;border:1.5px dashed #e8c44a;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">+</span>'
+      +'<span>Neuer Eintrag</span>'
+      +'</div>';
+  }
+  el.innerHTML=html;
+  // Wire checkboxes
+  document.querySelectorAll('[data-abl]').forEach(function(row){
+    row.addEventListener('click',function(e){
+      if(e.target.classList.contains('ci-del')) return;
+      if(e.target.classList.contains('ci-text') && editMode) return;
+      if(e.target.classList.contains('ci-st') && editMode) return;
+      togAbl(this.getAttribute('data-abl'));
+    });
+  });
+  // Wire delete buttons
+  document.querySelectorAll('[data-delid]').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      deleteAblaufItem(this.getAttribute('data-delid'));
+    });
+  });
+  // Wire text editing
+  if(editMode){
+    document.querySelectorAll('.ci-text,.ci-st').forEach(function(el){
+      el.setAttribute('contenteditable','true');
+      el.addEventListener('click',function(e){ e.stopPropagation(); });
+      el.addEventListener('blur',function(){ saveAblaufEdits(); });
+    });
+  }
+}
+
+function getAblItems(){
+  return JSON.parse(localStorage.getItem('pm5_abl')||'null')||ABL.slice();
+}
+
+function saveAblItems(items){
+  localStorage.setItem('pm5_abl',JSON.stringify(items));
+}
+
+function saveAblaufEdits(){
+  var items=[];
+  document.querySelectorAll('[data-abl]').forEach(function(row){
+    var id=row.getAttribute('data-abl');
+    var textEl=row.querySelector('.ci-text');
+    var stEl=row.querySelector('.ci-st');
+    if(textEl) items.push({id:id, t:textEl.textContent, st:stEl?stEl.textContent:''});
+  });
+  if(items.length) saveAblItems(items);
+}
+
+function addAblaufItem(){
+  var items=getAblItems();
+  var newId='custom_'+Date.now();
+  items.push({id:newId, t:'Neuer Eintrag', st:'Bahnhof'});
+  saveAblItems(items);
+  renderAblauf();
+  // focus new item
+  setTimeout(function(){
+    var rows=document.querySelectorAll('[data-abl]');
+    var last=rows[rows.length-1];
+    if(last){
+      var txt=last.querySelector('.ci-text');
+      if(txt){ txt.focus(); selectAll(txt); }
+    }
+  },50);
+}
+
+function deleteAblaufItem(id){
+  var items=getAblItems().filter(function(i){ return i.id!==id; });
+  saveAblItems(items);
+  delete S.abl[id];
+  save();
+  renderAblauf();
+}
+
+function selectAll(el){
+  var range=document.createRange();
+  range.selectNodeContents(el);
+  var sel=window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function togAbl(id){S.abl[id]=!S.abl[id];save();renderAblauf();
+  setTimeout(function(){ if(editMode) enableEdit(); },30);
+}
+
+var PCH=[
+  {id:'p1',t:'Kein französischer Abgang'},
+  {id:'p2',t:'Mannschaft vor Ortswechseln gezählt'},
+  {id:'p3',t:'Mind. 2 Captain-Ansprachen gehalten'},
+  {id:'p4',t:'Mannschaft vollständig bis zur Hütte'},
+  {id:'p5',t:'Medienpflichten erfüllt'},
+];
+function getPCH(){
+  return JSON.parse(localStorage.getItem('pm5_pch')||'null')||PCH.slice();
+}
+function savePCH(items){ localStorage.setItem('pm5_pch',JSON.stringify(items)); }
+
+function renderPC(){
+  var el=document.getElementById('patrickCL');
+  if(!el) return;
+  var items=getPCH();
+  var html=items.map(function(item){
+    var done=!!S.pc[item.id];
+    return '<div class="ci '+(done?'done':'')+'" data-pc="'+item.id+'">'
+      +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
+      +'<span class="pc-text" style="flex:1"'+(editMode?' contenteditable="true"':'')+'>'+(item.t||'')+'</span>'
+      +(editMode?'<span class="pc-del" data-pcid="'+item.id+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;flex-shrink:0">&#215;</span>':'')
+      +'</div>';
+  }).join('');
+  if(editMode){
+    html+='<div class="pc-add" style="display:flex;align-items:center;gap:8px;padding:7px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+      +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+      +'Kriterium hinzufügen</div>';
+  }
+  el.innerHTML=html;
+  document.querySelectorAll('[data-pc]').forEach(function(row){
+    row.addEventListener('click',function(e){
+      if(e.target.classList.contains('pc-del')) return;
+      if(e.target.classList.contains('pc-text') && editMode) return;
+      togPC(this.getAttribute('data-pc'));
+    });
+  });
+  document.querySelectorAll('.pc-del').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var items=getPCH().filter(function(i){ return i.id!==this.getAttribute('data-pcid'); }.bind(this));
+      savePCH(items); renderPC();
+    });
+  });
+  var addBtn=el.querySelector('.pc-add');
+  if(addBtn) addBtn.addEventListener('click',function(){
+    var items=getPCH();
+    var newId='pc_'+Date.now();
+    items.push({id:newId,t:'Neues Kriterium'});
+    savePCH(items); renderPC();
+    setTimeout(function(){
+      var rows=el.querySelectorAll('.pc-text');
+      var last=rows[rows.length-1];
+      if(last){ last.setAttribute('contenteditable','true'); last.focus(); selectAll(last); }
+    },50);
+  });
+  if(editMode){
+    el.querySelectorAll('.pc-text').forEach(function(t){
+      t.addEventListener('click',function(e){ e.stopPropagation(); });
+      t.addEventListener('blur',function(){ savePCHEdits(); });
+    });
+  }
+}
+function savePCHEdits(){
+  var items=[];
+  document.querySelectorAll('[data-pc]').forEach(function(row){
+    var txt=row.querySelector('.pc-text');
+    if(txt) items.push({id:row.getAttribute('data-pc'),t:txt.textContent});
+  });
+  if(items.length) savePCH(items);
+}
+function togPC(id){S.pc[id]=!S.pc[id];save();renderPC();}
+
+var MIS=[
+  {l:'Einnahmen Pflicht CHF',target:S.einTarget||30,sp:'e'},
+  {l:'Neue Follower',k:'f',target:S.ig_f_target||38},
+  {l:'Likes',k:'l',target:S.ig_l_target||100},
+  {l:'Kommentare',k:'k',target:S.ig_k_target||10},
+];
+function renderMis(){
+  var MIS=[
+    {l:'Einnahmen Pflicht CHF',target:S.einTarget||30,sp:'e'},
+    {l:'Neue Follower',k:'f',target:S.ig_f_target||38},
+    {l:'Likes',k:'l',target:S.ig_l_target||100},
+    {l:'Kommentare',k:'k',target:S.ig_k_target||10},
+  ];
+  document.getElementById('missionBar').innerHTML=MIS.map(function(m){
+    var val=m.sp==='b'?(S.baguette||0):m.sp==='e'?(S.ein||0):(S.mis[m.k]||0);
+    var pct=Math.min(100,Math.round(val/m.target*100));
+    var done=val>=m.target;
+    var html='<div class="mr"><span class="ml">'+m.l+'</span>'
+      +'<div class="pb"><div class="pf '+(done?'done':'')+'" style="width:'+pct+'%"></div></div>'
+      +'<span class="mv" style="'+(done?'color:var(--green);font-weight:700':'')+'">'+(done?'✓ ':'')+val+'</span>'
+      +'<span class="mt">/'+m.target+'</span></div>';
+    return html;
+  }).join('');
+}
+function adjMi(k,d){S.mis[k]=Math.max(0,(S.mis[k]||0)+d);save();renderMis();}
+function adjBaguette(d){if(APP_MODE==='paedi'||patricMode==='paedi') return;S.baguette=Math.max(0,Math.min(5,(S.baguette||0)+d));var e=document.getElementById('bc');if(e)e.textContent=S.baguette;renderMis();save();}
+function saveEinTarget(){
+  var el=document.getElementById('einTarget');
+  if(el){ S.einTarget=parseFloat(el.value)||30; save(); renderMis(); }
+}
+
+function saveEin(){S.ein=parseFloat(document.getElementById('ein').value)||0;renderMis();save();}
+function populateIG(){
+  populateIG();
+}
+function saveIG(){
+  ['ig_f','ig_l','ig_k'].forEach(function(id){
+    var e=document.getElementById(id);
+    if(e) S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]=parseInt(e.value)||0;
+    var et=document.getElementById(id+'_target');
+    if(et) S[id+'_target']=parseInt(et.value)||({ig_f:38,ig_l:100,ig_k:10}[id]);
+  });
+  save(); renderMis();
+}
+function resetAll(){if(!confirm('Wirklich alles zurücksetzen?'))return;localStorage.removeItem('pm5');location.reload();}
+
+function schnaps(y,r){var s=0;if(y>=2)s++;if(y>=4)s++;if(r>0)s+=5;return s;}
+function adjMedal(id,d){S.medals[id]=Math.max(0,(S.medals[id]||0)+d);save();renderSB();}
+function adjCard(id,type,d){S[type][id]=Math.max(0,(S[type][id]||0)+d);save();renderSB();}
+
+function renderSB(){
+  if(!S.schnapsGt) S.schnapsGt={};
+  var ag=P.filter(function(p){return p.id!=='patrick';}).sort(function(a,b){return(S.medals[b.id]||0)-(S.medals[a.id]||0);});
+  var all=ag.concat([P[P.length-1]]);
+  var html='';
+  all.forEach(function(p,i){
+    var m=S.medals[p.id]||0;
+    var y=S.yellow[p.id]||0;
+    var r=S.red[p.id]||0;
+    var isPatric=p.id==='patrick';
+    var rc=!isPatric?(i===0?'r1':i===1?'r2':i===2?'r3':''):'';
+    var schnaps=(r*3)+Math.floor(y/2)+(y>4?(y-4):0);
+    var schnapsHtml='';
+    if(!isPatric && schnaps>0){
+      var gt=S.schnapsGt[p.id]||0;
+      var pct=Math.round((gt/schnaps)*100);
+      var done=gt>=schnaps;
+      var bgCol=done?'#dcfce7':'#fee2e2';
+      var barCol=done?'#16a34a':'#e03535';
+      var trackCol=done?'#bbf7d0':'#fecaca';
+      var textCol=done?'#16a34a':'#e03535';
+      schnapsHtml='<div style="margin-top:10px;border-top:1px solid #eee;padding-top:10px">'
+        +'<div style="background:'+bgCol+';border-radius:10px;padding:8px 12px">'
+        +'<div style="font-size:10px;font-weight:700;color:'+textCol+';text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Schnaps</div>'
+        +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
+        +'<div style="flex:1;height:6px;background:'+trackCol+';border-radius:3px;overflow:hidden">'
+        +'<div style="width:'+pct+'%;height:100%;background:'+barCol+';border-radius:3px"></div>'
+        +'</div>'
+        +'<div style="font-size:12px;color:'+textCol+';font-weight:700;white-space:nowrap">'+(done?'alle ✓':gt+' / '+schnaps)+'</div>'
+        +'</div>'
+        +'<div style="display:flex;gap:8px">'
+        +'<button data-fn="schnapsgt" data-id="'+p.id+'" data-max="'+schnaps+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid '+textCol+';border-radius:8px;background:#fff;font-size:22px;color:'+textCol+';cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="schnapsgt" data-id="'+p.id+'" data-max="'+schnaps+'" data-d="1" style="flex:1;height:44px;border:1.5px solid '+textCol+';border-radius:8px;background:#fff;font-size:22px;color:'+textCol+';cursor:pointer;font-weight:700">+</button>'
+        +'</div>'
+        +'</div>'
+        +'</div>';
+    }
+    html+='<div class="sb-card">'
+      +'<div class="sb-card-top">'
+        +'<div>'
+          +'<div class="pname">'+p.name+'</div>'
+          +'<div class="prole">'+p.role+'</div>'
+        +'</div>'
+        +(!isPatric?'<div class="rb '+rc+'">'+(i+1)+'</div>':'<div style="width:26px"></div>')
+      +'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px">'
+        +'<div style="background:#fef9eb;border-radius:10px;padding:8px;text-align:center">'
+          +'<div style="font-size:10px;font-weight:700;color:#b8940a;letter-spacing:.06em;margin-bottom:4px">Médaillen</div>'
+          +'<div class="mc" style="margin:4px auto">'+m+'</div>'
+          +'<div style="display:flex;gap:5px;margin-top:6px">'
+            +'<button data-fn="medal" data-id="'+p.id+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid #e8c44a;border-radius:8px;background:#fff;font-size:20px;color:#b8940a;cursor:pointer;font-weight:700">−</button>'
+            +'<button data-fn="medal" data-id="'+p.id+'" data-d="1" style="flex:1;height:44px;border:1.5px solid #e8c44a;border-radius:8px;background:#fff;font-size:20px;color:#b8940a;cursor:pointer;font-weight:700">+</button>'
+          +'</div>'
+        +'</div>'
+        +'<div style="background:#fefce8;border-radius:10px;padding:8px;text-align:center">'
+          +'<div style="font-size:10px;font-weight:700;color:#854d0e;letter-spacing:.06em;margin-bottom:4px">Gelb</div>'
+          +'<div class="mc" style="margin:4px auto;background:'+(y>0?'#fbbf24':'#f0f0ee')+';color:'+(y>0?'#0a0a0a':'#aaa')+'">'+y+'</div>'
+          +'<div style="display:flex;gap:5px;margin-top:6px">'
+            +'<button data-fn="yellow" data-id="'+p.id+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid #facc15;border-radius:8px;background:#fff;font-size:20px;color:#854d0e;cursor:pointer;font-weight:700">−</button>'
+            +'<button data-fn="yellow" data-id="'+p.id+'" data-d="1" style="flex:1;height:44px;border:1.5px solid #facc15;border-radius:8px;background:#fff;font-size:20px;color:#854d0e;cursor:pointer;font-weight:700">+</button>'
+          +'</div>'
+        +'</div>'
+        +'<div style="background:#fef2f2;border-radius:10px;padding:8px;text-align:center">'
+          +'<div style="font-size:10px;font-weight:700;color:#991b1b;letter-spacing:.06em;margin-bottom:4px">Rot</div>'
+          +'<div class="mc" style="margin:4px auto;background:'+(r>0?'var(--red)':'#f0f0ee')+';color:'+(r>0?'#fff':'#aaa')+'">'+r+'</div>'
+          +'<div style="display:flex;gap:5px;margin-top:6px">'
+            +'<button data-fn="red" data-id="'+p.id+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid #ef4444;border-radius:8px;background:#fff;font-size:20px;color:#991b1b;cursor:pointer;font-weight:700">−</button>'
+            +'<button data-fn="red" data-id="'+p.id+'" data-d="1" style="flex:1;height:44px;border:1.5px solid #ef4444;border-radius:8px;background:#fff;font-size:20px;color:#991b1b;cursor:pointer;font-weight:700">+</button>'
+          +'</div>'
+        +'</div>'
+      +'</div>'
+      +schnapsHtml
+    +'</div>';
+  });
+  var sbEl=document.getElementById('sbBody');
+  if(sbEl) sbEl.innerHTML=html;
+  document.querySelectorAll('[data-fn]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var fn=this.getAttribute('data-fn');
+      var id=this.getAttribute('data-id');
+      var d=parseInt(this.getAttribute('data-d'));
+      if(fn==='medal') S.medals[id]=Math.max(0,(S.medals[id]||0)+d);
+      if(fn==='yellow') S.yellow[id]=Math.max(0,(S.yellow[id]||0)+d);
+      if(fn==='red') S.red[id]=Math.max(0,(S.red[id]||0)+d);
+      if(fn==='schnapsgt'){
+        if(!S.schnapsGt) S.schnapsGt={};
+        var max=parseInt(this.getAttribute('data-max')||'0');
+        S.schnapsGt[id]=Math.max(0,Math.min(max,(S.schnapsGt[id]||0)+d));
+      }
+      save(); renderSB();
+    });
+  });
+}
+
+{
+  var ag=P.filter(function(p){return p.id!=='patrick';}).sort(function(a,b){return(S.medals[b.id]||0)-(S.medals[a.id]||0);});
+  var all=ag.concat([P[P.length-1]]);
+  var html='';
+  all.forEach(function(p,i){
+    var m=S.medals[p.id]||0;
+    var y=S.yellow[p.id]||0;
+    var r=S.red[p.id]||0;
+    var rc=p.id!=='patrick'?(i===0?'r1':i===1?'r2':i===2?'r3':''):'';
+    var yc=y>=2?'var(--red)':'var(--black)';
+    var rc2=r>0?'var(--red)':'var(--black)';
+    html+='<tr>'
+      +'<td><div class="pname">'+p.name+'</div><div class="prole">'+p.role+'</div></td>'
+      +'<td style="text-align:center"><div style="display:flex;align-items:center;gap:4px;justify-content:center">'
+      +'<button class="bs" style="padding:2px 6px" data-fn="medal" data-id="'+p.id+'" data-d="-1">-</button>'
+      +'<span class="mc">'+m+'</span>'
+      +'<button class="bs" style="padding:2px 6px" data-fn="medal" data-id="'+p.id+'" data-d="1">+</button>'
+      +'</div></td>'
+      +'<td style="text-align:center"><div style="display:flex;align-items:center;gap:3px;justify-content:center">'
+      +'<button class="bs" style="padding:2px 5px;font-size:11px" data-fn="yellow" data-id="'+p.id+'" data-d="-1">-</button>'
+      +'<span style="font-size:13px;font-weight:600;min-width:16px;text-align:center;color:'+yc+'">'+y+'</span>'
+      +'<button class="bs" style="padding:2px 5px;font-size:11px" data-fn="yellow" data-id="'+p.id+'" data-d="1">+</button>'
+      +'</div></td>'
+      +'<td style="text-align:center"><div style="display:flex;align-items:center;gap:3px;justify-content:center">'
+      +'<button class="bs" style="padding:2px 5px;font-size:11px" data-fn="red" data-id="'+p.id+'" data-d="-1">-</button>'
+      +'<span style="font-size:13px;font-weight:600;min-width:16px;text-align:center;color:'+rc2+'">'+r+'</span>'
+      +'<button class="bs" style="padding:2px 5px;font-size:11px" data-fn="red" data-id="'+p.id+'" data-d="1">+</button>'
+      +'</div></td>'
+      +'<td style="text-align:center">'+(p.id!=='patrick'?'<span class="rb '+rc+'">'+(i+1)+'</span>':'<span style="font-size:11px;color:#ccc">—</span>')+'</td>'
+      +'</tr>';
+  });
+  document.getElementById('sbBody').innerHTML=html;
+  document.querySelectorAll('[data-fn]').forEach(function(el){
+    el.addEventListener('click',function(){
+      var fn=this.getAttribute('data-fn');
+      var id=this.getAttribute('data-id');
+      var d=parseInt(this.getAttribute('data-d'));
+      if(fn==='medal') adjMedal(id,d);
+      else adjCard(id,fn,d);
+    });
+  });
+  var sh=P.map(function(p){
+    var y=S.yellow[p.id]||0,r=S.red[p.id]||0,s=schnaps(y,r);
+    return s>0?'<div style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:4px"><span style="font-weight:600;min-width:100px">'+p.name+'</span><span class="badge br">'+s+' Schnaps'+(s===1?'':'s')+'</span></div>':'';
+  }).join('');
+  document.getElementById('schnaps').innerHTML=sh||'<span style="font-size:13px;color:#aaa">Noch keine Karten vergeben.</span>';
+}
+
+var MAT={
+  didi:['Transferdossier (ausgedruckt)','Captain-Ernennung (ausgedruckt)','Transfervertrag (ausgedruckt)','Klemmbrett','Pfeife','Gelbe Karten','Rote Karten','Stifte'],
+  dominik:['Smartphone','Instagram-Zugang Pädi Merson','Powerbank','Gebastelter blauer Haken'],
+  berater:['Fünf Baguettes','Tasche oder Bauchladen','Einnahmenliste','Optional: TWINT-QR-Code','Goldmedaille'],
+  beni:['8-10 bearbeitete Fotos','Originalbilder','Handy/Tablet oder Ausdrucke','Antwortblätter','Stifte','Goldmedaille'],
+  koch:['Rettungsschwimmerinnen-Kostüm','Bier-Kapitänsbinde (Ersatz)','Smartphone/Kamera','Zwei Goldmedaillen'],
+  tobi:['Begriffskarten (8 Stück)','Papier','Stifte','Eine Goldmedaille'],
+  maege:['Médaillenrangliste + Molotow-Tabelle','Jass-Karten (von Anfang an dabei)','Kings Cup Karten','Task Team Spiel','Quizfragen (5 auswählen, für den Zug)','Match-Tippscheine','Zettel','Stifte','Weinkorken + Becher','Fünf Goldmedaillen'],
+};
+function getMatData(){
+  return JSON.parse(localStorage.getItem('pm5_mat')||'null')||
+    Object.keys(MAT).reduce(function(o,k){ o[k]=MAT[k].slice(); return o; },{});
+}
+function saveMatData(d){ localStorage.setItem('pm5_mat',JSON.stringify(d)); }
+
+function matHtml(key,data){
+  var items=(data||getMatData())[key]||[];
+  return items.map(function(item,i){
+    var mid=key+'_'+i;
+    var done=!!S.mat[mid];
+    return '<div class="mi" data-matkey="'+key+'" data-mati="'+i+'" data-matid="'+mid+'">'
+      +'<div class="mc2 '+(done?'done':'')+'" data-mat="'+mid+'">'+(!done?'':'V')+'</div>'
+      +'<span class="mat-text" style="'+(done?'text-decoration:line-through;color:#ccc':'')+';font-size:13px;flex:1"'+(editMode?' contenteditable="true"':'')+'>'+item+'</span>'
+      +(editMode?'<span class="mat-del" data-matkey="'+key+'" data-mati="'+i+'" style="margin-left:6px;cursor:pointer;font-size:15px;color:#e03535;flex-shrink:0">&#215;</span>':'')
+      +'</div>';
+  }).join('')
+  +(editMode?'<div class="mat-add" data-addkey="'+key+'" style="display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+    +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+    +'Hinzufügen</div>':'');
+}
+
+function renderAllMat(){
+  var data=getMatData();
+  ['didi','dominik','berater','beni','koch','tobi','maege'].forEach(function(k){
+    var el=document.getElementById('mat'+k.charAt(0).toUpperCase()+k.slice(1));
+    if(el) el.innerHTML=matHtml(k,data);
+  });
+  document.querySelectorAll('[data-mat]').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      var id=this.getAttribute('data-mat');
+      S.mat[id]=!S.mat[id]; save(); renderAllMat();
+    });
+  });
+  document.querySelectorAll('.mat-del').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var d=getMatData();
+      var k=this.getAttribute('data-matkey');
+      var i=parseInt(this.getAttribute('data-mati'));
+      d[k].splice(i,1); saveMatData(d); renderAllMat();
+    });
+  });
+  document.querySelectorAll('.mat-add').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var d=getMatData();
+      var k=this.getAttribute('data-addkey');
+      if(!d[k]) d[k]=[];
+      d[k].push('Neuer Eintrag'); saveMatData(d); renderAllMat();
+      setTimeout(function(){
+        var el=document.getElementById('mat'+k.charAt(0).toUpperCase()+k.slice(1));
+        if(el){
+          var txts=el.querySelectorAll('.mat-text');
+          var last=txts[txts.length-1];
+          if(last){ last.setAttribute('contenteditable','true'); last.focus(); selectAll(last); }
+        }
+      },50);
+    });
+  });
+  if(editMode){
+    document.querySelectorAll('.mat-text').forEach(function(el){
+      el.addEventListener('click',function(e){ e.stopPropagation(); });
+      el.addEventListener('blur',function(){ saveMatEdits(); });
+    });
+  }
+}
+
+function saveMatEdits(){
+  var d=getMatData();
+  document.querySelectorAll('.mi[data-matkey]').forEach(function(row){
+    var k=row.getAttribute('data-matkey');
+    var i=parseInt(row.getAttribute('data-mati'));
+    var txt=row.querySelector('.mat-text');
+    if(txt&&d[k]&&d[k][i]!==undefined) d[k][i]=txt.textContent;
+  });
+  saveMatData(d);
+}
+
+function togMat(id){S.mat[id]=!S.mat[id];save();renderAllMat();
+}
+
+var VP=P.filter(function(p){return p.id!=='maege'&&p.id!=='patrick';});
+function renderVAR(){
+  document.getElementById('varPunkte').innerHTML=VP.map(function(p){
+    var pts=(S.varp&&S.varp[p.id])||0;
+    return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'
+      +'<span style="font-size:13px;min-width:120px">'+p.name+'</span>'
+      +'<button class="bs" data-vp="'+p.id+'" data-vd="-1">-</button>'
+      +'<span style="font-size:15px;font-weight:700;min-width:24px;text-align:center">'+pts+'</span>'
+      +'<button class="bs" data-vp="'+p.id+'" data-vd="1">+</button>'
+      +'<span style="font-size:12px;color:#aaa">Pkt.</span></div>';
+  }).join('');
+  document.querySelectorAll('[data-vp]').forEach(function(el){
+    el.addEventListener('click',function(){
+      adjVAR(this.getAttribute('data-vp'),parseInt(this.getAttribute('data-vd')));
+    });
+  });
+}
+function adjVAR(id,d){if(!S.varp)S.varp={};S.varp[id]=Math.max(0,(S.varp[id]||0)+d);save();renderVAR();}
+
+function renderTips(){
+  var el=document.getElementById('matchTipps');
+  if(!el) return;
+  if(!S.tips) S.tips={};
+  if(!S.tips._marks) S.tips._marks={};
+  var persons=P.filter(function(p){return p.id!=='maege';});
+  var scores={};
+  var html='<div style="display:flex;flex-direction:column;gap:8px">';
+  persons.forEach(function(p){
+    var t=(S.tips&&S.tips[p.id])||{};
+    var marks=(S.tips._marks&&S.tips._marks[p.id])||{};
+    var pts=Object.values(marks).reduce(function(s,v){return s+(v===1?1:0);},0);
+    scores[p.id]=pts;
+    var fields=[
+      {key:'res',label:'Resultat',val:t.res||'—'},
+      {key:'tor',label:'Torschütze',val:t.tor||'—'},
+      {key:'min',label:'Minute',val:t.min?t.min+"'":'—'}
+    ];
+    var hasData=t.res||t.tor||t.min;
+    html+='<div style="border-radius:8px;background:#fafaf8;border:1px solid #eee;padding:8px 10px">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(hasData?'8px':'0')+'">'
+      +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.name+'</span>'
+      +'<span style="font-size:12px;font-weight:700;color:#b8940a;background:#fef9eb;padding:2px 8px;border-radius:6px">'+pts+' Pkt.</span>'
+      +'</div>';
+    if(hasData){
+      fields.forEach(function(f){
+        if(!f.val||f.val==='—') return;
+        var m=marks[f.key];
+        html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">'
+          +'<span style="font-size:11px;color:#aaa;min-width:70px">'+f.label+':</span>'
+          +'<span style="font-size:12px;color:#555;flex:1">'+f.val+'</span>'
+          +'<button class="tip-mark-btn" data-pid="'+p.id+'" data-fk="'+f.key+'" data-mark="1" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(m===1?'#16a34a':'#e4e2db')+';background:'+(m===1?'#dcfce7':'#fff')+';color:'+(m===1?'#16a34a':'#aaa')+';cursor:pointer;font-size:14px">✓</button>'
+          +'<button class="tip-mark-btn" data-pid="'+p.id+'" data-fk="'+f.key+'" data-mark="0" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(m===0?'#dc2626':'#e4e2db')+';background:'+(m===0?'#fee2e2':'#fff')+';color:'+(m===0?'#dc2626':'#aaa')+';cursor:pointer;font-size:14px">✗</button>'
+          +'</div>';
+      });
+    } else {
+      html+='<div style="font-size:11px;color:#bbb;font-style:italic">Noch kein Tipp</div>';
+    }
+    html+='</div>';
+  });
+  // Auto-winner
+  var maxPts=Math.max.apply(null,Object.values(scores));
+  if(maxPts>0){
+    var winners=Object.keys(scores).filter(function(id){return scores[id]===maxPts;});
+    if(winners.length===1) S.tips._winner=winners[0];
+  }
+  html+='</div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.tip-mark-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var pid=this.dataset.pid;
+      var fk=this.dataset.fk;
+      var mark=+this.dataset.mark;
+      if(!S.tips._marks) S.tips._marks={};
+      if(!S.tips._marks[pid]) S.tips._marks[pid]={};
+      S.tips._marks[pid][fk]=(S.tips._marks[pid][fk]===mark?null:mark);
+      save(); saveToDB(); renderTips();
+    });
+  });
+}
+
+
+function setTipWinner(id){
+  if(!S.tips) S.tips={};
+  S.tips._winner=id;
+  save(); renderTips();
+}
+
+// Render my own tip input (called per-person tab)
+function renderMyTip(personId){
+  var el=document.getElementById('myTip_'+personId);
+  if(!el) return;
+  var isPatric=APP_MODE==='paedi'||patricMode==='paedi';
+  var t=(S.tips&&S.tips[personId])||{};
+  var isWinner=S.tips&&S.tips._winner===personId;
+  var flagFR='<div style="width:44px;height:30px;border-radius:4px;overflow:hidden;display:flex;flex-shrink:0"><div style="flex:1;background:#002395"></div><div style="flex:1;background:#fff"></div><div style="flex:1;background:#ED2939"></div></div>';
+  var flagEN='<svg width="44" height="30" viewBox="0 0 44 30" style="border-radius:4px;flex-shrink:0;display:block"><rect width="44" height="30" fill="#fff"/><rect x="19" y="0" width="6" height="30" fill="#C8102E"/><rect x="0" y="12" width="44" height="6" fill="#C8102E"/></svg>';
+  if(isPatric){
+    el.innerHTML='<div style="color:#bbb;font-size:13px;text-align:center;padding:.5rem">Tipps werden vor dem Spiel freigeschaltet</div>'
+      +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem .75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">🏆 Du hast gewonnen!</div>':'');
+    return;
+  }
+  el.innerHTML='<div style="background:#0a0a0a;padding:10px 14px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:space-between;margin:-8px -8px 12px">'
+    +'<span style="font-size:10px;font-weight:500;color:#888;letter-spacing:.08em;text-transform:uppercase">Frankreich vs. England</span>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin-bottom:14px">'
+      +'<div style="display:flex;flex-direction:column;align-items:center;gap:5px">'
+        +flagFR
+        +'<span style="font-size:11px;color:#888">Frankreich</span>'
+        +'<input type="number" class="tip-input" data-tipf="fr" data-tpid="'+personId+'" placeholder="0" value="'+(t.fr||'')+'" style="width:52px;height:52px;text-align:center;font-size:24px;font-weight:700;border:1.5px solid #e4e2db;border-radius:10px;background:#fafaf8">'
+      +'</div>'
+      +'<div style="font-size:22px;font-weight:300;color:#ccc;margin-top:28px">:</div>'
+      +'<div style="display:flex;flex-direction:column;align-items:center;gap:5px">'
+        +flagEN
+        +'<span style="font-size:11px;color:#888">England</span>'
+        +'<input type="number" class="tip-input" data-tipf="en" data-tpid="'+personId+'" placeholder="0" value="'+(t.en||'')+'" style="width:52px;height:52px;text-align:center;font-size:24px;font-weight:700;border:1.5px solid #e4e2db;border-radius:10px;background:#fafaf8">'
+      +'</div>'
+    +'</div>'
+    +'<div style="border-top:1px solid #f0f0ee;padding-top:12px;display:flex;flex-direction:column;gap:10px">'
+      +'<div style="display:flex;align-items:center;gap:10px">'
+        +'<span style="font-size:12px;color:#888;min-width:120px;flex-shrink:0">Erster Torschütze</span>'
+        +'<input class="tip-input" data-tipf="tor" data-tpid="'+personId+'" placeholder="Name" value="'+(t.tor||'')+'" style="flex:1;min-width:0;height:36px;padding:0 10px;border:1px solid #e4e2db;border-radius:8px;background:#fafaf8;font-size:13px;box-sizing:border-box">'
+      +'</div>'
+      +'<div style="display:flex;align-items:center;gap:10px">'
+        +'<span style="font-size:12px;color:#888;min-width:120px;flex-shrink:0">Minute</span>'
+        +'<input type="number" class="tip-input" data-tipf="min" data-tpid="'+personId+'" placeholder="z.B. 23" value="'+(t.min||'')+'" style="width:80px;height:36px;padding:0 10px;border:1px solid #e4e2db;border-radius:8px;background:#fafaf8;font-size:13px;box-sizing:border-box">'
+      +'</div>'
+    +'</div>'
+    +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem;margin-top:.75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">🏆 Du hast gewonnen!</div>':'');
+  el.querySelectorAll('.tip-input').forEach(function(inp){
+    inp.addEventListener('blur',function(){
+      var pid=this.getAttribute('data-tpid');
+      var field=this.getAttribute('data-tipf');
+      if(!S.tips) S.tips={};
+      if(!S.tips[pid]) S.tips[pid]={};
+      S.tips[pid][field]=this.value;
+      // Build res string from fr+en
+      if(S.tips[pid].fr!==undefined||S.tips[pid].en!==undefined){
+        S.tips[pid].res=(S.tips[pid].fr||'0')+':'+(S.tips[pid].en||'0');
+      }
+      save(); saveToDB(); renderTips();
+    });
+  });
+}
+function saveTip(personId){
+  // Now handled via blur events in renderMyTip
+}
+
+
+// ─── Bullshit Sommelier ───────────────────────────────────────────────────────
+var SOMM_WORDS_DEFAULT = ['Emil Frey','Digitalisierung','Gegenpressing','Grindr','Rettungsschwimmerin','England','Flitterwochen','Raclette'];
+var SOMM_WORDS = SOMM_WORDS_DEFAULT.slice();
+
+function getSommWords(){
+  var store=getEditStore();
+  if(store['__sommwords__']){ try{ return JSON.parse(store['__sommwords__']); }catch(e){} }
+  return SOMM_WORDS_DEFAULT.slice();
+}
+function saveSommWords(words){
+  var store=getEditStore();
+  store['__sommwords__']=JSON.stringify(words);
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+  saveEditsToDB(store);
+  SOMM_WORDS=words;
+}
+
+function renderSOMMBegriffe(){
+  var el=document.getElementById('sommBegriffe');
+  if(!el) return;
+  var words=getSommWords();
+  var html='<div style="display:flex;flex-direction:column;gap:6px">';
+  words.forEach(function(w,i){
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:4px 0">'
+      +'<span class="badge bp" style="font-size:12px;flex:1">'+w+'</span>';
+    if(editMode){
+      html+='<input class="somm-word-inp" data-wi="'+i+'" type="text" value="'+w+'" style="flex:1;height:28px;font-size:12px;padding:0 8px;border:1px solid #e4e2db;border-radius:6px">'
+        +'<button class="bs bs-sm somm-word-del" data-wi="'+i+'" style="color:#e03535;flex-shrink:0">✕</button>';
+    }
+    html+='</div>';
+  });
+  if(editMode){
+    html+='<button id="sommWordAdd" style="width:100%;margin-top:4px;padding:6px;border:1px dashed #e8c44a;background:transparent;border-radius:6px;color:var(--accent-dark);font-size:12px;cursor:pointer">+ Begriff hinzufügen</button>';
+  }
+  html+='</div>';
+  el.innerHTML=html;
+  if(!editMode) return;
+  el.querySelectorAll('.somm-word-inp').forEach(function(inp){
+    inp.addEventListener('blur',function(){
+      var words=getSommWords();
+      words[+this.dataset.wi]=this.value.trim();
+      saveSommWords(words);
+      renderSOMMBegriffe();
+    });
+  });
+  el.querySelectorAll('.somm-word-del').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var words=getSommWords();
+      words.splice(+this.dataset.wi,1);
+      saveSommWords(words); renderSOMMBegriffe();
+    });
+  });
+  var addBtn=el.querySelector('#sommWordAdd');
+  if(addBtn) addBtn.addEventListener('click',function(){
+    var words=getSommWords();
+    words.push('Neuer Begriff');
+    saveSommWords(words); renderSOMMBegriffe();
+  });
+}
+
+var QUIZ_QUESTIONS_DEFAULT = [
+  'Welches Lied bringt ihn auf die Tanzfläche?',
+  'Was ist sein unnötigster Luxus?',
+  'Was bestellt er nach einer langen Partynacht?',
+  'Welchen Wein trinkt er am liebsten?',
+  'Womit nervt man ihn am schnellsten?',
+];
+var QUIZ_QUESTIONS = QUIZ_QUESTIONS_DEFAULT.slice();
+
+function getQuizQuestions(){
+  var store=getEditStore();
+  if(store['__quizquestions__']){ try{ return JSON.parse(store['__quizquestions__']); }catch(e){} }
+  return QUIZ_QUESTIONS_DEFAULT.slice();
+}
+function saveQuizQuestions(qs){
+  var store=getEditStore();
+  store['__quizquestions__']=JSON.stringify(qs);
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+  saveEditsToDB(store);
+  QUIZ_QUESTIONS=qs;
+}
+
+function getSOMMState(){ return JSON.parse(localStorage.getItem('pm5_somm')||'null') || {assigned:{}, winner:null}; }
+function saveSOMMState(s){ localStorage.setItem('pm5_somm',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',somm:s,updated_at:new Date().toISOString()}); }
+
+function getQuizState(){ return JSON.parse(localStorage.getItem('pm5_quiz')||'null') || {answers:{}, winner:null, paediAnswers:[]}; }
+function saveQuizState(s){ localStorage.setItem('pm5_quiz',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',quiz:s,updated_at:new Date().toISOString()}); }
+
+function getVARState(){ return JSON.parse(localStorage.getItem('pm5_var')||'null') || {photos:[], guesses:{}, winner:null}; }
+function saveVARState(s){ localStorage.setItem('pm5_var',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',varstate:s,updated_at:new Date().toISOString()}); }
+
+function resetSOMMWords(){
+  var state={assigned:{}, winner:null};
+  saveSOMMState(state);
+  renderSOMMTobi();
+  renderAllPersonSOMMWords();
+  showToast('Verteilung zurückgesetzt');
+}
+
+function distributeSOMMWords(){
+  var persons=P.slice();
+  var words=getSommWords().slice();
+  for(var i=words.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=words[i]; words[i]=words[j]; words[j]=tmp;
+  }
+  var assigned={};
+  persons.forEach(function(p,i){ assigned[p.id]=words[i%words.length]; });
+  var state={assigned:assigned, winner:null};
+  saveSOMMState(state);
+  renderSOMMTobi();
+  renderAllPersonSOMMWords();
+  showToast('Begriffe verteilt!');
+}
+
+function setSOMMWinner(id){
+  var s=getSOMMState(); s.winner=id; saveSOMMState(s); renderSOMMTobi();
+}
+
+function renderSOMMTobi(){
+  renderSOMMBegriffe();
+  var el=document.getElementById('sommTobiOverview');
+  if(!el) return;
+  var s=getSOMMState();
+  if(!Object.keys(s.assigned||{}).length){
+    el.innerHTML='<div style="color:#bbb;font-size:13px;text-align:center;padding:1rem">Noch nicht verteilt</div>';
+    return;
+  }
+  var html='<div style="display:flex;flex-direction:column;gap:6px">';
+  P.forEach(function(p){
+    var word=s.assigned[p.id]||'—';
+    var isWinner=s.winner===p.id;
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
+      +'<span style="font-size:12px;font-weight:600;min-width:70px;color:#555">'+p.name+':</span>'
+      +'<span class="badge bp" style="font-size:11px">'+word+'</span>'
+      +'<button class="bs bs-sm somm-winner-btn" data-swid="'+p.id+'" style="margin-left:auto;'+(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">'+(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
+      +'</div>';
+  });
+  html+='</div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.somm-winner-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){ setSOMMWinner(this.getAttribute('data-swid')); });
+  });
+}
+
+function renderMySOMMWord(personId){
+  var el=document.getElementById('mySOMMWord_'+personId);
+  if(!el) return;
+  var s=getSOMMState();
+  var word=s.assigned&&s.assigned[personId];
+  var isWinner=s.winner===personId;
+  if(!word){
+    el.innerHTML='<div style="color:#bbb;font-size:13px;text-align:center;padding:.5rem">Tobi hat noch nicht verteilt</div>';
+  } else {
+    el.innerHTML='<div style="text-align:center;padding:.5rem">'
+      +'<div style="font-size:11px;color:#888;margin-bottom:.35rem">Dein Begriff:</div>'
+      +'<span class="badge bp" style="font-size:15px;padding:6px 16px">'+word+'</span>'
+      +'<div style="font-size:12px;color:#888;margin-top:.5rem;font-style:italic">Beschreibe den Wein in einem einzigen Satz damit.</div>'
+      +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem;margin-top:.5rem;font-size:12px;font-weight:700;color:#166534">Bullshit Sommelier!</div>':'')
+      +'</div>';
+  }
+}
+
+function renderAllPersonSOMMWords(){
+  P.forEach(function(p){ renderMySOMMWord(p.id); });
+}
+
+// ─── Pädi Quiz ────────────────────────────────────────────────────────────────
+function saveMyQuizAnswers(personId){
+  var s=getQuizState();
+  if(!s.answers) s.answers={};
+  var answers=[];
+  QUIZ_QUESTIONS.forEach(function(q,i){
+    var el=document.getElementById('quiz_'+personId+'_'+i);
+    answers.push(el?el.value:'');
+  });
+  s.answers[personId]=answers;
+  saveQuizState(s); saveToDB();
+}
+
+function savePaediAnswers(){
+  var s=getQuizState();
+  var answers=[];
+  getQuizQuestions().forEach(function(q,i){
+    var el=document.getElementById('paedi_ans_'+i);
+    answers.push(el?el.value:'');
+  });
+  s.paediAnswers=answers;
+  saveQuizState(s);
+  renderQuizMaege();
+}
+
+function setQuizWinner(id){
+  var s=getQuizState(); s.winner=id; saveQuizState(s); renderQuizMaege();
+}
+
+function renderMyQuizForm(personId){
+  var el=document.getElementById('myQuiz_'+personId);
+  if(!el) return;
+  var s=getQuizState();
+  var saved=(s.answers&&s.answers[personId])||[];
+  var isWinner=s.winner===personId;
+  var html='<div style="display:flex;flex-direction:column;gap:8px">';
+  var QQ=getQuizQuestions();
+  QQ.forEach(function(q,i){
+    html+='<div>'
+      +'<div style="font-size:11px;font-weight:700;color:#888;margin-bottom:3px">Frage '+(i+1)+': '+q+'</div>'
+      +'<input id="quiz_'+personId+'_'+i+'" placeholder="Deine Antwort" value="'+(saved[i]||'')+'" style="width:100%" class="quiz-inp" data-qpid="'+personId+'" data-qi="'+i+'">'
+      +'</div>';
+  });
+  html+='</div>'+(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem;margin-top:.75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">Wer kennt Pädi am besten!</div>':'');
+  el.innerHTML=html;
+  el.querySelectorAll('.quiz-inp').forEach(function(inp){
+    inp.addEventListener('blur',function(){ saveMyQuizAnswers(this.getAttribute('data-qpid')); });
+  });
+}
+
+function renderQuizFragen(){
+  var el=document.getElementById('quizFragenEdit');
+  if(!el) return;
+  var qs=getQuizQuestions();
+  var html='<div style="border-top:1px solid #f0f0ee;padding-top:12px;margin-top:12px">'
+    +'<div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Fragen bearbeiten</div>'
+    +'<div style="display:flex;flex-direction:column;gap:6px">';
+  qs.forEach(function(q,i){
+    html+='<div style="display:flex;align-items:center;gap:6px">'
+      +'<span style="font-size:11px;color:#888;min-width:14px">'+( i+1 )+'.</span>'
+      +'<input class="quiz-q-inp" data-qi="'+i+'" type="text" value="'+q+'" style="flex:1;height:28px;font-size:12px;padding:0 8px;border:1px solid #e4e2db;border-radius:6px">'
+      +'<button class="bs bs-sm quiz-q-del" data-qi="'+i+'" style="color:#e03535;flex-shrink:0">✕</button>'
+      +'</div>';
+  });
+  html+='<button id="quizQAdd" style="width:100%;margin-top:4px;padding:6px;border:1px dashed #e8c44a;background:transparent;border-radius:6px;color:var(--accent-dark);font-size:12px;cursor:pointer">+ Frage hinzufügen</button>';
+  html+='</div></div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.quiz-q-inp').forEach(function(inp){
+    inp.addEventListener('blur',function(){
+      var qs=getQuizQuestions();
+      qs[+this.dataset.qi]=this.value.trim();
+      saveQuizQuestions(qs);
+      renderQuizFragen();
+      document.querySelectorAll('[id^="myQuiz_"]').forEach(function(el){ var pid=el.id.replace('myQuiz_',''); renderMyQuizForm(pid); });
+    });
+  });
+  el.querySelectorAll('.quiz-q-del').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var qs=getQuizQuestions();
+      qs.splice(+this.dataset.qi,1);
+      saveQuizQuestions(qs); renderQuizFragen();
+      document.querySelectorAll('[id^="myQuiz_"]').forEach(function(el){ var pid=el.id.replace('myQuiz_',''); renderMyQuizForm(pid); });
+    });
+  });
+  var addBtn=el.querySelector('#quizQAdd');
+  if(addBtn) addBtn.addEventListener('click',function(){
+    var qs=getQuizQuestions();
+    qs.push('Neue Frage');
+    saveQuizQuestions(qs); renderQuizFragen();
+  });
+}
+
+function renderQuizMaege(){
+  var el=document.getElementById('quizMaegeOverview');
+  if(!el) return;
+  var s=getQuizState();
+  var html='<div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Antworten der Crew</div><div style="display:flex;flex-direction:column;gap:6px">';
+  var qs=getQuizQuestions();
+  var scores={};
+  P.filter(function(p){return p.id!=='patrick';}).forEach(function(p){
+    var ans=(s.answers&&s.answers[p.id])||[];
+    var marks=(s.marks&&s.marks[p.id])||[];
+    var pts=marks.reduce(function(sum,m){ return sum+(m===1?1:0); },0);
+    scores[p.id]=pts;
+    var hasAnswers=ans.some(function(a){return a&&a.trim();});
+    html+='<div style="border-radius:8px;background:#fafaf8;border:1px solid #eee;padding:8px 10px;margin-bottom:6px">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(hasAnswers?'8px':'0')+'">'
+      +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.name+'</span>'
+      +'<span style="font-size:12px;font-weight:700;color:#b8940a;background:#fef9eb;padding:2px 8px;border-radius:6px">'+pts+' Pkt.</span>'
+      +'</div>';
+    if(hasAnswers){
+      ans.forEach(function(a,i){
+        if(!a) return;
+        var mark=marks[i];
+        html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">'
+          +'<span style="font-size:11px;color:#aaa;min-width:20px">F'+(i+1)+':</span>'
+          +'<span style="font-size:12px;color:#555;flex:1">'+a+'</span>'
+          +'<button class="quiz-mark-btn" data-pid="'+p.id+'" data-qi="'+i+'" data-mark="1" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(mark===1?'#16a34a':'#e4e2db')+';background:'+(mark===1?'#dcfce7':'#fff')+';color:'+(mark===1?'#16a34a':'#aaa')+';cursor:pointer;font-size:14px">✓</button>'
+          +'<button class="quiz-mark-btn" data-pid="'+p.id+'" data-qi="'+i+'" data-mark="0" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(mark===0?'#dc2626':'#e4e2db')+';background:'+(mark===0?'#fee2e2':'#fff')+';color:'+(mark===0?'#dc2626':'#aaa')+';cursor:pointer;font-size:14px">✗</button>'
+          +'</div>';
+      });
+    } else {
+      html+='<div style="font-size:11px;color:#bbb;font-style:italic">Noch keine Antworten</div>';
+    }
+    html+='</div>';
+  });
+  // Auto-determine winner by highest score
+  var maxPts=Math.max.apply(null,Object.values(scores));
+  if(maxPts>0){
+    var winners=Object.keys(scores).filter(function(id){ return scores[id]===maxPts; });
+    if(winners.length===1 && s.winner!==winners[0]){
+      s.winner=winners[0]; saveQuizState(s);
+    }
+  }
+  html+='</div>';
+  el.innerHTML=html;
+  if(editMode && document.getElementById('quizFragenEdit')){ renderQuizFragen(); } else { var qfe=document.getElementById('quizFragenEdit'); if(qfe) qfe.innerHTML=''; }
+  el.querySelectorAll('.quiz-mark-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var pid=this.dataset.pid;
+      var qi=+this.dataset.qi;
+      var mark=+this.dataset.mark;
+      if(!s.marks) s.marks={};
+      if(!s.marks[pid]) s.marks[pid]=[];
+      s.marks[pid][qi]=(s.marks[pid][qi]===mark?null:mark);
+      saveQuizState(s); renderQuizMaege();
+    });
+  });
+
+}
+
+// ─── Vergangenheits-VAR ────────────────────────────────────────────────────────────
+function setVARPhotoCount(n){
+  var s=getVARState(); s.photos=[];
+  for(var i=0;i<n;i++) s.photos.push({label:'Foto '+(i+1),real:null});
+  saveVARState(s); renderVARBeni(); renderAllPersonVAR();
+}
+
+function resetVARState(){
+  var state={photos:[], guesses:{}, winner:null};
+  saveVARState(state); renderVARBeni(); renderAllPersonVAR();
+  showToast('VAR zurückgesetzt');
+}
+
+function setVARPhotoReal(idx,isReal){
+  var s=getVARState();
+  if(!s.photos[idx]) s.photos[idx]={label:'Foto '+(idx+1)};
+  // Toggle: click same button again to deselect
+  s.photos[idx].real=(s.photos[idx].real===isReal?null:isReal);
+  saveVARState(s); renderVARBeni(); renderAllPersonVAR();
+}
+
+function saveMyVARGuess(personId,photoIdx,guess){
+  var s=getVARState();
+  if(!s.guesses) s.guesses={};
+  if(!s.guesses[personId]) s.guesses[personId]=[];
+  // Toggle: click same button again to deselect
+  s.guesses[personId][photoIdx]=(s.guesses[personId][photoIdx]===guess?null:guess);
+  saveVARState(s); renderMyVARGuesses(personId);
+}
+
+function setVARWinner(id){
+  var s=getVARState(); s.winner=id; saveVARState(s); renderVARBeni();
+}
+
+function renderMyVARGuesses(personId){
+  var el=document.getElementById('myVAR_'+personId);
+  if(!el) return;
+  var s=getVARState();
+  var n=(s.photos&&s.photos.length)||0;
+  var isWinner=s.winner===personId;
+  if(!n){
+    el.innerHTML='<div style="color:#bbb;font-size:13px;text-align:center;padding:.5rem">Beni hat noch keine Fotos vorbereitet</div>';
+    return;
+  }
+  var guesses=(s.guesses&&s.guesses[personId])||[];
+  var html='<div style="display:flex;flex-direction:column;gap:6px">';
+  s.photos.forEach(function(photo,i){
+    var g=guesses[i];
+    var revealed=photo.real!==null;
+    var correct=revealed&&((g==='echt')===photo.real);
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:'+(revealed?(correct?'#dcfce7':'#fee2e2'):'#fafaf8')+';border:1px solid '+(revealed?(correct?'#bbf7d0':'#fecaca'):'#eee')+'">'
+      +'<span style="font-size:12px;font-weight:700;min-width:55px;color:#555">Foto '+(i+1)+':</span>'
+      +'<button class="var-guess-btn" data-vpid="'+personId+'" data-vi="'+i+'" data-vg="echt" style="flex:1;height:44px;border-radius:8px;border:1.5px solid '+(g==='echt'?'#0a0a0a':'#e4e2db')+';background:'+(g==='echt'?'#0a0a0a':'#fff')+';color:'+(g==='echt'?'#e8c44a':'#555')+';font-size:13px;font-weight:600;cursor:pointer">Echt</button>'
+      +'<button class="var-guess-btn" data-vpid="'+personId+'" data-vi="'+i+'" data-vg="fake" style="flex:1;height:44px;border-radius:8px;border:1.5px solid '+(g==='fake'?'#0a0a0a':'#e4e2db')+';background:'+(g==='fake'?'#0a0a0a':'#fff')+';color:'+(g==='fake'?'#e8c44a':'#555')+';font-size:13px;font-weight:600;cursor:pointer">Fake</button>'
+      +(revealed?'<span style="font-size:11px;font-weight:700;color:'+(correct?'#16a34a':'#dc2626')+'">'+(correct?'✓':'✗')+'</span>':'')
+      +'</div>';
+  });
+  html+='</div>';
+  if(isWinner) html+='<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem;margin-top:.5rem;font-size:12px;font-weight:700;color:#166534;text-align:center">VAR Medaille!</div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.var-guess-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      saveMyVARGuess(this.getAttribute('data-vpid'),parseInt(this.getAttribute('data-vi')),this.getAttribute('data-vg'));
+    });
+  });
+}
+
+function renderVARBeni(){
+  var el=document.getElementById('varBeniOverview');
+  if(!el) return;
+  var s=getVARState();
+  var n=(s.photos&&s.photos.length)||0;
+  var html='<div style="margin-bottom:.75rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+    +'<span style="font-size:12px;color:#666">Anzahl Fotos:</span>';
+  [6,7,8,9,10].forEach(function(x){
+    html+='<button class="var-count-btn" data-vc="'+x+'" style="width:44px;height:44px;border-radius:8px;border:1.5px solid '+(n===x?'#0a0a0a':'#e4e2db')+';background:'+(n===x?'#0a0a0a':'#fff')+';color:'+(n===x?'#e8c44a':'#555')+';font-size:15px;font-weight:700;cursor:pointer">'+x+'</button>';
+  });
+  html+='<button onclick="resetVARState()" style="padding:6px 12px;background:#fee2e2;color:#e03535;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;margin-left:4px">✕ Reset</button>';
+  html+='</div>';
+  if(n){
+    html+='<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Echt oder Fake?</div>';
+    html+='<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:.75rem">';
+    s.photos.forEach(function(photo,i){
+      html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'
+        +'<span style="font-size:12px;min-width:55px;color:#555;flex-shrink:0">Foto '+(i+1)+':</span>'
+        +'<button class="var-real-btn" data-vri="'+i+'" data-vrv="1" style="flex:1;height:44px;border-radius:8px;border:1.5px solid '+(photo.real===true?'#16a34a':'#e4e2db')+';background:'+(photo.real===true?'#16a34a':'#fff')+';color:'+(photo.real===true?'#fff':'#555')+';font-size:13px;font-weight:600;cursor:pointer">Echt</button>'
+        +'<button class="var-real-btn" data-vri="'+i+'" data-vrv="0" style="flex:1;height:44px;border-radius:8px;border:1.5px solid '+(photo.real===false?'#dc2626':'#e4e2db')+';background:'+(photo.real===false?'#dc2626':'#fff')+';color:'+(photo.real===false?'#fff':'#555')+';font-size:13px;font-weight:600;cursor:pointer">Fake</button>'
+        +'</div>';
+    });
+    html+='</div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Punktestand</div>';
+    html+='<div style="display:flex;flex-direction:column;gap:5px">';
+    P.filter(function(p){return p.id!=='beni';}).forEach(function(p){
+      var guesses=(s.guesses&&s.guesses[p.id])||[];
+      var correct=0;
+      s.photos.forEach(function(photo,i){
+        if(photo.real!==null&&guesses[i]&&((guesses[i]==='echt')===photo.real)) correct++;
+      });
+      var revealed=s.photos.filter(function(ph){return ph.real!==null;}).length;
+      var isWinner=s.winner===p.id;
+      html+='<div style="display:flex;align-items:center;gap:8px;padding:5px 10px;border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
+        +'<span style="font-size:12px;font-weight:600;min-width:70px;color:#555">'+p.name+':</span>'
+        +'<span style="font-size:13px;font-weight:700;color:'+(isWinner?'#16a34a':'#0a0a0a')+'">'+(isWinner?'🏆 ':'')+correct+'/'+revealed+'</span>'
+        +'</div>';
+    });
+    html+='</div>';
+  }
+  // Auto-set winner by highest score
+  var maxScore=-1; var winnerId=null;
+  P.filter(function(p){return p.id!=='beni';}).forEach(function(p){
+    var guesses=(s.guesses&&s.guesses[p.id])||[];
+    var correct=0;
+    s.photos.forEach(function(photo,i){
+      if(photo.real!==null&&guesses[i]&&((guesses[i]==='echt')===photo.real)) correct++;
+    });
+    if(correct>maxScore){ maxScore=correct; winnerId=p.id; }
+    else if(correct===maxScore){ winnerId=null; } // tie
+  });
+  if(winnerId && maxScore>0 && s.winner!==winnerId){ s.winner=winnerId; saveVARState(s); }
+  el.innerHTML=html;
+  el.querySelectorAll('.var-count-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){ setVARPhotoCount(parseInt(this.getAttribute('data-vc'))); });
+  });
+  el.querySelectorAll('.var-real-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){ setVARPhotoReal(parseInt(this.getAttribute('data-vri')),this.getAttribute('data-vrv')==='1'); });
+  });
+
+}
+
+function renderAllPersonVAR(){
+  P.filter(function(p){return p.id!=='beni';}).forEach(function(p){ renderMyVARGuesses(p.id); });
+}
+
+// ─── Sub-tab system ───────────────────────────────────────────────────────────
+function showSub(id,btn){
+  document.querySelectorAll('[id^="sub-"]').forEach(function(el){el.style.display='none';});
+  var target=document.getElementById('sub-'+id);
+  if(target) target.style.display='block';
+  document.querySelectorAll('.sub-btn').forEach(function(b){b.classList.remove('active');});
+  var activeBtn=btn||document.querySelector('[data-sub="'+id+'"]');
+  if(activeBtn) activeBtn.classList.add('active');
+  if(id==='checkliste'||id==='story-checkliste') renderAblauf();
+  if(id==='story-regie'){ renderRegie(); renderDidiRegie(); }
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },50);
+}
+
+// ─── Tab system ───────────────────────────────────────────────────────────────
+function showTab(id,btn){
+  document.querySelectorAll('[id^="tab-"]').forEach(function(el){el.style.display='none';});
+  var target=document.getElementById('tab-'+id);
+  if(target) target.style.display='block';
+  document.querySelectorAll('.tab-btn,.s-btn,.s-crew-btn,.bb-btn,.bb-crew-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('[data-tab="'+id+'"]').forEach(function(b){b.classList.add('active');});
+  var activeBtn=btn||document.querySelector('[data-tab="'+id+'"]');
+  if(activeBtn) activeBtn.classList.add('active');
+  setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
+  if(id==='packliste') renderPackliste();
+  if(id==='timetable'){ loadProgrammFromStore(); renderProgramm(); }
+  if(id==='regie'){ showTab('story'); showSub('story-regie'); return; }
+  if(id==='regie-checkliste'){ showTab('story'); showSub('story-checkliste'); return; }
+  if(id==='didi'){ renderDidiRegie(); }
+  if(id==='ablauf') renderAblauf();
+  if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderPersonPackliste('patrick');renderMyTip('patrick');renderMySOMMWord('patrick');renderMyVARGuesses('patrick');}
+  if(['didi','dominik','berater','beni','koch','tobi'].indexOf(id)!==-1){
+    renderPersonPackliste(id);
+    renderMyTip(id);
+    renderMySOMMWord(id);
+    renderMyQuizForm(id);
+    if(id!=='beni') renderMyVARGuesses(id);
+  }
+  if(id==='beni') renderVARBeni();
+  if(id==='tobi'){ renderSOMMTobi(); }
+  if(id==='maege'){ renderPersonPackliste('maege'); renderMyQuizForm('maege'); renderMyTip('maege'); renderMySOMMWord('maege'); renderMyVARGuesses('maege'); renderTips(); renderQuizMaege(); }
+  if(id==='sb') renderSB();
+}
+
+// ─── Edit mode ────────────────────────────────────────────────────────────────
+var EDIT_KEY='pm5_edits';
+var editMode=false;
+
+function toggleEdit(){
+  if(!editMode){
+    var ov=document.getElementById('pwOverlay');
+    ov.style.display='flex';
+    setTimeout(function(){ document.getElementById('pwInput').focus(); },100);
+  } else {
+    deactivateEdit();
+  }
+}
+
+function checkPw(){
+  var val=document.getElementById('pwInput').value;
+  if(val==='1975'){
+    closePwModal();
+    activateEdit();
+  } else {
+    var err=document.getElementById('pwError');
+    err.style.display='block';
+    document.getElementById('pwInput').value='';
+    document.getElementById('pwInput').focus();
+    setTimeout(function(){ err.style.display='none'; },2000);
+  }
+}
+
+function closePwModal(){
+  var ov=document.getElementById('pwOverlay');
+  ov.style.display='none';
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwError').style.display='none';
+}
+
+function activateEdit(){
+  editMode=true;
+  var btn=document.getElementById('editToggle');
+  var app=document.querySelector('.app');
+  btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Fertig';
+  btn.classList.add('active');
+  app.classList.add('edit-mode');
+  enableEdit();
+  renderAblauf();
+  loadProgrammFromStore(); renderProgramm();
+  SOMM_WORDS=getSommWords();
+  QUIZ_QUESTIONS=getQuizQuestions();
+  renderPackliste();
+  renderPC();
+  renderAllMat();
+  renderPatricTab();
+  renderPatricPack();
+  renderTabToggles();
+  renderRegie();
+  renderProgramm();
+  renderSOMMBegriffe();
+}
+
+function deactivateEdit(){
+  editMode=false;
+  var btn=document.getElementById('editToggle');
+  var app=document.querySelector('.app');
+  btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Bearbeiten';
+  btn.classList.remove('active');
+  app.classList.remove('edit-mode');
+  saveAblaufEdits();
+  savePackEdits();
+  savePCHEdits();
+  saveMatEdits();
+  renderAblauf();
+  renderPackliste();
+  renderPC();
+  renderAllMat();
+  renderPatricTab();
+  renderPatricPack();
+  renderTabToggles();
+  renderRegie();
+  // Remove list edit UI
+  document.querySelectorAll('.li-del,.li-add').forEach(function(el){ el.remove(); });
+  document.querySelectorAll('.info-block ul').forEach(function(ul){
+    ul.removeAttribute('data-list-edit');
+    ul.querySelectorAll('li').forEach(function(li){
+      li.style.display='';
+      li.removeAttribute('contenteditable');
+    });
+  });
+  applyListEdits();
+}
+
+function getStableId(el){
+  var parts=[];
+  var node=el;
+  while(node && node!==document.body){
+    var siblings=node.parentNode?Array.from(node.parentNode.children):[];
+    var idx=siblings.indexOf(node);
+    parts.unshift((node.tagName||'?').toLowerCase()+(node.className?'.'+node.className.trim().split(/\s+/)[0]:'')+':'+idx);
+    node=node.parentNode;
+  }
+  return parts.join('>').substring(0,120);
+}
+
+function assignStableIds(){
+  var selectors=[
+    '.section-title','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
+    '.highlight','.cbox .cf','#tab-story .section > div > p',
+    '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
+  ];
+  selectors.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      if(el.querySelector('input,button,select,table')) return;
+      if(!el.hasAttribute('data-edit-id')){
+        el.setAttribute('data-edit-id', getStableId(el));
+      }
+    });
+  });
+  document.querySelectorAll('.tt-table td').forEach(function(el,i){
+    if(!el.hasAttribute('data-edit-id')) el.setAttribute('data-edit-id','tt-td-'+i);
+  });
+}
+
+function applyAllEdits(){
+  var store=getEditStore();
+  if(!Object.keys(store).length) return;
+  assignStableIds();
+  applyListEdits();
+  document.querySelectorAll('[data-edit-id]').forEach(function(el){
+    var saved=store[el.getAttribute('data-edit-id')];
+    if(saved!==undefined && el.innerHTML!==saved) el.innerHTML=saved;
+  });
+}
+
+function getEditStore(){
+  try{ return JSON.parse(localStorage.getItem('pm5_edits')||'{}'); }
+  catch(e){ return {}; }
+}
+
+function getEdit(el){
+  var id=el.getAttribute('data-edit-id');
+  if(!id) return null;
+  var store=getEditStore();
+  return store[id]!==undefined?store[id]:null;
+}
+
+function saveEdit(el){
+  var id=el.getAttribute('data-edit-id');
+  if(!id) return;
+  var store=getEditStore();
+  store[id]=el.innerHTML;
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+}
+
+function enableEdit(){
+  var selectors=[
+    '.section-title','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
+    '.highlight','.cbox .cf','#tab-story .section > div > p',
+    '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
+  ];
+  selectors.forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){
+      if(el.querySelector('input,button,select,table')) return;
+      if(!el.hasAttribute('contenteditable')){
+        // Use existing stable data-edit-id if already set, else generate from DOM position
+        var stableId=el.getAttribute('data-edit-id')||getStableId(el);
+        el.setAttribute('contenteditable','true');
+        el.setAttribute('data-edit-id', stableId);
+        var saved=getEdit(el);
+        if(saved!==null) el.innerHTML=saved;
+        el.addEventListener('blur',function(){saveEdit(this); hideRTToolbar();});
+        el.addEventListener('focus',function(){ showRTToolbar(this); });
+        el.addEventListener('keyup', updateRTButtons);
+        el.addEventListener('mouseup', updateRTButtons);
+      }
+    });
+  });
+  document.querySelectorAll('.tt-table td').forEach(function(el,i){
+    if(!el.hasAttribute('contenteditable')){
+      var stableId='tt-td-'+i;
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id',stableId);
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('blur',function(){saveEdit(this); hideRTToolbar();});
+      el.addEventListener('focus',function(){ showRTToolbar(this); });
+      el.addEventListener('keyup', updateRTButtons);
+      el.addEventListener('mouseup', updateRTButtons);
+    }
+  });
+  document.querySelectorAll('.ci-text,.ci-st').forEach(function(el){
+    el.setAttribute('contenteditable','true');
+    el.addEventListener('click',function(e){ e.stopPropagation(); });
+    el.addEventListener('blur',function(){ saveAblaufEdits(); });
+  });
+  document.querySelectorAll('.pack-row span[style*="flex"]').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','pk-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('blur',function(){saveEdit(this);});
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+  document.querySelectorAll('.pack-who').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','pkw-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('blur',function(){saveEdit(this);});
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+  document.querySelectorAll('.ci .st').forEach(function(el){
+    if(!el.hasAttribute('contenteditable')){
+      el.setAttribute('contenteditable','true');
+      el.setAttribute('data-edit-id','st-'+Math.random().toString(36).substr(2,6));
+      var saved=getEdit(el);
+      if(saved!==null) el.innerHTML=saved;
+      el.addEventListener('blur',function(){saveEdit(this);});
+      el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
+    }
+  });
+  enableListEdit();
+}
+
+// ─── List editing (info-block li) ───────────────────────────────────────────
+function enableListEdit(){
+  document.querySelectorAll('.info-block ul').forEach(function(ul, uli){
+    if(ul.getAttribute('data-list-edit')) return;
+    ul.setAttribute('data-list-edit','1');
+    // Add delete buttons to existing li
+    ul.querySelectorAll('li').forEach(function(li, lii){
+      if(li.querySelector('.li-del')) return;
+      li.style.display='flex';
+      li.style.alignItems='center';
+      li.style.gap='6px';
+      var del=document.createElement('button');
+      del.className='li-del';
+      del.innerHTML='✕';
+      del.style.cssText='flex-shrink:0;width:20px;height:20px;border:none;background:#fee2e2;color:#e03535;border-radius:4px;cursor:pointer;font-size:12px;padding:0;line-height:1';
+      del.addEventListener('click',function(e){
+        e.stopPropagation();
+        li.remove();
+        saveListEdit(ul);
+      });
+      li.appendChild(del);
+    });
+    // Add "+" button after ul if not already there
+    var addBtn=ul.parentNode.querySelector('.li-add');
+    if(!addBtn){
+      addBtn=document.createElement('button');
+      addBtn.className='li-add bs';
+      addBtn.innerHTML='+ Eintrag hinzufügen';
+      addBtn.style.cssText='width:100%;margin-top:6px;color:var(--accent-dark);font-size:12px';
+      addBtn.addEventListener('click',function(){
+        var li=document.createElement('li');
+        li.setAttribute('contenteditable','true');
+        li.style.cssText='display:flex;align-items:center;gap:6px;min-width:0;flex:1';
+        var del=document.createElement('button');
+        del.className='li-del';
+        del.innerHTML='✕';
+        del.style.cssText='flex-shrink:0;width:20px;height:20px;border:none;background:#fee2e2;color:#e03535;border-radius:4px;cursor:pointer;font-size:12px;padding:0;line-height:1';
+        del.addEventListener('click',function(e){
+          e.stopPropagation();
+          li.remove();
+          saveListEdit(ul);
+        });
+        li.appendChild(del);
+        ul.appendChild(li);
+        // Focus the new item
+        var range=document.createRange();
+        range.setStart(li,0);
+        range.collapse(true);
+        var sel=window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        li.focus();
+        li.addEventListener('blur',function(){ saveListEdit(ul); });
+      });
+      ul.parentNode.insertBefore(addBtn, ul.nextSibling);
+    }
+  });
+}
+
+function saveListEdit(ul){
+  // Save all li text content to edit store
+  var items=[];
+  ul.querySelectorAll('li').forEach(function(li){
+    var text=li.childNodes[0]?li.childNodes[0].textContent.trim():'';
+    if(text) items.push(text);
+  });
+  var store=getEditStore();
+  var key='list-'+getStableId(ul);
+  store[key]=JSON.stringify(items);
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+  saveEditsToDB(store);
+}
+
+function applyListEdits(){
+  var store=getEditStore();
+  document.querySelectorAll('.info-block ul').forEach(function(ul){
+    var key='list-'+getStableId(ul);
+    if(store[key]){
+      try{
+        var items=JSON.parse(store[key]);
+        ul.innerHTML=items.map(function(t){
+          return '<li>'+t+'</li>';
+        }).join('');
+        if(editMode) enableListEdit();
+      }catch(e){}
+    }
+  });
+}
+
+
+// ─── Packliste ────────────────────────────────────────────────────────────────
+var PACKLISTE=[
+  {cat:'Allgemein — alle mitbringen',items:[
+    {t:'Reisedokumente / Zugticket',who:'alle'},
+    {t:'Bargeld + Karte',who:'alle'},
+    {t:'Handy + Ladekabel',who:'alle'},
+    {t:'Powerbank',who:'alle'},
+    {t:'Badesachen (Wakeboarden)',who:'alle'},
+    {t:'Handtuch',who:'alle'},
+    {t:'Sonnenschutz',who:'alle'},
+    {t:'Übernachtungssachen',who:'alle'},
+    {t:'Gute Laune',who:'alle'},
+  ]},
+  {cat:'Outfit & Kostüme',items:[
+    {t:'Gestreiftes französisches Shirt',who:'Didi'},
+    {t:'Baskmütze',who:'Didi'},
+    {t:'Rettungsschwimmerinnen-Kostüm',who:'Pädi K.'},
+    {t:'Bier-Kapitänsbinde',who:'Didi'},
+  ]},
+  {cat:'Spiele & Material',items:[
+    {t:'Jass-Karten (Molotow)',who:'Mäge'},
+    {t:'Kings Cup Karten',who:'Mäge'},
+    {t:'Task Team Spiel',who:'Mäge'},
+    {t:'5 Baguettes',who:'Lädi'},
+    {t:'Tasche / Bauchladen',who:'Lädi'},
+    {t:'8-10 bearbeitete Fotos (VAR)',who:'Beni'},
+  ]},
+  {cat:'Dokumente & Druck',items:[
+    {t:'Transferdossier (ausgedruckt)',who:'Didi'},
+    {t:'Bier-Kapitän-Ernennung',who:'Didi'},
+    {t:'Transfervertrag (ausgedruckt)',who:'Didi'},
+    {t:'Quizfragen (5 ausgewählt)',who:'Mäge'},
+    {t:'Match-Tippzettel',who:'Mäge'},
+    {t:'Begriffskarten Bullshit-Sommelier',who:'Tobi'},
+  ]},
+  {cat:'Sonstiges',items:[
+    {t:'Pfeife + Karten (Gelb/Rot)',who:'Didi'},
+    {t:'Stifte + Zettel',who:'Mäge'},
+    {t:'Blauer Haken (gebastelt)',who:'Dominik'},
+    {t:'Weinkorken + Becher',who:'Mäge'},
+  ]},
+];
+
+var PATRIC_PACK=[
+  'Reisedokumente / Zugticket',
+  'Bargeld + Karte',
+  'Handy + Ladekabel',
+  'Powerbank',
+  'Badesachen (Wakeboarden)',
+  'Handtuch',
+  'Sonnenschutz',
+  'Übernachtungssachen',
+  'Gute Laune',
+];
+
+function getPackData(){
+  return JSON.parse(localStorage.getItem('pm5_pack')||'null')||PACKLISTE.map(function(c){
+    return {cat:c.cat, items:c.items.map(function(i){ return {t:i.t,who:i.who}; })};
+  });
+}
+function savePackData(d){
+  localStorage.setItem('pm5_pack',JSON.stringify(d));
+  saveListsToDB();
+}
+{
+  if(!em) return '<span class="pack-who">'+(who||'')+'</span>';
+  var opts=['alle','Didi','Sieber','Lädi','Beni','Pädi K.','Tobi','Mäge','Pädi A.'];
+  var s='<select class="pack-who-sel" data-pci="'+ci+'" data-pii="'+ii+'" style="font-size:11px;padding:2px 4px;border-radius:6px;border:1px solid #e4e2db;background:#fff">';
+  opts.forEach(function(o){ s+='<option value="'+o+'"'+(who===o?' selected':'')+'>'+o+'</option>'; });
+  return s+'</select>';
+}
+
+
+function savePackEdits(){
+  var d=getPackData();
+  document.querySelectorAll('[data-pcat]').forEach(function(el){
+    var ci=parseInt(el.getAttribute('data-pcat'));
+    if(d[ci]) d[ci].cat=el.textContent;
+  });
+  document.querySelectorAll('[data-pkid]').forEach(function(row){
+    var ci=parseInt(row.getAttribute('data-pci'));
+    var ii=parseInt(row.getAttribute('data-pii'));
+    if(d[ci]&&d[ci].items[ii]){
+      var txt=row.querySelector('.pk-text');
+      var who=row.querySelector('.pack-who');
+      if(txt) d[ci].items[ii].t=txt.textContent;
+      if(who) d[ci].items[ii].who=who.textContent;
+    }
+  });
+  savePackData(d);
+}
+
+// ─── Patrick Packliste ────────────────────────────────────────────────────────
+function getPatricPack(){
+  return JSON.parse(localStorage.getItem('pm5_patricpack')||'null') || PATRIC_PACK.slice();
+}
+function savePatricPack(items){ localStorage.setItem('pm5_patricpack', JSON.stringify(items)); }
+function renderPatricPack(){
+  var el = document.getElementById('patricPackliste');
+  if(!el) return;
+  var isPatric = APP_MODE === 'paedi';
+  var items = getPatricPack();
+  var checked = JSON.parse(localStorage.getItem('pm5_patricpackdone')||'{}');
+  var html = items.map(function(item, i){
+    var done = !!checked[i];
+    return '<div class="ci '+(done?'done':'')+'" data-ppidx="'+i+'">'
+      +'<div class="cb '+(done?'chk':'')+'">'+(!done?'':'V')+'</div>'
+      +'<span class="pp-text" style="flex:1"'+(editMode&&!isPatric?' contenteditable="true"':'')+'>'+item+'</span>'
+      +(editMode&&!isPatric?'<span class="pp-del" data-ppdi="'+i+'" style="margin-left:6px;cursor:pointer;font-size:16px;color:#e03535;flex-shrink:0">&#215;</span>':'')
+      +'</div>';
+  }).join('');
+  if(editMode && !isPatric){
+    html += '<div class="pp-add" style="display:flex;align-items:center;gap:8px;padding:7px 0;cursor:pointer;color:var(--accent-dark);font-size:12px;font-weight:600;border-top:1px dashed #e8c44a;margin-top:2px">'
+      +'<span style="width:16px;height:16px;border:1.5px dashed #e8c44a;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">+</span>'
+      +'Eintrag hinzufügen</div>';
+  }
+  el.innerHTML = html;
+  el.querySelectorAll('[data-ppidx]').forEach(function(row){
+    row.addEventListener('click', function(e){
+      if(e.target.classList.contains('pp-del')) return;
+      if(e.target.classList.contains('pp-text') && editMode && !isPatric) return;
+      var i = parseInt(this.getAttribute('data-ppidx'));
+      var done = JSON.parse(localStorage.getItem('pm5_patricpackdone')||'{}');
+      done[i] = !done[i];
+      localStorage.setItem('pm5_patricpackdone', JSON.stringify(done));
+      renderPatricPack();
+    });
+  });
+  el.querySelectorAll('.pp-del').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var items = getPatricPack();
+      items.splice(parseInt(this.getAttribute('data-ppdi')), 1);
+      savePatricPack(items); renderPatricPack();
+    });
+  });
+  var addBtn = el.querySelector('.pp-add');
+  if(addBtn) addBtn.addEventListener('click', function(){
+    var items = getPatricPack();
+    items.push('Neuer Eintrag');
+    savePatricPack(items); renderPatricPack();
+    setTimeout(function(){
+      var txts = el.querySelectorAll('.pp-text');
+      var last = txts[txts.length-1];
+      if(last){ last.setAttribute('contenteditable','true'); last.focus(); selectAll(last); }
+    },50);
+  });
+  if(editMode && !isPatric){
+    el.querySelectorAll('.pp-text').forEach(function(t){
+      t.addEventListener('click', function(e){ e.stopPropagation(); });
+      t.addEventListener('blur', function(){
+        var items = getPatricPack();
+        el.querySelectorAll('[data-ppidx]').forEach(function(row){
+          var txt = row.querySelector('.pp-text');
+          if(txt) items[parseInt(row.getAttribute('data-ppidx'))] = txt.textContent;
+        });
+        savePatricPack(items);
+      });
+    });
+  }
+}
+
+// ─── Tab toggles for Pädi ─────────────────────────────────────────────────────
+function getPaediTabs(){
+  return JSON.parse(localStorage.getItem('pm5_padeitabs')||'[]');
+}
+function savePaediTabs(tabs){
+  localStorage.setItem('pm5_padeitabs', JSON.stringify(tabs));
+  if(sb) sb.from('app_lists').upsert({id:'main', padeitabs:tabs, updated_at:new Date().toISOString()});
+}
+function renderTabToggles(){
+  var existing = document.getElementById('tabToggleBar');
+  if(existing) existing.remove();
+  if(!editMode) return;
+  var allTabs = [
+    {id:'timetable', label:'Programm'},
+    {id:'story', label:'Die Pädi Merson Story'},
+    {id:'regie', label:'Regie'},
+  ];
+  var paediTabs = getPaediTabs();
+  var bar = document.createElement('div');
+  bar.id = 'tabToggleBar';
+  bar.style.cssText = 'background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:.6rem .9rem;margin-bottom:.75rem;font-size:11px;';
+  var html = '<div style="font-size:10px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">Tabs für Pädi freischalten</div>';
+  html += '<div style="display:flex;gap:6px;flex-wrap:wrap">';
+  allTabs.forEach(function(t){
+    var on = paediTabs.indexOf(t.id) !== -1;
+    html += '<button class="pkachel-toggle '+(on?'on':'off')+'" data-tabtoggle="'+t.id+'">'+(on?'✓ ':'')+t.label+'</button>';
+  });
+  html += '</div>';
+  bar.innerHTML = html;
+  var nav = document.querySelector('.nav-wrap');
+  if(nav) nav.parentNode.insertBefore(bar, nav);
+  bar.querySelectorAll('[data-tabtoggle]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = this.getAttribute('data-tabtoggle');
+      var tabs = getPaediTabs();
+      var idx = tabs.indexOf(id);
+      if(idx === -1) tabs.push(id);
+      else tabs.splice(idx, 1);
+      savePaediTabs(tabs);
+      renderTabToggles();
+      if(APP_MODE === 'paedi') applyAppMode();
+    });
+  });
+}
+
+// ─── App mode ─────────────────────────────────────────────────────────────────
+var APP_MODE = null;
+var CREW_PW = '8704';
+var EDIT_PW_APP = '1975';
+var PAEDI_PW_APP = '1987';
+
+function initAppMode(){
+  var stored = localStorage.getItem('pm5_appmode');
+  if(stored === 'crew' || stored === 'paedi'){
+    APP_MODE = stored;
+    applyAppMode();
+  } else {
+    showLoginOverlay();
+  }
+}
+
+function showLoginOverlay(){
+  var ov = document.getElementById('loginOverlay');
+  if(ov){ ov.style.display='flex'; setTimeout(function(){ document.getElementById('loginInput').focus(); },200); }
+}
+
+function checkLogin(){
+  var val = document.getElementById('loginInput').value;
+  var err = document.getElementById('loginError');
+  if(val === PAEDI_PW_APP){
+    APP_MODE = 'paedi';
+    localStorage.setItem('pm5_appmode','paedi');
+    document.getElementById('loginOverlay').style.display='none';
+    document.getElementById('loginInput').value='';
+    patricMode = 'paedi';
+    localStorage.setItem('patricMode','paedi');
+    applyAppMode();
+  } else if(val === CREW_PW || val === EDIT_PW_APP){
+    APP_MODE = 'crew';
+    localStorage.setItem('pm5_appmode','crew');
+    document.getElementById('loginOverlay').style.display='none';
+    document.getElementById('loginInput').value='';
+    patricMode = 'crew';
+    localStorage.setItem('patricMode','crew');
+    if(val === EDIT_PW_APP) activateEdit();
+    applyAppMode();
+  } else {
+    err.textContent = 'Falsches Passwort';
+    document.getElementById('loginInput').value='';
+    document.getElementById('loginInput').focus();
+    setTimeout(function(){ err.textContent=''; },2000);
+  }
+}
+
+function applyAppMode(){
+  if(APP_MODE === 'paedi'){
+    var extraTabs = JSON.parse(localStorage.getItem('pm5_padeitabs')||'[]');
+    var allowed = ['sb','packliste','patrick'].concat(extraTabs);
+    document.querySelectorAll('.tab-btn,.s-btn,.s-crew-btn,.bb-btn,.bb-crew-btn').forEach(function(btn){
+      var tab=btn.getAttribute('data-tab');
+      if(tab && allowed.indexOf(tab)===-1){ btn.style.display='none'; }
+      else { btn.style.display=''; }
+    });
+    showTab('sb', document.querySelector('[data-tab="sb"]'));
+    var editBtn = document.getElementById('editToggle');
+    if(editBtn) editBtn.style.display='none';
+    var moreBtn = document.getElementById('moreBtn');
+    if(moreBtn) moreBtn.style.display='none';
+    patricMode = 'paedi';
+    localStorage.setItem('patricMode','paedi');
+    renderMis();
+  } else {
+    document.querySelectorAll('.tab-btn,.s-btn,.s-crew-btn,.bb-btn,.bb-crew-btn').forEach(function(btn){ btn.style.display=''; });
+    showTab('timetable', document.querySelector('[data-tab="timetable"]'));
+    patricMode = 'crew';
+    localStorage.setItem('patricMode','crew');
+  }
+}
+
+function logout(){
+  localStorage.removeItem('pm5_appmode');
+  localStorage.removeItem('patricMode');
+  APP_MODE = null;
+  patricMode = null;
+  location.reload();
+}
+
+// ─── Pädi tab mode ────────────────────────────────────────────────────────────
+var PATRIC_PW = '1987';
+var patricMode = localStorage.getItem('patricMode') || null;
+
+function getKachelState(){
+  var def={};
+  document.querySelectorAll('[data-kachel]').forEach(function(el){
+    var k=el.getAttribute('data-kachel');
+    def[k]=el.getAttribute('data-default')==='1';
+  });
+  var stored=JSON.parse(localStorage.getItem('pm5_kacheln')||'null');
+  if(!stored) return def;
+  Object.keys(def).forEach(function(k){ if(stored[k]===undefined) stored[k]=def[k]; });
+  return stored;
+}
+function saveKachelState(state){
+  localStorage.setItem('pm5_kacheln',JSON.stringify(state));
+  if(sb) sb.from('app_lists').upsert({id:'main',kacheln:state,updated_at:new Date().toISOString()});
+}
+function renderPatricTab(){
+  var state=getKachelState();
+  var isPatric=patricMode==='paedi';
+  var modeWrap=document.getElementById('patricModeWrap');
+  var patricContent=document.getElementById('patricContent');
+  if(modeWrap) modeWrap.style.display='none';
+  if(patricContent) patricContent.style.display='block';
+  document.querySelectorAll('.pkachel').forEach(function(el){
+    var k=el.getAttribute('data-kachel');
+    var unlocked=!!state[k];
+    el.querySelectorAll('.pkachel-lock-overlay,.pkachel-toggle,.pkachel-toggle-wrap').forEach(function(x){x.remove();});
+    el.classList.remove('pkachel-locked');
+    if(patricMode==='crew' && editMode){
+      var wrap=document.createElement('div');
+      wrap.className='pkachel-toggle-wrap';
+      wrap.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:'+(unlocked?'#f0fdf4':'#fef2f2')+';border-radius:8px;margin-bottom:8px';
+      var kName={'mission':'Tagesmission','dossier':'Transferdossier','ansagen':'Captain-Ansagen','kleidung':'Kleidungsvorschrift','kriterien':'Transfer-Kriterien','packliste':'Packliste','sommelier':'Bullshit-Sommelier','matchtipp':'Match-Tipp','medaillen':'Médaillen & Karten','botschaft':'Pers. Botschaft','vertrag':'Transfervertrag','titel':'Offizieller Titel'};
+      wrap.innerHTML='<span style="font-size:11px;font-weight:600;color:'+(unlocked?'#16a34a':'#e03535')+'">'+(unlocked?'✓':'🔒')+' '+(kName[k]||k)+'</span>'
+        +'<label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer">'
+        +'<input type="checkbox" data-togglekachel="'+k+'" '+(unlocked?'checked':'')+' style="opacity:0;width:0;height:0;position:absolute">'
+        +'<span style="position:absolute;top:0;left:0;right:0;bottom:0;background:'+(unlocked?'#16a34a':'#ccc')+';border-radius:11px;transition:.2s">'
+        +'<span style="position:absolute;left:'+(unlocked?'20':'2')+'px;top:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s"></span>'
+        +'</span></label>';
+      el.insertBefore(wrap,el.firstChild);
+      wrap.querySelector('input[data-togglekachel]').addEventListener('change',function(){
+        var s=getKachelState();
+        s[k]=this.checked;
+        saveKachelState(s);
+        renderPatricTab();
+      });
+    }
+    if(isPatric){
+      el.style.display=unlocked?'block':'none';
+    } else {
+      el.style.display='block';
+    }
+  });
+  renderPatricMedaillen();
+}
+function renderPatricMedaillen(){
+  var el=document.getElementById('patricMedaillen');
+  if(!el) return;
+  var m=S.medals&&S.medals['patrick']||0;
+  var y=S.yellow&&S.yellow['patrick']||0;
+  var r=S.red&&S.red['patrick']||0;
+  if(!S.schnapsGt) S.schnapsGt={};
+  var schnaps=(r*3)+Math.floor(y/2)+(y>4?(y-4):0);
+  var gt=S.schnapsGt['patrick']||0;
+  var isPatric=APP_MODE==='paedi'||patricMode==='paedi';
+  var html='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">'
+    +'<div style="background:#fef9eb;border-radius:10px;padding:8px;text-align:center">'
+      +'<div style="font-size:10px;font-weight:700;color:#b8940a;letter-spacing:.06em;margin-bottom:4px">Médaillen</div>'
+      +'<div class="mc" style="margin:4px auto">'+m+'</div>'
+      +(!isPatric?'<div style="display:flex;gap:5px;margin-top:6px">'
+        +'<button data-fn="medal" data-id="patrick" data-d="-1" style="flex:1;height:44px;border:1.5px solid #e8c44a;border-radius:8px;background:#fff;font-size:20px;color:#b8940a;cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="medal" data-id="patrick" data-d="1" style="flex:1;height:44px;border:1.5px solid #e8c44a;border-radius:8px;background:#fff;font-size:20px;color:#b8940a;cursor:pointer;font-weight:700">+</button>'
+        +'</div>':'')
+    +'</div>'
+    +'<div style="background:#fefce8;border-radius:10px;padding:8px;text-align:center">'
+      +'<div style="font-size:10px;font-weight:700;color:#854d0e;letter-spacing:.06em;margin-bottom:4px">Gelb</div>'
+      +'<div class="mc" style="margin:4px auto;background:'+(y>0?'#fbbf24':'#f0f0ee')+';color:'+(y>0?'#0a0a0a':'#aaa')+'">'+y+'</div>'
+      +(!isPatric?'<div style="display:flex;gap:5px;margin-top:6px">'
+        +'<button data-fn="yellow" data-id="patrick" data-d="-1" style="flex:1;height:44px;border:1.5px solid #facc15;border-radius:8px;background:#fff;font-size:20px;color:#854d0e;cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="yellow" data-id="patrick" data-d="1" style="flex:1;height:44px;border:1.5px solid #facc15;border-radius:8px;background:#fff;font-size:20px;color:#854d0e;cursor:pointer;font-weight:700">+</button>'
+        +'</div>':'')
+    +'</div>'
+    +'<div style="background:#fef2f2;border-radius:10px;padding:8px;text-align:center">'
+      +'<div style="font-size:10px;font-weight:700;color:#991b1b;letter-spacing:.06em;margin-bottom:4px">Rot</div>'
+      +'<div class="mc" style="margin:4px auto;background:'+(r>0?'var(--red)':'#f0f0ee')+';color:'+(r>0?'#fff':'#aaa')+'">'+r+'</div>'
+      +(!isPatric?'<div style="display:flex;gap:5px;margin-top:6px">'
+        +'<button data-fn="red" data-id="patrick" data-d="-1" style="flex:1;height:44px;border:1.5px solid #ef4444;border-radius:8px;background:#fff;font-size:20px;color:#991b1b;cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="red" data-id="patrick" data-d="1" style="flex:1;height:44px;border:1.5px solid #ef4444;border-radius:8px;background:#fff;font-size:20px;color:#991b1b;cursor:pointer;font-weight:700">+</button>'
+        +'</div>':'')
+    +'</div>'
+  +'</div>';
+  if(schnaps>0){
+    var pct=Math.round((gt/schnaps)*100);
+    var done=gt>=schnaps;
+    var bgCol=done?'#dcfce7':'#fee2e2';
+    var barCol=done?'#16a34a':'#e03535';
+    var trackCol=done?'#bbf7d0':'#fecaca';
+    var textCol=done?'#16a34a':'#e03535';
+    html+='<div style="background:'+bgCol+';border-radius:10px;padding:8px 12px">'
+      +'<div style="font-size:10px;font-weight:700;color:'+textCol+';text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Schnaps</div>'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
+      +'<div style="flex:1;height:6px;background:'+trackCol+';border-radius:3px;overflow:hidden">'
+      +'<div style="width:'+pct+'%;height:100%;background:'+barCol+';border-radius:3px"></div>'
+      +'</div>'
+      +'<div style="font-size:12px;color:'+textCol+';font-weight:700">'+(done?'alle ✓':gt+' / '+schnaps)+'</div>'
+      +'</div>'
+      +(!isPatric?'<div style="display:flex;gap:8px">'
+        +'<button data-fn="schnapsgt" data-id="patrick" data-max="'+schnaps+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid '+textCol+';border-radius:8px;background:#fff;font-size:22px;color:'+textCol+';cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="schnapsgt" data-id="patrick" data-max="'+schnaps+'" data-d="1" style="flex:1;height:44px;border:1.5px solid '+textCol+';border-radius:8px;background:#fff;font-size:22px;color:'+textCol+';cursor:pointer;font-weight:700">+</button>'
+        +'</div>':'')
+      +'</div>';
+  }
+  el.innerHTML=html;
+  el.querySelectorAll('[data-fn]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var fn=this.getAttribute('data-fn');
+      var id=this.getAttribute('data-id');
+      var d=parseInt(this.getAttribute('data-d'));
+      if(fn==='medal') S.medals[id]=Math.max(0,(S.medals[id]||0)+d);
+      if(fn==='yellow') S.yellow[id]=Math.max(0,(S.yellow[id]||0)+d);
+      if(fn==='red') S.red[id]=Math.max(0,(S.red[id]||0)+d);
+      if(fn==='schnapsgt'){
+        if(!S.schnapsGt) S.schnapsGt={};
+        var max=parseInt(this.getAttribute('data-max')||'0');
+        S.schnapsGt[id]=Math.max(0,Math.min(max,(S.schnapsGt[id]||0)+d));
+      }
+      save(); renderPatricMedaillen(); renderSB();
+    });
+  });
+}
+function setPatricMode(mode){
+  patricMode=mode;
+  localStorage.setItem('patricMode',mode);
+  renderPatricTab();
+  renderMis();
+  renderPatricPack();
+}
+function showPatricPwModal(){
+  var m=document.getElementById('patricPwModal');
+  if(m){ m.style.display='flex'; setTimeout(function(){ document.getElementById('patricPwInput').focus(); },100); }
+}
+function closePatricPwModal(){
+  var m=document.getElementById('patricPwModal');
+  if(m) m.style.display='none';
+  document.getElementById('patricPwInput').value='';
+  document.getElementById('patricPwError').style.display='none';
+}
+function checkPatricPw(){
+  var val=document.getElementById('patricPwInput').value;
+  if(val===PATRIC_PW){
+    closePatricPwModal();
+    setPatricMode('paedi');
+  } else {
+    document.getElementById('patricPwError').style.display='block';
+    document.getElementById('patricPwInput').value='';
+    setTimeout(function(){ document.getElementById('patricPwError').style.display='none'; },2000);
+  }
+}
+function showCrewPwModal(){
+  var m=document.getElementById('crewPwModal');
+  if(m){ m.style.display='flex'; setTimeout(function(){ document.getElementById('crewPwInput').focus(); },100); }
+}
+function closeCrewPwModal(){
+  var m=document.getElementById('crewPwModal');
+  if(m) m.style.display='none';
+  document.getElementById('crewPwInput').value='';
+  document.getElementById('crewPwError').style.display='none';
+}
+function checkCrewPw(){
+  var val=document.getElementById('crewPwInput').value;
+  if(val==='8704'){
+    closeCrewPwModal();
+    setPatricMode('crew');
+  } else {
+    document.getElementById('crewPwError').style.display='block';
+    document.getElementById('crewPwInput').value='';
+    setTimeout(function(){ document.getElementById('crewPwError').style.display='none'; },2000);
+  }
+}
+
+// ─── Rich Text Toolbar ────────────────────────────────────────────────────────
+var rtTarget = null;
+var rtHideTimeout = null;
+function showRTToolbar(el){
+  if(!editMode) return;
+  rtTarget = el;
+  var tb = document.getElementById('rtToolbar');
+  if(!tb) return;
+  tb.style.display = 'flex';
+  positionRTToolbar(el);
+  updateRTButtons();
+}
+function positionRTToolbar(el){
+  var tb = document.getElementById('rtToolbar');
+  if(!tb || !el) return;
+  var rect = el.getBoundingClientRect();
+  var tbW = 180;
+  var top = rect.top + window.scrollY - 48;
+  var left = rect.left + window.scrollX;
+  if(top < 8) top = rect.bottom + window.scrollY + 6;
+  if(left + tbW > window.innerWidth - 8) left = window.innerWidth - tbW - 8;
+  tb.style.top = top + 'px';
+  tb.style.left = left + 'px';
+}
+function hideRTToolbar(){
+  rtHideTimeout = setTimeout(function(){
+    var tb = document.getElementById('rtToolbar');
+    if(tb) tb.style.display = 'none';
+    rtTarget = null;
+  }, 200);
+}
+function updateRTButtons(){
+  ['bold','italic','underline'].forEach(function(cmd){
+    var btn = document.querySelector('[data-cmd="'+cmd+'"]');
+    if(btn) btn.classList.toggle('active', document.queryCommandState(cmd));
+  });
+}
+function initRTToolbar(){
+  var tb = document.getElementById('rtToolbar');
+  if(!tb) return;
+  tb.querySelectorAll('[data-cmd]').forEach(function(btn){
+    btn.addEventListener('mousedown', function(e){
+      e.preventDefault();
+      clearTimeout(rtHideTimeout);
+      var cmd = this.getAttribute('data-cmd');
+      document.execCommand(cmd, false, null);
+      if(rtTarget){ saveEdit(rtTarget); updateRTButtons(); }
+    });
+    btn.addEventListener('touchstart', function(e){
+      e.preventDefault();
+      clearTimeout(rtHideTimeout);
+      var cmd = this.getAttribute('data-cmd');
+      document.execCommand(cmd, false, null);
+      if(rtTarget){ saveEdit(rtTarget); updateRTButtons(); }
+    }, {passive:false});
+  });
+  tb.addEventListener('mouseenter', function(){ clearTimeout(rtHideTimeout); });
+  tb.addEventListener('mouseleave', function(){ hideRTToolbar(); });
+}
+
+// ─── Override save functions to sync to DB ───────────────────────────────────
+var _origSave = save;
+save = function(){
+  _origSave();
+  scheduleSave();
+};
+var _origSaveEdit = saveEdit;
+saveEdit = function(el){
+  _origSaveEdit(el);
+  var store = getEditStore();
+  saveEditsToDB(store);
+};
+var _origSaveAblItems = saveAblItems;
+saveAblItems = function(items){
+  _origSaveAblItems(items);
+  saveListsToDB();
+};
+var _origSavePackData = savePackData;
+savePackData = function(d){
+  localStorage.setItem('pm5_pack',JSON.stringify(d));
+  saveListsToDB();
+};
+var _origSavePCH = savePCH;
+savePCH = function(items){
+  _origSavePCH(items);
+  saveListsToDB();
+};
+var _origSaveMatData = saveMatData;
+saveMatData = function(d){
+  _origSaveMatData(d);
+  saveListsToDB();
+};
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+// ─── Programm Data & Render ─────────────────────────────────────────────────
+var DEFAULT_PROGRAMM = {
+  items: [
+    {time:'06:15',title:'Abholen Pädi A.',desc:'',link:'',linkText:''},
+    {time:'06:54',title:'Abfahrt Herrliberg-Feldmeilen',desc:'S16 Gl. 2 → Zürich HB → IC → Lutry · 3h 7min',link:'https://www.sbb.ch/de/kaufen/pages/fahrplan/fahrplan.xhtml?von=Herrliberg-Feldmeilen&nach=Lutry&datum=18.07.2026&zeit=06:54&ab=true',linkText:'→ SBB Verbindung'},
+    {time:'10:01',title:'Ankunft Lutry',desc:'',link:'',linkText:''},
+    {time:'10:30',title:'Iboote Wasserspass',desc:'Wakeboarden, Médaillen & Spass',link:'',linkText:''},
+    {time:'~14:00',title:'Ende Wasserspass',desc:'',link:'',linkText:''},
+    {time:'14:40',title:'Abfahrt Lutry → Villette',desc:'Ankunft 14:42',link:'https://www.sbb.ch/de/kaufen/pages/fahrplan/fahrplan.xhtml?von=Lutry&nach=Villette%20(Lavaux)&datum=18.07.2026&zeit=14:40&ab=true',linkText:'→ SBB Verbindung'},
+    {time:'15:00',title:'Degustation & Mittagessen',desc:'Domaine de la Crausaz, Grandvaux · Sa 10:30–18:00',link:'https://www.lacrausaz.ch/',linkText:'→ lacrausaz.ch',img:'https://www.lacrausaz.ch/assets/img/galerie/10.jpg'},
+    {time:'~16:30',title:'Verschiebung ins Chalet',desc:'ÖV oder Taxi',link:'',linkText:''},
+    {time:'Abend',title:'Raclette · Wein · Spiele · WM & Spass',desc:'',link:'',linkText:''}
+  ],
+  unterkunft: {
+    title:'Chalet le Grillet — CAS Jaman',
+    desc:'1185m · Les Pléiades · 15 Plätze · Dusche/WC · Terrasse & Grill',
+    link:'https://www.cas-jaman.ch/cabanes/chalet-le-grillet.php',
+    linkText:'→ cas-jaman.ch',
+    imgs:['https://www.cas-jaman.ch/images/le_grillet_2.jpg','https://www.cas-jaman.ch/dropbox/photo/chalet-le-grillet/mysize/vue_depuis_la_terrasse_du_grillet.jpg','https://www.cas-jaman.ch/dropbox/photo/chalet-le-grillet/mysize/chalet_le_grillet_de_nuit.jpg']
+  },
+  morgen: {
+    title:'Restaurant Les Pléiades — MOB',
+    desc:'Panoramaterrasse · Voralpen & Genfersee',
+    link:'https://www.mob.ch/de/service-providers/restaurant-les-pleiades',
+    linkText:'→ mob.ch',
+    img:'https://images.contenthub.dev/h24dbpy2mqzk/6e187facd7d3cf4eef0c7d67a430937a/rest_ple_001.jpg?fm=jpg&fl=progressive&f=center&fit=fill&q=45&h=200&w=500'
+  }
+};
+
+function getProgramm(){ return S.programm||DEFAULT_PROGRAMM; }
+
+function saveProgramm(p){ S.programm=p; save(); saveProgrammToDB(p); }
+
+function saveProgrammToDB(p){
+  if(!sb) return;
+  var store=getEditStore();
+  store['__programm__']=JSON.stringify(p);
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+  saveEditsToDB(store);
+}
+
+function loadProgrammFromStore(){
+  var store=getEditStore();
+  if(store['__programm__']){
+    try{ S.programm=JSON.parse(store['__programm__']); }catch(e){}
+  }
+}
+
+function renderProgramm(){
+  var el=document.getElementById('programmContainer');
+  if(!el) return;
+  var p=getProgramm();
+  var ce=editMode?' contenteditable="true"':'';
+  var delBtn=editMode?'<button class="prog-del-item" style="flex-shrink:0;width:22px;height:22px;border:none;background:#fee2e2;color:#e03535;border-radius:4px;cursor:pointer;font-size:12px">✕</button>':'';
+
+  var html='<div class="section">';
+  html+='<div class="section-title" id="prog-title"'+ce+'>Programm & Unterkunft — Sa. 18.07.2026</div>';
+  html+='<div style="display:flex;flex-direction:column;gap:0" id="progItems">';
+
+  p.items.forEach(function(item,i){
+    html+='<div class="prog-item" data-prog-i="'+i+'" style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee;align-items:flex-start">';
+    if(editMode) html+=delBtn.replace('class="prog-del-item"','class="prog-del-item" data-prog-i="'+i+'"');
+    html+='<div class="prog-time" data-prog-i="'+i+'"'+ce+' style="font-size:12px;font-weight:700;color:#aaa;min-width:48px;flex-shrink:0">'+item.time+'</div>';
+    html+='<div style="flex:1;min-width:0">';
+    html+='<div class="prog-title-t" data-prog-i="'+i+'"'+ce+' style="font-size:13px;font-weight:700;color:#0a0a0a">'+item.title+'</div>';
+    if(item.desc||editMode) html+='<div class="prog-desc" data-prog-i="'+i+'"'+ce+' style="font-size:11px;color:#888;margin-top:2px'+(item.desc?'':';color:#ccc')+'">'+( item.desc||( editMode?'Beschreibung...':'' ) )+'</div>';
+        if(item.img) html+='<img src="'+item.img+'" style="width:100%;max-width:300px;height:90px;object-fit:cover;border-radius:6px;margin-top:6px;display:block" onerror="this.style.display=\'none\'">';
+    if(item.link) html+='<a href="'+item.link+'" target="_blank" class="prog-link" data-prog-i="'+i+'" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:3px">'+item.linkText+'</a>';
+    if(editMode){
+      html+='<div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap">';
+      html+='<input class="prog-link-url" data-prog-i="'+i+'" type="text" value="'+(item.link||'')+'" placeholder="Link URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+      html+='<input class="prog-link-text" data-prog-i="'+i+'" type="text" value="'+(item.linkText||'')+'" placeholder="Link Text" style="font-size:10px;width:100px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+      html+='<input class="prog-img-url" data-prog-i="'+i+'" type="text" value="'+(item.img||'')+'" placeholder="Bild URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+      html+='</div>';
+    }
+    html+='</div></div>';
+  });
+
+  if(editMode){
+    html+='<button id="progAddItem" style="width:100%;margin-top:8px;padding:8px;border:1px dashed #e8c44a;background:transparent;border-radius:8px;color:var(--accent-dark);font-size:12px;cursor:pointer">+ Eintrag hinzufügen</button>';
+  }
+
+  html+='</div></div>';
+
+  // Unterkunft
+  html+='<div class="section" style="margin-top:8px">';
+  html+='<div class="section-title" id="prog-unt-title"'+ce+'>Unterkunft</div>';
+  html+='<div style="border-radius:8px;overflow:hidden;border:1px solid #eee">';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px">';
+  p.unterkunft.imgs.forEach(function(img,ii){
+    html+='<img src="'+img+'" style="width:100%;height:100px;object-fit:cover;display:block" onerror="this.style.display=\'none\'">';
+    if(editMode) html+=''; // img editing via link inputs below
+  });
+  html+='</div>';
+  html+='<div style="padding:10px 12px">';
+  html+='<div class="prog-unt-title"'+ce+' style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.unterkunft.title+'</div>';
+  html+='<div class="prog-unt-desc"'+ce+' style="font-size:11px;color:#888;margin-top:2px">'+p.unterkunft.desc+'</div>';
+  html+='<a href="'+p.unterkunft.link+'" target="_blank" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:4px">'+p.unterkunft.linkText+'</a>';
+  if(editMode){
+    html+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">';
+    html+='<input class="prog-unt-link" type="text" value="'+p.unterkunft.link+'" placeholder="Link URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='<input class="prog-unt-linktext" type="text" value="'+p.unterkunft.linkText+'" placeholder="Link Text" style="font-size:10px;width:100px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='</div>';
+    p.unterkunft.imgs.forEach(function(img,ii){
+      html+='<input class="prog-unt-img" data-img-i="'+ii+'" type="text" value="'+img+'" placeholder="Bild URL '+( ii+1 )+'" style="font-size:10px;width:100%;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px;margin-top:4px">';
+    });
+    html+='<button class="prog-unt-addimg" style="font-size:10px;margin-top:4px;padding:2px 8px;border:1px dashed #e4e2db;border-radius:4px;background:transparent;cursor:pointer;color:#aaa">+ Bild hinzufügen</button>';
+  }
+  html+='</div></div></div>';
+
+  // Morgenessen
+  html+='<div class="section" style="margin-top:8px">';
+  html+='<div class="section-title" id="prog-mor-title"'+ce+'>Morgenessen — So. ab 10:30</div>';
+  html+='<div style="border-radius:8px;overflow:hidden;border:1px solid #eee">';
+  html+='<img src="'+p.morgen.img+'" style="width:100%;height:100px;object-fit:cover;display:block" onerror="this.style.display=\'none\'">';
+  html+='<div style="padding:10px 12px">';
+  html+='<div class="prog-mor-title"'+ce+' style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.morgen.title+'</div>';
+  html+='<div class="prog-mor-desc"'+ce+' style="font-size:11px;color:#888;margin-top:2px">'+p.morgen.desc+'</div>';
+  html+='<a href="'+p.morgen.link+'" target="_blank" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:4px">'+p.morgen.linkText+'</a>';
+  if(editMode){
+    html+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">';
+    html+='<input class="prog-mor-link" type="text" value="'+p.morgen.link+'" placeholder="Link URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='<input class="prog-mor-linktext" type="text" value="'+p.morgen.linkText+'" placeholder="Link Text" style="font-size:10px;width:100px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='<input class="prog-mor-img" type="text" value="'+p.morgen.img+'" placeholder="Bild URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='</div>';
+  }
+  html+='</div></div></div>';
+
+  el.innerHTML=html;
+
+  // Wire events
+  function saveFromDOM(){
+    var p2=getProgramm();
+    // items
+    el.querySelectorAll('.prog-time').forEach(function(e){ p2.items[+e.dataset.progI].time=e.textContent.trim(); });
+    el.querySelectorAll('.prog-title-t').forEach(function(e){ p2.items[+e.dataset.progI].title=e.textContent.trim(); });
+    el.querySelectorAll('.prog-desc').forEach(function(e){ p2.items[+e.dataset.progI].desc=e.textContent.trim(); });
+    el.querySelectorAll('.prog-link-url').forEach(function(e){ p2.items[+e.dataset.progI].link=e.value.trim(); });
+    el.querySelectorAll('.prog-link-text').forEach(function(e){ p2.items[+e.dataset.progI].linkText=e.value.trim(); });
+    el.querySelectorAll('.prog-img-url').forEach(function(e){ p2.items[+e.dataset.progI].img=e.value.trim(); });
+    // unterkunft
+    var utEl=el.querySelector('.prog-unt-title'); if(utEl) p2.unterkunft.title=utEl.textContent.trim();
+    var udEl=el.querySelector('.prog-unt-desc'); if(udEl) p2.unterkunft.desc=udEl.textContent.trim();
+    var ulEl=el.querySelector('.prog-unt-link'); if(ulEl) p2.unterkunft.link=ulEl.value.trim();
+    var ultEl=el.querySelector('.prog-unt-linktext'); if(ultEl) p2.unterkunft.linkText=ultEl.value.trim();
+    el.querySelectorAll('.prog-unt-img').forEach(function(e){ p2.unterkunft.imgs[+e.dataset.imgI]=e.value.trim(); });
+    // morgen
+    var mtEl=el.querySelector('.prog-mor-title'); if(mtEl) p2.morgen.title=mtEl.textContent.trim();
+    var mdEl=el.querySelector('.prog-mor-desc'); if(mdEl) p2.morgen.desc=mdEl.textContent.trim();
+    var mlEl=el.querySelector('.prog-mor-link'); if(mlEl) p2.morgen.link=mlEl.value.trim();
+    var mltEl=el.querySelector('.prog-mor-linktext'); if(mltEl) p2.morgen.linkText=mltEl.value.trim();
+    var miEl=el.querySelector('.prog-mor-img'); if(miEl) p2.morgen.img=miEl.value.trim();
+    saveProgramm(p2);
+  }
+
+  el.querySelectorAll('[contenteditable]').forEach(function(e){
+    e.addEventListener('blur', saveFromDOM);
+  });
+  el.querySelectorAll('input').forEach(function(e){
+    e.addEventListener('change', saveFromDOM);
+  });
+  el.querySelectorAll('.prog-del-item').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var p2=getProgramm();
+      p2.items.splice(+this.dataset.progI,1);
+      saveProgramm(p2); renderProgramm();
+    });
+  });
+  var addBtn=el.querySelector('#progAddItem');
+  if(addBtn) addBtn.addEventListener('click',function(){
+    var p2=getProgramm();
+    p2.items.push({time:'--:--',title:'Neuer Eintrag',desc:'',link:'',linkText:''});
+    saveProgramm(p2); renderProgramm();
+  });
+  var addImgBtn=el.querySelector('.prog-unt-addimg');
+  if(addImgBtn) addImgBtn.addEventListener('click',function(){
+    var p2=getProgramm();
+    p2.unterkunft.imgs.push('');
+    saveProgramm(p2); renderProgramm();
+  });
+}
+
+
+// ─── Initialize Supabase with defaults if empty ─────────────────────────────
+async function initSupabaseDefaults(){
+  if(!sb) return;
+  try {
+    // Check if app_lists already has data
+    var check = await sb.from('app_lists').select('id').eq('id','main').single();
+    if(check.data) return; // already initialized, skip
+
+    console.log('First run — writing defaults to Supabase...');
+
+    // Write regie defaults
+    var regieData = JSON.parse(JSON.stringify(REGIE));
+
+    // Write programm defaults
+    var programmData = DEFAULT_PROGRAMM;
+
+    // Write app_edits with programm
+    var editStore = {};
+    editStore['__programm__'] = JSON.stringify(programmData);
+
+    // Write app_lists with all defaults
+    await sb.from('app_lists').upsert({
+      id: 'main',
+      regie: regieData,
+      ablauf: JSON.parse(localStorage.getItem('pm5_abl')||'null') || [],
+      packliste: JSON.parse(localStorage.getItem('pm5_pack')||'null') || [],
+      pch: JSON.parse(localStorage.getItem('pm5_pch')||'null') || [],
+      mat: JSON.parse(localStorage.getItem('pm5_mat')||'null') || {},
+      kacheln: {},
+      padeitabs: [],
+      updated_at: new Date().toISOString()
+    });
+
+    // Write app_edits
+    await sb.from('app_edits').upsert({
+      id: 'main',
+      edits: editStore,
+      updated_at: new Date().toISOString()
+    });
+
+    // Write app_state with current S
+    await sb.from('app_state').upsert({
+      id: 'main',
+      state: S,
+      updated_at: new Date().toISOString()
+    });
+
+    console.log('Supabase defaults written!');
+    showToast('Erstinitialisierung abgeschlossen ✓');
+  } catch(e) {
+    console.warn('initSupabaseDefaults error:', e);
+  }
+}
+
+
+// ─── Person Packliste from central Packliste ────────────────────────────────
+var PERSON_WHO_MAP = {
+  didi:'Didi', dominik:'Dominik', berater:'Lädi', beni:'Beni',
+  koch:'Pädi K.', tobi:'Tobi', maege:'Mäge', patrick:'Pädi A.'
+};
+
+function getPersonPackItems(personKey){
+  var whoName = PERSON_WHO_MAP[personKey] || personKey;
+  var data = getPackData();
+  var items = [];
+  data.forEach(function(cat){
+    cat.items.forEach(function(item){
+      if(item.who === whoName || item.who === 'alle'){
+        items.push({t: item.t, cat: cat.cat, who: item.who});
+      }
+    });
+  });
+  return items;
+}
+
+function renderPersonPackliste(personKey){
+  var el = document.getElementById('personPack_' + personKey);
+  if(!el) return;
+  var items = getPersonPackItems(personKey);
+  if(!items.length){
+    el.innerHTML = '<div style="font-size:13px;color:#aaa;font-style:italic;padding:4px 0">Noch keine Einträge zugewiesen</div>';
+    return;
+  }
+  if(!S.mat) S.mat = {};
+  var html = '';
+  items.forEach(function(item, i){
+    var mid = 'pp_' + personKey + '_' + i;
+    var done = !!S.mat[mid];
+    html += '<div class="pack-row ' + (done?'done':'') + '" data-ppid="' + mid + '" style="cursor:pointer">'
+      + '<div class="cb ' + (done?'chk':'') + '">' + (!done?'':'V') + '</div>'
+      + '<span style="flex:1;font-size:13px;' + (done?'text-decoration:line-through;color:#ccc':'') + '">' + item.t + '</span>'
+      + (item.who==='alle' ? '<span style="font-size:10px;color:#aaa;background:#f0f0ee;padding:1px 6px;border-radius:10px">alle</span>' : '')
+      + '</div>';
+  });
+  el.innerHTML = html;
+  el.querySelectorAll('[data-ppid]').forEach(function(row){
+    row.addEventListener('click', function(){
+      var id = this.getAttribute('data-ppid');
+      S.mat[id] = !S.mat[id];
+      save();
+      renderPersonPackliste(personKey);
+    });
+  });
 }
 
 function init(){
