@@ -1932,18 +1932,18 @@ async function loadFromDB(){
     }
     var r3 = await sb.from('app_lists').select('*').eq('id','main').single();
     if(r3.data){
-      if(r3.data.ablauf) localStorage.setItem('pm5_abl', JSON.stringify(r3.data.ablauf));
-      if(r3.data.packliste) localStorage.setItem('pm5_pack', JSON.stringify(r3.data.packliste));
-      if(r3.data.pch) localStorage.setItem('pm5_pch', JSON.stringify(r3.data.pch));
-      if(r3.data.mat) localStorage.setItem('pm5_mat', JSON.stringify(r3.data.mat));
-      if(r3.data.kacheln) localStorage.setItem('pm5_kacheln', JSON.stringify(r3.data.kacheln));
-      if(r3.data.padeitabs) localStorage.setItem('pm5_padeitabs', JSON.stringify(r3.data.padeitabs));
-      if(r3.data.somm) localStorage.setItem('pm5_somm', JSON.stringify(r3.data.somm));
-      if(r3.data.regie) localStorage.setItem('pm5_regie', JSON.stringify(r3.data.regie));
-      if(r3.data.quiz) localStorage.setItem('pm5_quiz', JSON.stringify(r3.data.quiz));
-      if(r3.data.varstate) localStorage.setItem('pm5_var', JSON.stringify(r3.data.varstate));
-      if(r3.data.patricpack) localStorage.setItem('pm5_patricpack', JSON.stringify(r3.data.patricpack));
-      if(r3.data.patricpackdone) localStorage.setItem('pm5_patricpackdone', JSON.stringify(r3.data.patricpackdone));
+      if(r3.data.ablauf) _ablData=r3.data.ablauf;
+      if(r3.data.packliste) _packData=r3.data.packliste;
+      if(r3.data.pch) _pchData=r3.data.pch;
+      if(r3.data.mat) _matData=r3.data.mat;
+      if(r3.data.kacheln) _kachelnData=r3.data.kacheln;
+      if(r3.data.padeitabs) _padeitabsData=r3.data.padeitabs;
+      if(r3.data.somm) _sommState = r3.data.somm;
+      if(r3.data.regie) _regieData=r3.data.regie;
+      if(r3.data.quiz) _quizState = r3.data.quiz;
+      if(r3.data.varstate) _varState = r3.data.varstate;
+      if(r3.data.patricpack) _patricpackData=r3.data.patricpack;
+      if(r3.data.patricpackdone) _patricpackdoneData=r3.data.patricpackdone;
     }
   } catch(e){ console.warn('loadFromDB error:', e); }
 }
@@ -1956,7 +1956,8 @@ function scheduleSave(){
 async function saveToDB(){
   if(!sb) return;
   try {
-    await sb.from('app_state').upsert({id:'main', state:S, updated_at: new Date().toISOString()});
+    var r=await sb.from('app_state').upsert({id:'main', state:S, updated_at: new Date().toISOString()});
+    if(r.error) console.warn('saveToDB error:', r.error);
   } catch(e){ console.warn('saveToDB error:', e); }
 }
 
@@ -1971,17 +1972,20 @@ async function saveListsToDB(){
   if(!sb) return;
   try {
     var payload = {id:'main', updated_at: new Date().toISOString()};
-    var keys = {
-      ablauf:'pm5_abl', packliste:'pm5_pack', pch:'pm5_pch',
-      mat:'pm5_mat', kacheln:'pm5_kacheln', padeitabs:'pm5_padeitabs',
-      somm:'pm5_somm', regie:'pm5_regie', quiz:'pm5_quiz', varstate:'pm5_var',
-      patricpack:'pm5_patricpack', patricpackdone:'pm5_patricpackdone'
-    };
-    Object.keys(keys).forEach(function(col){
-      var raw = localStorage.getItem(keys[col]);
-      if(raw){ try{ payload[col] = JSON.parse(raw); }catch(e){} }
-    });
-    await sb.from('app_lists').upsert(payload);
+    if(_ablData) payload.ablauf=_ablData;
+    if(_packData) payload.packliste=_packData;
+    if(_pchData) payload.pch=_pchData;
+    if(_matData) payload.mat=_matData;
+    if(_kachelnData) payload.kacheln=_kachelnData;
+    if(_padeitabsData.length) payload.padeitabs=_padeitabsData;
+    if(_sommState) payload.somm=_sommState;
+    if(_regieData) payload.regie=_regieData;
+    if(_quizState) payload.quiz=_quizState;
+    if(_varState) payload.varstate=_varState;
+    if(_patricpackData) payload.patricpack=_patricpackData;
+    if(_patricpackdoneData) payload.patricpackdone=_patricpackdoneData;
+    var r=await sb.from('app_lists').upsert(payload);
+    if(r.error) console.warn('saveListsToDB error:', r.error);
   } catch(e){ console.warn('saveListsToDB error:', e); }
 }
 
@@ -2008,17 +2012,17 @@ function subscribeRealtime(){
     .on('postgres_changes', {event:'UPDATE', schema:'public', table:'app_lists'},
       function(payload){
         var d = payload.new;
-        if(d.ablauf) localStorage.setItem('pm5_abl', JSON.stringify(d.ablauf));
-        if(d.packliste) localStorage.setItem('pm5_pack', JSON.stringify(d.packliste));
-        if(d.pch) localStorage.setItem('pm5_pch', JSON.stringify(d.pch));
-        if(d.mat) localStorage.setItem('pm5_mat', JSON.stringify(d.mat));
-        if(d.kacheln) localStorage.setItem('pm5_kacheln', JSON.stringify(d.kacheln));
-        if(d.padeitabs) localStorage.setItem('pm5_padeitabs', JSON.stringify(d.padeitabs));
-        if(d.somm) { localStorage.setItem('pm5_somm', JSON.stringify(d.somm)); renderSOMMTobi(); renderAllPersonSOMMWords(); }
-        if(d.quiz) { localStorage.setItem('pm5_quiz', JSON.stringify(d.quiz)); renderQuizMaege(); P.forEach(function(p){renderMyQuizForm(p.id);}); }
-        if(d.varstate) { localStorage.setItem('pm5_var', JSON.stringify(d.varstate)); renderVARBeni(); renderAllPersonVAR(); }
+        if(d.ablauf) _ablData=d.ablauf;
+        if(d.packliste) _packData=d.packliste;
+        if(d.pch) _pchData=d.pch;
+        if(d.mat) _matData=d.mat;
+        if(d.kacheln) _kachelnData=d.kacheln;
+        if(d.padeitabs) _padeitabsData=d.padeitabs;
+        if(d.somm) { _sommState=d.somm; renderSOMMTobi(); renderAllPersonSOMMWords(); }
+        if(d.quiz) { _quizState=d.quiz; renderQuizMaege(); P.forEach(function(p){renderMyQuizForm(p.id);}); }
+        if(d.varstate) { _varState=d.varstate; renderVARBeni(); renderAllPersonVAR(); }
         if(d.patricpack) localStorage.setItem('pm5_patricpack', JSON.stringify(d.patricpack));
-        if(d.patricpackdone) localStorage.setItem('pm5_patricpackdone', JSON.stringify(d.patricpackdone));
+        if(d.patricpackdone) _patricpackdoneData=d.patricpackdone;
         renderAblauf(); renderPackliste(); renderPC(); renderAllMat(); renderPatricTab(); renderPatricPack();
       })
     .subscribe();
@@ -2052,6 +2056,7 @@ var P=[
   {id:'patrick',name:'Pädi A.',role:'Bier-Kapitan'},
 ];
 var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,einTarget:50,ig_f:'',ig_l:'',ig_k:'',ig_f_target:38,ig_l_target:100,ig_k_target:10,mis:{f:0,l:0,k:0},schnapsGt:{},abl:{},pc:{},mat:{},tips:{},varp:{}};
+var _ablData=null, _packData=null, _pchData=null, _matData=null, _kachelnData=null, _padeitabsData=[], _regieData=null, _patricpackData=null, _patricpackdoneData={};
 function save(){localStorage.setItem('pm5',JSON.stringify(S));}
 
 var MEDALS=[
@@ -2187,13 +2192,12 @@ var REGIE=[
 
 // ─── Regie Edit Management ────────────────────────────────────────────────────
 function getRegieData(){
-  var saved = localStorage.getItem('pm5_regie');
-  if(saved){ try{ return JSON.parse(saved); } catch(e){} }
+  if(_regieData) return JSON.parse(JSON.stringify(_regieData));
   return JSON.parse(JSON.stringify(REGIE)); // deep clone
 }
 function saveRegieData(data){
-  localStorage.setItem('pm5_regie', JSON.stringify(data));
-  if(sb) sb.from('app_lists').upsert({id:'main', regie:data, updated_at:new Date().toISOString()});
+  _regieData=data;
+  if(sb) sb.from('app_lists').upsert({id:'main', regie:data, updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('saveRegie error:',r.error); });
 }
 
 function regieAddStation(){
@@ -2504,7 +2508,7 @@ function getAblItems(){
 }
 
 function saveAblItems(items){
-  localStorage.setItem('pm5_abl',JSON.stringify(items));
+  _ablData=items;
 }
 
 function saveAblaufEdits(){
@@ -2563,9 +2567,9 @@ var PCH=[
   {id:'p5',t:'Medienpflichten erfüllt'},
 ];
 function getPCH(){
-  return JSON.parse(localStorage.getItem('pm5_pch')||'null')||PCH.slice();
+  return _pchData||PCH.slice();
 }
-function savePCH(items){ localStorage.setItem('pm5_pch',JSON.stringify(items)); }
+function savePCH(items){ _pchData=items; }
 
 function renderPC(){
   var el=document.getElementById('patrickCL');
@@ -2830,10 +2834,10 @@ var MAT={
   maege:['Médaillenrangliste + Molotow-Tabelle','Jass-Karten (von Anfang an dabei)','Kings Cup Karten','Task Team Spiel','Quizfragen (5 auswählen, für den Zug)','Match-Tippscheine','Zettel','Stifte','Weinkorken + Becher','Fünf Goldmedaillen'],
 };
 function getMatData(){
-  return JSON.parse(localStorage.getItem('pm5_mat')||'null')||
+  return _matData||
     Object.keys(MAT).reduce(function(o,k){ o[k]=MAT[k].slice(); return o; },{});
 }
-function saveMatData(d){ localStorage.setItem('pm5_mat',JSON.stringify(d)); }
+function saveMatData(d){ _matData=d; }
 
 function matHtml(key,data){
   var items=(data||getMatData())[key]||[];
@@ -3140,18 +3144,21 @@ function getQuizQuestions(){
 function saveQuizQuestions(qs){
   var store=getEditStore();
   store['__quizquestions__']=JSON.stringify(qs);
-  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
+  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('saveListEdit error:',r.error); });
   QUIZ_QUESTIONS=qs;
 }
 
-function getSOMMState(){ return JSON.parse(localStorage.getItem('pm5_somm')||'null') || {assigned:{}, winner:null}; }
-function saveSOMMState(s){ localStorage.setItem('pm5_somm',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',somm:s,updated_at:new Date().toISOString()}); }
+var _sommState = {assigned:{}, winner:null};
+function getSOMMState(){ return _sommState; }
+function saveSOMMState(s){ _sommState=s; if(sb) sb.from('app_lists').upsert({id:'main',somm:s,updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('saveSOMM error:',r.error); }); }
 
-function getQuizState(){ return JSON.parse(localStorage.getItem('pm5_quiz')||'null') || {answers:{}, winner:null, paediAnswers:[]}; }
-function saveQuizState(s){ localStorage.setItem('pm5_quiz',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',quiz:s,updated_at:new Date().toISOString()}); }
+var _quizState = {answers:{}, winner:null, paediAnswers:[]};
+function getQuizState(){ return _quizState; }
+function saveQuizState(s){ _quizState=s; if(sb) sb.from('app_lists').upsert({id:'main',quiz:s,updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('saveQuizState error:',r.error); }); }
 
-function getVARState(){ return JSON.parse(localStorage.getItem('pm5_var')||'null') || {photos:[], guesses:{}, winner:null}; }
-function saveVARState(s){ localStorage.setItem('pm5_var',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',varstate:s,updated_at:new Date().toISOString()}); }
+var _varState = {photos:[], guesses:{}, winner:null};
+function getVARState(){ return _varState; }
+function saveVARState(s){ _varState=s; if(sb) sb.from('app_lists').upsert({id:'main',varstate:s,updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('saveVAR error:',r.error); }); }
 
 function resetSOMMWords(){
   var state={assigned:{}, winner:null};
@@ -3749,7 +3756,7 @@ function saveEdit(el){
   if(sb){
     sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()})
       .then(function(res){
-        if(res.error){ console.warn('saveEdit error:', res.error); showToast('Fehler beim Speichern ✗'); }
+        if(res.error){ console.warn('saveEdit error:', res.error); showToast('Fehler ✗'); }
       });
   }
 }
@@ -4015,7 +4022,7 @@ function getPackData(){
   });
 }
 function savePackData(d){
-  localStorage.setItem('pm5_pack',JSON.stringify(d));
+  _packData=d;
   saveListsToDB();
 }
 
@@ -4041,15 +4048,15 @@ function savePackEdits(){
 
 // ─── Patrick Packliste ────────────────────────────────────────────────────────
 function getPatricPack(){
-  return JSON.parse(localStorage.getItem('pm5_patricpack')||'null') || PATRIC_PACK.slice();
+  return _patricpackData || PATRIC_PACK.slice();
 }
-function savePatricPack(items){ localStorage.setItem('pm5_patricpack', JSON.stringify(items)); if(sb) sb.from('app_lists').upsert({id:'main',patricpack:items,updated_at:new Date().toISOString()}); }
+function savePatricPack(items){ _patricpackData=items; if(sb) sb.from('app_lists').upsert({id:'main',patricpack:items,updated_at:new Date().toISOString()}); }
 function renderPatricPack(){
   var el = document.getElementById('patricPackliste');
   if(!el) return;
   var isPatric = APP_MODE === 'paedi';
   var items = getPatricPack();
-  var checked = JSON.parse(localStorage.getItem('pm5_patricpackdone')||'{}');
+  var checked = _patricpackdoneData;
   var html = items.map(function(item, i){
     var done = !!checked[i];
     return '<div class="ci '+(done?'done':'')+'" data-ppidx="'+i+'">'
@@ -4069,9 +4076,9 @@ function renderPatricPack(){
       if(e.target.classList.contains('pp-del')) return;
       if(e.target.classList.contains('pp-text') && editMode && !isPatric) return;
       var i = parseInt(this.getAttribute('data-ppidx'));
-      var done = JSON.parse(localStorage.getItem('pm5_patricpackdone')||'{}');
+      var done = _patricpackdoneData;
       done[i] = !done[i];
-      localStorage.setItem('pm5_patricpackdone', JSON.stringify(done)); if(sb) sb.from('app_lists').upsert({id:'main',patricpackdone:done,updated_at:new Date().toISOString()});
+      _patricpackdoneData=done; if(sb) sb.from('app_lists').upsert({id:'main',patricpackdone:done,updated_at:new Date().toISOString()});
       renderPatricPack();
     });
   });
@@ -4111,10 +4118,10 @@ function renderPatricPack(){
 
 // ─── Tab toggles for Pädi ─────────────────────────────────────────────────────
 function getPaediTabs(){
-  return JSON.parse(localStorage.getItem('pm5_padeitabs')||'[]');
+  return _padeitabsData;
 }
 function savePaediTabs(tabs){
-  localStorage.setItem('pm5_padeitabs', JSON.stringify(tabs));
+  _padeitabsData=tabs;
   if(sb) sb.from('app_lists').upsert({id:'main', padeitabs:tabs, updated_at:new Date().toISOString()});
 }
 function renderTabToggles(){
@@ -4207,7 +4214,7 @@ function checkLogin(){
 
 function applyAppMode(){
   if(APP_MODE === 'paedi'){
-    var extraTabs = JSON.parse(localStorage.getItem('pm5_padeitabs')||'[]');
+    var extraTabs = _padeitabsData;
     var allowed = ['patrick'].concat(extraTabs);
     document.querySelectorAll('.tab-btn,.s-btn,.s-crew-btn,.bb-btn,.bb-crew-btn').forEach(function(btn){
       var tab=btn.getAttribute('data-tab');
@@ -4257,13 +4264,13 @@ function getKachelState(){
     var k=el.getAttribute('data-kachel');
     def[k]=el.getAttribute('data-default')==='1';
   });
-  var stored=JSON.parse(localStorage.getItem('pm5_kacheln')||'null');
+  var stored=_kachelnData;
   if(!stored) return def;
   Object.keys(def).forEach(function(k){ if(stored[k]===undefined) stored[k]=def[k]; });
   return stored;
 }
 function saveKachelState(state){
-  localStorage.setItem('pm5_kacheln',JSON.stringify(state));
+  _kachelnData=state;
   if(sb) sb.from('app_lists').upsert({id:'main',kacheln:state,updated_at:new Date().toISOString()});
 }
 function renderPatricTab(){
@@ -4504,7 +4511,7 @@ saveAblItems = function(items){
 };
 var _origSavePackData = savePackData;
 savePackData = function(d){
-  localStorage.setItem('pm5_pack',JSON.stringify(d));
+  _packData=d;
   saveListsToDB();
 };
 var _origSavePCH = savePCH;
@@ -4557,7 +4564,7 @@ function saveProgrammToDB(p){
   if(!sb) return;
   var store=getEditStore();
   store['__programm__']=JSON.stringify(p);
-  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
+  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('saveProgramm error:',r.error); });
 }
 
 function loadProgrammFromStore(){
@@ -4771,17 +4778,17 @@ async function initSupabaseDefaults(){
     await sb.from('app_lists').upsert({
       id: 'main',
       regie: regieData,
-      ablauf: JSON.parse(localStorage.getItem('pm5_abl')||'null') || [],
-      packliste: JSON.parse(localStorage.getItem('pm5_pack')||'null') || [],
-      pch: JSON.parse(localStorage.getItem('pm5_pch')||'null') || [],
+      ablauf: _ablData || [],
+      packliste: _packData || [],
+      pch: _pchData || [],
       mat: JSON.parse(localStorage.getItem('pm5_mat')||'null') || {},
       kacheln: {},
       padeitabs: [],
       somm: JSON.parse(localStorage.getItem('pm5_somm')||'null') || {assigned:{}, winner:null},
       quiz: JSON.parse(localStorage.getItem('pm5_quiz')||'null') || {answers:{}, winner:null, paediAnswers:[]},
       varstate: JSON.parse(localStorage.getItem('pm5_var')||'null') || {photos:[], guesses:{}, winner:null},
-      patricpack: JSON.parse(localStorage.getItem('pm5_patricpack')||'null') || [],
-      patricpackdone: JSON.parse(localStorage.getItem('pm5_patricpackdone')||'null') || {},
+      patricpack: _patricpackData || [],
+      patricpackdone: _patricpackdoneData||{},
       updated_at: new Date().toISOString()
     });
 
