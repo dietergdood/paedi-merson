@@ -3479,7 +3479,8 @@ function saveMyVARGuess(personId,photoIdx,guess){
   var s=getVARState();
   if(!s.guesses) s.guesses={};
   if(!s.guesses[personId]) s.guesses[personId]=[];
-  s.guesses[personId][photoIdx]=guess;
+  // Toggle: click same button again to deselect
+  s.guesses[personId][photoIdx]=(s.guesses[personId][photoIdx]===guess?null:guess);
   saveVARState(s); renderMyVARGuesses(personId);
 }
 
