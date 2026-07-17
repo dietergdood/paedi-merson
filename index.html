@@ -3701,14 +3701,25 @@ function deactivateEdit(){
   renderTabToggles();
   renderRegie();
   loadProgrammFromStore(); renderProgramm();
-  // Remove list edit UI
+  // Remove list edit UI — restore all li to clean state
   document.querySelectorAll('.li-del,.li-add').forEach(function(el){ el.remove(); });
   document.querySelectorAll('.info-block ul').forEach(function(ul){
     ul.removeAttribute('data-list-edit');
     ul.querySelectorAll('li').forEach(function(li){
-      li.style.display='';
+      // Restore clean li: extract text from span, remove span/button structure
+      var text='';
+      li.childNodes.forEach(function(n){
+        if(n.nodeType===Node.TEXT_NODE) text+=n.textContent;
+        else if(n.nodeName!=='BUTTON') text+=n.textContent;
+      });
+      li.textContent=text.trim();
+      li.style.cssText='';
       li.removeAttribute('contenteditable');
     });
+  });
+  // Also reset dossier-body contenteditable
+  document.querySelectorAll('.dossier-body').forEach(function(el){
+    el.removeAttribute('contenteditable');
   });
   applyListEdits();
 }
