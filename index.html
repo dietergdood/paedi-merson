@@ -2039,6 +2039,7 @@ var P=[
   {id:'patrick',name:'Pädi A.',role:'Bier-Kapitan'},
 ];
 var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,einTarget:50,ig_f:'',ig_l:'',ig_k:'',ig_f_target:38,ig_l_target:100,ig_k_target:10,mis:{f:0,l:0,k:0},schnapsGt:{},abl:{},pc:{},mat:{},tips:{},varp:{}};
+var _editStore = {};
 var _ablData=null, _packData=null, _pchData=null, _matData=null, _kachelnData=null, _padeitabsData=[], _regieData=null, _patricpackData=null, _patricpackdoneData={};
 function save(){localStorage.setItem('pm5',JSON.stringify(S));}
 
@@ -3721,7 +3722,6 @@ function applyAllEdits(){
   console.log('applyAllEdits: store keys='+keys.length+', applied='+applied);
 }
 
-var _editStore = {};
 function getEditStore(){
   return _editStore;
 }
