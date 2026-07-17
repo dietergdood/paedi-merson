@@ -3555,12 +3555,23 @@ function renderVARBeni(){
       var isWinner=s.winner===p.id;
       html+='<div style="display:flex;align-items:center;gap:8px;padding:5px 10px;border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
         +'<span style="font-size:12px;font-weight:600;min-width:70px;color:#555">'+p.name+':</span>'
-        +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+correct+'/'+revealed+'</span>'
-        +'<button class="bs bs-sm var-winner-btn" data-vwid="'+p.id+'" style="margin-left:auto;'+(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">'+(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
+        +'<span style="font-size:13px;font-weight:700;color:'+(isWinner?'#16a34a':'#0a0a0a')+'">'+(isWinner?'🏆 ':'')+correct+'/'+revealed+'</span>'
         +'</div>';
     });
     html+='</div>';
   }
+  // Auto-set winner by highest score
+  var maxScore=-1; var winnerId=null;
+  P.filter(function(p){return p.id!=='beni';}).forEach(function(p){
+    var guesses=(s.guesses&&s.guesses[p.id])||[];
+    var correct=0;
+    s.photos.forEach(function(photo,i){
+      if(photo.real!==null&&guesses[i]&&((guesses[i]==='echt')===photo.real)) correct++;
+    });
+    if(correct>maxScore){ maxScore=correct; winnerId=p.id; }
+    else if(correct===maxScore){ winnerId=null; } // tie
+  });
+  if(winnerId && maxScore>0 && s.winner!==winnerId){ s.winner=winnerId; saveVARState(s); }
   el.innerHTML=html;
   el.querySelectorAll('.var-count-btn').forEach(function(btn){
     btn.addEventListener('click',function(){ setVARPhotoCount(parseInt(this.getAttribute('data-vc'))); });
@@ -3568,9 +3579,7 @@ function renderVARBeni(){
   el.querySelectorAll('.var-real-btn').forEach(function(btn){
     btn.addEventListener('click',function(){ setVARPhotoReal(parseInt(this.getAttribute('data-vri')),this.getAttribute('data-vrv')==='1'); });
   });
-  el.querySelectorAll('.var-winner-btn').forEach(function(btn){
-    btn.addEventListener('click',function(){ setVARWinner(this.getAttribute('data-vwid')); });
-  });
+
 }
 
 function renderAllPersonVAR(){
