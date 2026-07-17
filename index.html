@@ -3566,7 +3566,7 @@ function showTab(id,btn){
     var einEl=document.getElementById('ein'); if(einEl) einEl.value=S.ein||'';
     var einTEl=document.getElementById('einTarget'); if(einTEl) einTEl.value=S.einTarget||50;
     ['ig_f','ig_l','ig_k'].forEach(function(fid){ var e=document.getElementById(fid); if(e) e.value=S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[fid]]||''; });
-    ['ig_f_target','ig_l_target','ig_k_target'].forEach(function(fid){ var e=document.getElementById(fid); if(e) e.value=S[fid+'_target']||''; });
+    ['ig_f_target','ig_l_target','ig_k_target'].forEach(function(fid){ var e=document.getElementById(fid); if(e) e.value=S[fid]||''; });
   }
   if(id==='tobi'){ renderSOMMTobi(); }
   if(id==='maege'){ renderPersonPackliste('maege'); renderMyQuizForm('maege'); renderMyTip('maege'); renderMySOMMWord('maege'); renderMyVARGuesses('maege'); renderTips(); renderQuizMaege(); }
@@ -5021,7 +5021,7 @@ if(supabaseReady){
     var einEl=document.getElementById('ein'); if(einEl) einEl.value=S.ein||'';
     var einTEl=document.getElementById('einTarget'); if(einTEl) einTEl.value=S.einTarget||50;
     ['ig_f','ig_l','ig_k'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]||''; });
-    ['ig_f_target','ig_l_target','ig_k_target'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=S[id+'_target']||''; });
+    ['ig_f_target','ig_l_target','ig_k_target'].forEach(function(id){ var e=document.getElementById(id); if(e) e.value=S[id]||''; });
     }
   }).catch(function(){
     if(!_initDone){ _initDone=true; clearTimeout(_initFallback); init(); initAppMode(); }
