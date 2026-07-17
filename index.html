@@ -4150,14 +4150,19 @@ function renderPatricTab(){
     el.querySelectorAll('.pkachel-lock-overlay,.pkachel-toggle').forEach(function(x){x.remove();});
     el.classList.remove('pkachel-locked');
     if(patricMode==='crew' && editMode){
-      var btn=document.createElement('button');
-      btn.className='pkachel-toggle '+(unlocked?'on':'off');
-      btn.innerHTML=(unlocked?'✓ Sichtbar für Pädi':'🔒 Versteckt');
-      btn.setAttribute('data-togglekachel',k);
-      el.insertBefore(btn,el.firstChild);
-      btn.addEventListener('click',function(){
+      var wrap=document.createElement('div');
+      wrap.className='pkachel-toggle-wrap';
+      wrap.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:'+(unlocked?'#f0fdf4':'#fef2f2')+';border-radius:8px;margin-bottom:8px';
+      wrap.innerHTML='<span style="font-size:11px;font-weight:600;color:'+(unlocked?'#16a34a':'#e03535')+'">'+(unlocked?'✓ Sichtbar für Pädi':'🔒 Versteckt für Pädi')+'</span>'
+        +'<label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer">'
+        +'<input type="checkbox" data-togglekachel="'+k+'" '+(unlocked?'checked':'')+' style="opacity:0;width:0;height:0;position:absolute">'
+        +'<span style="position:absolute;top:0;left:0;right:0;bottom:0;background:'+(unlocked?'#16a34a':'#ccc')+';border-radius:11px;transition:.2s">'
+        +'<span style="position:absolute;left:'+(unlocked?'20':'2')+'px;top:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s"></span>'
+        +'</span></label>';
+      el.insertBefore(wrap,el.firstChild);
+      wrap.querySelector('input[data-togglekachel]').addEventListener('change',function(){
         var s=getKachelState();
-        s[k]=!s[k];
+        s[k]=this.checked;
         saveKachelState(s);
         renderPatricTab();
       });
