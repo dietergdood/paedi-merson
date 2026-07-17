@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pädi Merson — Der Transfer</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bebas+Neue&display=swap');
 
@@ -29,7 +29,7 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--black);font-size:14px;-webkit-font-smoothing:antialiased}
-.app{max-width:680px;margin:0 auto;padding:0 12px 40px}
+.app{max-width:680px;margin:0 auto;padding:0 12px 40px;min-height:100vh}
 
 /* HEADER */
 .header{text-align:center;padding:2rem 0 1.25rem;margin-bottom:1.25rem;position:relative}
@@ -614,6 +614,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
       </div>
     </div>
   </div>
+</div>
 
 <div id="tab-story" style="display:none">
   <div class="section">
@@ -782,38 +783,12 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
   </div>
 
   <div class="section">
-    <div class="section-title">Das Ergebnis</div>
-    <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
-      <p style="margin-bottom:.75rem">Patrick und der Freund mit den wenigsten Médaillen müssen am nächsten Morgen frühstück und Kaffee für alle machen, beim Aufräumen die Hauptarbeit übernehmen, gemeinsam ein Instagram-Entschuldigungsvideo aufnehmen und das Frankreich-Outfit bis zur Abreise abwechselnd tragen.</p>
-      <p>Hat Patrick alle seine Pflichten erfüllt, wird er feierlich zum <strong>Capitaine à vie du FC Mariage</strong> ernannt — und unterschreibt seinen Transfervertrag.</p>
+      <div class="section-title">Tagesablauf — Checkliste</div>
+      <div class="cl" id="ablaufList"></div>
     </div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Transferdossier & Tagesmission</div>
-    <div class="qb" style="font-style:normal;border-left-color:#888">
-      <div style="font-size:10px;font-weight:700;color:#888;letter-spacing:.1em;margin-bottom:.75rem">CONFIDENTIEL — TRANSFERDOSSIER</div>
-      <p>Sehr geehrter Monsieur Merson,</p><br>
-      <p>Ihr Wechsel vom FC Junggeselle zum FC Mariage befindet sich in der entscheidenden Phase. Der FC Mariage hat dem Transfer grundsätzlich zugestimmt. Vor der endgültigen Vertragsunterzeichnung müssen Sie jedoch Ihre finanzielle Selbstständigkeit, körperliche Eignung und öffentliche Relevanz beweisen.</p><br>
-      <p>Leider wurde Ihr vereinbartes Handgeld noch nicht überwiesen. Sie müssen Ihre Reise nach Lutry deshalb selbst finanzieren. Zudem verfügt Ihr Instagram-Profil derzeit über zu wenig Reichweite für einen Spieler Ihrer internationalen Bedeutung.</p><br>
-      <p><strong>Ihre Tagesmission:</strong></p>
-      <ul style="margin:.5rem 0 .75rem 1.2rem;line-height:2">
-        <li>Fünf Baguettes verkaufen</li>
-        <li>Mindestens CHF 50.– einnehmen</li>
-        <li>50 neue Follower gewinnen</li>
-        <li>Insgesamt 100 Likes sammeln</li>
-        <li>Mindestens zehn Kommentare erhalten</li>
-      </ul>
-      <p>Werden die Ziele erreicht, erhalten Sie am Abend den offiziellen blauen Haken und die Freigabe für den Transfer.</p><br>
-      <p>Werden die Ziele verfehlt, müssen Sie gemeinsam mit dem Letztplatzierten des Agenten-Cups öffentlich die Verantwortung übernehmen.</p><br>
-      <p>Sie stehen ab sofort unter Beobachtung des Transferkomitees, des Schiedsrichters und des Instagram-Algorithmus.</p><br>
-      <p><em><strong>Bonne chance.</strong></em></p>
-    </div>
-  </div>
-
 </div>
 
-<!-- REGIE -->
 <div id="tab-regie" style="display:none">
   <div style="display:flex;gap:6px;margin-bottom:.75rem">
     <button class="sub-btn active" data-sub="drehbuch">Drehbuch</button>
@@ -834,6 +809,8 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 </div>
 
 <!-- PATRICK -->
+
+
 <div id="tab-patrick" style="display:none">
 
   <!-- MODE SELECTOR shown on first open -->
@@ -2526,14 +2503,12 @@ function renderDidiRegie(){
 }
 
 function toggleAcc(id){
-  console.log('toggleAcc called:', id);
   var b=document.getElementById('acc_'+id);
   var a=document.getElementById('arr_'+id);
-  if(!b){ console.warn('toggleAcc: acc_'+id+' not found'); return; }
+  if(!b) return;
   var open=b.classList.contains('open');
   b.classList.toggle('open',!open);
   if(a) a.classList.toggle('open',!open);
-  console.log('toggleAcc done:', id, 'open=', !open, 'display=', b.style.display, 'classes=', b.className);
 }
 
 var ABL=[
@@ -2816,30 +2791,31 @@ function renderSB(){
     var r=S.red[p.id]||0;
     var isPatric=p.id==='patrick';
     var rc=!isPatric?(i===0?'r1':i===1?'r2':i===2?'r3':''):'';
-    var schnaps = (r * 3) + Math.floor(y / 2) + (y > 4 ? (y - 4) : 0);
-    var schnapsHtml = '';
-    if(!isPatric && schnaps > 0){
-      var gt = S.schnapsGt[p.id]||0;
-      var pct = Math.round((gt/schnaps)*100);
-      var all = gt >= schnaps;
-      var bgCol = all ? '#dcfce7' : '#fee2e2';
-      var barCol = all ? '#16a34a' : '#e03535';
-      var trackCol = all ? '#bbf7d0' : '#fecaca';
-      var textCol = all ? '#16a34a' : '#e03535';
-      var btnBorder = all ? '#86efac' : '#fca5a5';
-      schnapsHtml = '<div style="margin-top:8px;border-top:1px solid #eee;padding-top:8px">'
-        + '<div style="background:'+bgCol+';border-radius:8px;padding:6px 10px">'
-        + '<div style="font-size:10px;font-weight:700;color:'+textCol+';text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px">Schnaps</div>'
-        + '<div style="display:flex;align-items:center;gap:8px">'
-        + '<div style="flex:1;height:6px;background:'+trackCol+';border-radius:3px;overflow:hidden">'
-        + '<div style="width:'+pct+'%;height:100%;background:'+barCol+';border-radius:3px"></div>'
-        + '</div>'
-        + '<div style="font-size:12px;color:'+textCol+';font-weight:600;white-space:nowrap;min-width:36px">'+(all?'alle ✓':gt+' / '+schnaps)+'</div>'
-        + '<button class="bs bs-sm" data-fn="schnapsgt" data-id="'+p.id+'" data-max="'+schnaps+'" data-d="-1" style="padding:2px 7px;border-color:'+btnBorder+';color:'+textCol+'">−</button>'
-        + '<button class="bs bs-sm" data-fn="schnapsgt" data-id="'+p.id+'" data-max="'+schnaps+'" data-d="1" style="padding:2px 7px;border-color:'+btnBorder+';color:'+textCol+'">+</button>'
-        + '</div>'
-        + '</div>'
-        + '</div>';
+    var schnaps=(r*3)+Math.floor(y/2)+(y>4?(y-4):0);
+    var schnapsHtml='';
+    if(!isPatric && schnaps>0){
+      var gt=S.schnapsGt[p.id]||0;
+      var pct=Math.round((gt/schnaps)*100);
+      var done=gt>=schnaps;
+      var bgCol=done?'#dcfce7':'#fee2e2';
+      var barCol=done?'#16a34a':'#e03535';
+      var trackCol=done?'#bbf7d0':'#fecaca';
+      var textCol=done?'#16a34a':'#e03535';
+      schnapsHtml='<div style="margin-top:10px;border-top:1px solid #eee;padding-top:10px">'
+        +'<div style="background:'+bgCol+';border-radius:10px;padding:8px 12px">'
+        +'<div style="font-size:10px;font-weight:700;color:'+textCol+';text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Schnaps</div>'
+        +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
+        +'<div style="flex:1;height:6px;background:'+trackCol+';border-radius:3px;overflow:hidden">'
+        +'<div style="width:'+pct+'%;height:100%;background:'+barCol+';border-radius:3px"></div>'
+        +'</div>'
+        +'<div style="font-size:12px;color:'+textCol+';font-weight:700;white-space:nowrap">'+(done?'alle ✓':gt+' / '+schnaps)+'</div>'
+        +'</div>'
+        +'<div style="display:flex;gap:8px">'
+        +'<button data-fn="schnapsgt" data-id="'+p.id+'" data-max="'+schnaps+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid '+textCol+';border-radius:8px;background:#fff;font-size:22px;color:'+textCol+';cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="schnapsgt" data-id="'+p.id+'" data-max="'+schnaps+'" data-d="1" style="flex:1;height:44px;border:1.5px solid '+textCol+';border-radius:8px;background:#fff;font-size:22px;color:'+textCol+';cursor:pointer;font-weight:700">+</button>'
+        +'</div>'
+        +'</div>'
+        +'</div>';
     }
     html+='<div class="sb-card">'
       +'<div class="sb-card-top">'
@@ -2849,37 +2825,33 @@ function renderSB(){
         +'</div>'
         +(!isPatric?'<div class="rb '+rc+'">'+(i+1)+'</div>':'<div style="width:26px"></div>')
       +'</div>'
-      +'<div class="sb-card-row">'
-        // Médaillen
-        +'<div class="sb-cell">'
-          +'<div class="sb-cell-label">Médaillen</div>'
-          +'<div class="sb-cell-ctrl">'
-            +'<button class="bs bs-sm" data-fn="medal" data-id="'+p.id+'" data-d="-1">−</button>'
-            +'<div class="mc">'+m+'</div>'
-            +'<button class="bs bs-sm" data-fn="medal" data-id="'+p.id+'" data-d="1">+</button>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px">'
+        +'<div style="background:#fef9eb;border-radius:10px;padding:8px;text-align:center">'
+          +'<div style="font-size:10px;font-weight:700;color:#b8940a;letter-spacing:.06em;margin-bottom:4px">Médaillen</div>'
+          +'<div class="mc" style="margin:4px auto">'+m+'</div>'
+          +'<div style="display:flex;gap:5px;margin-top:6px">'
+            +'<button data-fn="medal" data-id="'+p.id+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid #e8c44a;border-radius:8px;background:#fff;font-size:20px;color:#b8940a;cursor:pointer;font-weight:700">−</button>'
+            +'<button data-fn="medal" data-id="'+p.id+'" data-d="1" style="flex:1;height:44px;border:1.5px solid #e8c44a;border-radius:8px;background:#fff;font-size:20px;color:#b8940a;cursor:pointer;font-weight:700">+</button>'
           +'</div>'
         +'</div>'
-        // Gelb
-        +'<div class="sb-cell">'
-          +'<div class="sb-cell-label">Gelb</div>'
-          +'<div class="sb-cell-ctrl">'
-            +'<button class="bs bs-sm" data-fn="yellow" data-id="'+p.id+'" data-d="-1">−</button>'
-            +'<div class="mc" style="background:'+(y>0?'#fbbf24':'#f0f0ee')+';color:'+(y>0?'#0a0a0a':'#aaa')+'">'+y+'</div>'
-            +'<button class="bs bs-sm" data-fn="yellow" data-id="'+p.id+'" data-d="1">+</button>'
+        +'<div style="background:#fefce8;border-radius:10px;padding:8px;text-align:center">'
+          +'<div style="font-size:10px;font-weight:700;color:#854d0e;letter-spacing:.06em;margin-bottom:4px">Gelb</div>'
+          +'<div class="mc" style="margin:4px auto;background:'+(y>0?'#fbbf24':'#f0f0ee')+';color:'+(y>0?'#0a0a0a':'#aaa')+'">'+y+'</div>'
+          +'<div style="display:flex;gap:5px;margin-top:6px">'
+            +'<button data-fn="yellow" data-id="'+p.id+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid #facc15;border-radius:8px;background:#fff;font-size:20px;color:#854d0e;cursor:pointer;font-weight:700">−</button>'
+            +'<button data-fn="yellow" data-id="'+p.id+'" data-d="1" style="flex:1;height:44px;border:1.5px solid #facc15;border-radius:8px;background:#fff;font-size:20px;color:#854d0e;cursor:pointer;font-weight:700">+</button>'
           +'</div>'
         +'</div>'
-        // Rot
-        +'<div class="sb-cell">'
-          +'<div class="sb-cell-label">Rot</div>'
-          +'<div class="sb-cell-ctrl">'
-            +'<button class="bs bs-sm" data-fn="red" data-id="'+p.id+'" data-d="-1">−</button>'
-            +'<div class="mc" style="background:'+(r>0?'var(--red)':'#f0f0ee')+';color:'+(r>0?'#fff':'#aaa')+'">'+r+'</div>'
-            +'<button class="bs bs-sm" data-fn="red" data-id="'+p.id+'" data-d="1">+</button>'
+        +'<div style="background:#fef2f2;border-radius:10px;padding:8px;text-align:center">'
+          +'<div style="font-size:10px;font-weight:700;color:#991b1b;letter-spacing:.06em;margin-bottom:4px">Rot</div>'
+          +'<div class="mc" style="margin:4px auto;background:'+(r>0?'var(--red)':'#f0f0ee')+';color:'+(r>0?'#fff':'#aaa')+'">'+r+'</div>'
+          +'<div style="display:flex;gap:5px;margin-top:6px">'
+            +'<button data-fn="red" data-id="'+p.id+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid #ef4444;border-radius:8px;background:#fff;font-size:20px;color:#991b1b;cursor:pointer;font-weight:700">−</button>'
+            +'<button data-fn="red" data-id="'+p.id+'" data-d="1" style="flex:1;height:44px;border:1.5px solid #ef4444;border-radius:8px;background:#fff;font-size:20px;color:#991b1b;cursor:pointer;font-weight:700">+</button>'
           +'</div>'
         +'</div>'
-        // Schnaps
-         +schnapsHtml
       +'</div>'
+      +schnapsHtml
     +'</div>';
   });
   var sbEl=document.getElementById('sbBody');
@@ -2900,8 +2872,6 @@ function renderSB(){
       save(); renderSB();
     });
   });
-  // schnaps section
-  // schnaps pills removed
 }
 
 {
@@ -3436,6 +3406,8 @@ function showSub(id,btn){
 
 // ─── Tab system ───────────────────────────────────────────────────────────────
 function showTab(id,btn){
+  var dbg=document.getElementById('debugBanner');
+  if(dbg) dbg.textContent='showTab: '+id+' target='+(document.getElementById('tab-'+id)?'FOUND':'MISSING');
   document.querySelectorAll('[id^="tab-"]').forEach(function(el){el.style.display='none';});
   var target=document.getElementById('tab-'+id);
   if(target) target.style.display='block';
@@ -4082,10 +4054,76 @@ function renderPatricMedaillen(){
   var el=document.getElementById('patricMedaillen');
   if(!el) return;
   var m=S.medals&&S.medals['patrick']||0;
-  el.innerHTML=m>0
-    ? '<div style="font-size:28px;text-align:center;padding:.5rem">'+('🥇').repeat(m)+'</div>'
-      +'<div style="text-align:center;font-size:13px;color:#888">'+m+' Médaille'+(m===1?'':'n')+'</div>'
-    : '<div style="text-align:center;font-size:13px;color:#bbb;padding:.5rem">Noch keine Médaillen</div>';
+  var y=S.yellow&&S.yellow['patrick']||0;
+  var r=S.red&&S.red['patrick']||0;
+  if(!S.schnapsGt) S.schnapsGt={};
+  var schnaps=(r*3)+Math.floor(y/2)+(y>4?(y-4):0);
+  var gt=S.schnapsGt['patrick']||0;
+  var isPatric=APP_MODE==='paedi'||patricMode==='paedi';
+  var html='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">'
+    +'<div style="background:#fef9eb;border-radius:10px;padding:8px;text-align:center">'
+      +'<div style="font-size:10px;font-weight:700;color:#b8940a;letter-spacing:.06em;margin-bottom:4px">Médaillen</div>'
+      +'<div class="mc" style="margin:4px auto">'+m+'</div>'
+      +(!isPatric?'<div style="display:flex;gap:5px;margin-top:6px">'
+        +'<button data-fn="medal" data-id="patrick" data-d="-1" style="flex:1;height:44px;border:1.5px solid #e8c44a;border-radius:8px;background:#fff;font-size:20px;color:#b8940a;cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="medal" data-id="patrick" data-d="1" style="flex:1;height:44px;border:1.5px solid #e8c44a;border-radius:8px;background:#fff;font-size:20px;color:#b8940a;cursor:pointer;font-weight:700">+</button>'
+        +'</div>':'')
+    +'</div>'
+    +'<div style="background:#fefce8;border-radius:10px;padding:8px;text-align:center">'
+      +'<div style="font-size:10px;font-weight:700;color:#854d0e;letter-spacing:.06em;margin-bottom:4px">Gelb</div>'
+      +'<div class="mc" style="margin:4px auto;background:'+(y>0?'#fbbf24':'#f0f0ee')+';color:'+(y>0?'#0a0a0a':'#aaa')+'">'+y+'</div>'
+      +(!isPatric?'<div style="display:flex;gap:5px;margin-top:6px">'
+        +'<button data-fn="yellow" data-id="patrick" data-d="-1" style="flex:1;height:44px;border:1.5px solid #facc15;border-radius:8px;background:#fff;font-size:20px;color:#854d0e;cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="yellow" data-id="patrick" data-d="1" style="flex:1;height:44px;border:1.5px solid #facc15;border-radius:8px;background:#fff;font-size:20px;color:#854d0e;cursor:pointer;font-weight:700">+</button>'
+        +'</div>':'')
+    +'</div>'
+    +'<div style="background:#fef2f2;border-radius:10px;padding:8px;text-align:center">'
+      +'<div style="font-size:10px;font-weight:700;color:#991b1b;letter-spacing:.06em;margin-bottom:4px">Rot</div>'
+      +'<div class="mc" style="margin:4px auto;background:'+(r>0?'var(--red)':'#f0f0ee')+';color:'+(r>0?'#fff':'#aaa')+'">'+r+'</div>'
+      +(!isPatric?'<div style="display:flex;gap:5px;margin-top:6px">'
+        +'<button data-fn="red" data-id="patrick" data-d="-1" style="flex:1;height:44px;border:1.5px solid #ef4444;border-radius:8px;background:#fff;font-size:20px;color:#991b1b;cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="red" data-id="patrick" data-d="1" style="flex:1;height:44px;border:1.5px solid #ef4444;border-radius:8px;background:#fff;font-size:20px;color:#991b1b;cursor:pointer;font-weight:700">+</button>'
+        +'</div>':'')
+    +'</div>'
+  +'</div>';
+  if(schnaps>0){
+    var pct=Math.round((gt/schnaps)*100);
+    var done=gt>=schnaps;
+    var bgCol=done?'#dcfce7':'#fee2e2';
+    var barCol=done?'#16a34a':'#e03535';
+    var trackCol=done?'#bbf7d0':'#fecaca';
+    var textCol=done?'#16a34a':'#e03535';
+    html+='<div style="background:'+bgCol+';border-radius:10px;padding:8px 12px">'
+      +'<div style="font-size:10px;font-weight:700;color:'+textCol+';text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Schnaps</div>'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'
+      +'<div style="flex:1;height:6px;background:'+trackCol+';border-radius:3px;overflow:hidden">'
+      +'<div style="width:'+pct+'%;height:100%;background:'+barCol+';border-radius:3px"></div>'
+      +'</div>'
+      +'<div style="font-size:12px;color:'+textCol+';font-weight:700">'+(done?'alle ✓':gt+' / '+schnaps)+'</div>'
+      +'</div>'
+      +(!isPatric?'<div style="display:flex;gap:8px">'
+        +'<button data-fn="schnapsgt" data-id="patrick" data-max="'+schnaps+'" data-d="-1" style="flex:1;height:44px;border:1.5px solid '+textCol+';border-radius:8px;background:#fff;font-size:22px;color:'+textCol+';cursor:pointer;font-weight:700">−</button>'
+        +'<button data-fn="schnapsgt" data-id="patrick" data-max="'+schnaps+'" data-d="1" style="flex:1;height:44px;border:1.5px solid '+textCol+';border-radius:8px;background:#fff;font-size:22px;color:'+textCol+';cursor:pointer;font-weight:700">+</button>'
+        +'</div>':'')
+      +'</div>';
+  }
+  el.innerHTML=html;
+  el.querySelectorAll('[data-fn]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var fn=this.getAttribute('data-fn');
+      var id=this.getAttribute('data-id');
+      var d=parseInt(this.getAttribute('data-d'));
+      if(fn==='medal') S.medals[id]=Math.max(0,(S.medals[id]||0)+d);
+      if(fn==='yellow') S.yellow[id]=Math.max(0,(S.yellow[id]||0)+d);
+      if(fn==='red') S.red[id]=Math.max(0,(S.red[id]||0)+d);
+      if(fn==='schnapsgt'){
+        if(!S.schnapsGt) S.schnapsGt={};
+        var max=parseInt(this.getAttribute('data-max')||'0');
+        S.schnapsGt[id]=Math.max(0,Math.min(max,(S.schnapsGt[id]||0)+d));
+      }
+      save(); renderPatricMedaillen(); renderSB();
+    });
+  });
 }
 function setPatricMode(mode){
   patricMode=mode;
@@ -4371,11 +4409,14 @@ function toggleGameAcc(id){
 
 var supabaseReady = initSupabase();
 if(supabaseReady){
+  var _initDone = false;
+  var _initFallback = setTimeout(function(){
+    if(!_initDone){ _initDone=true; init(); initAppMode(); }
+  }, 500);
   loadFromDB().then(function(){
-    init();
-    initAppMode();
-    subscribeRealtime();
-    showToast('Verbunden ✓');
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); }
+  }).catch(function(){
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); init(); initAppMode(); }
   });
 } else {
   init();
