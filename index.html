@@ -3530,7 +3530,7 @@ function showTab(id,btn){
   if(id==='timetable'){ loadProgrammFromStore(); renderProgramm(); }
   if(id==='regie'){ showTab('story'); showSub('story-regie'); return; }
   if(id==='regie-checkliste'){ showTab('story'); showSub('story-checkliste'); return; }
-  if(id==='didi'){ renderDidiRegie(); }
+  if(id==='didi'){ renderDidiRegie(); setTimeout(enableListEdit, 50); }
   if(id==='ablauf') renderAblauf();
   if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderPersonPackliste('patrick');renderMyTip('patrick');renderMySOMMWord('patrick');renderMyVARGuesses('patrick');}
   if(['didi','dominik','berater','beni','koch','tobi'].indexOf(id)!==-1){
@@ -3539,6 +3539,7 @@ function showTab(id,btn){
     renderMySOMMWord(id);
     renderMyQuizForm(id);
     if(id!=='beni') renderMyVARGuesses(id);
+    setTimeout(enableListEdit, 50);
   }
   if(id==='beni') renderVARBeni();
   // Populate tracker fields when switching to dominik or berater
@@ -3549,7 +3550,7 @@ function showTab(id,btn){
     ['ig_f_target','ig_l_target','ig_k_target'].forEach(function(fid){ var e=document.getElementById(fid); if(e) e.value=S[fid]||''; });
   }
   if(id==='tobi'){ renderSOMMTobi(); }
-  if(id==='maege'){ renderPersonPackliste('maege'); renderMyQuizForm('maege'); renderMyTip('maege'); renderMySOMMWord('maege'); renderMyVARGuesses('maege'); renderTips(); renderQuizMaege(); }
+  if(id==='maege'){ renderPersonPackliste('maege'); renderMyQuizForm('maege'); renderMyTip('maege'); renderMySOMMWord('maege'); renderMyVARGuesses('maege'); renderTips(); renderQuizMaege(); setTimeout(enableListEdit, 50); }
   if(id==='sb') renderSB();
 }
 
@@ -3826,7 +3827,6 @@ function enableListEdit(){
   document.querySelectorAll('.info-block ul').forEach(function(ul, uli){
     if(ul.getAttribute('data-list-edit')) return;
     ul.setAttribute('data-list-edit','1');
-    ul._userEdited=false;
     // Add delete buttons to existing li
     ul.querySelectorAll('li').forEach(function(li, lii){
       if(li.querySelector('.li-del')) return;
@@ -3851,12 +3851,10 @@ function enableListEdit(){
       del.style.cssText='flex-shrink:0;width:20px;height:20px;border:none;background:#fee2e2;color:#e03535;border-radius:4px;cursor:pointer;font-size:12px;padding:0;line-height:1';
       del.addEventListener('click',function(e){
         e.stopPropagation();
-        ul._userEdited=true;
-        li.remove();
+          li.remove();
         saveListEdit(ul);
       });
-      liSpan.addEventListener('input',function(){ ul._userEdited=true; });
-      liSpan.addEventListener('blur',function(){ if(ul._userEdited) saveListEdit(ul); });
+      liSpan.addEventListener('blur',function(){ saveListEdit(ul); });
       li.appendChild(liSpan);
       li.appendChild(del);
     });
@@ -3885,12 +3883,10 @@ function enableListEdit(){
           li.remove();
           saveListEdit(ul);
         });
-        liSpan.addEventListener('input',function(){ ul._userEdited=true; });
-        liSpan.addEventListener('blur',function(){ if(ul._userEdited) saveListEdit(ul); });
+        liSpan.addEventListener('blur',function(){ saveListEdit(ul); });
         li.appendChild(liSpan);
         li.appendChild(del);
         ul.appendChild(li);
-        ul._userEdited=true;
         saveListEdit(ul);
         // Focus the new item
         var range=document.createRange();
@@ -3941,7 +3937,7 @@ function applyListEdits(){
         ul.innerHTML=items.map(function(t){
           return '<li>'+t+'</li>';
         }).join('');
-        if(editMode) enableListEdit();
+        enableListEdit();
       }catch(e){ console.warn('applyListEdits error:',e); }
   });
 }
