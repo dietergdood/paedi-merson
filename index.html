@@ -5008,7 +5008,7 @@ if(supabaseReady){
     if(!_initDone){ _initDone=true; init(); initAppMode(); }
   }, 500);
   loadFromDB().then(function(){
-    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); setTimeout(function(){ applyAllEdits(); renderRegie(); renderDidiRegie(); }, 200); setTimeout(applyAllEdits, 800);
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); setTimeout(function(){ applyAllEdits(); renderRegie(); renderDidiRegie(); SOMM_WORDS=getSommWords(); renderSOMMBegriffe(); renderSOMMTobi(); renderAllPersonSOMMWords(); QUIZ_QUESTIONS=getQuizQuestions(); renderQuizMaege(); P.forEach(function(p){ renderMyQuizForm(p.id); }); }, 200); setTimeout(applyAllEdits, 800);
     // Populate inputs with DB values after load
     var einEl=document.getElementById('ein'); if(einEl) einEl.value=S.ein||'';
     var einTEl=document.getElementById('einTarget'); if(einTEl) einTEl.value=S.einTarget||50;
