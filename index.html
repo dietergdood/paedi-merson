@@ -3920,6 +3920,7 @@ function deactivateEdit(){
   renderPatricPack();
   renderTabToggles();
   renderRegie();
+  loadProgrammFromStore(); renderProgramm();
   // Remove list edit UI
   document.querySelectorAll('.li-del,.li-add').forEach(function(el){ el.remove(); });
   document.querySelectorAll('.info-block ul').forEach(function(ul){
