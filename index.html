@@ -3943,6 +3943,10 @@ function applyListEdits(){
     if(store[key]){
       try{
         var items=JSON.parse(store[key]);
+        ul.removeAttribute('data-list-edit');
+        // remove + button before rewrite to avoid duplicates
+        var oldAdd=ul.parentNode.querySelector('.li-add');
+        if(oldAdd) oldAdd.remove();
         ul.innerHTML=items.map(function(t){
           return '<li>'+t+'</li>';
         }).join('');
