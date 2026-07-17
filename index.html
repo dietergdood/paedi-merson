@@ -3669,6 +3669,7 @@ function closePwModal(){
 
 function activateEdit(){
   editMode=true;
+  renderMedals();
   var btn=document.getElementById('editToggle');
   var app=document.querySelector('.app');
   btn.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Fertig';
@@ -3691,6 +3692,7 @@ function activateEdit(){
 }
 
 function deactivateEdit(){
+  renderMedals();
   // Save all list edits FIRST before anything else changes the DOM
   document.querySelectorAll('.info-block ul[data-list-id]').forEach(function(ul){ saveListEdit(ul); });
   editMode=false;
