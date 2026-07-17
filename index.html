@@ -4255,6 +4255,14 @@ function applyAppMode(){
       if(tab && allowed.indexOf(tab)===-1){ btn.style.display='none'; }
       else { btn.style.display=''; }
     });
+    // Hide dividers with no visible neighbours
+    document.querySelectorAll('.s-divider').forEach(function(div){
+      var prev=div.previousElementSibling;
+      var next=div.nextElementSibling;
+      var prevHidden=!prev||prev.style.display==='none'||prev.classList.contains('s-divider');
+      var nextHidden=!next||next.style.display==='none'||next.classList.contains('s-divider');
+      div.style.display=(prevHidden||nextHidden)?'none':'';
+    });
     showTab('patrick', document.querySelector('[data-tab="patrick"]'));
     var editBtn = document.getElementById('editToggle');
     if(editBtn) editBtn.style.display='none';
@@ -4265,6 +4273,7 @@ function applyAppMode(){
     renderMis();
   } else {
     document.querySelectorAll('.tab-btn,.s-btn,.s-crew-btn,.bb-btn,.bb-crew-btn').forEach(function(btn){ btn.style.display=''; });
+    document.querySelectorAll('.s-divider').forEach(function(div){ div.style.display=''; });
     showTab('timetable', document.querySelector('[data-tab="timetable"]'));
     patricMode = 'crew';
     localStorage.setItem('patricMode','crew');
