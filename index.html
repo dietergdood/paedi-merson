@@ -3089,7 +3089,7 @@ function renderTips(){
     var isWinner=winner===p.id;
     html+='<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;border-radius:8px;'
       +'background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
-      +'<span style="font-size:12px;min-width:75px;color:#555;font-weight:600">'+p.name.split(' ')[0]+':</span>'
+      +'<span style="font-size:12px;min-width:75px;color:#555;font-weight:600">'+p.name+':</span>'
       +'<span style="font-size:13px;font-weight:600;min-width:40px;color:#0a0a0a">'+(t.res||'—')+'</span>'
       +'<span style="font-size:12px;color:#888;min-width:90px">'+(t.tor||'—')+'</span>'
       +'<span style="font-size:12px;color:#888;min-width:40px">'+(t.min?t.min+"'":' —')+'</span>'
@@ -3276,7 +3276,7 @@ function renderSOMMTobi(){
     var word=s.assigned[p.id]||'—';
     var isWinner=s.winner===p.id;
     html+='<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
-      +'<span style="font-size:12px;font-weight:600;min-width:70px;color:#555">'+p.name.split(' ')[0]+':</span>'
+      +'<span style="font-size:12px;font-weight:600;min-width:70px;color:#555">'+p.name+':</span>'
       +'<span class="badge bp" style="font-size:11px">'+word+'</span>'
       +'<button class="bs bs-sm somm-winner-btn" data-swid="'+p.id+'" style="margin-left:auto;'+(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">'+(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
       +'</div>';
@@ -3417,7 +3417,7 @@ function renderQuizMaege(){
     var hasAnswers=ans.some(function(a){return a&&a.trim();});
     html+='<div style="border-radius:8px;background:#fafaf8;border:1px solid #eee;padding:8px 10px;margin-bottom:6px">'
       +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(hasAnswers?'8px':'0')+'">'
-      +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.name.split(' ')[0]+'</span>'
+      +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.name+'</span>'
       +'<span style="font-size:12px;font-weight:700;color:#b8940a;background:#fef9eb;padding:2px 8px;border-radius:6px">'+pts+' Pkt.</span>'
       +'</div>';
     if(hasAnswers){
@@ -3552,7 +3552,7 @@ function renderVARBeni(){
       var revealed=s.photos.filter(function(ph){return ph.real!==null;}).length;
       var isWinner=s.winner===p.id;
       html+='<div style="display:flex;align-items:center;gap:8px;padding:5px 10px;border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
-        +'<span style="font-size:12px;font-weight:600;min-width:70px;color:#555">'+p.name.split(' ')[0]+':</span>'
+        +'<span style="font-size:12px;font-weight:600;min-width:70px;color:#555">'+p.name+':</span>'
         +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+correct+'/'+revealed+'</span>'
         +'<button class="bs bs-sm var-winner-btn" data-vwid="'+p.id+'" style="margin-left:auto;'+(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">'+(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
         +'</div>';
