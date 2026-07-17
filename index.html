@@ -3902,8 +3902,8 @@ function enableListEdit(){
       li.appendChild(liSpan);
       li.appendChild(del);
     });
-    // Add "+" button after ul if not already there
-    var addBtn=ul.parentNode.querySelector('.li-add');
+    // Add "+" button directly after ul, scoped to this ul's parent
+    var addBtn=ul.nextElementSibling && ul.nextElementSibling.classList && ul.nextElementSibling.classList.contains('li-add') ? ul.nextElementSibling : null;
     if(!addBtn){
       addBtn=document.createElement('button');
       addBtn.className='li-add bs';
@@ -3975,12 +3975,9 @@ function applyListEdits(){
     if(store[key]){
       try{
         var items=JSON.parse(store[key]);
-        // Dedup check: if all items identical, list is corrupted — deduplicate
-        var unique=[...new Set(items)];
-        if(unique.length===1 && items.length>1) items=unique;
         ul.removeAttribute('data-list-edit');
-        var oldAdd=ul.parentNode.querySelector('.li-add');
-        if(oldAdd) oldAdd.remove();
+        var oldAdd=ul.nextElementSibling;
+        if(oldAdd && oldAdd.classList && oldAdd.classList.contains('li-add')) oldAdd.remove();
         ul.innerHTML=items.map(function(t){
           return '<li>'+t+'</li>';
         }).join('');
