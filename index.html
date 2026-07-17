@@ -4091,7 +4091,7 @@ function applyAppMode(){
     renderMis();
   } else {
     document.querySelectorAll('.tab-btn,.s-btn,.s-crew-btn,.bb-btn,.bb-crew-btn').forEach(function(btn){ btn.style.display=''; });
-    showTab('story', document.querySelector('[data-tab="story"]')); showSub('story-content');
+    showTab('timetable', document.querySelector('[data-tab="timetable"]'));
     patricMode = 'crew';
     localStorage.setItem('patricMode','crew');
   }
