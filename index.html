@@ -3749,8 +3749,12 @@ function saveEdit(el){
   if(!VALID_KEY.test(id)) return;
   var store=getEditStore();
   store[id]=el.innerHTML;
-  // Save to Supabase directly, not localStorage
-  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
+  if(sb){
+    sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()})
+      .then(function(res){
+        if(res.error){ console.warn('saveEdit error:', res.error); showToast('Fehler beim Speichern ✗'); }
+      });
+  }
 }
 
 function enableEdit(){
@@ -5009,7 +5013,7 @@ if(supabaseReady){
     if(!_initDone){ _initDone=true; init(); initAppMode(); }
   }, 500);
   loadFromDB().then(function(){
-    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓');
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); setTimeout(applyAllEdits, 100);
     // Populate inputs with DB values after load
     var einEl=document.getElementById('ein'); if(einEl) einEl.value=S.ein||'';
     var einTEl=document.getElementById('einTarget'); if(einTEl) einTEl.value=S.einTarget||50;
