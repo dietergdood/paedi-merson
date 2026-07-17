@@ -3507,8 +3507,8 @@ function renderMyVARGuesses(personId){
     var correct=revealed&&((g==='echt')===photo.real);
     html+='<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;background:'+(revealed?(correct?'#dcfce7':'#fee2e2'):'#fafaf8')+';border:1px solid '+(revealed?(correct?'#bbf7d0':'#fecaca'):'#eee')+'">'
       +'<span style="font-size:12px;font-weight:700;min-width:55px;color:#555">Foto '+(i+1)+':</span>'
-      +'<button class="bs bs-sm var-guess-btn" data-vpid="'+personId+'" data-vi="'+i+'" data-vg="echt" style="'+(g==='echt'?'background:#0a0a0a;color:#e8c44a;border-color:#0a0a0a':'')+'">Echt</button>'
-      +'<button class="bs bs-sm var-guess-btn" data-vpid="'+personId+'" data-vi="'+i+'" data-vg="fake" style="'+(g==='fake'?'background:#0a0a0a;color:#e8c44a;border-color:#0a0a0a':'')+'">Fake</button>'
+      +'<button class="var-guess-btn" data-vpid="'+personId+'" data-vi="'+i+'" data-vg="echt" style="flex:1;height:44px;border-radius:8px;border:1.5px solid '+(g==='echt'?'#0a0a0a':'#e4e2db')+';background:'+(g==='echt'?'#0a0a0a':'#fff')+';color:'+(g==='echt'?'#e8c44a':'#555')+';font-size:13px;font-weight:600;cursor:pointer">Echt</button>'
+      +'<button class="var-guess-btn" data-vpid="'+personId+'" data-vi="'+i+'" data-vg="fake" style="flex:1;height:44px;border-radius:8px;border:1.5px solid '+(g==='fake'?'#0a0a0a':'#e4e2db')+';background:'+(g==='fake'?'#0a0a0a':'#fff')+';color:'+(g==='fake'?'#e8c44a':'#555')+';font-size:13px;font-weight:600;cursor:pointer">Fake</button>'
       +(revealed?'<span style="font-size:11px;font-weight:700;color:'+(correct?'#16a34a':'#dc2626')+'">'+(correct?'✓':'✗')+'</span>':'')
       +'</div>';
   });
@@ -3537,10 +3537,10 @@ function renderVARBeni(){
     html+='<div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Echt oder Fake?</div>';
     html+='<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:.75rem">';
     s.photos.forEach(function(photo,i){
-      html+='<div style="display:flex;align-items:center;gap:8px">'
-        +'<span style="font-size:12px;min-width:55px;color:#555">Foto '+(i+1)+':</span>'
-        +'<button class="bs bs-sm var-real-btn" data-vri="'+i+'" data-vrv="1" style="'+(photo.real===true?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">Echt</button>'
-        +'<button class="bs bs-sm var-real-btn" data-vri="'+i+'" data-vrv="0" style="'+(photo.real===false?'background:#dc2626;color:#fff;border-color:#dc2626':'')+'">Fake</button>'
+      html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">'
+        +'<span style="font-size:12px;min-width:55px;color:#555;flex-shrink:0">Foto '+(i+1)+':</span>'
+        +'<button class="var-real-btn" data-vri="'+i+'" data-vrv="1" style="flex:1;height:44px;border-radius:8px;border:1.5px solid '+(photo.real===true?'#16a34a':'#e4e2db')+';background:'+(photo.real===true?'#16a34a':'#fff')+';color:'+(photo.real===true?'#fff':'#555')+';font-size:13px;font-weight:600;cursor:pointer">Echt</button>'
+        +'<button class="var-real-btn" data-vri="'+i+'" data-vrv="0" style="flex:1;height:44px;border-radius:8px;border:1.5px solid '+(photo.real===false?'#dc2626':'#e4e2db')+';background:'+(photo.real===false?'#dc2626':'#fff')+';color:'+(photo.real===false?'#fff':'#555')+';font-size:13px;font-weight:600;cursor:pointer">Fake</button>'
         +'</div>';
     });
     html+='</div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Punktestand</div>';
