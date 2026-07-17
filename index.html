@@ -2644,6 +2644,11 @@ var MIS=[
   {l:'Kommentare',k:'k',target:S.ig_k_target||10},
 ];
 function renderMis(){
+  // Sync input fields with current S values
+  var einEl=document.getElementById('ein'); if(einEl&&document.activeElement!==einEl) einEl.value=S.ein||'';
+  var einTEl=document.getElementById('einTarget'); if(einTEl&&document.activeElement!==einTEl) einTEl.value=S.einTarget||50;
+  ['ig_f','ig_l','ig_k'].forEach(function(id){ var e=document.getElementById(id); if(e&&document.activeElement!==e) e.value=S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]||''; });
+  ['ig_f_target','ig_l_target','ig_k_target'].forEach(function(id){ var e=document.getElementById(id); if(e&&document.activeElement!==e) e.value=S[id+'_target']||''; });
   var MIS=[
     {l:'Einnahmen Pflicht CHF',target:S.einTarget||50,sp:'e'},
     {l:'Neue Follower',k:'f',target:S.ig_f_target||38},
