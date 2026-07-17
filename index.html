@@ -3378,7 +3378,9 @@ function renderQuizFragen(){
   var el=document.getElementById('quizFragenEdit');
   if(!el) return;
   var qs=getQuizQuestions();
-  var html='<div style="display:flex;flex-direction:column;gap:6px">';
+  var html='<div style="border-top:1px solid #f0f0ee;padding-top:12px;margin-top:12px">'
+    +'<div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Fragen bearbeiten</div>'
+    +'<div style="display:flex;flex-direction:column;gap:6px">';
   qs.forEach(function(q,i){
     html+='<div style="display:flex;align-items:center;gap:6px">'
       +'<span style="font-size:11px;color:#888;min-width:14px">'+( i+1 )+'.</span>'
@@ -3387,7 +3389,7 @@ function renderQuizFragen(){
       +'</div>';
   });
   html+='<button id="quizQAdd" style="width:100%;margin-top:4px;padding:6px;border:1px dashed #e8c44a;background:transparent;border-radius:6px;color:var(--accent-dark);font-size:12px;cursor:pointer">+ Frage hinzufügen</button>';
-  html+='</div>';
+  html+='</div></div>';
   el.innerHTML=html;
   el.querySelectorAll('.quiz-q-inp').forEach(function(inp){
     inp.addEventListener('blur',function(){
@@ -3418,39 +3420,59 @@ function renderQuizMaege(){
   var el=document.getElementById('quizMaegeOverview');
   if(!el) return;
   var s=getQuizState();
-  var html='<div style="margin-bottom:.75rem"><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Pädis echte Antworten</div>';
-  getQuizQuestions().forEach(function(q,i){
-    html+='<div style="margin-bottom:5px">'
-      +'<div style="font-size:11px;color:#aaa;margin-bottom:2px">'+q+'</div>'
-      +'<input id="paedi_ans_'+i+'" placeholder="Patricks Antwort" value="'+((s.paediAnswers&&s.paediAnswers[i])||'')+'" style="width:100%;font-size:12px" class="paedi-ans-inp">'
-      +'</div>';
-  });
-  html+='</div><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Antworten der Crew</div><div style="display:flex;flex-direction:column;gap:6px">';
+  var html='<div style="font-size:10px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Antworten der Crew</div><div style="display:flex;flex-direction:column;gap:6px">';
+  var qs=getQuizQuestions();
+  var scores={};
   P.filter(function(p){return p.id!=='maege';}).forEach(function(p){
     var ans=(s.answers&&s.answers[p.id])||[];
-    var isWinner=s.winner===p.id;
+    var marks=(s.marks&&s.marks[p.id])||[];
+    var pts=marks.reduce(function(sum,m){ return sum+(m===1?1:0); },0);
+    scores[p.id]=pts;
     var hasAnswers=ans.some(function(a){return a&&a.trim();});
-    html+='<div style="border-radius:8px;background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+';padding:6px 10px">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(hasAnswers?'6px':'0')+'">'
-      +'<span style="font-size:12px;font-weight:700;color:#555">'+p.name.split(' ')[0]+'</span>'
-      +'<button class="bs bs-sm quiz-winner-btn" data-qwid="'+p.id+'" style="'+(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a':'')+'">'+(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
+    html+='<div style="border-radius:8px;background:#fafaf8;border:1px solid #eee;padding:8px 10px;margin-bottom:6px">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(hasAnswers?'8px':'0')+'">'
+      +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.name.split(' ')[0]+'</span>'
+      +'<span style="font-size:12px;font-weight:700;color:#b8940a;background:#fef9eb;padding:2px 8px;border-radius:6px">'+pts+' Pkt.</span>'
       +'</div>';
     if(hasAnswers){
-      ans.forEach(function(a,i){ if(a) html+='<div style="font-size:11px;color:#666;margin-bottom:2px"><span style="color:#aaa">F'+(i+1)+':</span> '+a+'</div>'; });
+      ans.forEach(function(a,i){
+        if(!a) return;
+        var mark=marks[i];
+        html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">'
+          +'<span style="font-size:11px;color:#aaa;min-width:20px">F'+(i+1)+':</span>'
+          +'<span style="font-size:12px;color:#555;flex:1">'+a+'</span>'
+          +'<button class="quiz-mark-btn" data-pid="'+p.id+'" data-qi="'+i+'" data-mark="1" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(mark===1?'#16a34a':'#e4e2db')+';background:'+(mark===1?'#dcfce7':'#fff')+';color:'+(mark===1?'#16a34a':'#aaa')+';cursor:pointer;font-size:14px">✓</button>'
+          +'<button class="quiz-mark-btn" data-pid="'+p.id+'" data-qi="'+i+'" data-mark="0" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(mark===0?'#dc2626':'#e4e2db')+';background:'+(mark===0?'#fee2e2':'#fff')+';color:'+(mark===0?'#dc2626':'#aaa')+';cursor:pointer;font-size:14px">✗</button>'
+          +'</div>';
+      });
     } else {
       html+='<div style="font-size:11px;color:#bbb;font-style:italic">Noch keine Antworten</div>';
     }
     html+='</div>';
   });
+  // Auto-determine winner by highest score
+  var maxPts=Math.max.apply(null,Object.values(scores));
+  if(maxPts>0){
+    var winners=Object.keys(scores).filter(function(id){ return scores[id]===maxPts; });
+    if(winners.length===1 && s.winner!==winners[0]){
+      s.winner=winners[0]; saveQuizState(s);
+    }
+  }
   html+='</div>';
   el.innerHTML=html;
-  if(document.getElementById('quizFragenEdit')){ renderQuizFragen(); }
-  el.querySelectorAll('.quiz-winner-btn').forEach(function(btn){
-    btn.addEventListener('click',function(){ setQuizWinner(this.getAttribute('data-qwid')); });
+  if(editMode && document.getElementById('quizFragenEdit')){ renderQuizFragen(); } else { var qfe=document.getElementById('quizFragenEdit'); if(qfe) qfe.innerHTML=''; }
+  el.querySelectorAll('.quiz-mark-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var pid=this.dataset.pid;
+      var qi=+this.dataset.qi;
+      var mark=+this.dataset.mark;
+      if(!s.marks) s.marks={};
+      if(!s.marks[pid]) s.marks[pid]=[];
+      s.marks[pid][qi]=(s.marks[pid][qi]===mark?null:mark);
+      saveQuizState(s); renderQuizMaege();
+    });
   });
-  el.querySelectorAll('.paedi-ans-inp').forEach(function(inp){
-    inp.addEventListener('blur', savePaediAnswers);
-  });
+
 }
 
 // ─── Vergangenheits-VAR ────────────────────────────────────────────────────────────
