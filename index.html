@@ -1936,8 +1936,8 @@ async function loadFromDB(){
       if(!S.schnapsGt) S.schnapsGt={};
     }
     var r2 = await sb.from('app_edits').select('edits').eq('id','main').single();
-    if(r2.data && r2.data.edits && Object.keys(r2.data.edits).length){
-      localStorage.setItem('pm5_edits', JSON.stringify(r2.data.edits));
+    if(r2.data && r2.data.edits){
+      _editStore = r2.data.edits;
     }
     var r3 = await sb.from('app_lists').select('*').eq('id','main').single();
     if(r3.data){
@@ -2010,7 +2010,7 @@ function subscribeRealtime(){
     .on('postgres_changes', {event:'UPDATE', schema:'public', table:'app_edits'},
       function(payload){
         if(payload.new && payload.new.edits){
-          localStorage.setItem('pm5_edits', JSON.stringify(payload.new.edits));
+          _editStore = payload.new.edits;
           applyAllEdits();
         }
       })
@@ -3085,8 +3085,7 @@ function getSommWords(){
 function saveSommWords(words){
   var store=getEditStore();
   store['__sommwords__']=JSON.stringify(words);
-  localStorage.setItem('pm5_edits',JSON.stringify(store));
-  saveEditsToDB(store);
+  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
   SOMM_WORDS=words;
 }
 
@@ -3150,8 +3149,7 @@ function getQuizQuestions(){
 function saveQuizQuestions(qs){
   var store=getEditStore();
   store['__quizquestions__']=JSON.stringify(qs);
-  localStorage.setItem('pm5_edits',JSON.stringify(store));
-  saveEditsToDB(store);
+  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
   QUIZ_QUESTIONS=qs;
 }
 
@@ -3732,9 +3730,9 @@ function applyAllEdits(){
   });
 }
 
+var _editStore = {};
 function getEditStore(){
-  try{ return JSON.parse(localStorage.getItem('pm5_edits')||'{}'); }
-  catch(e){ return {}; }
+  return _editStore;
 }
 
 function getEdit(el){
@@ -3748,10 +3746,11 @@ function saveEdit(el){
   var id=el.getAttribute('data-edit-id');
   if(!id) return;
   var VALID_KEY=/^(qb-|st-|sl-|at-|hl-|dt-|dq-|dno-|dw-|tt-td-|dossier-body-|__)/;
-  if(!VALID_KEY.test(id)) return; // refuse to save with old DOM-position keys
+  if(!VALID_KEY.test(id)) return;
   var store=getEditStore();
   store[id]=el.innerHTML;
-  localStorage.setItem('pm5_edits',JSON.stringify(store));
+  // Save to Supabase directly, not localStorage
+  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
 }
 
 function enableEdit(){
@@ -3932,8 +3931,7 @@ function saveListEdit(ul){
   if(!listId) return;
   var store=getEditStore();
   store[listId]=JSON.stringify(items);
-  localStorage.setItem('pm5_edits',JSON.stringify(store));
-  saveEditsToDB(store);
+  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
 }
 
 function applyListEdits(){
@@ -4497,12 +4495,7 @@ save = function(){
   _origSave();
   scheduleSave();
 };
-var _origSaveEdit = saveEdit;
-saveEdit = function(el){
-  _origSaveEdit(el);
-  var store = getEditStore();
-  saveEditsToDB(store);
-};
+// saveEdit now saves directly to Supabase
 var _origSaveAblItems = saveAblItems;
 saveAblItems = function(items){
   _origSaveAblItems(items);
@@ -4563,8 +4556,7 @@ function saveProgrammToDB(p){
   if(!sb) return;
   var store=getEditStore();
   store['__programm__']=JSON.stringify(p);
-  localStorage.setItem('pm5_edits',JSON.stringify(store));
-  saveEditsToDB(store);
+  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
 }
 
 function loadProgrammFromStore(){
