@@ -674,7 +674,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div class="section-title">Station 2 — Zugfahrt</div>
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
       <p style="margin-bottom:.75rem">Im Zug wird es ernst. Patrick hält seine erste Captain-Ansprache — maximal 20 Sekunden, Inhalt frei. Danach startet die Finanzierungsaufgabe: Patrick muss fünf Baguettes an Zugpassagiere verkaufen und mindestens CHF 30.– einnehmen. CHF 50.– gilt als Bonus. Der Spielerberater steht beratend zur Seite, darf aber nicht selbst verkaufen. Jeder Freund darf Patrick einen Verkaufssatz oder eine Strategie flüstern.</p>
-      <p style="margin-bottom:.75rem">Nach dem Verkauf folgt der <strong>Kindheits-VAR</strong>. Beni hat 8 bis 10 Fotos aus Patricks Vergangenheit vorbereitet — einige echt, andere digital manipuliert. Patrick muss bei jedem Bild entscheiden ob es echt ist, was verändert wurde, wann und wo es aufgenommen wurde und wer dabei war. Alle anderen tippen gleichzeitig: echt oder fake? Wer am meisten richtig liegt, gewinnt die <strong>Médaille L'Œil du VAR</strong>.</p>
+      <p style="margin-bottom:.75rem">Nach dem Verkauf folgt der <strong>Vergangenheits-VAR</strong>. Beni hat 8 bis 10 Fotos aus Patricks Vergangenheit vorbereitet — einige echt, andere digital manipuliert. Patrick muss bei jedem Bild entscheiden ob es echt ist, was verändert wurde, wann und wo es aufgenommen wurde und wer dabei war. Alle anderen tippen gleichzeitig: echt oder fake? Wer am meisten richtig liegt, gewinnt die <strong>Médaille L'Œil du VAR</strong>.</p>
       <p>Zum Abschluss der Zugfahrt moderiert Mäge das Quiz <strong>«Wer kennt Pädi A. am besten?»</strong>. Fünf Fragen — alle haben vorher still ihre Antworten aufgeschrieben, Patrick gibt danach die echten Antworten. Wer am meisten getroffen hat, gewinnt die <strong>Médaille de l'Amitié</strong>.</p>
     </div>
   </div>
@@ -1200,7 +1200,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div class="acc-b" id="acc_games_didi">
       <div class="game-acc" id="gameacc_didi_myVARdidi">
         <div class="game-acc-h" onclick="toggleGameAcc('gameacc_didi_myVARdidi')">
-          <span class="game-acc-title">🔍 Kindheits-VAR</span>
+          <span class="game-acc-title">🔍 Vergangenheits-VAR</span>
           <span class="game-acc-arr">▼</span>
         </div>
         <div class="game-acc-b">
@@ -1351,7 +1351,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div class="acc-b" id="acc_games_dominik">
       <div class="game-acc" id="gameacc_dominik_myVARdominik">
         <div class="game-acc-h" onclick="toggleGameAcc('gameacc_dominik_myVARdominik')">
-          <span class="game-acc-title">🔍 Kindheits-VAR</span>
+          <span class="game-acc-title">🔍 Vergangenheits-VAR</span>
           <span class="game-acc-arr">▼</span>
         </div>
         <div class="game-acc-b">
@@ -1465,7 +1465,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div class="acc-b" id="acc_games_berater">
       <div class="game-acc" id="gameacc_berater_myVARberater">
         <div class="game-acc-h" onclick="toggleGameAcc('gameacc_berater_myVARberater')">
-          <span class="game-acc-title">🔍 Kindheits-VAR</span>
+          <span class="game-acc-title">🔍 Vergangenheits-VAR</span>
           <span class="game-acc-arr">▼</span>
         </div>
         <div class="game-acc-b">
@@ -1666,7 +1666,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div class="acc-b" id="acc_games_koch">
       <div class="game-acc" id="gameacc_koch_myVARkoch">
         <div class="game-acc-h" onclick="toggleGameAcc('gameacc_koch_myVARkoch')">
-          <span class="game-acc-title">🔍 Kindheits-VAR</span>
+          <span class="game-acc-title">🔍 Vergangenheits-VAR</span>
           <span class="game-acc-arr">▼</span>
         </div>
         <div class="game-acc-b">
@@ -1731,15 +1731,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
           <li>Wer am überzeugendsten blufft gewinnt</li>
         </ul></div>
       </div>
-      <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
-        <div class="section-title">Die 8 Begriffskarten</div>
-        <div id="sommBegriffe"><span style="color:#aaa;font-size:13px">Lädt...</span></div>
-      </div>
-      <div class="section" style="border:none;box-shadow:none">
-        <div class="section-title">Übersicht — wer hat was?</div>
-        <div id="sommTobiOverview"></div>
-      </div>
-    </div>
+          </div>
   </div>
 
   <div class="acc-item">
@@ -1764,6 +1756,7 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
       <div class="acc-a" id="arr_games_tobi">▼</div>
     </div>
     <div class="acc-b" id="acc_games_tobi">
+
       <div class="game-acc" id="gameacc_tobi_myQuiztobi">
         <div class="game-acc-h" onclick="toggleGameAcc('gameacc_tobi_myQuiztobi')">
           <span class="game-acc-title">❓ Quiz</span>
@@ -1779,6 +1772,10 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
           <span class="game-acc-arr">▼</span>
         </div>
         <div class="game-acc-b">
+          <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
+            <div class="section-title">Die 8 Begriffskarten</div>
+            <div id="sommBegriffe"><span style="color:#aaa;font-size:13px">Lädt...</span></div>
+          </div>
           <div id="sommTobiOverview"></div>
         </div>
       </div>
@@ -1823,7 +1820,8 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
       </div>
       <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
         <div class="section-title">Quiz — Médaille de l'Amitié (im Zug)</div>
-        <div id="quizMaegeOverview"></div>
+        <div id="quizFragenEdit" style="margin-bottom:12px"></div>
+          <div id="quizMaegeOverview"></div>
       </div>
       <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
         <div class="section-title">Match-Tipps — Médaille du Football</div>
@@ -2302,7 +2300,7 @@ var REGIE=[
     {w:'Lädi',t:'Baguettes übergeben. Verkaufstext erklären. Ziel: CHF 30 Pflicht, CHF 50 Bonus.',n:'Alle dürfen Patrick Strategien flüstern, aber nicht selbst verkaufen'},
     {w:'Patrick',t:'Baguetteverkauf im Zug — so viele Passagiere wie möglich ansprechen.'},
     {w:'Dominik',t:'Instagram Story: Baguetteverkauf dokumentieren.',ig:'FAIR PLAY UPDATE — Pädi Merson finanziert seinen eigenen Transfer. Respekt. #Baguette'},
-    {w:'Beni',t:'Kindheits-VAR: 8–10 Fotos zeigen. Alle tippen echt oder fake. Patrick beantwortet 4 Fragen pro Bild.',m:"L'Œil du VAR",n:'Beni wertet aus und vergibt Médaille'},
+    {w:'Beni',t:'Vergangenheits-VAR: 8–10 Fotos zeigen. Alle tippen echt oder fake. Patrick beantwortet 4 Fragen pro Bild.',m:"L'Œil du VAR",n:'Beni wertet aus und vergibt Médaille'},
     {w:'Dominik',t:'Instagram Story: VAR Check absetzen.',ig:'VAR CHECK — Die Vergangenheit von Pädi Merson wird gründlich geprüft.'},
     {w:'Mäge',t:'Quiz «Wer kennt Pädi A. am besten?» — 5 Fragen, alle haben vorher still geschrieben, Patrick gibt echte Antworten.',m:"Médaille de l'Amitié",n:'Mäge moderiert, wertet aus und vergibt Médaille'},
   ]},
@@ -2577,7 +2575,7 @@ var ABL=[
   {id:'a09',t:'Mannschaftskontrolle + Captain-Ansprache #1',st:'Zug'},
   {id:'a10',t:'Baguetteverkauf im Zug',st:'Zug'},
   {id:'a11',t:'Instagram Story: Baguetteverkauf (Dominik)',st:'Zug'},
-  {id:'a12',t:"Kindheits-VAR → L'Œil du VAR (Beni)",st:'Zug'},
+  {id:'a12',t:"Vergangenheits-VAR → L'Œil du VAR (Beni)",st:'Zug'},
   {id:'a13',t:"Quiz «Wer kennt Pädi?» → Médaille de l'Amitié (Mäge)",st:'Zug'},
   {id:'a14',t:'Instagram Story: VAR Check (Dominik)',st:'Zug'},
   {id:'a15',t:'Mannschaftskontrolle vor dem Boot',st:'Boot'},
@@ -3152,7 +3150,7 @@ function renderMyTip(personId){
       if(!S.tips) S.tips={};
       if(!S.tips[pid]) S.tips[pid]={};
       S.tips[pid][field]=this.value;
-      save(); renderTips();
+      save(); saveToDB(); renderTips();
     });
   });
 }
@@ -3164,15 +3162,86 @@ function saveTip(personId){
 
 
 // ─── Bullshit Sommelier ───────────────────────────────────────────────────────
-var SOMM_WORDS = ['Emil Frey','Digitalisierung','Gegenpressing','Grindr','Rettungsschwimmerin','England','Flitterwochen','Raclette'];
+var SOMM_WORDS_DEFAULT = ['Emil Frey','Digitalisierung','Gegenpressing','Grindr','Rettungsschwimmerin','England','Flitterwochen','Raclette'];
+var SOMM_WORDS = SOMM_WORDS_DEFAULT.slice();
 
-var QUIZ_QUESTIONS = [
+function getSommWords(){
+  var store=getEditStore();
+  if(store['__sommwords__']){ try{ return JSON.parse(store['__sommwords__']); }catch(e){} }
+  return SOMM_WORDS_DEFAULT.slice();
+}
+function saveSommWords(words){
+  var store=getEditStore();
+  store['__sommwords__']=JSON.stringify(words);
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+  saveEditsToDB(store);
+  SOMM_WORDS=words;
+}
+
+function renderSOMMBegriffe(){
+  var el=document.getElementById('sommBegriffe');
+  if(!el) return;
+  var words=getSommWords();
+  var html='<div style="display:flex;flex-direction:column;gap:6px">';
+  words.forEach(function(w,i){
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:4px 0">'
+      +'<span class="badge bp" style="font-size:12px;flex:1">'+w+'</span>';
+    if(editMode){
+      html+='<input class="somm-word-inp" data-wi="'+i+'" type="text" value="'+w+'" style="flex:1;height:28px;font-size:12px;padding:0 8px;border:1px solid #e4e2db;border-radius:6px">'
+        +'<button class="bs bs-sm somm-word-del" data-wi="'+i+'" style="color:#e03535;flex-shrink:0">✕</button>';
+    }
+    html+='</div>';
+  });
+  if(editMode){
+    html+='<button id="sommWordAdd" style="width:100%;margin-top:4px;padding:6px;border:1px dashed #e8c44a;background:transparent;border-radius:6px;color:var(--accent-dark);font-size:12px;cursor:pointer">+ Begriff hinzufügen</button>';
+  }
+  html+='</div>';
+  el.innerHTML=html;
+  if(!editMode) return;
+  el.querySelectorAll('.somm-word-inp').forEach(function(inp){
+    inp.addEventListener('blur',function(){
+      var words=getSommWords();
+      words[+this.dataset.wi]=this.value.trim();
+      saveSommWords(words);
+      renderSOMMBegriffe();
+    });
+  });
+  el.querySelectorAll('.somm-word-del').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var words=getSommWords();
+      words.splice(+this.dataset.wi,1);
+      saveSommWords(words); renderSOMMBegriffe();
+    });
+  });
+  var addBtn=el.querySelector('#sommWordAdd');
+  if(addBtn) addBtn.addEventListener('click',function(){
+    var words=getSommWords();
+    words.push('Neuer Begriff');
+    saveSommWords(words); renderSOMMBegriffe();
+  });
+}
+
+var QUIZ_QUESTIONS_DEFAULT = [
   'Welches Lied bringt ihn auf die Tanzfläche?',
   'Was ist sein unnötigster Luxus?',
   'Was bestellt er nach einer langen Partynacht?',
   'Welchen Wein trinkt er am liebsten?',
   'Womit nervt man ihn am schnellsten?',
 ];
+var QUIZ_QUESTIONS = QUIZ_QUESTIONS_DEFAULT.slice();
+
+function getQuizQuestions(){
+  var store=getEditStore();
+  if(store['__quizquestions__']){ try{ return JSON.parse(store['__quizquestions__']); }catch(e){} }
+  return QUIZ_QUESTIONS_DEFAULT.slice();
+}
+function saveQuizQuestions(qs){
+  var store=getEditStore();
+  store['__quizquestions__']=JSON.stringify(qs);
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+  saveEditsToDB(store);
+  QUIZ_QUESTIONS=qs;
+}
 
 function getSOMMState(){ return JSON.parse(localStorage.getItem('pm5_somm')||'null') || {assigned:{}, winner:null}; }
 function saveSOMMState(s){ localStorage.setItem('pm5_somm',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',somm:s,updated_at:new Date().toISOString()}); }
@@ -3185,7 +3254,7 @@ function saveVARState(s){ localStorage.setItem('pm5_var',JSON.stringify(s)); if(
 
 function distributeSOMMWords(){
   var persons=P.slice();
-  var words=SOMM_WORDS.slice();
+  var words=getSommWords().slice();
   for(var i=words.length-1;i>0;i--){
     var j=Math.floor(Math.random()*(i+1));
     var tmp=words[i]; words[i]=words[j]; words[j]=tmp;
@@ -3204,6 +3273,7 @@ function setSOMMWinner(id){
 }
 
 function renderSOMMTobi(){
+  renderSOMMBegriffe();
   var el=document.getElementById('sommTobiOverview');
   if(!el) return;
   var s=getSOMMState();
@@ -3260,13 +3330,13 @@ function saveMyQuizAnswers(personId){
     answers.push(el?el.value:'');
   });
   s.answers[personId]=answers;
-  saveQuizState(s);
+  saveQuizState(s); saveToDB();
 }
 
 function savePaediAnswers(){
   var s=getQuizState();
   var answers=[];
-  QUIZ_QUESTIONS.forEach(function(q,i){
+  getQuizQuestions().forEach(function(q,i){
     var el=document.getElementById('paedi_ans_'+i);
     answers.push(el?el.value:'');
   });
@@ -3286,7 +3356,8 @@ function renderMyQuizForm(personId){
   var saved=(s.answers&&s.answers[personId])||[];
   var isWinner=s.winner===personId;
   var html='<div style="display:flex;flex-direction:column;gap:8px">';
-  QUIZ_QUESTIONS.forEach(function(q,i){
+  var QQ=getQuizQuestions();
+  QQ.forEach(function(q,i){
     html+='<div>'
       +'<div style="font-size:11px;font-weight:700;color:#888;margin-bottom:3px">Frage '+(i+1)+': '+q+'</div>'
       +'<input id="quiz_'+personId+'_'+i+'" placeholder="Deine Antwort" value="'+(saved[i]||'')+'" style="width:100%" class="quiz-inp" data-qpid="'+personId+'" data-qi="'+i+'">'
@@ -3299,12 +3370,52 @@ function renderMyQuizForm(personId){
   });
 }
 
+function renderQuizFragen(){
+  var el=document.getElementById('quizFragenEdit');
+  if(!el) return;
+  var qs=getQuizQuestions();
+  var html='<div style="display:flex;flex-direction:column;gap:6px">';
+  qs.forEach(function(q,i){
+    html+='<div style="display:flex;align-items:center;gap:6px">'
+      +'<span style="font-size:11px;color:#888;min-width:14px">'+( i+1 )+'.</span>'
+      +'<input class="quiz-q-inp" data-qi="'+i+'" type="text" value="'+q+'" style="flex:1;height:28px;font-size:12px;padding:0 8px;border:1px solid #e4e2db;border-radius:6px">'
+      +'<button class="bs bs-sm quiz-q-del" data-qi="'+i+'" style="color:#e03535;flex-shrink:0">✕</button>'
+      +'</div>';
+  });
+  html+='<button id="quizQAdd" style="width:100%;margin-top:4px;padding:6px;border:1px dashed #e8c44a;background:transparent;border-radius:6px;color:var(--accent-dark);font-size:12px;cursor:pointer">+ Frage hinzufügen</button>';
+  html+='</div>';
+  el.innerHTML=html;
+  el.querySelectorAll('.quiz-q-inp').forEach(function(inp){
+    inp.addEventListener('blur',function(){
+      var qs=getQuizQuestions();
+      qs[+this.dataset.qi]=this.value.trim();
+      saveQuizQuestions(qs);
+      renderQuizFragen();
+      document.querySelectorAll('[id^="myQuiz_"]').forEach(function(el){ var pid=el.id.replace('myQuiz_',''); renderMyQuizForm(pid); });
+    });
+  });
+  el.querySelectorAll('.quiz-q-del').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var qs=getQuizQuestions();
+      qs.splice(+this.dataset.qi,1);
+      saveQuizQuestions(qs); renderQuizFragen();
+      document.querySelectorAll('[id^="myQuiz_"]').forEach(function(el){ var pid=el.id.replace('myQuiz_',''); renderMyQuizForm(pid); });
+    });
+  });
+  var addBtn=el.querySelector('#quizQAdd');
+  if(addBtn) addBtn.addEventListener('click',function(){
+    var qs=getQuizQuestions();
+    qs.push('Neue Frage');
+    saveQuizQuestions(qs); renderQuizFragen();
+  });
+}
+
 function renderQuizMaege(){
   var el=document.getElementById('quizMaegeOverview');
   if(!el) return;
   var s=getQuizState();
   var html='<div style="margin-bottom:.75rem"><div style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem">Pädis echte Antworten</div>';
-  QUIZ_QUESTIONS.forEach(function(q,i){
+  getQuizQuestions().forEach(function(q,i){
     html+='<div style="margin-bottom:5px">'
       +'<div style="font-size:11px;color:#aaa;margin-bottom:2px">'+q+'</div>'
       +'<input id="paedi_ans_'+i+'" placeholder="Patricks Antwort" value="'+((s.paediAnswers&&s.paediAnswers[i])||'')+'" style="width:100%;font-size:12px" class="paedi-ans-inp">'
@@ -3329,6 +3440,7 @@ function renderQuizMaege(){
   });
   html+='</div>';
   el.innerHTML=html;
+  if(editMode && document.getElementById('quizFragenEdit')){ renderQuizFragen(); }
   el.querySelectorAll('.quiz-winner-btn').forEach(function(btn){
     btn.addEventListener('click',function(){ setQuizWinner(this.getAttribute('data-qwid')); });
   });
@@ -3337,7 +3449,7 @@ function renderQuizMaege(){
   });
 }
 
-// ─── Kindheits-VAR ────────────────────────────────────────────────────────────
+// ─── Vergangenheits-VAR ────────────────────────────────────────────────────────────
 function setVARPhotoCount(n){
   var s=getVARState(); s.photos=[];
   for(var i=0;i<n;i++) s.photos.push({label:'Foto '+(i+1),real:null});
@@ -3538,6 +3650,8 @@ function activateEdit(){
   enableEdit();
   renderAblauf();
   loadProgrammFromStore(); renderProgramm();
+  SOMM_WORDS=getSommWords();
+  QUIZ_QUESTIONS=getQuizQuestions();
   renderPackliste();
   renderPC();
   renderAllMat();
@@ -3546,6 +3660,7 @@ function activateEdit(){
   renderTabToggles();
   renderRegie();
   renderProgramm();
+  renderSOMMBegriffe();
 }
 
 function deactivateEdit(){
@@ -4143,6 +4258,8 @@ function applyAppMode(){
     showTab('sb', document.querySelector('[data-tab="sb"]'));
     var editBtn = document.getElementById('editToggle');
     if(editBtn) editBtn.style.display='none';
+    var moreBtn = document.getElementById('moreBtn');
+    if(moreBtn) moreBtn.style.display='none';
     patricMode = 'paedi';
     localStorage.setItem('patricMode','paedi');
     renderMis();
@@ -4191,13 +4308,14 @@ function renderPatricTab(){
   document.querySelectorAll('.pkachel').forEach(function(el){
     var k=el.getAttribute('data-kachel');
     var unlocked=!!state[k];
-    el.querySelectorAll('.pkachel-lock-overlay,.pkachel-toggle').forEach(function(x){x.remove();});
+    el.querySelectorAll('.pkachel-lock-overlay,.pkachel-toggle,.pkachel-toggle-wrap').forEach(function(x){x.remove();});
     el.classList.remove('pkachel-locked');
     if(patricMode==='crew' && editMode){
       var wrap=document.createElement('div');
       wrap.className='pkachel-toggle-wrap';
       wrap.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:'+(unlocked?'#f0fdf4':'#fef2f2')+';border-radius:8px;margin-bottom:8px';
-      wrap.innerHTML='<span style="font-size:11px;font-weight:600;color:'+(unlocked?'#16a34a':'#e03535')+'">'+(unlocked?'✓ Sichtbar für Pädi':'🔒 Versteckt für Pädi')+'</span>'
+      var kName={'mission':'Tagesmission','dossier':'Transferdossier','ansagen':'Captain-Ansagen','kleidung':'Kleidungsvorschrift','kriterien':'Transfer-Kriterien','packliste':'Packliste','sommelier':'Bullshit-Sommelier','matchtipp':'Match-Tipp','medaillen':'Médaillen & Karten','botschaft':'Pers. Botschaft','vertrag':'Transfervertrag','titel':'Offizieller Titel'};
+      wrap.innerHTML='<span style="font-size:11px;font-weight:600;color:'+(unlocked?'#16a34a':'#e03535')+'">'+(unlocked?'✓':'🔒')+' '+(kName[k]||k)+'</span>'
         +'<label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer">'
         +'<input type="checkbox" data-togglekachel="'+k+'" '+(unlocked?'checked':'')+' style="opacity:0;width:0;height:0;position:absolute">'
         +'<span style="position:absolute;top:0;left:0;right:0;bottom:0;background:'+(unlocked?'#16a34a':'#ccc')+';border-radius:11px;transition:.2s">'
