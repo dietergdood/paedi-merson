@@ -1122,6 +1122,43 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
       </div>
     </div>
 
+  <div class="acc-item" style="margin-bottom:.75rem">
+    <div class="acc-h" onclick="toggleAcc('games_patrick')">
+      <div class="adot db"></div>
+      <div class="acc-t">Spiele & Wettbewerbe</div>
+      <div class="acc-a" id="arr_games_patrick">▼</div>
+    </div>
+    <div class="acc-b" id="acc_games_patrick">
+      <div class="game-acc" id="gameacc_patrick_mySOMMWordpatrick">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_patrick_mySOMMWordpatrick')">
+          <span class="game-acc-title">🍷 Sommelier</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="mySOMMWord_patrick"></div>
+        </div>
+      </div>
+      <div class="game-acc" id="gameacc_patrick_myVARpatrick">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_patrick_myVARpatrick')">
+          <span class="game-acc-title">🔍 Vergangenheits-VAR</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myVAR_patrick"></div>
+        </div>
+      </div>
+      <div class="game-acc" id="gameacc_patrick_myTippatrick">
+        <div class="game-acc-h" onclick="toggleGameAcc('gameacc_patrick_myTippatrick')">
+          <span class="game-acc-title">⚽ Match-Tipp</span>
+          <span class="game-acc-arr">▼</span>
+        </div>
+        <div class="game-acc-b">
+          <div id="myTip_patrick"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /patricContent -->
 </div>
 <!-- DIDI -->
@@ -3632,7 +3669,7 @@ function showTab(id,btn){
   if(id==='regie-checkliste'){ showTab('story'); showSub('story-checkliste'); return; }
   if(id==='didi'){ renderDidiRegie(); }
   if(id==='ablauf') renderAblauf();
-  if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderMyTip('patrick');renderMySOMMWord('patrick');}
+  if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderMyTip('patrick');renderMySOMMWord('patrick');renderMyVARGuesses('patrick');}
   if(['didi','dominik','berater','beni','koch','tobi'].indexOf(id)!==-1){
     renderMyTip(id);
     renderMySOMMWord(id);
