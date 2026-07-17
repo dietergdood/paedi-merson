@@ -3355,7 +3355,8 @@ function renderQuizMaege(){
   }
   html+='</div>';
   el.innerHTML=html;
-  if(editMode && document.getElementById('quizFragenEdit')){ renderQuizFragen(); } else { var qfe=document.getElementById('quizFragenEdit'); if(qfe) qfe.innerHTML=''; }
+  // Always show quiz question editor for Mäge
+  renderQuizFragen();
   el.querySelectorAll('.quiz-mark-btn').forEach(function(btn){
     btn.addEventListener('click',function(){
       var pid=this.dataset.pid;
@@ -3927,6 +3928,8 @@ function saveListEdit(ul){
 
 function applyListEdits(){
   var store=getEditStore();
+  var listKeys=Object.keys(store).filter(function(k){ return k.startsWith('list-'); });
+  console.log('applyListEdits: store list keys='+listKeys);
   document.querySelectorAll('.info-block ul').forEach(function(ul){
     var listId=ul.getAttribute('data-list-id');
     if(!listId || !store[listId]) return;
@@ -3939,7 +3942,7 @@ function applyListEdits(){
           return '<li>'+t+'</li>';
         }).join('');
         if(editMode) enableListEdit();
-      }catch(e){}
+      }catch(e){ console.warn('applyListEdits error:',e); }
   });
 }
 
