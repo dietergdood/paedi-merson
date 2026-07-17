@@ -4244,6 +4244,8 @@ function applyAppMode(){
   } else {
     document.querySelectorAll('.tab-btn,.s-btn,.s-crew-btn,.bb-btn,.bb-crew-btn').forEach(function(btn){ btn.style.display=''; });
     document.querySelectorAll('.s-divider').forEach(function(div){ div.style.display=''; });
+    var logoutMobile = document.getElementById('logoutMobileBtn');
+    if(logoutMobile) logoutMobile.style.display='none';
     showTab('timetable', document.querySelector('[data-tab="timetable"]'));
     patricMode = 'crew';
     localStorage.setItem('patricMode','crew');
