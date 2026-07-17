@@ -3076,7 +3076,7 @@ function getSommWords(){
 function saveSommWords(words){
   var store=getEditStore();
   store['__sommwords__']=JSON.stringify(words);
-  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
+  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('saveSommWords error:',r.error); else showToast('Gespeichert ✓'); });
   SOMM_WORDS=words;
 }
 
@@ -5008,7 +5008,18 @@ if(supabaseReady){
     if(!_initDone){ _initDone=true; init(); initAppMode(); }
   }, 500);
   loadFromDB().then(function(){
-    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); setTimeout(function(){ applyAllEdits(); renderRegie(); renderDidiRegie(); SOMM_WORDS=getSommWords(); renderSOMMBegriffe(); renderSOMMTobi(); renderAllPersonSOMMWords(); QUIZ_QUESTIONS=getQuizQuestions(); renderQuizMaege(); P.forEach(function(p){ renderMyQuizForm(p.id); }); }, 200); setTimeout(applyAllEdits, 800);
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); setTimeout(function(){
+      // Reload all dynamic content from DB
+      applyAllEdits();
+      renderRegie(); renderDidiRegie();
+      SOMM_WORDS=getSommWords(); renderSOMMBegriffe(); renderSOMMTobi(); renderAllPersonSOMMWords();
+      QUIZ_QUESTIONS=getQuizQuestions(); renderQuizMaege();
+      P.forEach(function(p){ renderMyQuizForm(p.id); renderMySOMMWord(p.id); renderMyVARGuesses(p.id); renderMyTip(p.id); renderPersonPackliste(p.id); });
+      renderVARBeni(); renderAllPersonVAR();
+      renderTips(); renderMis(); renderSB(); renderPC(); renderAllMat(); renderPatricTab(); renderPatricPack();
+      renderPackliste(); renderAblauf();
+      loadProgrammFromStore(); renderProgramm();
+    }, 300);
     // Populate inputs with DB values after load
     var einEl=document.getElementById('ein'); if(einEl) einEl.value=S.ein||'';
     var einTEl=document.getElementById('einTarget'); if(einTEl) einTEl.value=S.einTarget||50;
