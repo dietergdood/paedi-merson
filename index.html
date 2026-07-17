@@ -3632,6 +3632,8 @@ function deactivateEdit(){
   renderTabToggles();
   renderRegie();
   loadProgrammFromStore(); renderProgramm();
+  // Save all list edits before cleaning up
+  document.querySelectorAll('.info-block ul[data-list-id]').forEach(function(ul){ saveListEdit(ul); });
   // Remove list edit UI — restore all li to clean state
   document.querySelectorAll('.li-del,.li-add,.li-add-wrap').forEach(function(el){ el.remove(); });
   document.querySelectorAll('.info-block ul').forEach(function(ul){
@@ -5003,7 +5005,6 @@ if(supabaseReady){
   loadFromDB().then(function(){
     if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); setTimeout(function(){
       // Reload all dynamic content from DB
-      applyAllEdits();
       renderRegie(); renderDidiRegie();
       SOMM_WORDS=getSommWords(); renderSOMMBegriffe(); renderSOMMTobi(); renderAllPersonSOMMWords();
       QUIZ_QUESTIONS=getQuizQuestions(); renderQuizMaege();
@@ -5012,6 +5013,9 @@ if(supabaseReady){
       renderTips(); renderMis(); renderSB(); renderPC(); renderAllMat(); renderPatricTab(); renderPatricPack();
       renderPackliste(); renderAblauf();
       loadProgrammFromStore(); renderProgramm();
+      // Apply edits LAST
+      applyAllEdits();
+      if(editMode){ enableEdit(); enableListEdit(); }
     }, 300);
     // Populate inputs with DB values after load
     var einEl=document.getElementById('ein'); if(einEl) einEl.value=S.ein||'';
