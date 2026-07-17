@@ -3851,6 +3851,7 @@ function enableListEdit(){
   document.querySelectorAll('.info-block ul').forEach(function(ul, uli){
     if(ul.getAttribute('data-list-edit')) return;
     ul.setAttribute('data-list-edit','1');
+    ul._userEdited=false;
     // Add delete buttons to existing li
     ul.querySelectorAll('li').forEach(function(li, lii){
       if(li.querySelector('.li-del')) return;
@@ -3871,7 +3872,8 @@ function enableListEdit(){
         li.remove();
         saveListEdit(ul);
       });
-      liSpan.addEventListener('blur',function(){ saveListEdit(ul); });
+      liSpan.addEventListener('input',function(){ ul._userEdited=true; saveListEdit(ul); });
+      liSpan.addEventListener('blur',function(){ if(ul._userEdited) saveListEdit(ul); });
       li.appendChild(liSpan);
       li.appendChild(del);
     });
@@ -3943,8 +3945,10 @@ function applyListEdits(){
     if(store[key]){
       try{
         var items=JSON.parse(store[key]);
+        // Dedup check: if all items identical, list is corrupted — deduplicate
+        var unique=[...new Set(items)];
+        if(unique.length===1 && items.length>1) items=unique;
         ul.removeAttribute('data-list-edit');
-        // remove + button before rewrite to avoid duplicates
         var oldAdd=ul.parentNode.querySelector('.li-add');
         if(oldAdd) oldAdd.remove();
         ul.innerHTML=items.map(function(t){
