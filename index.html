@@ -3136,27 +3136,61 @@ function adjVAR(id,d){if(!S.varp)S.varp={};S.varp[id]=Math.max(0,(S.varp[id]||0)
 function renderTips(){
   var el=document.getElementById('matchTipps');
   if(!el) return;
+  if(!S.tips) S.tips={};
+  if(!S.tips._marks) S.tips._marks={};
   var persons=P.filter(function(p){return p.id!=='maege';});
-  var winner=S.tips&&S.tips._winner;
-  var html='<div style="display:flex;flex-direction:column;gap:6px">';
+  var scores={};
+  var html='<div style="display:flex;flex-direction:column;gap:8px">';
   persons.forEach(function(p){
     var t=(S.tips&&S.tips[p.id])||{};
-    var isWinner=winner===p.id;
-    html+='<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;border-radius:8px;'
-      +'background:'+(isWinner?'#dcfce7':'#fafaf8')+';border:1px solid '+(isWinner?'#bbf7d0':'#eee')+'">'
-      +'<span style="font-size:12px;min-width:75px;color:#555;font-weight:600">'+p.name+':</span>'
-      +'<span style="font-size:13px;font-weight:600;min-width:40px;color:#0a0a0a">'+(t.res||'—')+'</span>'
-      +'<span style="font-size:12px;color:#888;min-width:90px">'+(t.tor||'—')+'</span>'
-      +'<span style="font-size:12px;color:#888;min-width:40px">'+(t.min?t.min+"'":' —')+'</span>'
-      +'<button class="bs bs-sm tip-winner-btn" data-twid="'+p.id+'" style="margin-left:auto;'
-      +(isWinner?'background:#16a34a;color:#fff;border-color:#16a34a;':'')+'">'
-      +(isWinner?'✓ Gewinner':'Gewinner')+'</button>'
+    var marks=(S.tips._marks&&S.tips._marks[p.id])||{};
+    var pts=Object.values(marks).reduce(function(s,v){return s+(v===1?1:0);},0);
+    scores[p.id]=pts;
+    var fields=[
+      {key:'res',label:'Resultat',val:t.res||'—'},
+      {key:'tor',label:'Torschütze',val:t.tor||'—'},
+      {key:'min',label:'Minute',val:t.min?t.min+"'":'—'}
+    ];
+    var hasData=t.res||t.tor||t.min;
+    html+='<div style="border-radius:8px;background:#fafaf8;border:1px solid #eee;padding:8px 10px">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:'+(hasData?'8px':'0')+'">'
+      +'<span style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.name+'</span>'
+      +'<span style="font-size:12px;font-weight:700;color:#b8940a;background:#fef9eb;padding:2px 8px;border-radius:6px">'+pts+' Pkt.</span>'
       +'</div>';
+    if(hasData){
+      fields.forEach(function(f){
+        if(!f.val||f.val==='—') return;
+        var m=marks[f.key];
+        html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">'
+          +'<span style="font-size:11px;color:#aaa;min-width:70px">'+f.label+':</span>'
+          +'<span style="font-size:12px;color:#555;flex:1">'+f.val+'</span>'
+          +'<button class="tip-mark-btn" data-pid="'+p.id+'" data-fk="'+f.key+'" data-mark="1" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(m===1?'#16a34a':'#e4e2db')+';background:'+(m===1?'#dcfce7':'#fff')+';color:'+(m===1?'#16a34a':'#aaa')+';cursor:pointer;font-size:14px">✓</button>'
+          +'<button class="tip-mark-btn" data-pid="'+p.id+'" data-fk="'+f.key+'" data-mark="0" style="width:28px;height:28px;border-radius:6px;border:1.5px solid '+(m===0?'#dc2626':'#e4e2db')+';background:'+(m===0?'#fee2e2':'#fff')+';color:'+(m===0?'#dc2626':'#aaa')+';cursor:pointer;font-size:14px">✗</button>'
+          +'</div>';
+      });
+    } else {
+      html+='<div style="font-size:11px;color:#bbb;font-style:italic">Noch kein Tipp</div>';
+    }
+    html+='</div>';
   });
+  // Auto-winner
+  var maxPts=Math.max.apply(null,Object.values(scores));
+  if(maxPts>0){
+    var winners=Object.keys(scores).filter(function(id){return scores[id]===maxPts;});
+    if(winners.length===1) S.tips._winner=winners[0];
+  }
   html+='</div>';
   el.innerHTML=html;
-  el.querySelectorAll('.tip-winner-btn').forEach(function(btn){
-    btn.addEventListener('click',function(){setTipWinner(this.getAttribute('data-twid'));});
+  el.querySelectorAll('.tip-mark-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var pid=this.dataset.pid;
+      var fk=this.dataset.fk;
+      var mark=+this.dataset.mark;
+      if(!S.tips._marks) S.tips._marks={};
+      if(!S.tips._marks[pid]) S.tips._marks[pid]={};
+      S.tips._marks[pid][fk]=(S.tips._marks[pid][fk]===mark?null:mark);
+      save(); saveToDB(); renderTips();
+    });
   });
 }
 
