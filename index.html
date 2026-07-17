@@ -801,31 +801,19 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <div class="section">
         <div class="section-title">Pflicht-Ansagen</div>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Mannschaftskontrolle</div>
+          <div><div class="sub-label" style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Mannschaftskontrolle</div>
           <div class="qb">«Mannschaft vollständig. Der Transfer kann fortgesetzt werden.»</div></div>
-          <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Toilettengang</div>
+          <div><div class="sub-label" style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Toilettengang</div>
           <div class="qb">«Der Bier-Kapitän verlässt das Spielfeld vorübergehend.»</div></div>
-          <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Captain-Ansprache — Beispiel</div>
+          <div><div class="sub-label" style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Captain-Ansprache — Beispiel</div>
           <div class="qb">«Männer, wir müssen die Räume im Zug nutzen, kompakt auftreten und konsequent zum Abschluss kommen. Fünf Baguettes, 30 Franken Pflicht — jeder Pass muss sitzen.»</div></div>
-          <div><div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Medizinisches Statement (Boot)</div>
+          <div><div class="sub-label" style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Medizinisches Statement (Boot)</div>
           <div class="qb">«Ich bin nicht hier, um gut auszusehen. Ich bin hier, um den medizinischen Test des FC Mariage zu bestehen.»</div></div>
         </div>
       </div>
     </div>
 
     <!-- KACHEL: Kleidung (immer sichtbar) -->
-    <div class="pkachel" data-kachel="kleidung" data-default="1">
-      <div class="section">
-        <div class="section-title">Kleidung</div>
-        <div class="info-block"><ul>
-          <li>Gestreiftes französisches Shirt</li>
-          <li>Baskmütze</li>
-          <li>Bier-Kapitänsbinde</li>
-          <li>Rettungsschwimmerinnen-Kostüm (Boot)</li>
-        </ul></div>
-      </div>
-    </div>
-
     <!-- KACHEL: Bewertungskriterien (immer sichtbar) -->
     <div class="pkachel" data-kachel="kriterien" data-default="1">
       <div class="section">
@@ -864,22 +852,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
     <!-- KACHEL: Transferdossier (freischaltbar) -->
     
-
-    <!-- KACHEL: Médaillen (freischaltbar) -->
-    <div class="pkachel" data-kachel="medaillen" data-default="0">
-      <div class="section">
-        <div class="section-title">Deine Médaillen</div>
-        <div id="patricMedaillen"></div>
-      </div>
-    </div>
-
-    <!-- KACHEL: Persönliche Botschaft (freischaltbar) -->
-    <div class="pkachel" data-kachel="botschaft" data-default="0">
-      <div class="section">
-        <div class="section-title">Botschaft vom Team</div>
-        <div class="qb" style="font-style:normal">Pädi, wir sind stolz auf dich. Was heute passiert ist, bleibt für immer. Du bist einer von uns — und ab morgen Capitaine à vie du FC Mariage. Auf viele weitere Jahre.</div>
-      </div>
-    </div>
 
     <!-- KACHEL: Vertrag (freischaltbar) -->
     <div class="pkachel" data-kachel="vertrag" data-default="0">
@@ -3846,7 +3818,7 @@ function getStableId(el){
 
 function assignStableIds(){
   var selectors=[
-    '.section-title','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.section-title','.sub-label','.info-block li','.info-block p','.qb','.dt','.dq',
     '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
     '.highlight','.cbox .cf','#tab-story .section > div > p',
     '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
@@ -3897,7 +3869,7 @@ function saveEdit(el){
 
 function enableEdit(){
   var selectors=[
-    '.section-title','.info-block li','.info-block p','.qb','.dt','.dq',
+    '.section-title','.sub-label','.info-block li','.info-block p','.qb','.dt','.dq',
     '.dno','.dw2','.igb','.tt-time','.tt-desc','.tt-station','.pack-cat',
     '.highlight','.cbox .cf','#tab-story .section > div > p',
     '.acc-t','.pname','.prole','.header-eyebrow','.header-sub',
