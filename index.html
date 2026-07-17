@@ -4919,9 +4919,7 @@ function init(){
   var ov=document.getElementById('mOverlay');
   if(ov) ov.addEventListener('click',function(e){ if(e.target===ov) closeModal(e); });
   // Apply saved edits
-  setTimeout(applyAllEdits, 150);
-  setTimeout(applyAllEdits, 600);
-  setTimeout(applyAllEdits, 1800);
+  // applyAllEdits called after DB load, not on fixed timeout
 }
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
@@ -5013,7 +5011,7 @@ if(supabaseReady){
     if(!_initDone){ _initDone=true; init(); initAppMode(); }
   }, 500);
   loadFromDB().then(function(){
-    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); setTimeout(applyAllEdits, 100);
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); setTimeout(applyAllEdits, 200); setTimeout(applyAllEdits, 800);
     // Populate inputs with DB values after load
     var einEl=document.getElementById('ein'); if(einEl) einEl.value=S.ein||'';
     var einTEl=document.getElementById('einTarget'); if(einTEl) einTEl.value=S.einTarget||50;
