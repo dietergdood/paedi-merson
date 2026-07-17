@@ -3421,6 +3421,7 @@ function showTab(id,btn){
   if(activeBtn) activeBtn.classList.add('active');
   setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
   if(id==='packliste') renderPackliste();
+  if(id==='timetable'){ loadProgrammFromStore(); renderProgramm(); }
   if(id==='regie'){ showTab('story'); showSub('story-regie'); return; }
   if(id==='regie-checkliste'){ showTab('story'); showSub('story-checkliste'); return; }
   if(id==='didi'){ renderDidiRegie(); }
@@ -3482,6 +3483,7 @@ function activateEdit(){
   app.classList.add('edit-mode');
   enableEdit();
   renderAblauf();
+  loadProgrammFromStore(); renderProgramm();
   renderPackliste();
   renderPC();
   renderAllMat();
@@ -3489,6 +3491,7 @@ function activateEdit(){
   renderPatricPack();
   renderTabToggles();
   renderRegie();
+  renderProgramm();
 }
 
 function deactivateEdit(){
@@ -4376,6 +4379,189 @@ saveMatData = function(d){
 };
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
+
+// ─── Programm Data & Render ─────────────────────────────────────────────────
+var DEFAULT_PROGRAMM = {
+  items: [
+    {time:'06:15',title:'Abholen Pädi A.',desc:'',link:'',linkText:''},
+    {time:'06:54',title:'Abfahrt Herrliberg-Feldmeilen',desc:'S16 Gl. 2 → Zürich HB → IC → Lutry · 3h 7min',link:'https://www.sbb.ch/de/kaufen/pages/fahrplan/fahrplan.xhtml?von=Herrliberg-Feldmeilen&nach=Lutry&datum=18.07.2026&zeit=06:54&ab=true',linkText:'→ SBB Verbindung'},
+    {time:'10:01',title:'Ankunft Lutry',desc:'',link:'',linkText:''},
+    {time:'10:30',title:'Iboote Wasserspass',desc:'Wakeboarden, Médaillen & Spass',link:'',linkText:''},
+    {time:'~14:00',title:'Ende Wasserspass',desc:'',link:'',linkText:''},
+    {time:'14:40',title:'Abfahrt Lutry → Villette',desc:'Ankunft 14:42',link:'https://www.sbb.ch/de/kaufen/pages/fahrplan/fahrplan.xhtml?von=Lutry&nach=Villette%20(Lavaux)&datum=18.07.2026&zeit=14:40&ab=true',linkText:'→ SBB Verbindung'},
+    {time:'15:00',title:'Degustation & Mittagessen',desc:'Domaine de la Crausaz, Grandvaux · Sa 10:30–18:00',link:'https://www.lacrausaz.ch/',linkText:'→ lacrausaz.ch',img:'https://www.lacrausaz.ch/assets/img/galerie/10.jpg'},
+    {time:'~16:30',title:'Verschiebung ins Chalet',desc:'ÖV oder Taxi',link:'',linkText:''},
+    {time:'Abend',title:'Raclette · Wein · Spiele · WM & Spass',desc:'',link:'',linkText:''}
+  ],
+  unterkunft: {
+    title:'Chalet le Grillet — CAS Jaman',
+    desc:'1185m · Les Pléiades · 15 Plätze · Dusche/WC · Terrasse & Grill',
+    link:'https://www.cas-jaman.ch/cabanes/chalet-le-grillet.php',
+    linkText:'→ cas-jaman.ch',
+    imgs:['https://www.cas-jaman.ch/images/le_grillet_2.jpg','https://www.cas-jaman.ch/dropbox/photo/chalet-le-grillet/mysize/vue_depuis_la_terrasse_du_grillet.jpg','https://www.cas-jaman.ch/dropbox/photo/chalet-le-grillet/mysize/chalet_le_grillet_de_nuit.jpg']
+  },
+  morgen: {
+    title:'Restaurant Les Pléiades — MOB',
+    desc:'Panoramaterrasse · Voralpen & Genfersee',
+    link:'https://www.mob.ch/de/service-providers/restaurant-les-pleiades',
+    linkText:'→ mob.ch',
+    img:'https://images.contenthub.dev/h24dbpy2mqzk/6e187facd7d3cf4eef0c7d67a430937a/rest_ple_001.jpg?fm=jpg&fl=progressive&f=center&fit=fill&q=45&h=200&w=500'
+  }
+};
+
+function getProgramm(){ return S.programm||DEFAULT_PROGRAMM; }
+
+function saveProgramm(p){ S.programm=p; save(); saveProgrammToDB(p); }
+
+function saveProgrammToDB(p){
+  if(!sb) return;
+  var store=getEditStore();
+  store['__programm__']=JSON.stringify(p);
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+  saveEditsToDB(store);
+}
+
+function loadProgrammFromStore(){
+  var store=getEditStore();
+  if(store['__programm__']){
+    try{ S.programm=JSON.parse(store['__programm__']); }catch(e){}
+  }
+}
+
+function renderProgramm(){
+  var el=document.getElementById('programmContainer');
+  if(!el) return;
+  var p=getProgramm();
+  var ce=editMode?' contenteditable="true"':'';
+  var delBtn=editMode?'<button class="prog-del-item" style="flex-shrink:0;width:22px;height:22px;border:none;background:#fee2e2;color:#e03535;border-radius:4px;cursor:pointer;font-size:12px">✕</button>':'';
+
+  var html='<div class="section">';
+  html+='<div class="section-title" id="prog-title"'+ce+'>Programm & Unterkunft — Sa. 18.07.2026</div>';
+  html+='<div style="display:flex;flex-direction:column;gap:0" id="progItems">';
+
+  p.items.forEach(function(item,i){
+    html+='<div class="prog-item" data-prog-i="'+i+'" style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee;align-items:flex-start">';
+    if(editMode) html+=delBtn.replace('class="prog-del-item"','class="prog-del-item" data-prog-i="'+i+'"');
+    html+='<div class="prog-time" data-prog-i="'+i+'"'+ce+' style="font-size:12px;font-weight:700;color:#aaa;min-width:48px;flex-shrink:0">'+item.time+'</div>';
+    html+='<div style="flex:1;min-width:0">';
+    html+='<div class="prog-title-t" data-prog-i="'+i+'"'+ce+' style="font-size:13px;font-weight:700;color:#0a0a0a">'+item.title+'</div>';
+    if(item.desc||editMode) html+='<div class="prog-desc" data-prog-i="'+i+'"'+ce+' style="font-size:11px;color:#888;margin-top:2px'+(item.desc?'':';color:#ccc')+'">'+( item.desc||( editMode?'Beschreibung...':'' ) )+'</div>';
+        if(item.img) html+='<img src="'+item.img+'" style="width:100%;max-width:300px;height:90px;object-fit:cover;border-radius:6px;margin-top:6px;display:block" onerror="this.style.display=\'none\'">';
+    if(item.link) html+='<a href="'+item.link+'" target="_blank" class="prog-link" data-prog-i="'+i+'" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:3px">'+item.linkText+'</a>';
+    if(editMode){
+      html+='<div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap">';
+      html+='<input class="prog-link-url" data-prog-i="'+i+'" type="text" value="'+(item.link||'')+'" placeholder="Link URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+      html+='<input class="prog-link-text" data-prog-i="'+i+'" type="text" value="'+(item.linkText||'')+'" placeholder="Link Text" style="font-size:10px;width:100px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+      html+='<input class="prog-img-url" data-prog-i="'+i+'" type="text" value="'+(item.img||'')+'" placeholder="Bild URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+      html+='</div>';
+    }
+    html+='</div></div>';
+  });
+
+  if(editMode){
+    html+='<button id="progAddItem" style="width:100%;margin-top:8px;padding:8px;border:1px dashed #e8c44a;background:transparent;border-radius:8px;color:var(--accent-dark);font-size:12px;cursor:pointer">+ Eintrag hinzufügen</button>';
+  }
+
+  html+='</div></div>';
+
+  // Unterkunft
+  html+='<div class="section" style="margin-top:8px">';
+  html+='<div class="section-title" id="prog-unt-title"'+ce+'>Unterkunft</div>';
+  html+='<div style="border-radius:8px;overflow:hidden;border:1px solid #eee">';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px">';
+  p.unterkunft.imgs.forEach(function(img,ii){
+    html+='<img src="'+img+'" style="width:100%;height:100px;object-fit:cover;display:block" onerror="this.style.display=\'none\'">';
+    if(editMode) html+=''; // img editing via link inputs below
+  });
+  html+='</div>';
+  html+='<div style="padding:10px 12px">';
+  html+='<div class="prog-unt-title"'+ce+' style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.unterkunft.title+'</div>';
+  html+='<div class="prog-unt-desc"'+ce+' style="font-size:11px;color:#888;margin-top:2px">'+p.unterkunft.desc+'</div>';
+  html+='<a href="'+p.unterkunft.link+'" target="_blank" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:4px">'+p.unterkunft.linkText+'</a>';
+  if(editMode){
+    html+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">';
+    html+='<input class="prog-unt-link" type="text" value="'+p.unterkunft.link+'" placeholder="Link URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='<input class="prog-unt-linktext" type="text" value="'+p.unterkunft.linkText+'" placeholder="Link Text" style="font-size:10px;width:100px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='</div>';
+    p.unterkunft.imgs.forEach(function(img,ii){
+      html+='<input class="prog-unt-img" data-img-i="'+ii+'" type="text" value="'+img+'" placeholder="Bild URL '+( ii+1 )+'" style="font-size:10px;width:100%;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px;margin-top:4px">';
+    });
+    html+='<button class="prog-unt-addimg" style="font-size:10px;margin-top:4px;padding:2px 8px;border:1px dashed #e4e2db;border-radius:4px;background:transparent;cursor:pointer;color:#aaa">+ Bild hinzufügen</button>';
+  }
+  html+='</div></div></div>';
+
+  // Morgenessen
+  html+='<div class="section" style="margin-top:8px">';
+  html+='<div class="section-title" id="prog-mor-title"'+ce+'>Morgenessen — So. ab 10:30</div>';
+  html+='<div style="border-radius:8px;overflow:hidden;border:1px solid #eee">';
+  html+='<img src="'+p.morgen.img+'" style="width:100%;height:100px;object-fit:cover;display:block" onerror="this.style.display=\'none\'">';
+  html+='<div style="padding:10px 12px">';
+  html+='<div class="prog-mor-title"'+ce+' style="font-size:13px;font-weight:700;color:#0a0a0a">'+p.morgen.title+'</div>';
+  html+='<div class="prog-mor-desc"'+ce+' style="font-size:11px;color:#888;margin-top:2px">'+p.morgen.desc+'</div>';
+  html+='<a href="'+p.morgen.link+'" target="_blank" style="font-size:11px;color:#2563eb;text-decoration:none;display:inline-block;margin-top:4px">'+p.morgen.linkText+'</a>';
+  if(editMode){
+    html+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">';
+    html+='<input class="prog-mor-link" type="text" value="'+p.morgen.link+'" placeholder="Link URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='<input class="prog-mor-linktext" type="text" value="'+p.morgen.linkText+'" placeholder="Link Text" style="font-size:10px;width:100px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='<input class="prog-mor-img" type="text" value="'+p.morgen.img+'" placeholder="Bild URL" style="font-size:10px;flex:1;min-width:120px;height:24px;padding:0 6px;border:1px solid #e4e2db;border-radius:4px">';
+    html+='</div>';
+  }
+  html+='</div></div></div>';
+
+  el.innerHTML=html;
+
+  // Wire events
+  function saveFromDOM(){
+    var p2=getProgramm();
+    // items
+    el.querySelectorAll('.prog-time').forEach(function(e){ p2.items[+e.dataset.progI].time=e.textContent.trim(); });
+    el.querySelectorAll('.prog-title-t').forEach(function(e){ p2.items[+e.dataset.progI].title=e.textContent.trim(); });
+    el.querySelectorAll('.prog-desc').forEach(function(e){ p2.items[+e.dataset.progI].desc=e.textContent.trim(); });
+    el.querySelectorAll('.prog-link-url').forEach(function(e){ p2.items[+e.dataset.progI].link=e.value.trim(); });
+    el.querySelectorAll('.prog-link-text').forEach(function(e){ p2.items[+e.dataset.progI].linkText=e.value.trim(); });
+    el.querySelectorAll('.prog-img-url').forEach(function(e){ p2.items[+e.dataset.progI].img=e.value.trim(); });
+    // unterkunft
+    var utEl=el.querySelector('.prog-unt-title'); if(utEl) p2.unterkunft.title=utEl.textContent.trim();
+    var udEl=el.querySelector('.prog-unt-desc'); if(udEl) p2.unterkunft.desc=udEl.textContent.trim();
+    var ulEl=el.querySelector('.prog-unt-link'); if(ulEl) p2.unterkunft.link=ulEl.value.trim();
+    var ultEl=el.querySelector('.prog-unt-linktext'); if(ultEl) p2.unterkunft.linkText=ultEl.value.trim();
+    el.querySelectorAll('.prog-unt-img').forEach(function(e){ p2.unterkunft.imgs[+e.dataset.imgI]=e.value.trim(); });
+    // morgen
+    var mtEl=el.querySelector('.prog-mor-title'); if(mtEl) p2.morgen.title=mtEl.textContent.trim();
+    var mdEl=el.querySelector('.prog-mor-desc'); if(mdEl) p2.morgen.desc=mdEl.textContent.trim();
+    var mlEl=el.querySelector('.prog-mor-link'); if(mlEl) p2.morgen.link=mlEl.value.trim();
+    var mltEl=el.querySelector('.prog-mor-linktext'); if(mltEl) p2.morgen.linkText=mltEl.value.trim();
+    var miEl=el.querySelector('.prog-mor-img'); if(miEl) p2.morgen.img=miEl.value.trim();
+    saveProgramm(p2);
+  }
+
+  el.querySelectorAll('[contenteditable]').forEach(function(e){
+    e.addEventListener('blur', saveFromDOM);
+  });
+  el.querySelectorAll('input').forEach(function(e){
+    e.addEventListener('change', saveFromDOM);
+  });
+  el.querySelectorAll('.prog-del-item').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var p2=getProgramm();
+      p2.items.splice(+this.dataset.progI,1);
+      saveProgramm(p2); renderProgramm();
+    });
+  });
+  var addBtn=el.querySelector('#progAddItem');
+  if(addBtn) addBtn.addEventListener('click',function(){
+    var p2=getProgramm();
+    p2.items.push({time:'--:--',title:'Neuer Eintrag',desc:'',link:'',linkText:''});
+    saveProgramm(p2); renderProgramm();
+  });
+  var addImgBtn=el.querySelector('.prog-unt-addimg');
+  if(addImgBtn) addImgBtn.addEventListener('click',function(){
+    var p2=getProgramm();
+    p2.unterkunft.imgs.push('');
+    saveProgramm(p2); renderProgramm();
+  });
+}
+
 function init(){
   renderSB();
   renderAblauf();
