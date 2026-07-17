@@ -1135,10 +1135,6 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     </div>
     <div class="acc-b" id="acc_role_didi">
       <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
-        <div class="section-title">Regie-Kurzansicht (Didi)</div>
-        <div id="didiRegie"><span style="color:#aaa;font-size:13px">Lädt...</span></div>
-      </div>
-      <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
         <div class="section-title">Didi Good — Transferdirektor & Schiedsrichter</div>
         <div class="info-block"><ul>
           <li>Führt durch den Tag und kündigt alle Prüfungen an</li>
@@ -1146,6 +1142,10 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
           <li>Nur der VAR (Beni) kann eingreifen</li>
           <li>Erklärt Patrick zu Beginn alle Regeln und Rollen</li>
         </ul></div>
+      </div>
+      <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
+        <div class="section-title">Regie-Kurzansicht (Didi)</div>
+        <div id="didiRegie"><span style="color:#aaa;font-size:13px">Lädt...</span></div>
       </div>
       <div class="section" style="border:none;box-shadow:none;margin-bottom:.5rem">
         <div class="section-title">Text 1: Französisches Outfit (verlesen)</div>
@@ -2820,12 +2820,15 @@ function saveEinTarget(){
 }
 
 function saveEin(){S.ein=parseFloat(document.getElementById('ein').value)||0;renderMis();save();}
+function populateIG(){
+  populateIG();
+}
 function saveIG(){
   ['ig_f','ig_l','ig_k'].forEach(function(id){
     var e=document.getElementById(id);
-    if(e) e.value=S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]||'';
+    if(e) S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]=parseInt(e.value)||0;
     var et=document.getElementById(id+'_target');
-    if(et) et.value=S[id+'_target']||({ig_f:38,ig_l:100,ig_k:10}[id])||'';
+    if(et) S[id+'_target']=parseInt(et.value)||({ig_f:38,ig_l:100,ig_k:10}[id]);
   });
   save(); renderMis();
 }
