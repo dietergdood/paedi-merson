@@ -3505,6 +3505,16 @@ function deactivateEdit(){
   renderPatricPack();
   renderTabToggles();
   renderRegie();
+  // Remove list edit UI
+  document.querySelectorAll('.li-del,.li-add').forEach(function(el){ el.remove(); });
+  document.querySelectorAll('.info-block ul').forEach(function(ul){
+    ul.removeAttribute('data-list-edit');
+    ul.querySelectorAll('li').forEach(function(li){
+      li.style.display='';
+      li.removeAttribute('contenteditable');
+    });
+  });
+  applyListEdits();
 }
 
 function getStableId(el){
@@ -3543,6 +3553,7 @@ function applyAllEdits(){
   var store=getEditStore();
   if(!Object.keys(store).length) return;
   assignStableIds();
+  applyListEdits();
   document.querySelectorAll('[data-edit-id]').forEach(function(el){
     var saved=store[el.getAttribute('data-edit-id')];
     if(saved!==undefined && el.innerHTML!==saved) el.innerHTML=saved;
@@ -3641,7 +3652,98 @@ function enableEdit(){
       el.addEventListener('click',function(e){ if(editMode) e.stopPropagation(); });
     }
   });
+  enableListEdit();
 }
+
+// ─── List editing (info-block li) ───────────────────────────────────────────
+function enableListEdit(){
+  document.querySelectorAll('.info-block ul').forEach(function(ul, uli){
+    if(ul.getAttribute('data-list-edit')) return;
+    ul.setAttribute('data-list-edit','1');
+    // Add delete buttons to existing li
+    ul.querySelectorAll('li').forEach(function(li, lii){
+      if(li.querySelector('.li-del')) return;
+      li.style.display='flex';
+      li.style.alignItems='center';
+      li.style.gap='6px';
+      var del=document.createElement('button');
+      del.className='li-del';
+      del.innerHTML='✕';
+      del.style.cssText='flex-shrink:0;width:20px;height:20px;border:none;background:#fee2e2;color:#e03535;border-radius:4px;cursor:pointer;font-size:12px;padding:0;line-height:1';
+      del.addEventListener('click',function(e){
+        e.stopPropagation();
+        li.remove();
+        saveListEdit(ul);
+      });
+      li.appendChild(del);
+    });
+    // Add "+" button after ul if not already there
+    var addBtn=ul.parentNode.querySelector('.li-add');
+    if(!addBtn){
+      addBtn=document.createElement('button');
+      addBtn.className='li-add bs';
+      addBtn.innerHTML='+ Eintrag hinzufügen';
+      addBtn.style.cssText='width:100%;margin-top:6px;color:var(--accent-dark);font-size:12px';
+      addBtn.addEventListener('click',function(){
+        var li=document.createElement('li');
+        li.setAttribute('contenteditable','true');
+        li.style.cssText='display:flex;align-items:center;gap:6px;min-width:0;flex:1';
+        var del=document.createElement('button');
+        del.className='li-del';
+        del.innerHTML='✕';
+        del.style.cssText='flex-shrink:0;width:20px;height:20px;border:none;background:#fee2e2;color:#e03535;border-radius:4px;cursor:pointer;font-size:12px;padding:0;line-height:1';
+        del.addEventListener('click',function(e){
+          e.stopPropagation();
+          li.remove();
+          saveListEdit(ul);
+        });
+        li.appendChild(del);
+        ul.appendChild(li);
+        // Focus the new item
+        var range=document.createRange();
+        range.setStart(li,0);
+        range.collapse(true);
+        var sel=window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        li.focus();
+        li.addEventListener('blur',function(){ saveListEdit(ul); });
+      });
+      ul.parentNode.insertBefore(addBtn, ul.nextSibling);
+    }
+  });
+}
+
+function saveListEdit(ul){
+  // Save all li text content to edit store
+  var items=[];
+  ul.querySelectorAll('li').forEach(function(li){
+    var text=li.childNodes[0]?li.childNodes[0].textContent.trim():'';
+    if(text) items.push(text);
+  });
+  var store=getEditStore();
+  var key='list-'+getStableId(ul);
+  store[key]=JSON.stringify(items);
+  localStorage.setItem('pm5_edits',JSON.stringify(store));
+  saveEditsToDB(store);
+}
+
+function applyListEdits(){
+  var store=getEditStore();
+  document.querySelectorAll('.info-block ul').forEach(function(ul){
+    var key='list-'+getStableId(ul);
+    if(store[key]){
+      try{
+        var items=JSON.parse(store[key]);
+        ul.innerHTML=items.map(function(t){
+          return '<li>'+t+'</li>';
+        }).join('');
+        if(editMode) enableListEdit();
+      }catch(e){}
+    }
+  });
+}
+
 
 // ─── Packliste ────────────────────────────────────────────────────────────────
 var PACKLISTE=[
