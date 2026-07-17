@@ -774,8 +774,9 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       </div>
     </div>
 
-    <!-- AKKORDEON: Informationen & Anweisungen -->
-    <div class="acc-item" style="margin-bottom:.75rem">
+    <!-- AKKORDEON: Informationen & Anweisungen (als Kachel) -->
+    <div class="pkachel" data-kachel="info" data-default="1">
+      <div class="acc-item" style="margin-bottom:.75rem">
       <div class="acc-h" onclick="toggleAcc('info_patrick')">
         <span style="font-size:14px;margin-right:4px">📋</span>
         <div class="acc-t">Informationen & Anweisungen</div>
@@ -816,13 +817,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
               <div class="qb">«Männer, wir müssen die Räume im Zug nutzen, kompakt auftreten und konsequent zum Abschluss kommen. Fünf Baguettes, 30 Franken Pflicht — jeder Pass muss sitzen.»</div></div>
               <div><div class="sub-label" style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:4px">Medizinisches Statement (Boot)</div>
               <div class="qb">«Ich bin nicht hier, um gut auszusehen. Ich bin hier, um den medizinischen Test des FC Mariage zu bestehen.»</div></div>
-          </div>
-        </div>
-        <div style="height:1px;background:#e4e2db;margin:.75rem 0"></div>
-        <div class="pkachel" data-kachel="kriterien" data-default="1">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:.6rem"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#e8c44a;flex-shrink:0;margin-top:1px"></span><span class="section-title" style="margin:0">Bewertungskriterien</span></div>
-          <div style="background:#fafaf8;border:0.5px solid #e4e2db;border-radius:10px;padding:.9rem 1rem">
-            <div class="cl" id="patrickCL"></div>
           </div>
         </div>
         <div style="height:1px;background:#e4e2db;margin:.75rem 0"></div>
@@ -877,6 +871,7 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 
       </div>
     </div>
+    </div>
 
     <!-- AKKORDEON: Meine Packliste -->
     <div class="acc-item" style="margin-bottom:.75rem">
@@ -899,16 +894,16 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       </div>
     </div>
 
-    <!-- AKKORDEON: Spiele & Wettbewerbe -->
-    <div class="acc-item" style="margin-bottom:.75rem">
-      <div class="acc-h" onclick="toggleAcc('games_patrick')">
-        <div class="adot db"></div>
-        <div class="acc-t">Spiele & Wettbewerbe</div>
-        <div class="acc-a" id="arr_games_patrick">▼</div>
-      </div>
-      <div class="acc-b" id="acc_games_patrick">
+    <!-- AKKORDEON: Spiele & Wettbewerbe (als einzelne Kachel) -->
+    <div class="pkachel" data-kachel="spiele" data-default="0">
+      <div class="acc-item" style="margin-bottom:.75rem">
+        <div class="acc-h" onclick="toggleAcc('games_patrick')">
+          <div class="adot db"></div>
+          <div class="acc-t">Spiele & Wettbewerbe</div>
+          <div class="acc-a" id="arr_games_patrick">▼</div>
+        </div>
+        <div class="acc-b" id="acc_games_patrick">
 
-        <div class="pkachel" data-kachel="sommelier" data-default="0">
           <div class="game-acc" id="gameacc_patrick_mySOMMWordpatrick">
             <div class="game-acc-h" onclick="toggleGameAcc('gameacc_patrick_mySOMMWordpatrick')">
               <span class="game-acc-title">🍷 Sommelier</span>
@@ -918,19 +913,17 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
               <div id="mySOMMWord_patrick"></div>
             </div>
           </div>
-        </div>
 
-        <div class="game-acc" id="gameacc_patrick_myVARpatrick">
-          <div class="game-acc-h" onclick="toggleGameAcc('gameacc_patrick_myVARpatrick')">
-            <span class="game-acc-title">🔍 Vergangenheits-VAR</span>
-            <span class="game-acc-arr">▼</span>
+          <div class="game-acc" id="gameacc_patrick_myVARpatrick">
+            <div class="game-acc-h" onclick="toggleGameAcc('gameacc_patrick_myVARpatrick')">
+              <span class="game-acc-title">🔍 Vergangenheits-VAR</span>
+              <span class="game-acc-arr">▼</span>
+            </div>
+            <div class="game-acc-b">
+              <div id="myVAR_patrick"></div>
+            </div>
           </div>
-          <div class="game-acc-b">
-            <div id="myVAR_patrick"></div>
-          </div>
-        </div>
 
-        <div class="pkachel" data-kachel="matchtipp" data-default="0">
           <div class="game-acc" id="gameacc_patrick_myTippatrick">
             <div class="game-acc-h" onclick="toggleGameAcc('gameacc_patrick_myTippatrick')">
               <span class="game-acc-title">⚽ Match-Tipp</span>
@@ -940,8 +933,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
               <div id="myTip_patrick"></div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
 
@@ -4319,7 +4312,7 @@ function renderPatricTab(){
       var wrap=document.createElement('div');
       wrap.className='pkachel-toggle-wrap';
       wrap.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:'+(unlocked?'#f0fdf4':'#fef2f2')+';border-radius:8px;margin-bottom:8px';
-      var kName={'mission':'Tagesmission','dossier':'Transferdossier','ansagen':'Captain-Ansagen','kleidung':'Kleidungsvorschrift','kriterien':'Transfer-Kriterien','packliste':'Packliste','sommelier':'Bullshit-Sommelier','matchtipp':'Match-Tipp','medaillen':'Médaillen & Karten','botschaft':'Pers. Botschaft','vertrag':'Transfervertrag','titel':'Offizieller Titel'};
+      var kName={'mission':'Tagesmission','info':'Informationen & Anweisungen','dossier':'Transferdossier','ansagen':'Captain-Ansagen','kleidung':'Kleidungsvorschrift','kriterien':'Transfer-Kriterien','packliste':'Packliste','spiele':'Spiele & Wettbewerbe','sommelier':'Bullshit-Sommelier','matchtipp':'Match-Tipp','medaillen':'Médaillen & Karten','botschaft':'Pers. Botschaft','vertrag':'Transfervertrag','titel':'Offizieller Titel'};
       wrap.innerHTML='<span style="font-size:11px;font-weight:600;color:'+(unlocked?'#16a34a':'#e03535')+'">'+(unlocked?'✓':'🔒')+' '+(kName[k]||k)+'</span>'
         +'<label style="position:relative;display:inline-block;width:40px;height:22px;cursor:pointer">'
         +'<input type="checkbox" data-togglekachel="'+k+'" '+(unlocked?'checked':'')+' style="opacity:0;width:0;height:0;position:absolute">'
