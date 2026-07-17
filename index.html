@@ -1830,7 +1830,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
             <div style="font-size:11px;color:#888;margin-bottom:.35rem">Dein Begriff:</div>
             <div id="mySOMMWord_tobi" style="font-size:16px;font-weight:700;color:#b8940a"></div>
           </div>
-          <button onclick="distributeSOMMWords()" style="width:100%;padding:10px;background:#0a0a0a;color:#e8c44a;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px">🎲 Begriffe zufällig verteilen</button>
+          <div style="display:flex;gap:8px;margin-bottom:10px">
+            <button onclick="distributeSOMMWords()" style="flex:1;padding:10px;background:#0a0a0a;color:#e8c44a;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">🎲 Verteilen</button>
+            <button onclick="resetSOMMWords()" style="padding:10px 14px;background:#fee2e2;color:#e03535;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer">✕ Reset</button>
+          </div>
           <div id="sommTobiOverview"></div>
         </div>
       </div>
@@ -3352,6 +3355,14 @@ function saveQuizState(s){ localStorage.setItem('pm5_quiz',JSON.stringify(s)); i
 
 function getVARState(){ return JSON.parse(localStorage.getItem('pm5_var')||'null') || {photos:[], guesses:{}, winner:null}; }
 function saveVARState(s){ localStorage.setItem('pm5_var',JSON.stringify(s)); if(sb) sb.from('app_lists').upsert({id:'main',varstate:s,updated_at:new Date().toISOString()}); }
+
+function resetSOMMWords(){
+  var state={assigned:{}, winner:null};
+  saveSOMMState(state);
+  renderSOMMTobi();
+  renderAllPersonSOMMWords();
+  showToast('Verteilung zurückgesetzt');
+}
 
 function distributeSOMMWords(){
   var persons=P.slice();
