@@ -413,8 +413,6 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
   <button class="s-btn" data-tab="packliste">🎒 Packliste</button>
   <div class="s-divider"></div>
   <button class="s-btn" data-tab="story">📖 Story</button>
-  <button class="s-btn s-sub-btn" data-tab="regie">🎬 Regie</button>
-  <button class="s-btn s-sub-btn" data-tab="regie-checkliste">☑️ Checkliste</button>
   <div class="s-divider"></div>
   <button class="s-btn" data-tab="sb">🏆 Scoreboard</button>
   <div class="s-divider"></div>
@@ -618,7 +616,14 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 </div>
 
 <div id="tab-story" style="display:none">
-  <div class="section">
+  <div style="display:flex;gap:0;margin-bottom:.75rem;background:var(--surface-1,#f5f5f0);border-radius:10px;padding:3px">
+    <button class="sub-btn active" data-sub="story-content" style="flex:1;border-radius:8px;padding:7px 4px;font-size:12px">📖 Story</button>
+    <button class="sub-btn" data-sub="story-regie" style="flex:1;border-radius:8px;padding:7px 4px;font-size:12px">🎬 Regie</button>
+    <button class="sub-btn" data-sub="story-checkliste" style="flex:1;border-radius:8px;padding:7px 4px;font-size:12px">☑️ Checkliste</button>
+  </div>
+
+  <div id="sub-story-content">
+<div class="section">
     <div class="section-title">Was heute passiert — Die ganze Story</div>
     <div style="font-size:14px;line-height:1.8;color:#1a1a1a">
       <p style="margin-bottom:1rem">Patrick — bekannt als <strong>Pädi Merson</strong>, 38-jähriger Edeltechniker, langjähriger Fussball-Captain, Weinliebhaber und Digitalstratege — steht heute vor dem wichtigsten Wechsel seiner Karriere: vom <strong>FC Junggeselle</strong> zum <strong>FC Mariage</strong>. Die beiden Vereine haben sich grundsätzlich auf den Transfer geeinigt. Bevor der Vertrag aber unterschrieben werden kann, muss Pädi A. beweisen, dass er den Anforderungen des FC Mariage gewachsen ist.</p>
@@ -783,33 +788,22 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     </div>
   </div>
 
-  <div class="section">
-      <div class="section-title">Tagesablauf — Checkliste</div>
-      <div class="cl" id="ablaufList"></div>
-    </div>
-</div>
-
-<div id="tab-regie" style="display:none">
-  <div style="display:flex;gap:6px;margin-bottom:.75rem">
-    <button class="sub-btn active" data-sub="drehbuch">Drehbuch</button>
-    <button class="sub-btn" data-sub="checkliste">Checkliste</button>
   </div>
-  <div id="sub-drehbuch">
+
+   <div id="sub-story-regie" style="display:none">
     <div class="section" style="padding:.75rem 1rem">
       <div class="section-title">Vollständige Storyline — Schritt für Schritt</div>
       <div id="regiAcc"></div>
     </div>
   </div>
-  <div id="sub-checkliste" style="display:none">
+
+  <div id="sub-story-checkliste" style="display:none">
     <div class="section">
       <div class="section-title">Tagesablauf — Checkliste</div>
       <div class="cl" id="ablaufList"></div>
     </div>
   </div>
 </div>
-
-<!-- PATRICK -->
-
 
 <div id="tab-patrick" style="display:none">
 
@@ -3411,7 +3405,8 @@ function showSub(id,btn){
   document.querySelectorAll('.sub-btn').forEach(function(b){b.classList.remove('active');});
   var activeBtn=btn||document.querySelector('[data-sub="'+id+'"]');
   if(activeBtn) activeBtn.classList.add('active');
-  if(id==='checkliste') renderAblauf();
+  if(id==='checkliste'||id==='story-checkliste') renderAblauf();
+  if(id==='story-regie'){ renderRegie(); renderDidiRegie(); }
   setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },50);
 }
 
@@ -3426,8 +3421,8 @@ function showTab(id,btn){
   if(activeBtn) activeBtn.classList.add('active');
   setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
   if(id==='packliste') renderPackliste();
-  if(id==='regie'){ showSub('drehbuch'); renderRegie(); renderDidiRegie(); }
-  if(id==='regie-checkliste'){ showTab('regie'); showSub('checkliste'); renderAblauf(); return; }
+  if(id==='regie'){ showTab('story'); showSub('story-regie'); return; }
+  if(id==='regie-checkliste'){ showTab('story'); showSub('story-checkliste'); return; }
   if(id==='didi'){ renderDidiRegie(); }
   if(id==='ablauf') renderAblauf();
   if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderMyTip('patrick');renderMySOMMWord('patrick');}
@@ -4096,7 +4091,7 @@ function applyAppMode(){
     renderMis();
   } else {
     document.querySelectorAll('.tab-btn,.s-btn,.s-crew-btn,.bb-btn,.bb-crew-btn').forEach(function(btn){ btn.style.display=''; });
-    showTab('story', document.querySelector('[data-tab="story"]'));
+    showTab('story', document.querySelector('[data-tab="story"]')); showSub('story-content');
     patricMode = 'crew';
     localStorage.setItem('patricMode','crew');
   }
