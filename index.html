@@ -3903,8 +3903,7 @@ function enableListEdit(){
   });
 }
 
-function saveListEdit(ul){
-  // Save all li text content to edit store (skip button child nodes)
+async function saveListEdit(ul){
   var items=[];
   ul.querySelectorAll('li').forEach(function(li){
     var text='';
@@ -3916,10 +3915,15 @@ function saveListEdit(ul){
     if(text) items.push(text);
   });
   var listId=ul.getAttribute('data-list-id');
-  if(!listId) return;
+  if(!listId){ showToast('Kein list-id ✗'); return; }
   var store=getEditStore();
   store[listId]=JSON.stringify(items);
-  if(sb) sb.from('app_edits').upsert({id:'main', edits:store, updated_at:new Date().toISOString()});
+  if(!sb){ showToast('Kein Supabase ✗'); return; }
+  try{
+    var r=await sb.from('app_edits').upsert({id:'main',edits:store,updated_at:new Date().toISOString()});
+    if(r.error){ showToast('Fehler: '+r.error.message); console.warn('saveListEdit:',r.error); }
+    else showToast('✓ Gespeichert');
+  }catch(e){ showToast('Fehler ✗'); console.warn(e); }
 }
 
 function applyListEdits(){
