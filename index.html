@@ -786,7 +786,6 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
       <div class="section-title">Tagesablauf — Checkliste</div>
       <div class="cl" id="ablaufList"></div>
     </div>
-  </div>
 </div>
 
 <div id="tab-regie" style="display:none">
@@ -3406,8 +3405,6 @@ function showSub(id,btn){
 
 // ─── Tab system ───────────────────────────────────────────────────────────────
 function showTab(id,btn){
-  var dbg=document.getElementById('debugBanner');
-  if(dbg) dbg.textContent='showTab: '+id+' target='+(document.getElementById('tab-'+id)?'FOUND':'MISSING');
   document.querySelectorAll('[id^="tab-"]').forEach(function(el){el.style.display='none';});
   var target=document.getElementById('tab-'+id);
   if(target) target.style.display='block';
