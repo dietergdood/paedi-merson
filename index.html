@@ -1850,6 +1850,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
       <span class="bb-icon">👥</span>
       <span class="bb-label">Crew</span>
     </button>
+    <button class="bb-btn" id="logoutMobileBtn" onclick="logout()" style="display:none">
+      <span class="bb-icon">🚪</span>
+      <span class="bb-label">Abmelden</span>
+    </button>
   </div>
 </nav>
 
@@ -4220,6 +4224,8 @@ function applyAppMode(){
     if(editBtn) editBtn.style.display='none';
     var moreBtn = document.getElementById('moreBtn');
     if(moreBtn) moreBtn.style.display='none';
+    var logoutMobile = document.getElementById('logoutMobileBtn');
+    if(logoutMobile) logoutMobile.style.display='flex';
     patricMode = 'paedi';
     localStorage.setItem('patricMode','paedi');
     renderMis();
