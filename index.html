@@ -4124,7 +4124,7 @@ function getPaediTabs(){
 }
 function savePaediTabs(tabs){
   _padeitabsData=tabs;
-  if(sb) sb.from('app_lists').upsert({id:'main', padeitabs:tabs, updated_at:new Date().toISOString()});
+  if(sb) sb.from('app_lists').upsert({id:'main', padeitabs:tabs, updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('savePaediTabs error:',r.error); });
 }
 function renderTabToggles(){
   var existing = document.getElementById('tabToggleBar');
@@ -4787,8 +4787,8 @@ async function initSupabaseDefaults(){
       packliste: _packData || [],
       pch: _pchData || [],
       mat: _matData || {},
-      kacheln: {},
-      padeitabs: [],
+      kacheln: _kachelnData || {},
+      padeitabs: _padeitabsData || [],
       somm: _sommState || {assigned:{}, winner:null},
       quiz: _quizState || {answers:{}, winner:null, paediAnswers:[]},
       varstate: _varState || {photos:[], guesses:{}, winner:null},
