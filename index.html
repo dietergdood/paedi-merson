@@ -3863,7 +3863,7 @@ function enableListEdit(){
         li.remove();
         saveListEdit(ul);
       });
-      liSpan.addEventListener('input',function(){ ul._userEdited=true; saveListEdit(ul); });
+      liSpan.addEventListener('input',function(){ ul._userEdited=true; });
       liSpan.addEventListener('blur',function(){ if(ul._userEdited) saveListEdit(ul); });
       li.appendChild(liSpan);
       li.appendChild(del);
@@ -3893,7 +3893,7 @@ function enableListEdit(){
           li.remove();
           saveListEdit(ul);
         });
-        liSpan.addEventListener('input',function(){ ul._userEdited=true; saveListEdit(ul); });
+        liSpan.addEventListener('input',function(){ ul._userEdited=true; });
         liSpan.addEventListener('blur',function(){ if(ul._userEdited) saveListEdit(ul); });
         li.appendChild(liSpan);
         li.appendChild(del);
