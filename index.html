@@ -3209,7 +3209,7 @@ function renderMyTip(personId){
   var t=(S.tips&&S.tips[personId])||{};
   var isWinner=S.tips&&S.tips._winner===personId;
   var flagFR='<div style="width:44px;height:30px;border-radius:4px;overflow:hidden;display:flex;flex-shrink:0"><div style="flex:1;background:#002395"></div><div style="flex:1;background:#fff"></div><div style="flex:1;background:#ED2939"></div></div>';
-  var flagEN='<div style="width:44px;height:30px;background:#012169;border-radius:4px;overflow:hidden;position:relative;flex-shrink:0"><div style="position:absolute;left:50%;top:0;bottom:0;width:20%;transform:translateX(-50%);background:#fff"></div><div style="position:absolute;top:50%;left:0;right:0;height:20%;transform:translateY(-50%);background:#fff"></div><div style="position:absolute;left:50%;top:0;bottom:0;width:10%;transform:translateX(-50%);background:#C8102E"></div><div style="position:absolute;top:50%;left:0;right:0;height:10%;transform:translateY(-50%);background:#C8102E"></div></div>';
+  var flagEN='<svg width="44" height="30" viewBox="0 0 44 30" style="border-radius:4px;flex-shrink:0;display:block"><rect width="44" height="30" fill="#fff"/><rect x="19" y="0" width="6" height="30" fill="#C8102E"/><rect x="0" y="12" width="44" height="6" fill="#C8102E"/></svg>';
   if(isPatric){
     el.innerHTML='<div style="color:#bbb;font-size:13px;text-align:center;padding:.5rem">Tipps werden vor dem Spiel freigeschaltet</div>'
       +(isWinner?'<div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:.5rem .75rem;font-size:12px;font-weight:700;color:#166534;text-align:center">🏆 Du hast gewonnen!</div>':'');
