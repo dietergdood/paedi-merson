@@ -320,13 +320,12 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 
 /* MOBILE GLOBAL */
 @media(max-width:767px){
-  .header{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0a0a0a;border-bottom:1px solid #1a1a1a;text-align:left}
-  .header-eyebrow{font-size:10px;font-weight:700;color:#e8c44a;letter-spacing:.08em;text-transform:uppercase;line-height:1.2}
-  .header .mobile-avatar{width:36px;height:36px;border-radius:50%;border:2px solid #e8c44a;overflow:hidden;flex-shrink:0}
+  .header{display:flex;flex-direction:column;align-items:center;padding:14px 12px 10px;background:#0a0a0a;border-bottom:1px solid #1a1a1a;text-align:center;gap:6px}
+  .header-eyebrow{font-size:11px;font-weight:700;color:#e8c44a;letter-spacing:.07em;text-transform:uppercase;line-height:1.2}
+  .header .mobile-avatar{width:48px;height:48px;border-radius:50%;border:2.5px solid #e8c44a;overflow:hidden;flex-shrink:0}
   .header .mobile-avatar img{width:100%;height:100%;object-fit:cover}
-  .header .mobile-date{font-size:9px;color:#555;margin-top:2px}
-  .header .mobile-text{flex:1}
-  .header > div:not(.mobile-avatar):not(.mobile-text){display:none}
+  .header .mobile-date{font-size:9px;color:#555}
+  .header .mobile-text{display:flex;flex-direction:column;align-items:center;gap:2px}
 }
 @media(max-width:480px){
   .app{padding:0 8px 80px}
