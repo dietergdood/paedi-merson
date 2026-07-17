@@ -126,6 +126,7 @@ body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--blac
     color:#777;cursor:pointer;text-align:left;width:100%;
     letter-spacing:.02em;transition:all .15s;display:flex;align-items:center;gap:8px
   }
+.s-sub-btn{padding-left:26px!important;font-size:12px!important;color:#888!important;}
   .sidebar .s-btn:hover{background:#1a1a1a;color:#fff}
   .sidebar .s-btn.active{background:#e8c44a;color:#0a0a0a;font-weight:700}
   .sidebar .s-divider{height:1px;background:#1a1a1a;margin:6px 0}
@@ -409,12 +410,14 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
     <div class="s-date">18. + 19.07.2026</div>
   </div>
   <button class="s-btn active" data-tab="story">📖 Story</button>
-  <button class="s-btn" data-tab="regie">🎬 Regie</button>
-  <button class="s-btn" data-tab="packliste">🎒 Packliste</button>
   <button class="s-btn" data-tab="timetable">📋 Programm</button>
+  <button class="s-btn" data-tab="packliste">🎒 Packliste</button>
+  <div class="s-divider"></div>
+  <button class="s-btn active" data-tab="story">📖 Story</button>
+  <button class="s-btn s-sub-btn" data-tab="regie">🎬 Regie</button>
+  <button class="s-btn s-sub-btn" data-tab="regie-checkliste">☑️ Checkliste</button>
   <div class="s-divider"></div>
   <button class="s-btn" data-tab="sb">🏆 Scoreboard</button>
-  <button class="s-btn" data-tab="vertrag">📄 Vertrag</button>
   <div class="s-divider"></div>
   <div class="s-section-label">Crew</div>
   <div class="s-crew-grid">
@@ -1237,19 +1240,31 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 <div id="tab-dominik" style="display:none">
 
   <div class="section">
-    <div class="section-title">Ausgangsstand festhalten</div>
+    <div class="section-title">Instagram — Start & Zielwerte</div>
     <div style="display:flex;flex-direction:column;gap:10px">
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:13px;min-width:130px;color:#666">Follower (Start):</span>
+      <div style="display:grid;grid-template-columns:130px 80px 1fr 80px;align-items:center;gap:8px">
+        <span style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em">Metrik</span>
+        <span style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em">Start</span>
+        <span></span>
+        <span style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em">Ziel</span>
+      </div>
+      <div style="display:grid;grid-template-columns:130px 80px 1fr 80px;align-items:center;gap:8px">
+        <span style="font-size:13px;color:#666">Follower:</span>
         <input type="number" id="ig_f" placeholder="0" style="width:80px">
+        <span style="font-size:12px;color:#aaa;text-align:center">→</span>
+        <input type="number" id="ig_f_target" placeholder="38" style="width:80px">
       </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:13px;min-width:130px;color:#666">Likes (Start):</span>
+      <div style="display:grid;grid-template-columns:130px 80px 1fr 80px;align-items:center;gap:8px">
+        <span style="font-size:13px;color:#666">Likes:</span>
         <input type="number" id="ig_l" placeholder="0" style="width:80px">
+        <span style="font-size:12px;color:#aaa;text-align:center">→</span>
+        <input type="number" id="ig_l_target" placeholder="100" style="width:80px">
       </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:13px;min-width:130px;color:#666">Kommentare (Start):</span>
+      <div style="display:grid;grid-template-columns:130px 80px 1fr 80px;align-items:center;gap:8px">
+        <span style="font-size:13px;color:#666">Kommentare:</span>
         <input type="number" id="ig_k" placeholder="0" style="width:80px">
+        <span style="font-size:12px;color:#aaa;text-align:center">→</span>
+        <input type="number" id="ig_k_target" placeholder="10" style="width:80px">
       </div>
     </div>
   </div>
@@ -1997,21 +2012,21 @@ input:focus{outline:none;border-color:var(--accent);background:#fff}
 <!-- BOTTOM BAR (mobile) -->
 <nav class="bottom-bar" id="bottomBar">
   <div class="bottom-bar-main">
+    <button class="bb-btn" data-tab="timetable">
+      <span class="bb-icon">📋</span>
+      <span class="bb-label">Programm</span>
+    </button>
+    <button class="bb-btn" data-tab="packliste">
+      <span class="bb-icon">🎒</span>
+      <span class="bb-label">Packliste</span>
+    </button>
     <button class="bb-btn active" data-tab="story">
       <span class="bb-icon">📖</span>
       <span class="bb-label">Story</span>
     </button>
-    <button class="bb-btn" data-tab="regie">
-      <span class="bb-icon">🎬</span>
-      <span class="bb-label">Regie</span>
-    </button>
     <button class="bb-btn" data-tab="sb">
       <span class="bb-icon">🏆</span>
       <span class="bb-label">Score</span>
-    </button>
-    <button class="bb-btn" data-tab="patrick">
-      <span class="bb-icon">⚽</span>
-      <span class="bb-label">Pädi</span>
     </button>
     <button class="bb-btn" id="moreBtn" onclick="toggleCrewDrawer()">
       <span class="bb-icon">👥</span>
@@ -2197,7 +2212,7 @@ var P=[
   {id:'maege',name:'Mäge Sauter',role:'Médaillenchef'},
   {id:'patrick',name:'Patrick Avolio',role:'Bier-Kapitan'},
 ];
-var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,einTarget:30,ig_f:'',ig_l:'',ig_k:'',mis:{f:0,l:0,k:0},schnapsGt:{},abl:{},pc:{},mat:{},tips:{},varp:{}};
+var S=JSON.parse(localStorage.getItem('pm5')||'null')||{medals:{},yellow:{},red:{},baguette:0,ein:0,einTarget:30,ig_f:'',ig_l:'',ig_k:'',ig_f_target:38,ig_l_target:100,ig_k_target:10,mis:{f:0,l:0,k:0},schnapsGt:{},abl:{},pc:{},mat:{},tips:{},varp:{}};
 function save(){localStorage.setItem('pm5',JSON.stringify(S));}
 
 var MEDALS=[
@@ -2735,34 +2750,27 @@ function togPC(id){S.pc[id]=!S.pc[id];save();renderPC();}
 
 var MIS=[
   {l:'Einnahmen Pflicht CHF',target:S.einTarget||30,sp:'e'},
-  {l:'Neue Follower (38)',k:'f',target:38},
-  {l:'Likes (100)',k:'l',target:100},
-  {l:'Kommentare (10)',k:'k',target:10},
+  {l:'Neue Follower',k:'f',target:S.ig_f_target||38},
+  {l:'Likes',k:'l',target:S.ig_l_target||100},
+  {l:'Kommentare',k:'k',target:S.ig_k_target||10},
 ];
 function renderMis(){
-  var isPatric = APP_MODE === 'paedi' || patricMode === 'paedi';
+  var MIS=[
+    {l:'Einnahmen Pflicht CHF',target:S.einTarget||30,sp:'e'},
+    {l:'Neue Follower',k:'f',target:S.ig_f_target||38},
+    {l:'Likes',k:'l',target:S.ig_l_target||100},
+    {l:'Kommentare',k:'k',target:S.ig_k_target||10},
+  ];
   document.getElementById('missionBar').innerHTML=MIS.map(function(m){
     var val=m.sp==='b'?(S.baguette||0):m.sp==='e'?(S.ein||0):(S.mis[m.k]||0);
     var pct=Math.min(100,Math.round(val/m.target*100));
     var done=val>=m.target;
     var html='<div class="mr"><span class="ml">'+m.l+'</span>'
-      +'<div class="pb"><div class="pf '+(done?'done':'')+'" style="width:'+pct+'%"></div></div>';
-    // Only show +/- buttons for crew, not for Pädi
-    if(!m.sp&&m.k&&!isPatric){
-      html+='<button class="bs" style="padding:3px 7px" data-mik="'+m.k+'" data-mid="-1">−</button>';
-    }
-    html+='<span class="mv" style="'+(done?'color:var(--green);font-weight:700':'')+'">'+(done?'✓ ':'')+val+'</span>';
-    if(!m.sp&&m.k&&!isPatric){
-      html+='<button class="bs" style="padding:3px 7px" data-mik="'+m.k+'" data-mid="1">+</button>';
-    }
-    html+='<span class="mt">/'+m.target+'</span></div>';
+      +'<div class="pb"><div class="pf '+(done?'done':'')+'" style="width:'+pct+'%"></div></div>'
+      +'<span class="mv" style="'+(done?'color:var(--green);font-weight:700':'')+'">'+(done?'✓ ':'')+val+'</span>'
+      +'<span class="mt">/'+m.target+'</span></div>';
     return html;
   }).join('');
-  document.querySelectorAll('[data-mik]').forEach(function(el){
-    el.addEventListener('click',function(){
-      adjMi(this.getAttribute('data-mik'),parseInt(this.getAttribute('data-mid')));
-    });
-  });
 }
 function adjMi(k,d){S.mis[k]=Math.max(0,(S.mis[k]||0)+d);save();renderMis();}
 function adjBaguette(d){if(APP_MODE==='paedi'||patricMode==='paedi') return;S.baguette=Math.max(0,Math.min(5,(S.baguette||0)+d));var e=document.getElementById('bc');if(e)e.textContent=S.baguette;renderMis();save();}
@@ -2772,7 +2780,15 @@ function saveEinTarget(){
 }
 
 function saveEin(){S.ein=parseFloat(document.getElementById('ein').value)||0;renderMis();save();}
-function saveIG(){['ig_f','ig_l','ig_k'].forEach(function(id){var e=document.getElementById(id);if(e)S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]=parseInt(e.value)||0;});save();renderMis();}
+function saveIG(){
+  ['ig_f','ig_l','ig_k'].forEach(function(id){
+    var e=document.getElementById(id);
+    if(e) e.value=S.mis[{ig_f:'f',ig_l:'l',ig_k:'k'}[id]]||'';
+    var et=document.getElementById(id+'_target');
+    if(et) et.value=S[id+'_target']||({ig_f:38,ig_l:100,ig_k:10}[id])||'';
+  });
+  save(); renderMis();
+}
 function resetAll(){if(!confirm('Wirklich alles zurücksetzen?'))return;localStorage.removeItem('pm5');location.reload();}
 
 function schnaps(y,r){var s=0;if(y>=2)s++;if(y>=4)s++;if(r>0)s+=5;return s;}
@@ -3415,6 +3431,7 @@ function showTab(id,btn){
   setTimeout(function(){ applyAllEdits(); if(editMode) enableEdit(); },80);
   if(id==='packliste') renderPackliste();
   if(id==='regie'){ showSub('drehbuch'); renderRegie(); renderDidiRegie(); }
+  if(id==='regie-checkliste'){ showTab('regie'); showSub('checkliste'); renderAblauf(); return; }
   if(id==='didi'){ renderDidiRegie(); }
   if(id==='ablauf') renderAblauf();
   if(id==='patrick'){renderMis();renderPC();renderPatricTab();renderPatricPack();renderMyTip('patrick');renderMySOMMWord('patrick');}
@@ -4400,6 +4417,11 @@ function init(){
   // wire IG inputs
   document.querySelectorAll('[data-ig]').forEach(function(el){
     el.addEventListener('input', saveIG);
+  });
+  // wire IG target inputs
+  ['ig_f_target','ig_l_target','ig_k_target'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('input', saveIG);
   });
   var einTargetEl=document.getElementById('einTarget');
   if(einTargetEl){
