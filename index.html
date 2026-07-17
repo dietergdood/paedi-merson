@@ -2491,18 +2491,33 @@ function renderRegie(){
 function renderDidiRegie(){
   var el=document.getElementById('didiRegie');
   if(!el) return;
+  var data=getRegieData();
   var html='';
-  REGIE.forEach(function(s){
-    var mine=s.steps.filter(function(x){ return x.w.indexOf('Didi')===0; });
-    if(!mine.length) return;
-    html+='<div style="margin-bottom:14px">'
-      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
-      +'<div class="adot '+s.dot+'" style="width:8px;height:8px"></div>'
+  data.forEach(function(s, si){
+    var mineIdx=[];
+    s.steps.forEach(function(x,i){ if(x.w&&x.w.indexOf('Didi')===0) mineIdx.push(i); });
+    if(!mineIdx.length) return;
+    html+='<div style="margin-bottom:14px" data-didi-s="'+si+'">';
+    html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">';
+    if(editMode){
+      html+='<div style="display:flex;flex-direction:column;gap:1px;margin-right:2px">'
+        +'<button class="bs bs-sm didi-s-up" data-si="'+si+'" style="padding:1px 5px;font-size:10px">↑</button>'
+        +'<button class="bs bs-sm didi-s-dn" data-si="'+si+'" style="padding:1px 5px;font-size:10px">↓</button>'
+        +'</div>';
+    }
+    html+='<div class="adot '+s.dot+'" style="width:8px;height:8px"></div>'
       +'<span style="font-size:13px;font-weight:700">'+s.t+'</span></div>';
-    mine.forEach(function(step){
-      html+='<div style="display:flex;gap:8px;margin-bottom:8px;padding-left:16px">'
-        +'<div style="font-size:12px;color:#3b82f6;min-width:12px;margin-top:2px">&#8594;</div><div>'
-        +'<div style="font-size:13px">'+step.t+'</div>';
+    mineIdx.forEach(function(stepIdx){
+      var step=s.steps[stepIdx];
+      html+='<div style="display:flex;gap:8px;margin-bottom:8px;padding-left:16px;align-items:flex-start">';
+      if(editMode){
+        html+='<div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0">'
+          +'<button class="bs bs-sm didi-step-up" data-si="'+si+'" data-stepi="'+stepIdx+'" style="padding:1px 5px;font-size:10px">↑</button>'
+          +'<button class="bs bs-sm didi-step-dn" data-si="'+si+'" data-stepi="'+stepIdx+'" style="padding:1px 5px;font-size:10px">↓</button>'
+          +'</div>';
+      }
+      html+='<div style="font-size:12px;color:#3b82f6;min-width:12px;margin-top:2px">&#8594;</div><div>';
+      html+='<div style="font-size:13px">'+step.t+'</div>';
       if(step.q){
         var preview=step.q.length>160?step.q.substring(0,160)+'...':step.q;
         html+='<div class="qb" style="margin-top:5px;font-size:12px">'+preview+'</div>';
@@ -2513,6 +2528,32 @@ function renderDidiRegie(){
     html+='</div>';
   });
   el.innerHTML=html;
+
+  if(!editMode) return;
+
+  // Station up/down
+  el.querySelectorAll('.didi-s-up').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      regieMoveStation(data[+this.dataset.si].id,-1);
+    });
+  });
+  el.querySelectorAll('.didi-s-dn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      regieMoveStation(data[+this.dataset.si].id,1);
+    });
+  });
+
+  // Step up/down (within same station)
+  el.querySelectorAll('.didi-step-up').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      regieMoveStep(data[+this.dataset.si].id,+this.dataset.stepi,-1);
+    });
+  });
+  el.querySelectorAll('.didi-step-dn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      regieMoveStep(data[+this.dataset.si].id,+this.dataset.stepi,1);
+    });
+  });
 }
 
 function toggleAcc(id){
@@ -4577,6 +4618,61 @@ function renderProgramm(){
   });
 }
 
+
+// ─── Initialize Supabase with defaults if empty ─────────────────────────────
+async function initSupabaseDefaults(){
+  if(!sb) return;
+  try {
+    // Check if app_lists already has data
+    var check = await sb.from('app_lists').select('id').eq('id','main').single();
+    if(check.data) return; // already initialized, skip
+
+    console.log('First run — writing defaults to Supabase...');
+
+    // Write regie defaults
+    var regieData = JSON.parse(JSON.stringify(REGIE));
+
+    // Write programm defaults
+    var programmData = DEFAULT_PROGRAMM;
+
+    // Write app_edits with programm
+    var editStore = {};
+    editStore['__programm__'] = JSON.stringify(programmData);
+
+    // Write app_lists with all defaults
+    await sb.from('app_lists').upsert({
+      id: 'main',
+      regie: regieData,
+      ablauf: JSON.parse(localStorage.getItem('pm5_abl')||'null') || [],
+      packliste: JSON.parse(localStorage.getItem('pm5_pack')||'null') || [],
+      pch: JSON.parse(localStorage.getItem('pm5_pch')||'null') || [],
+      mat: JSON.parse(localStorage.getItem('pm5_mat')||'null') || {},
+      kacheln: {},
+      padeitabs: [],
+      updated_at: new Date().toISOString()
+    });
+
+    // Write app_edits
+    await sb.from('app_edits').upsert({
+      id: 'main',
+      edits: editStore,
+      updated_at: new Date().toISOString()
+    });
+
+    // Write app_state with current S
+    await sb.from('app_state').upsert({
+      id: 'main',
+      state: S,
+      updated_at: new Date().toISOString()
+    });
+
+    console.log('Supabase defaults written!');
+    showToast('Erstinitialisierung abgeschlossen ✓');
+  } catch(e) {
+    console.warn('initSupabaseDefaults error:', e);
+  }
+}
+
 function init(){
   renderSB();
   renderAblauf();
@@ -4727,7 +4823,7 @@ if(supabaseReady){
     if(!_initDone){ _initDone=true; init(); initAppMode(); }
   }, 500);
   loadFromDB().then(function(){
-    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); }
+    if(!_initDone){ _initDone=true; clearTimeout(_initFallback); initSupabaseDefaults().then(function(){ loadProgrammFromStore(); }); init(); initAppMode(); subscribeRealtime(); showToast('Verbunden ✓'); }
   }).catch(function(){
     if(!_initDone){ _initDone=true; clearTimeout(_initFallback); init(); initAppMode(); }
   });
