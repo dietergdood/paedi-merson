@@ -2088,12 +2088,64 @@ var MEDALS=[
    vergabe:'Auswertung nach Priorität: korrektes Resultat, korrekte Tordifferenz, erster Torschütze, Minute. Mäge wertet aus.'},
 ];
 
+function openMedalEdit(mi){
+  var medals=getMedals();
+  var m=medals[mi];
+  var html='<div style="padding:1rem">'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:.75rem">'+m.icon+' Médaille bearbeiten</div>'
+    +'<div style="margin-bottom:.5rem"><label style="font-size:11px;color:#888">Name</label>'
+    +'<input id="me_name" value="'+m.name.replace(/"/g,'&quot;')+'" style="width:100%;margin-top:2px;padding:6px 8px;border:1px solid #e4e2db;border-radius:6px;font-size:13px"></div>'
+    +'<div style="margin-bottom:.5rem"><label style="font-size:11px;color:#888">Wann / Ort</label>'
+    +'<input id="me_when" value="'+m.when.replace(/"/g,'&quot;')+'" style="width:100%;margin-top:2px;padding:6px 8px;border:1px solid #e4e2db;border-radius:6px;font-size:13px"></div>'
+    +'<div style="margin-bottom:.5rem"><label style="font-size:11px;color:#888">Beschreibung</label>'
+    +'<textarea id="me_desc" style="width:100%;margin-top:2px;padding:6px 8px;border:1px solid #e4e2db;border-radius:6px;font-size:12px;height:80px;resize:vertical">'+m.desc+'</textarea></div>'
+    +'<div style="margin-bottom:.75rem"><label style="font-size:11px;color:#888">Vergabe</label>'
+    +'<textarea id="me_vergabe" style="width:100%;margin-top:2px;padding:6px 8px;border:1px solid #e4e2db;border-radius:6px;font-size:12px;height:60px;resize:vertical">'+m.vergabe+'</textarea></div>'
+    +'<button onclick="saveMedalEdit('+mi+')" class="bs" style="width:100%;background:#e8c44a;color:#000;font-weight:700">Speichern</button>'
+    +'</div>';
+  var modal=document.getElementById('medalModal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='medalModal';
+    modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+    modal.onclick=function(e){ if(e.target===modal) modal.remove(); };
+    document.body.appendChild(modal);
+  }
+  var inner=document.createElement('div');
+  inner.style.cssText='background:#fff;border-radius:12px;max-width:480px;width:100%;max-height:80vh;overflow-y:auto';
+  inner.innerHTML=html;
+  modal.innerHTML='';
+  modal.appendChild(inner);
+  modal.style.display='flex';
+}
+function saveMedalEdit(mi){
+  var medals=getMedals();
+  medals[mi].name=document.getElementById('me_name').value;
+  medals[mi].when=document.getElementById('me_when').value;
+  medals[mi].desc=document.getElementById('me_desc').value;
+  medals[mi].vergabe=document.getElementById('me_vergabe').value;
+  saveMedals(medals);
+  document.getElementById('medalModal').remove();
+  renderMedals();
+  showToast('✓ Gespeichert');
+}
+function getMedals(){
+  var store=getEditStore();
+  if(store['__medals__']){ try{ return JSON.parse(store['__medals__']); }catch(e){} }
+  return JSON.parse(JSON.stringify(MEDALS));
+}
+function saveMedals(medals){
+  var store=getEditStore();
+  store['__medals__']=JSON.stringify(medals);
+  if(sb) sb.from('app_edits').upsert({id:'main',edits:store,updated_at:new Date().toISOString()}).then(function(r){ if(r.error) console.warn('saveMedals:',r.error); });
+}
 function renderMedals(){
   var g=document.getElementById('medalGrid');
   if(!g) return;
   var html='';
-  for(var i=0;i<MEDALS.length;i++){
-    var m=MEDALS[i];
+  var medals=getMedals();
+  for(var i=0;i<medals.length;i++){
+    var m=medals[i];
     html+='<div class="medal-item" data-mi="'+i+'" style="cursor:pointer;">'
       +'<div style="font-size:22px;margin-bottom:4px">'+m.icon+'</div>'
       +'<div class="medal-name">'+m.name+'</div>'
@@ -2102,6 +2154,17 @@ function renderMedals(){
       +'</div>';
   }
   g.innerHTML=html;
+  if(editMode){
+    g.querySelectorAll('[data-mi]').forEach(function(card){
+      var mi=parseInt(card.getAttribute('data-mi'));
+      var editBtn=document.createElement('button');
+      editBtn.className='bs';
+      editBtn.textContent='✏️ Bearbeiten';
+      editBtn.style.cssText='margin-top:6px;width:100%;font-size:10px';
+      editBtn.onclick=function(e){ e.stopPropagation(); openMedalEdit(mi); };
+      card.appendChild(editBtn);
+    });
+  }
   var items=g.querySelectorAll('[data-mi]');
   for(var j=0;j<items.length;j++){
     (function(idx){
@@ -2111,7 +2174,7 @@ function renderMedals(){
 }
 
 function openModal(i){
-  var m=MEDALS[i];
+  var m=getMedals()[i];
   document.getElementById('mIcon').textContent=m.icon;
   document.getElementById('mTitle').textContent=m.name;
   document.getElementById('mWhen').textContent=m.when;
@@ -3721,7 +3784,7 @@ function applyAllEdits(){
   if(!keys.length) return;
   assignStableIds();
   applyListEdits();
-  var VALID_KEY=/^(qb-|st-|sl-|at-|hl-|dt-|dq-|dno-|dw-|tt-td-|dossier-body-|__)/;
+  var VALID_KEY=/^(qb-|st-|sl-|at-|hl-|dt-|dq-|dno-|dw-|tt-td-|dossier-body-|list-|__)/;
   var applied=0;
   document.querySelectorAll('[data-edit-id]').forEach(function(el){
     var id=el.getAttribute('data-edit-id');
@@ -3750,7 +3813,7 @@ function getEdit(el){
 function saveEdit(el){
   var id=el.getAttribute('data-edit-id');
   if(!id) return;
-  var VALID_KEY=/^(qb-|st-|sl-|at-|hl-|dt-|dq-|dno-|dw-|tt-td-|dossier-body-|__)/;
+  var VALID_KEY=/^(qb-|st-|sl-|at-|hl-|dt-|dq-|dno-|dw-|tt-td-|dossier-body-|list-|__)/;
   if(!VALID_KEY.test(id)) return;
   var store=getEditStore();
   store[id]=el.innerHTML;
@@ -5027,7 +5090,7 @@ if(supabaseReady){
       QUIZ_QUESTIONS=getQuizQuestions(); renderQuizMaege();
       P.forEach(function(p){ renderMyQuizForm(p.id); renderMySOMMWord(p.id); renderMyVARGuesses(p.id); renderMyTip(p.id); renderPersonPackliste(p.id); });
       renderVARBeni(); renderAllPersonVAR();
-      renderTips(); renderMis(); renderSB(); renderPC(); renderAllMat(); renderPatricTab(); renderPatricPack();
+      renderTips(); renderMis(); renderSB(); renderPC(); renderAllMat(); renderPatricTab(); renderPatricPack(); renderMedals();
       renderPackliste(); renderAblauf();
       loadProgrammFromStore(); renderProgramm();
       // Apply edits LAST
