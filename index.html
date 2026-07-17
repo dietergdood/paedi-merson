@@ -4079,9 +4079,14 @@ function enableListEdit(){
     // Add delete buttons to existing li
     ul.querySelectorAll('li').forEach(function(li, lii){
       if(li.querySelector('.li-del')) return;
-      li.style.display='flex';
-      li.style.alignItems='center';
-      li.style.gap='6px';
+      li.style.cssText='display:flex;align-items:center;gap:6px;list-style:none';
+      // Wrap existing text in editable span
+      var existingText=li.textContent.trim();
+      li.innerHTML='';
+      var liSpan=document.createElement('span');
+      liSpan.setAttribute('contenteditable','true');
+      liSpan.style.cssText='flex:1;outline:none;min-width:0';
+      liSpan.textContent=existingText;
       var del=document.createElement('button');
       del.className='li-del';
       del.innerHTML='✕';
@@ -4091,6 +4096,8 @@ function enableListEdit(){
         li.remove();
         saveListEdit(ul);
       });
+      liSpan.addEventListener('blur',function(){ saveListEdit(ul); });
+      li.appendChild(liSpan);
       li.appendChild(del);
     });
     // Add "+" button after ul if not already there
@@ -4102,8 +4109,12 @@ function enableListEdit(){
       addBtn.style.cssText='width:100%;margin-top:6px;color:var(--accent-dark);font-size:12px';
       addBtn.addEventListener('click',function(){
         var li=document.createElement('li');
-        li.setAttribute('contenteditable','true');
-        li.style.cssText='display:flex;align-items:center;gap:6px;min-width:0;flex:1';
+        li.style.cssText='display:flex;align-items:center;gap:6px;min-width:0;flex:1;list-style:none';
+        // Text span (editable) comes first
+        var liSpan=document.createElement('span');
+        liSpan.setAttribute('contenteditable','true');
+        liSpan.style.cssText='flex:1;outline:none;min-width:0';
+        liSpan.textContent='Neuer Eintrag';
         var del=document.createElement('button');
         del.className='li-del';
         del.innerHTML='✕';
@@ -4113,11 +4124,12 @@ function enableListEdit(){
           li.remove();
           saveListEdit(ul);
         });
+        li.appendChild(liSpan);
         li.appendChild(del);
         ul.appendChild(li);
         // Focus the new item
         var range=document.createRange();
-        range.setStart(li,0);
+        range.setStart(liSpan,0);
         range.collapse(true);
         var sel=window.getSelection();
         sel.removeAllRanges();
@@ -4131,10 +4143,15 @@ function enableListEdit(){
 }
 
 function saveListEdit(ul){
-  // Save all li text content to edit store
+  // Save all li text content to edit store (skip button child nodes)
   var items=[];
   ul.querySelectorAll('li').forEach(function(li){
-    var text=li.childNodes[0]?li.childNodes[0].textContent.trim():'';
+    var text='';
+    li.childNodes.forEach(function(node){
+      if(node.nodeType===Node.TEXT_NODE) text+=node.textContent;
+      else if(node.nodeName!=='BUTTON') text+=node.textContent;
+    });
+    text=text.trim();
     if(text) items.push(text);
   });
   var store=getEditStore();
